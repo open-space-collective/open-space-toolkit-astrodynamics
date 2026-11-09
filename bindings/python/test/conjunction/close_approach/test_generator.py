@@ -20,7 +20,7 @@ def environment() -> Environment:
 
 @pytest.fixture
 def earth(environment: Environment) -> Celestial:
-    return environment.access_celestial_object_with_name("Earth")
+    return environment.get_celestial_object_with_name("Earth")
 
 
 @pytest.fixture
@@ -123,17 +123,6 @@ class TestGenerator:
 
         assert generator is not None
         assert isinstance(generator, Generator)
-        assert generator.is_defined() is True
-
-    def test_is_defined_success(self, generator: Generator):
-        assert generator.is_defined() is True
-
-    def test_undefined_success(self):
-        generator = Generator.undefined()
-
-        assert generator is not None
-        assert isinstance(generator, Generator)
-        assert generator.is_defined() is False
 
     def test_get_reference_trajectory_success(
         self,
@@ -197,5 +186,4 @@ class TestGenerator:
 
         for close_approach in close_approaches:
             assert isinstance(close_approach, CloseApproach)
-            assert close_approach.is_defined() is True
             assert search_interval.contains_instant(close_approach.get_instant())

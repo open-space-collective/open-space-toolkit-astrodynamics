@@ -89,7 +89,6 @@ class TestTabulated:
         assert dynamics is not None
         assert isinstance(dynamics, Tabulated)
         assert isinstance(dynamics, Dynamics)
-        assert dynamics.is_defined()
 
     def test_get_instants_contribution_profile_and_frame(
         self,

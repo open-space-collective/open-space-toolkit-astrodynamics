@@ -51,7 +51,6 @@ class TestOrbit:
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
-        assert orbit.is_defined()
 
         # Construct get state at current epoch
         state: State = orbit.get_state_at(Instant.now())
@@ -99,14 +98,12 @@ class TestOrbit:
 
         assert pass_ is not None
         assert isinstance(pass_, Pass)
-        assert pass_.is_defined()
 
     def test_get_pass_with_revolution_number(self, orbit: Orbit):
         pass_ = orbit.get_pass_with_revolution_number(1)
 
         assert pass_ is not None
         assert isinstance(pass_, Pass)
-        assert pass_.is_defined()
 
         assert (
             orbit.get_pass_with_revolution_number(2, Duration.minutes(10.0)) is not None
@@ -122,9 +119,6 @@ class TestOrbit:
 
         assert len(passes) > 0
 
-    def test_undefined(self):
-        assert Orbit.undefined().is_defined() is False
-
     def test_circular(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
         altitude = Length.kilometers(500.0)
@@ -134,7 +128,6 @@ class TestOrbit:
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
-        assert orbit.is_defined()
 
     def test_equatorial(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
@@ -147,7 +140,6 @@ class TestOrbit:
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
-        assert orbit.is_defined()
 
     def test_circular_equatorial(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
@@ -157,7 +149,6 @@ class TestOrbit:
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
-        assert orbit.is_defined()
 
     def test_geo_synchronous(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
@@ -168,7 +159,6 @@ class TestOrbit:
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
-        assert orbit.is_defined()
 
     def test_sun_synchronous(self, earth):
         epoch = Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC)
@@ -181,15 +171,17 @@ class TestOrbit:
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
-        assert orbit.is_defined()
 
-        assert Orbit.sun_synchronous(
-            epoch=epoch,
-            altitude=altitude,
-            local_time_at_descending_node=local_time_at_descending_node,
-            celestial_object=earth,
-            argument_of_latitude=Angle.degrees(50.0),
-        ).is_defined()
+        assert (
+            Orbit.sun_synchronous(
+                epoch=epoch,
+                altitude=altitude,
+                local_time_at_descending_node=local_time_at_descending_node,
+                celestial_object=earth,
+                argument_of_latitude=Angle.degrees(50.0),
+            )
+            is not None
+        )
 
     def test_frame(self, earth):
         from ostk.physics.coordinate import Frame
@@ -223,10 +215,9 @@ class TestOrbit:
 
         assert orbit is not None
         assert isinstance(orbit, Orbit)
-        assert orbit.is_defined()
 
-        assert Orbit.frozen(epoch, altitude, earth, eccentricity=None).is_defined()
-        assert Orbit.frozen(epoch, altitude, earth, eccentricity=0.0006).is_defined()
+        assert Orbit.frozen(epoch, altitude, earth, eccentricity=None) is not None
+        assert Orbit.frozen(epoch, altitude, earth, eccentricity=0.0006) is not None
 
     def test_compute_passes(self, states: list[State]):
         passes: list[tuple[int, Pass]] = Orbit.compute_passes(states, 1)

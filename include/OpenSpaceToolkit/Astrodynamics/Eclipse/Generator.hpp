@@ -55,16 +55,6 @@ class Generator
         const Duration& aSearchTolerance = Duration::Milliseconds(1.0)
     );
 
-    /// @brief Check if eclipse generator is defined.
-    ///
-    /// @code{.cpp}
-    ///     Generator eclipseGenerator = { ... } ;
-    ///     bool defined = eclipseGenerator.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if eclipse generator is defined.
-    bool isDefined() const;
-
     /// @brief Get the environment.
     ///
     /// @code{.cpp}

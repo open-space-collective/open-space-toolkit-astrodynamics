@@ -34,16 +34,6 @@ Model::~Model() {}
 
 int Model::calculateRevolutionNumberAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Model");
-    }
-
     if (anInstant == this->getEpoch())
     {
         return this->getRevolutionNumberAtEpoch();
@@ -57,7 +47,7 @@ int Model::calculateRevolutionNumberAt(const Instant& anInstant) const
         throw ostk::core::error::RuntimeError("No pass found");
     }
 
-    return passes.accessLast().getRevolutionNumber().value();
+    return passes.getLast().getRevolutionNumber().value();
 }
 
 }  // namespace orbit

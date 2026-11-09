@@ -99,6 +99,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
     }
 
     {
+        // At least two states are required
+        EXPECT_THROW(Tabulated(Array<State> {states_[0]}), ostk::core::error::RuntimeError);
+        EXPECT_THROW(Tabulated(Array<State>::Empty()), ostk::core::error::RuntimeError);
+    }
+
+    {
         // The attitude quaternion entry is ignored (attitude is always interpolated using SLERP); all other reduced
         // coordinate subsets use the type given for them.
         const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
@@ -110,8 +116,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
 
         const Tabulated tabulatedFromMap = Tabulated(states_, interpolationTypes);
         const Tabulated tabulatedFromType = Tabulated(states_, Interpolator::Type::BarycentricRational);
-
-        EXPECT_TRUE(tabulatedFromMap.isDefined());
 
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
 
@@ -137,7 +141,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Default)
 {
     const Tabulated tabulated = Tabulated::Default(states_);
 
-    EXPECT_TRUE(tabulated.isDefined());
     EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
 
     EXPECT_NO_THROW(tabulated.calculateStateAt(Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC)));
@@ -188,19 +191,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Print)
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, IsDefined)
-{
-    {
-        EXPECT_TRUE(tabulated_.isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Getters)
 {
     {
         const Interval interval = tabulated_.getInterval();
-        EXPECT_EQ(interval.getStart(), states_.accessFirst().getInstant());
-        EXPECT_EQ(interval.getEnd(), states_.accessLast().getInstant());
+        EXPECT_EQ(interval.getStart(), states_.getFirst().getInstant());
+        EXPECT_EQ(interval.getEnd(), states_.getLast().getInstant());
     }
 
     {
@@ -219,10 +215,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
         EXPECT_EQ(state.getInstant(), instant);
 
         const Vector3d positionCoordinates = {747311.105641840026, -3488863.588183167391, 5898769.758481287397};
-        EXPECT_VECTORS_ALMOST_EQUAL(state.getPosition().accessCoordinates(), positionCoordinates, 1e-10);
+        EXPECT_VECTORS_ALMOST_EQUAL(state.getPosition().getCoordinates(), positionCoordinates, 1e-10);
 
         const Vector3d velocityCoordinates = {-577.347937161739, -6556.181156537627, -3793.179722949298};
-        EXPECT_VECTORS_ALMOST_EQUAL(state.getVelocity().accessCoordinates(), velocityCoordinates, 1e-10);
+        EXPECT_VECTORS_ALMOST_EQUAL(state.getVelocity().getCoordinates(), velocityCoordinates, 1e-10);
 
         VectorXd attitudeVector(4);
         attitudeVector << -0.636788056981, -0.168790939736, 0.725058861220, 0.200749189082;
@@ -231,12 +227,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
         const Vector3d angularVelocity = {0.0, 0.0, 0.0};
         EXPECT_VECTORS_ALMOST_EQUAL(state.getAngularVelocity(), angularVelocity, 1e-10);
 
-        EXPECT_TRUE(state.getPosition().accessFrame() == Frame::GCRF());
+        EXPECT_TRUE(state.getPosition().getFrame() == Frame::GCRF());
     }
 
     // state at the start of the interval
     {
-        const State expectedState = states_.accessFirst();
+        const State expectedState = states_.getFirst();
         const Instant instant = expectedState.getInstant();
         const State state = tabulated_.calculateStateAt(instant);
 
@@ -257,7 +253,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
 
     // state at the end of the interval
     {
-        const State expectedState = states_.accessLast();
+        const State expectedState = states_.getLast();
         const Instant instant = expectedState.getInstant();
         const State state = tabulated_.calculateStateAt(instant);
 
@@ -278,19 +274,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
 
     // state outside the interval
     {
-        const Instant instant = states_.accessLast().getInstant() + Duration::Seconds(1.0);
+        const Instant instant = states_.getLast().getInstant() + Duration::Seconds(1.0);
         EXPECT_THROW(tabulated_.calculateStateAt(instant), ostk::core::error::RuntimeError);
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, GetAxesAt)
 {
-    // instant undefined
-    {
-        const Instant instant = Instant::Undefined();
-        EXPECT_THROW(tabulated_.getAxesAt(instant), ostk::core::error::runtime::Undefined);
-    }
-
     {
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC);
         const Axes axes = tabulated_.getAxesAt(instant);
@@ -314,19 +304,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
         const Shared<const Frame> bodyFrame = tabulated_.constructBodyFrame("test");
         EXPECT_EQ(bodyFrame->getName(), "test");
         EXPECT_EQ(
-            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().getInstant()).getTranslation(),
-            -states_.accessFirst().getPosition().getCoordinates()
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.getFirst().getInstant()).getTranslation(),
+            -states_.getFirst().getPosition().getCoordinates()
         );
         EXPECT_EQ(
-            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().getInstant()).getVelocity(),
-            -states_.accessFirst().getVelocity().getCoordinates()
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.getFirst().getInstant()).getVelocity(),
+            -states_.getFirst().getVelocity().getCoordinates()
         );
         EXPECT_EQ(
-            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().getInstant()).getOrientation(),
-            states_.accessFirst().getAttitude().normalize()
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.getFirst().getInstant()).getOrientation(),
+            states_.getFirst().getAttitude().normalize()
         );
         EXPECT_EQ(
-            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().getInstant()).getAngularVelocity(),
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.getFirst().getInstant()).getAngularVelocity(),
             Vector3d::Zero()
         );
     }

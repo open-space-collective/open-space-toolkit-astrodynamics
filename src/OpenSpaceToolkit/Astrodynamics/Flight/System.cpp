@@ -28,11 +28,6 @@ System* System::clone() const
 
 bool System::operator==(const System& aSystem) const
 {
-    if ((!this->isDefined()) || (!aSystem.isDefined()))
-    {
-        return false;
-    }
-
     return (mass_ == aSystem.mass_) && (geometry_ == aSystem.geometry_);
 }
 
@@ -48,18 +43,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const System& aSystem)
     return anOutputStream;
 }
 
-bool System::isDefined() const
-{
-    return mass_.isDefined() && geometry_.isDefined();
-}
-
 const Mass& System::getMass() const
 {
-    if (!mass_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Mass");
-    }
-
     return mass_;
 }
 
@@ -67,7 +52,7 @@ void System::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "System") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream) << "Mass:" << (mass_.isDefined() ? mass_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Mass:" << mass_.toString();
 
     ostk::core::utils::Print::Separator(anOutputStream, "Geometry");
     geometry_.print(anOutputStream, false);
@@ -77,17 +62,7 @@ void System::print(std::ostream& anOutputStream, bool displayDecorator) const
 
 const Composite& System::getGeometry() const
 {
-    if (!geometry_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Geometry");
-    }
-
     return geometry_;
-}
-
-System System::Undefined()
-{
-    return {Mass::Undefined(), Composite::Undefined()};
 }
 
 }  // namespace flight

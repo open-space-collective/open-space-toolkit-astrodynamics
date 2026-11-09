@@ -40,11 +40,6 @@ SatelliteSystem* SatelliteSystem::clone() const
 
 bool SatelliteSystem::operator==(const SatelliteSystem& aSatelliteSystem) const
 {
-    if ((!this->isDefined()) || (!aSatelliteSystem.isDefined()))
-    {
-        return false;
-    }
-
     return (System::operator==(aSatelliteSystem)) && (inertiaTensor_ == aSatelliteSystem.inertiaTensor_) &&
            (crossSectionalSurfaceArea_ == aSatelliteSystem.crossSectionalSurfaceArea_) &&
            (dragCoefficient_ == aSatelliteSystem.dragCoefficient_ &&
@@ -63,19 +58,13 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystem& aS
     return anOutputStream;
 }
 
-bool SatelliteSystem::isDefined() const
-{
-    return System::isDefined() && inertiaTensor_.isDefined();
-}
-
 void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Satellite System") : void();
 
     System::print(anOutputStream, false);
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Inertia Tensor:" << (inertiaTensor_.isDefined() ? inertiaTensor_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Inertia Tensor:" << inertiaTensor_.toString();
     ostk::core::utils::Print::Line(anOutputStream)
         << "Cross Sectional Surface Area:"
         << (crossSectionalSurfaceArea_.has_value() ? utility::DoubleToString(crossSectionalSurfaceArea_.value())
@@ -92,11 +81,6 @@ void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator)
 
 const Matrix3d& SatelliteSystem::getInertiaTensor() const
 {
-    if (!inertiaTensor_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Inertia Tensor");
-    }
-
     return inertiaTensor_;
 }
 
@@ -128,18 +112,6 @@ const PropulsionSystem& SatelliteSystem::getPropulsionSystem() const
     }
 
     return propulsionSystem_.value();
-}
-
-SatelliteSystem SatelliteSystem::Undefined()
-{
-    return {
-        Mass::Undefined(),
-        Composite::Undefined(),
-        Matrix3d::Undefined(),
-        std::nullopt,
-        std::nullopt,
-        std::nullopt,
-    };
 }
 
 SatelliteSystem SatelliteSystem::Default()

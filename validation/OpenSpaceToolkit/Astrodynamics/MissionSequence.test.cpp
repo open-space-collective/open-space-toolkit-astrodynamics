@@ -43,7 +43,7 @@ class OpenSpaceToolkit_Astrodynamics_Validation_MissionSequence : public ::testi
             )),
             CntrObject::Format::YAML
         )
-            .accessDictionary();
+            .getDictionary();
 
     MissionSequence defaultMissionSequence_ = MissionSequence(defaultTree_);
 

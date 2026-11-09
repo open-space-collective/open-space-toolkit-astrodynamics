@@ -144,7 +144,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Not equal to operator.
     ///
     /// @code{.cpp}
-    ///     bool isNotEqual = SGP4FullPrecision::FromTLE(tle) != SGP4FullPrecision::Undefined();  // True
+    ///     bool isNotEqual = SGP4FullPrecision::FromTLE(tle) != SGP4FullPrecision::FromTLE(otherTle);
     /// @endcode
     ///
     /// @param aSGP4FullPrecision A full precision sgp4 model.
@@ -161,15 +161,6 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aSGP4FullPrecision A full precision sgp4 model.
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const SGP4FullPrecision& aSGP4FullPrecision);
-
-    /// @brief Check if the full precision sgp4 model is defined.
-    ///
-    /// @code{.cpp}
-    ///     bool isDefined = sgp4FullPrecision.isDefined();
-    /// @endcode
-    ///
-    /// @return True if the full precision sgp4 model is defined.
-    virtual bool isDefined() const override;
 
     /// @brief Get the epoch.
     ///
@@ -295,15 +286,6 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param anOutputStream An output stream.
     /// @param displayDecorator If true, display the decorator.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
-
-    /// @brief Construct an undefined full precision sgp4 model.
-    ///
-    /// @code{.cpp}
-    ///     const SGP4FullPrecision sgp4FullPrecision = SGP4FullPrecision::Undefined();  // isDefined() is false
-    /// @endcode
-    ///
-    /// @return An undefined full precision sgp4 model.
-    static SGP4FullPrecision Undefined();
 
     /// @brief Construct a full precision sgp4 model from a TLE.
     ///

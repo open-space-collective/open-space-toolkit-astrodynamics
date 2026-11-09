@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <boost/log/trivial.hpp>
 #include <boost/math/tools/roots.hpp>
 
@@ -23,19 +25,9 @@ TemporalConditionSolver::TemporalConditionSolver(
       tolerance_(aTolerance),
       maximumIterationCount_(aMaximumIterationCount)
 {
-    if (!timeStep_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Time step");
-    }
-
     if (!timeStep_.isStrictlyPositive())
     {
         throw ostk::core::error::RuntimeError("Time step [{}] must be strictly positive.", timeStep_.toString());
-    }
-
-    if (!tolerance_.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tolerance");
     }
 
     if (!tolerance_.isStrictlyPositive())
@@ -77,11 +69,6 @@ Array<Interval> TemporalConditionSolver::solve(
     const Array<TemporalConditionSolver::Condition>& aConditionArray, const Interval& anInterval
 ) const
 {
-    if (!anInterval.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Interval");
-    }
-
     const Duration intervalDuration = anInterval.getDuration();
 
     if (timeStep_ > intervalDuration)
@@ -98,15 +85,15 @@ Array<Interval> TemporalConditionSolver::solve(
     const Array<Instant> instants = anInterval.generateGrid(timeStep_);
 
     bool conditionIsMetCache = false;
-    Instant conditionStartInstantCache = Instant::Undefined();
-    Instant previousInstantCache = Instant::Undefined();
+    std::optional<Instant> conditionStartInstantCache = std::nullopt;
+    std::optional<Instant> previousInstantCache = std::nullopt;
 
     for (const auto& instant : instants)
     {
         const bool conditionIsMet = TemporalConditionSolver::EvaluateConditionAt(instant, aConditionArray);
 
         // If this is the first iteration
-        if (!previousInstantCache.isDefined())
+        if (!previousInstantCache.has_value())
         {
             conditionIsMetCache = conditionIsMet;
             if (conditionIsMet)
@@ -121,7 +108,7 @@ Array<Interval> TemporalConditionSolver::solve(
             if (conditionIsSwitching)
             {
                 const Instant switchingInstant =
-                    this->findSwitchingInstant(previousInstantCache, instant, aConditionArray);
+                    this->findSwitchingInstant(previousInstantCache.value(), instant, aConditionArray);
 
                 if (conditionIsMet)
                 {
@@ -129,8 +116,8 @@ Array<Interval> TemporalConditionSolver::solve(
                 }
                 else
                 {
-                    intervals.add(Interval::Closed(conditionStartInstantCache, switchingInstant));
-                    conditionStartInstantCache = Instant::Undefined();
+                    intervals.add(Interval::Closed(conditionStartInstantCache.value(), switchingInstant));
+                    conditionStartInstantCache = std::nullopt;
                 }
 
                 conditionIsMetCache = conditionIsMet;
@@ -143,7 +130,7 @@ Array<Interval> TemporalConditionSolver::solve(
     // Add interval if condition is met on the last iteration
     if (conditionIsMetCache)
     {
-        intervals.add(Interval::Closed(conditionStartInstantCache, instants.accessLast()));
+        intervals.add(Interval::Closed(conditionStartInstantCache.value(), instants.getLast()));
     }
 
     return intervals;

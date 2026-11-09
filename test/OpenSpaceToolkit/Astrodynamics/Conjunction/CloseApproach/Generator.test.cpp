@@ -1,7 +1,6 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
@@ -29,7 +28,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::filesystem::Directory;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -72,9 +70,9 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator : publi
 {
    protected:
     const Shared<const Celestial> earthSPtr_ = std::make_shared<Earth>(Earth::FromModels(
-        std::make_shared<EarthGravitationalModel>(EarthGravitationalModelType::EGM96, Directory::Undefined(), 20, 20),
-        std::make_shared<EarthMagneticModel>(EarthMagneticModelType::Undefined),
-        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModelType::Undefined)
+        std::make_shared<EarthGravitationalModel>(EarthGravitationalModelType::EGM96, std::nullopt, 20, 20),
+        std::make_shared<EarthMagneticModel>(EarthMagneticModelType::Dipole),
+        std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModelType::Exponential)
     ));
 
     const Instant epoch_ = Instant::J2000();
@@ -132,16 +130,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Const
     {
         EXPECT_THROW(
             try {
-                Generator generator(referenceTrajectory_, Duration::Undefined(), Duration::Seconds(1.0e-6));
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Step} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
                 Generator generator(referenceTrajectory_, Duration::Seconds(-60.0), Duration::Seconds(1.0e-6));
             } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_EQ("{Step} is wrong.", e.getMessage());
@@ -154,16 +142,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Const
     {
         EXPECT_THROW(
             try {
-                Generator generator(referenceTrajectory_, Duration::Minutes(20.0), Duration::Undefined());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Tolerance} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
                 Generator generator(referenceTrajectory_, Duration::Minutes(20.0), Duration::Seconds(-1.0e-6));
             } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_EQ("{Tolerance} is wrong.", e.getMessage());
@@ -174,49 +152,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Const
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, IsDefined)
-{
-    {
-        const Generator generator(referenceTrajectory_);
-
-        EXPECT_TRUE(generator.isDefined());
-    }
-
-    {
-        const Generator generator = Generator::Undefined();
-
-        EXPECT_FALSE(generator.isDefined());
-    }
-
-    {
-        const Generator generator(
-            Trajectory(Array<ostk::astrodynamics::trajectory::State>::Empty()),
-            Duration::Minutes(20.0),
-            Duration::Seconds(1.0e-6)
-        );
-
-        EXPECT_FALSE(generator.isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetReferenceTrajectory)
 {
     {
         const Generator generator(referenceTrajectory_);
 
         EXPECT_EQ(referenceTrajectory_, generator.getReferenceTrajectory());
-    }
-
-    {
-        const Generator generator = Generator::Undefined();
-
-        EXPECT_THROW(
-            try { generator.getReferenceTrajectory(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Generator} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -228,18 +169,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetSt
 
         EXPECT_EQ(step, generator.getStep());
     }
-
-    {
-        const Generator generator = Generator::Undefined();
-
-        EXPECT_THROW(
-            try { generator.getStep(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Generator} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetTolerance)
@@ -249,18 +178,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, GetTo
         const Generator generator(referenceTrajectory_, Duration::Minutes(20.0), tolerance);
 
         EXPECT_EQ(tolerance, generator.getTolerance());
-    }
-
-    {
-        const Generator generator = Generator::Undefined();
-
-        EXPECT_THROW(
-            try { generator.getTolerance(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Generator} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -277,14 +194,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, SetSt
 
     {
         Generator generator(referenceTrajectory_);
-
-        EXPECT_THROW(
-            try { generator.setStep(Duration::Undefined()); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Step} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 
     {
@@ -313,16 +222,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, SetTo
 
     {
         Generator generator(referenceTrajectory_);
-
-        EXPECT_THROW(
-            try {
-                generator.setTolerance(Duration::Undefined());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Tolerance} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 
     {
@@ -561,66 +460,4 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Compu
         },
         ostk::core::error::RuntimeError
     );
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, ComputeCloseApproaches_Undefined)
-{
-    {
-        const Generator generator = Generator::Undefined();
-
-        EXPECT_THROW(
-            try {
-                generator.computeCloseApproaches(
-                    referenceTrajectory_, Interval::Closed(epoch_, epoch_ + Duration::Seconds(10.0))
-                );
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Generator} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        const Generator generator(referenceTrajectory_);
-
-        EXPECT_THROW(
-            try {
-                generator.computeCloseApproaches(
-                    Trajectory(Array<ostk::astrodynamics::trajectory::State>::Empty()),
-                    Interval::Closed(epoch_, epoch_ + Duration::Seconds(10.0))
-                );
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Other object trajectory} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        const Trajectory otherTrajectory =
-            Orbit::Circular(epoch_, Length::Meters(7.1e6), Angle::Degrees(0.0), earthSPtr_);
-
-        const Generator generator(referenceTrajectory_);
-
-        EXPECT_THROW(
-            try {
-                generator.computeCloseApproaches(otherTrajectory, Interval::Undefined());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Search interval} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Undefined)
-{
-    {
-        const Generator generator = Generator::Undefined();
-
-        EXPECT_FALSE(generator.isDefined());
-    }
 }

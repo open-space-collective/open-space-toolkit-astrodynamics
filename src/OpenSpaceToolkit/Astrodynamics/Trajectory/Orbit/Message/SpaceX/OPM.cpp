@@ -26,9 +26,9 @@ using ostk::mathematics::object::Vector3d;
 Vector3d vector3dFromObject(const Object& anObject)
 {
     return {
-        anObject.accessArray()[0].accessReal(),
-        anObject.accessArray()[1].accessReal(),
-        anObject.accessArray()[2].accessReal(),
+        anObject.getArray()[0].getReal(),
+        anObject.getArray()[1].getReal(),
+        anObject.getArray()[2].getReal(),
     };
 }
 
@@ -45,48 +45,23 @@ std::ostream& operator<<(std::ostream& anOutputStream, const OPM& anOPM)
     return anOutputStream;
 }
 
-bool OPM::isDefined() const
-{
-    return this->header_.generationDate.isDefined() && this->header_.launchDate.isDefined();
-}
-
 const OPM::Header& OPM::getHeader() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("OPM");
-    }
-
     return this->header_;
 }
 
 const Array<OPM::Deployment>& OPM::getDeployments() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("OPM");
-    }
-
     return this->deployments_;
 }
 
 const OPM::Deployment& OPM::getDeploymentAt(const Index& anIndex) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("OPM");
-    }
-
     return this->deployments_.at(anIndex);
 }
 
 OPM::Deployment OPM::getDeploymentWithName(const String& aName) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("OPM");
-    }
-
     for (const auto& deployment : this->deployments_)
     {
         if (deployment.name == aName)
@@ -104,18 +79,10 @@ void OPM::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Orbit Parameter Message") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Generation date:"
-        << (this->header_.generationDate.isDefined() ? this->header_.generationDate.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Launch date:" << (this->header_.launchDate.isDefined() ? this->header_.launchDate.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Generation date:" << this->header_.generationDate.toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Launch date:" << this->header_.launchDate.toString();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-OPM OPM::Undefined()
-{
-    return {{Instant::Undefined(), Instant::Undefined()}, Array<Deployment>::Empty()};
 }
 
 OPM OPM::Dictionary(const container::Dictionary& aDictionary)
@@ -126,25 +93,27 @@ OPM OPM::Dictionary(const container::Dictionary& aDictionary)
 
     Array<OPM::Deployment> deployments = Array<OPM::Deployment>::Empty();
 
-    for (const auto& deploymentObject : aDictionary["deployments"].accessArray())
+    for (const auto& deploymentObject : aDictionary["deployments"].getArray())
     {
         const OPM::Deployment deployment = {
-            deploymentObject["name"].accessString(),
-            deploymentObject["sequence_number"].accessInteger(),
-            Duration::Seconds(deploymentObject["mission_time_s"].accessReal()),
+            deploymentObject["name"].getString(),
+            deploymentObject["sequence_number"].getInteger(),
+            Duration::Seconds(deploymentObject["mission_time_s"].getReal()),
             Instant::DateTime(
-                DateTime::Parse(deploymentObject["date"].getString().replace("Z", ""), DateTime::Format::ISO8601),
+                DateTime::Parse(
+                    String(deploymentObject["date"].getString()).replace("Z", ""), DateTime::Format::ISO8601
+                ),
                 Scale::UTC
             ),
             Position::Meters(vector3dFromObject(deploymentObject["r_ecef_m"]), Frame::ITRF()),
             Velocity::MetersPerSecond(vector3dFromObject(deploymentObject["v_ecef_m_per_s"]), Frame::ITRF()),
-            Length::Kilometers(deploymentObject["mean_perigee_altitude_km"].accessReal()),
-            Length::Kilometers(deploymentObject["mean_apogee_altitude_km"].accessReal()),
-            Angle::Degrees(deploymentObject["mean_inclination_deg"].accessReal()),
-            Angle::Degrees(deploymentObject["mean_argument_of_perigee_deg"].accessReal()),
-            Angle::Degrees(deploymentObject["mean_longitude_ascending_node_deg"].accessReal()),
-            Angle::Degrees(deploymentObject["mean_mean_anomaly_deg"].accessReal()),
-            deploymentObject["ballistic_coef_kg_per_m2"].accessReal()
+            Length::Kilometers(deploymentObject["mean_perigee_altitude_km"].getReal()),
+            Length::Kilometers(deploymentObject["mean_apogee_altitude_km"].getReal()),
+            Angle::Degrees(deploymentObject["mean_inclination_deg"].getReal()),
+            Angle::Degrees(deploymentObject["mean_argument_of_perigee_deg"].getReal()),
+            Angle::Degrees(deploymentObject["mean_longitude_ascending_node_deg"].getReal()),
+            Angle::Degrees(deploymentObject["mean_mean_anomaly_deg"].getReal()),
+            deploymentObject["ballistic_coef_kg_per_m2"].getReal()
         };
 
         deployments.add(deployment);
@@ -154,13 +123,14 @@ OPM OPM::Dictionary(const container::Dictionary& aDictionary)
         OPM::Header {
             Instant::DateTime(
                 DateTime::Parse(
-                    aDictionary["header"]["generation_date"].getString().replace("Z", ""), DateTime::Format::ISO8601
+                    String(aDictionary["header"]["generation_date"].getString()).replace("Z", ""),
+                    DateTime::Format::ISO8601
                 ),
                 Scale::UTC
             ),
             Instant::DateTime(
                 DateTime::Parse(
-                    aDictionary["header"]["launch_date"].getString().replace("Z", ""), DateTime::Format::ISO8601
+                    String(aDictionary["header"]["launch_date"].getString()).replace("Z", ""), DateTime::Format::ISO8601
                 ),
                 Scale::UTC
             ),
@@ -173,14 +143,14 @@ OPM OPM::Parse(const String& aString)
 {
     using ostk::core::container::Object;
 
-    return OPM::Dictionary(Object::Parse(aString, Object::Format::YAML).accessDictionary());
+    return OPM::Dictionary(Object::Parse(aString, Object::Format::YAML).getDictionary());
 }
 
 OPM OPM::Load(const File& aFile)
 {
     using ostk::core::container::Object;
 
-    return OPM::Dictionary(Object::Load(aFile, Object::Format::YAML).accessDictionary());
+    return OPM::Dictionary(Object::Load(aFile, Object::Format::YAML).getDictionary());
 }
 
 State OPM::Deployment::toState() const

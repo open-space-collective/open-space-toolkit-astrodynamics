@@ -42,7 +42,7 @@ Alfano2005::Alfano2005(const Derived& aRelativeSpeedThreshold, const Shared<cons
       relativeSpeedThreshold_(aRelativeSpeedThreshold),
       frameSPtr_(aFrameSPtr)
 {
-    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    if (aFrameSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }

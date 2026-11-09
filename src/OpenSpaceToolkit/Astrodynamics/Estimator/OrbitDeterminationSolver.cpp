@@ -163,7 +163,7 @@ Orbit OrbitDeterminationSolver::estimateOrbit(
     );
 
     return Orbit(
-        Propagated(this->propagator_, {analysis.estimatedState}), this->environment_.accessCentralCelestialObject()
+        Propagated(this->propagator_, {analysis.estimatedState}), this->environment_.getCentralCelestialObject()
     );
 }
 

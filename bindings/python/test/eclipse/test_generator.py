@@ -28,7 +28,7 @@ def environment() -> Environment:
 
 @pytest.fixture
 def earth(environment: Environment) -> Celestial:
-    return environment.access_celestial_object_with_name("Earth")
+    return environment.get_celestial_object_with_name("Earth")
 
 
 @pytest.fixture
@@ -97,8 +97,6 @@ class TestGenerator:
 
         assert generator is not None
         assert isinstance(generator, Generator)
-        assert generator.is_defined() is True
-        assert generator.get_environment().is_defined()
         assert generator.get_search_step_size() == search_step_size
         assert generator.get_search_tolerance() == search_tolerance
 
@@ -106,7 +104,6 @@ class TestGenerator:
         generator: Generator = Generator()
         assert generator is not None
         assert isinstance(generator, Generator)
-        assert generator.is_defined() is True
 
     def test_generate_success(
         self,

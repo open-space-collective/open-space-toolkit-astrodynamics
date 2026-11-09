@@ -17,7 +17,7 @@ from ostk.physics.time import DateTime, Duration, Instant, Scale
 
 @pytest.fixture
 def earth():
-    return Environment.default().access_celestial_object_with_name("Earth")
+    return Environment.default().get_celestial_object_with_name("Earth")
 
 
 @pytest.fixture
@@ -281,7 +281,6 @@ class TestTabulated:
         )
 
         assert tabulated is not None
-        assert tabulated.is_defined()
 
         orbit: Orbit = Orbit(tabulated, earth)
 
@@ -301,8 +300,6 @@ class TestTabulated:
                 CoordinateSubset.mass(): Interpolator.Type.Linear,
             },
         )
-
-        assert tabulated.is_defined()
 
     def test_constructor_with_interpolation_types_failure(
         self,
@@ -326,7 +323,6 @@ class TestTabulated:
         # The initial revolution number defaults to 1.
         tabulated = Tabulated.default(test_states)
 
-        assert tabulated.is_defined()
         assert tabulated.get_interpolation_type() == Interpolator.Type.BarycentricRational
         assert isinstance(Orbit(tabulated, earth), Orbit)
 
@@ -358,7 +354,6 @@ class TestTabulated:
             output_frame=frame,
         )
 
-        assert tabulated.is_defined()
         assert tabulated.get_frame() == frame
         assert tabulated.get_revolution_number_at_epoch() == 1
         assert (

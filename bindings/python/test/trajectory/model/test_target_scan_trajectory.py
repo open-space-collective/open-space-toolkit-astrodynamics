@@ -60,7 +60,7 @@ class TestTargetScan:
         self,
         target_scan: TargetScan,
     ):
-        assert target_scan.is_defined()
+        assert isinstance(target_scan, TargetScan)
 
     def test_calculate_state_at(
         self,
@@ -88,7 +88,7 @@ class TestTargetScan:
             start_lla=start_lla,
             end_lla=end_lla,
             start_instant=start_instant,
-            end_instant=Instant.undefined(),
+            end_instant=start_instant + Duration.minutes(20.0),
             celestial=earth,
         )
         assert target_scan != target_scan2
@@ -123,4 +123,4 @@ class TestTargetScan:
             step_size=step_size,
         )
 
-        assert target_scan.is_defined()
+        assert isinstance(target_scan, TargetScan)

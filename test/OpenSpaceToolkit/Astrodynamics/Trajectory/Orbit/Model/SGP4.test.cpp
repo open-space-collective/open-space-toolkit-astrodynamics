@@ -77,7 +77,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle_};
 
         const SGP4 sgp4(tleArray);
-        EXPECT_TRUE(sgp4.isDefined());
         EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
         EXPECT_EQ(1u, sgp4.getTles().getSize());
     }
@@ -91,7 +90,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle2, tle1};  // Intentionally reversed order
 
         const SGP4 sgp4(tleArray);
-        EXPECT_TRUE(sgp4.isDefined());
         EXPECT_EQ(2u, sgp4.getTles().getSize());
         // Should be sorted by epoch: tle1 first
         EXPECT_EQ(tle1.getEpoch(), sgp4.getTles()[0].getEpoch());
@@ -103,7 +101,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const Array<TLE> tleArray = {tle_};
 
         const SGP4 sgp4(tleArray, Frame::TEME());
-        EXPECT_TRUE(sgp4.isDefined());
         EXPECT_EQ(Frame::TEME(), sgp4.getOutputFrame());
     }
 
@@ -151,7 +148,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         };
 
         const SGP4 sgp4(tleIntervalArray);
-        EXPECT_TRUE(sgp4.isDefined());
         EXPECT_EQ(2u, sgp4.getTles().getSize());
         EXPECT_EQ(2u, sgp4.getValidityIntervals().getSize());
     }
@@ -180,7 +176,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const State stateSingle = sgp4Single1.calculateStateAt(instantInTle1);
 
         EXPECT_LT(
-            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
+            (stateMulti.getPosition().getCoordinates() - stateSingle.getPosition().getCoordinates()).norm(), 1e-6
         );
 
         // 19 hours after tle1 should use tle2 (past 18-hour boundary)
@@ -190,8 +186,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Constructor)
         const State stateSingle2 = sgp4Single2.calculateStateAt(instantInTle2);
 
         EXPECT_LT(
-            (stateMulti2.getPosition().accessCoordinates() - stateSingle2.getPosition().accessCoordinates()).norm(),
-            1e-6
+            (stateMulti2.getPosition().getCoordinates() - stateSingle2.getPosition().getCoordinates()).norm(), 1e-6
         );
     }
 
@@ -238,14 +233,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyConstruct
 {
     const SGP4 sgp4Copy(sgp4_);
 
-    EXPECT_TRUE(sgp4Copy.isDefined());
     EXPECT_EQ(sgp4_, sgp4Copy);
 
     const State state = sgp4_.calculateStateAt(tle_.getEpoch());
     const State stateCopy = sgp4Copy.calculateStateAt(tle_.getEpoch());
 
-    EXPECT_LT((state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm(), 1e-6);
-    EXPECT_LT((state.getVelocity().accessCoordinates() - stateCopy.getVelocity().accessCoordinates()).norm(), 1e-9);
+    EXPECT_LT((state.getPosition().getCoordinates() - stateCopy.getPosition().getCoordinates()).norm(), 1e-6);
+    EXPECT_LT((state.getVelocity().getCoordinates() - stateCopy.getVelocity().getCoordinates()).norm(), 1e-9);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyAssignmentOperator)
@@ -261,20 +255,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CopyAssignmen
     const State state = sgp4_.calculateStateAt(tle_.getEpoch());
     const State stateCopy = sgp4Copy.calculateStateAt(tle_.getEpoch());
 
-    EXPECT_LT((state.getPosition().accessCoordinates() - stateCopy.getPosition().accessCoordinates()).norm(), 1e-6);
+    EXPECT_LT((state.getPosition().getCoordinates() - stateCopy.getPosition().getCoordinates()).norm(), 1e-6);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Clone)
 {
     const SGP4* sgp4ClonePtr = sgp4_.clone();
 
-    EXPECT_TRUE(sgp4ClonePtr->isDefined());
     EXPECT_EQ(sgp4_, *sgp4ClonePtr);
 
     const State state = sgp4_.calculateStateAt(tle_.getEpoch());
     const State stateClone = sgp4ClonePtr->calculateStateAt(tle_.getEpoch());
 
-    EXPECT_LT((state.getPosition().accessCoordinates() - stateClone.getPosition().accessCoordinates()).norm(), 1e-6);
+    EXPECT_LT((state.getPosition().getCoordinates() - stateClone.getPosition().getCoordinates()).norm(), 1e-6);
 
     delete sgp4ClonePtr;
 }
@@ -299,13 +292,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Alpha5)
 
     const SGP4 alpha5Sgp4 = {alpha5Tle};
 
-    // calculateStateAt yields a defined state.
+    // calculateStateAt yields a state at the requested instant.
     {
         const State state = alpha5Sgp4.calculateStateAt(alpha5Tle.getEpoch());
 
-        EXPECT_TRUE(state.isDefined());
-        EXPECT_TRUE(state.getPosition().isDefined());
-        EXPECT_TRUE(state.getVelocity().isDefined());
+        EXPECT_EQ(alpha5Tle.getEpoch(), state.getInstant());
     }
 
     // Propagation correctness: the Alpha-5 model must produce the same states as the numeric ISS
@@ -317,12 +308,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Alpha5)
         const State stateAlpha5 = alpha5Sgp4.calculateStateAt(instant);
 
         EXPECT_LT(
-            (stateNumeric.getPosition().accessCoordinates() - stateAlpha5.getPosition().accessCoordinates()).norm(),
-            1e-6
+            (stateNumeric.getPosition().getCoordinates() - stateAlpha5.getPosition().getCoordinates()).norm(), 1e-6
         );
         EXPECT_LT(
-            (stateNumeric.getVelocity().accessCoordinates() - stateAlpha5.getVelocity().accessCoordinates()).norm(),
-            1e-9
+            (stateNumeric.getVelocity().getCoordinates() - stateAlpha5.getVelocity().getCoordinates()).norm(), 1e-9
         );
     }
 }
@@ -366,11 +355,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, StreamOperato
     stream << sgp4_;
 
     EXPECT_FALSE(stream.str().empty());
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, IsDefined)
-{
-    EXPECT_TRUE(sgp4_.isDefined());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, GetTle)
@@ -500,10 +484,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
         const State stateSingle = sgp4Single.calculateStateAt(tle1.getEpoch());
 
         EXPECT_LT(
-            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
+            (stateMulti.getPosition().getCoordinates() - stateSingle.getPosition().getCoordinates()).norm(), 1e-6
         );
         EXPECT_LT(
-            (stateMulti.getVelocity().accessCoordinates() - stateSingle.getVelocity().accessCoordinates()).norm(), 1e-9
+            (stateMulti.getVelocity().getCoordinates() - stateSingle.getVelocity().getCoordinates()).norm(), 1e-9
         );
     }
 
@@ -514,10 +498,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
         const State stateSingle = sgp4Single.calculateStateAt(tle2.getEpoch());
 
         EXPECT_LT(
-            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
+            (stateMulti.getPosition().getCoordinates() - stateSingle.getPosition().getCoordinates()).norm(), 1e-6
         );
         EXPECT_LT(
-            (stateMulti.getVelocity().accessCoordinates() - stateSingle.getVelocity().accessCoordinates()).norm(), 1e-9
+            (stateMulti.getVelocity().getCoordinates() - stateSingle.getVelocity().getCoordinates()).norm(), 1e-9
         );
     }
 
@@ -530,7 +514,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
         const State stateSingle = sgp4Single.calculateStateAt(instantNearTle1);
 
         EXPECT_LT(
-            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
+            (stateMulti.getPosition().getCoordinates() - stateSingle.getPosition().getCoordinates()).norm(), 1e-6
         );
     }
 
@@ -543,7 +527,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
         const State stateSingle = sgp4Single.calculateStateAt(instantNearTle2);
 
         EXPECT_LT(
-            (stateMulti.getPosition().accessCoordinates() - stateSingle.getPosition().accessCoordinates()).norm(), 1e-6
+            (stateMulti.getPosition().getCoordinates() - stateSingle.getPosition().getCoordinates()).norm(), 1e-6
         );
     }
 }
@@ -573,8 +557,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
     {
         const State individualState = sgp4.calculateStateAt(instants[i]);
         EXPECT_LT(
-            (states[i].getPosition().accessCoordinates() - individualState.getPosition().accessCoordinates()).norm(),
-            1e-6
+            (states[i].getPosition().getCoordinates() - individualState.getPosition().getCoordinates()).norm(), 1e-6
         );
     }
 }
@@ -595,8 +578,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, CalculateStat
     {
         const State individualState = sgp4_.calculateStateAt(instants[i]);
         EXPECT_LT(
-            (states[i].getPosition().accessCoordinates() - individualState.getPosition().accessCoordinates()).norm(),
-            1e-6
+            (states[i].getPosition().getCoordinates() - individualState.getPosition().getCoordinates()).norm(), 1e-6
         );
     }
 }
@@ -618,7 +600,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 
         // Orbit setup
 
-        const Orbit orbit = {sgp4Model, environment.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {sgp4Model, environment.getCelestialObjectWithName("Earth")};
 
         // Reference data setup
 
@@ -634,41 +616,41 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 
         for (const auto& referenceRow : referenceData)
         {
-            const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+            const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC);
 
             const Vector3d referencePosition_TEME = {
-                referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()
+                referenceRow[1].getReal(), referenceRow[2].getReal(), referenceRow[3].getReal()
             };
             const Vector3d referenceVelocity_TEME = {
-                referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()
+                referenceRow[4].getReal(), referenceRow[5].getReal(), referenceRow[6].getReal()
             };
 
             const Vector3d referencePosition_GCRF = {
-                referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()
+                referenceRow[7].getReal(), referenceRow[8].getReal(), referenceRow[9].getReal()
             };
             const Vector3d referenceVelocity_GCRF = {
-                referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()
+                referenceRow[10].getReal(), referenceRow[11].getReal(), referenceRow[12].getReal()
             };
 
             const Vector3d referencePosition_ITRF = {
-                referenceRow[13].accessReal(), referenceRow[14].accessReal(), referenceRow[15].accessReal()
+                referenceRow[13].getReal(), referenceRow[14].getReal(), referenceRow[15].getReal()
             };
             const Vector3d referenceVelocity_ITRF = {
-                referenceRow[16].accessReal(), referenceRow[17].accessReal(), referenceRow[18].accessReal()
+                referenceRow[16].getReal(), referenceRow[17].getReal(), referenceRow[18].getReal()
             };
 
-            // const double referenceRevolutionNumber = referenceRow[19].accessReal();
+            // const double referenceRevolutionNumber = referenceRow[19].getReal();
 
             const State state_GCRF = orbit.getStateAt(instant);
 
             const Position position_GCRF = state_GCRF.getPosition();
             const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
-            EXPECT_EQ(*Frame::GCRF(), *position_GCRF.accessFrame());
-            EXPECT_EQ(*Frame::GCRF(), *velocity_GCRF.accessFrame());
+            EXPECT_EQ(*Frame::GCRF(), *position_GCRF.getFrame());
+            EXPECT_EQ(*Frame::GCRF(), *velocity_GCRF.getFrame());
 
-            EXPECT_LT((position_GCRF.accessCoordinates() - referencePosition_GCRF).norm(), 10.0);
-            EXPECT_LT((velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm(), 1e-2);
+            EXPECT_LT((position_GCRF.getCoordinates() - referencePosition_GCRF).norm(), 10.0);
+            EXPECT_LT((velocity_GCRF.getCoordinates() - referenceVelocity_GCRF).norm(), 1e-2);
 
             const Shared<const Frame> teme = Frame::TEME();
 
@@ -693,19 +675,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
 
             // std::cout << "q_TEME_GCRF = " << q_TEME_GCRF.toString(12) << std::endl;
 
-            // std::cout << "x_GCRF: " << position_GCRF.accessCoordinates().toString(12) << std::endl;
-            // std::cout << "x_TEME: " << position_TEME.accessCoordinates().toString(12) << std::endl;
+            // std::cout << "x_GCRF: " << position_GCRF.getCoordinates().toString(12) << std::endl;
+            // std::cout << "x_TEME: " << position_TEME.getCoordinates().toString(12) << std::endl;
 
             // std::cout << "dq = " << RotationVector::Quaternion((q_TEME_GCRF /
             // ref_q_TEME_GCRF).normalize().rectify()).getAngle().inArcseconds().toString(12) << " [asec]" << std::endl
-            //; std::cout << "dx_GCRF = " << double((position_GCRF.accessCoordinates() -
+            //; std::cout << "dx_GCRF = " << double((position_GCRF.getCoordinates() -
             // referencePosition_GCRF).norm()).toString(12) << " [m]" << std::endl; std::cout << "dx_TEME = " <<
-            // double((position_TEME.accessCoordinates() - referencePosition_TEME).norm()).toString(12) << " [m]" <<
+            // double((position_TEME.getCoordinates() - referencePosition_TEME).norm()).toString(12) << " [m]" <<
             // std::endl;
 
             // std::cout << "x_GCRF A: " << (ref_q_TEME_GCRF.toConjugate() *
-            // position_TEME.accessCoordinates()).toString(12) << " [m]" << std::endl; std::cout << "x_GCRF B: " <<
-            // (q_TEME_GCRF.toConjugate() * position_TEME.accessCoordinates()).toString(12) << " [m]" << std::endl;
+            // position_TEME.getCoordinates()).toString(12) << " [m]" << std::endl; std::cout << "x_GCRF B: " <<
+            // (q_TEME_GCRF.toConjugate() * position_TEME.getCoordinates()).toString(12) << " [m]" << std::endl;
 
             // std::cout << "position_GCRF 1 = " << std::endl << position_GCRF << std::endl;
             // std::cout << "position_GCRF 2 = " << std::endl <<
@@ -715,11 +697,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             // std::cout << "position_TEME 2 = " << std::endl <<
             // state_TEME.inFrame(Frame::GCRF()).inFrame(teme).getPosition() << std::endl;
 
-            EXPECT_EQ(*Frame::TEME(), *position_TEME.accessFrame());
-            EXPECT_EQ(*Frame::TEME(), *velocity_TEME.accessFrame());
+            EXPECT_EQ(*Frame::TEME(), *position_TEME.getFrame());
+            EXPECT_EQ(*Frame::TEME(), *velocity_TEME.getFrame());
 
-            EXPECT_LT((position_TEME.accessCoordinates() - referencePosition_TEME).norm(), 10.0);
-            EXPECT_LT((velocity_TEME.accessCoordinates() - referenceVelocity_TEME).norm(), 1e-2);
+            EXPECT_LT((position_TEME.getCoordinates() - referencePosition_TEME).norm(), 10.0);
+            EXPECT_LT((velocity_TEME.getCoordinates() - referenceVelocity_TEME).norm(), 1e-2);
 
             const Shared<const Frame> itrfFrame = Frame::ITRF();
 
@@ -728,40 +710,40 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, Test_1)
             const Position position_ITRF = state_ITRF.getPosition();
             const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
-            EXPECT_EQ(*Frame::ITRF(), *position_ITRF.accessFrame());
-            EXPECT_EQ(*Frame::ITRF(), *velocity_ITRF.accessFrame());
+            EXPECT_EQ(*Frame::ITRF(), *position_ITRF.getFrame());
+            EXPECT_EQ(*Frame::ITRF(), *velocity_ITRF.getFrame());
 
-            EXPECT_LT((position_ITRF.accessCoordinates() - referencePosition_ITRF).norm(), 10.0);
-            EXPECT_LT((velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm(), 1e-2);
+            EXPECT_LT((position_ITRF.getCoordinates() - referencePosition_ITRF).norm(), 10.0);
+            EXPECT_LT((velocity_ITRF.getCoordinates() - referenceVelocity_ITRF).norm(), 1e-2);
 
             // EXPECT_EQ(referenceRevolutionNumber.floor(), orbit.getRevolutionNumberAt(instant));
 
             // std::cout << "x @ GCRF = " << referencePosition_GCRF.toString(10) << " / " <<
-            // position_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
-            // referencePosition_ITRF.toString(10) << " / " << position_ITRF.accessCoordinates().toString(10) <<
-            // std::endl; std::cout << "dx = " << (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm()
-            // << " - " << (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm() << std::endl;
+            // position_GCRF.getCoordinates().toString(10) << std::endl; std::cout << "x @ ITRF = " <<
+            // referencePosition_ITRF.toString(10) << " / " << position_ITRF.getCoordinates().toString(10) <<
+            // std::endl; std::cout << "dx = " << (position_GCRF.getCoordinates() - referencePosition_GCRF).norm()
+            // << " - " << (position_ITRF.getCoordinates() - referencePosition_ITRF).norm() << std::endl;
 
             // std::cout << "v @ GCRF = " << referenceVelocity_GCRF.toString(10) << " / " <<
-            // velocity_GCRF.accessCoordinates().toString(10) << std::endl; std::cout << "v @ ITRF = " <<
-            // referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.accessCoordinates().toString(10) <<
-            // std::endl; std::cout << "dv = " << (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm()
-            // << " - " << (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
+            // velocity_GCRF.getCoordinates().toString(10) << std::endl; std::cout << "v @ ITRF = " <<
+            // referenceVelocity_ITRF.toString(10) << " / " << velocity_ITRF.getCoordinates().toString(10) <<
+            // std::endl; std::cout << "dv = " << (velocity_GCRF.getCoordinates() - referenceVelocity_GCRF).norm()
+            // << " - " << (velocity_ITRF.getCoordinates() - referenceVelocity_ITRF).norm() << std::endl;
 
-            // std::cout   << "dx = " << double((position_TEME.accessCoordinates() -
-            // referencePosition_TEME).norm()).toString(12) << " - " << double((position_GCRF.accessCoordinates() -
+            // std::cout   << "dx = " << double((position_TEME.getCoordinates() -
+            // referencePosition_TEME).norm()).toString(12) << " - " << double((position_GCRF.getCoordinates() -
             // referencePosition_GCRF).norm()).toString(12)
-            //    << " | " << "dv = " << double((velocity_TEME.accessCoordinates() -
-            //    referenceVelocity_TEME).norm()).toString(12) << " - " << double((velocity_GCRF.accessCoordinates() -
+            //    << " | " << "dv = " << double((velocity_TEME.getCoordinates() -
+            //    referenceVelocity_TEME).norm()).toString(12) << " - " << double((velocity_GCRF.getCoordinates() -
             //    referenceVelocity_GCRF).norm()).toString(12) << std::endl;
 
-            // std::cout   << "dx = " << double((position_TEME.accessCoordinates() -
-            // referencePosition_TEME).norm()).toString(12) << " - " << double((position_GCRF.accessCoordinates() -
-            // referencePosition_GCRF).norm()).toString(12) << " - " << double((position_ITRF.accessCoordinates() -
+            // std::cout   << "dx = " << double((position_TEME.getCoordinates() -
+            // referencePosition_TEME).norm()).toString(12) << " - " << double((position_GCRF.getCoordinates() -
+            // referencePosition_GCRF).norm()).toString(12) << " - " << double((position_ITRF.getCoordinates() -
             // referencePosition_ITRF).norm()).toString(12)
-            //    << " | " << "dv = " << double((velocity_TEME.accessCoordinates() -
-            //    referenceVelocity_TEME).norm()).toString(12) << " - " << double((velocity_GCRF.accessCoordinates() -
-            //    referenceVelocity_GCRF).norm()).toString(12) << " - " << double((velocity_ITRF.accessCoordinates() -
+            //    << " | " << "dv = " << double((velocity_TEME.getCoordinates() -
+            //    referenceVelocity_TEME).norm()).toString(12) << " - " << double((velocity_GCRF.getCoordinates() -
+            //    referenceVelocity_GCRF).norm()).toString(12) << " - " << double((velocity_ITRF.getCoordinates() -
             //    referenceVelocity_ITRF).norm()).toString(12) << std::endl;
 
             // FAIL();

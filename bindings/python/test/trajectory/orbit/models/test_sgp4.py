@@ -111,12 +111,6 @@ class TestSGP4:
         state = sgp4.calculate_state_at(tle.get_epoch() + Duration.hours(15.0))
         assert state is not None
 
-    def test_is_defined(
-        self,
-        sgp4: SGP4,
-    ):
-        assert sgp4.is_defined()
-
     def test_get_tle(
         self,
         sgp4: SGP4,

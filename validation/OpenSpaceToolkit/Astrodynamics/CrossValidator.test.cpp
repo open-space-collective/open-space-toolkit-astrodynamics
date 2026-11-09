@@ -38,17 +38,6 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocit
 class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator : public ::testing::Test
 {
    protected:
-    void SetUp() override
-    {
-        VectorXd initialCoordinates(7);
-        initialCoordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 10.0;
-        defaultState_ = {Instant::J2000(), initialCoordinates, Frame::GCRF(), coordinatesBrokerSPtr_};
-
-        referenceCoordinates_ = {
-            initialCoordinates.segment(0, 3), initialCoordinates.segment(3, 3), initialCoordinates.segment(6, 1)
-        };
-    }
-
     const Table table_ = Table::Load(
         File::Path(Path::Parse({"/app/validation/OpenSpaceToolkit/Astrodynamics/data/test/test_table.csv"})),
         Table::Format::CSV,
@@ -89,8 +78,12 @@ class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator : public ::testin
         CoordinateSubset::Mass(),
     }));
 
-    State defaultState_ = State::Undefined();
-    Array<VectorXd> referenceCoordinates_ = Array<VectorXd>::Empty();
+    const VectorXd initialCoordinates_ = (VectorXd(7) << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 10.0).finished();
+
+    const State defaultState_ = {Instant::J2000(), initialCoordinates_, Frame::GCRF(), coordinatesBrokerSPtr_};
+    const Array<VectorXd> referenceCoordinates_ = {
+        initialCoordinates_.segment(0, 3), initialCoordinates_.segment(3, 3), initialCoordinates_.segment(6, 1)
+    };
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidator, IngestOutputQuantities)

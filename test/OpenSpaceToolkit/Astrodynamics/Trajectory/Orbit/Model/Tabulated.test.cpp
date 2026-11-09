@@ -82,14 +82,13 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
         Size t = 0;
         for (const auto& row : referenceData)
         {
-            const Instant instant = Instant::DateTime(DateTime::Parse(row[0].accessString()), Scale::UTC);
+            const Instant instant = Instant::DateTime(DateTime::Parse(row[0].getString()), Scale::UTC);
 
             const Position position =
-                Position::Meters({row[1].accessReal(), row[2].accessReal(), row[3].accessReal()}, Frame::GCRF());
+                Position::Meters({row[1].getReal(), row[2].getReal(), row[3].getReal()}, Frame::GCRF());
 
-            const Velocity velocity = Velocity::MetersPerSecond(
-                {row[4].accessReal(), row[5].accessReal(), row[6].accessReal()}, Frame::GCRF()
-            );
+            const Velocity velocity =
+                Velocity::MetersPerSecond({row[4].getReal(), row[5].getReal(), row[6].getReal()}, Frame::GCRF());
 
             const State state = State(instant, position, velocity);
 
@@ -112,9 +111,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated : public :
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Constructor)
 {
     {
-        const Tabulated tabulated(states_, Interpolator::Type::Linear);
-
-        EXPECT_TRUE(tabulated.isDefined());
+        EXPECT_NO_THROW(Tabulated(states_, Interpolator::Type::Linear));
     }
 
     {
@@ -125,7 +122,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
 
         const Tabulated tabulated(states_, interpolationTypes);
 
-        EXPECT_TRUE(tabulated.isDefined());
         EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
     }
 
@@ -153,7 +149,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Construc
     {
         const Tabulated tabulated(states_, Interpolator::Type::Linear, Frame::ITRF());
 
-        EXPECT_TRUE(tabulated.isDefined());
         EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
         EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 0);
     }
@@ -163,7 +158,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
 {
     const Tabulated tabulated = Tabulated::Default(states_, Frame::GCRF(), 2);
 
-    EXPECT_TRUE(tabulated.isDefined());
     EXPECT_TRUE(tabulated.getRevolutionNumberAtEpoch() == 2);
     EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
 
@@ -184,7 +178,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Default)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, OutputFrame)
 {
-    const Instant queryInstant = states_.accessFirst().getInstant() + Duration::Seconds(30.0);
+    const Instant queryInstant = states_.getFirst().getInstant() + Duration::Seconds(30.0);
 
     // The default output frame is GCRF (backward-compatible behavior).
     {
@@ -274,10 +268,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, GetInter
 
     const Tabulated tabulated(states_, Interpolator::Type::Linear);
 
-    EXPECT_TRUE(tabulated.getInterval().isDefined());
     EXPECT_TRUE(
-        tabulated.getInterval() ==
-        Interval::Closed(states_.accessFirst().getInstant(), states_.accessLast().getInstant())
+        tabulated.getInterval() == Interval::Closed(states_.getFirst().getInstant(), states_.getLast().getInstant())
     );
 }
 
@@ -318,7 +310,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
         {
             const Instant referenceInstant = referenceStates_[i].getInstant();
 
-            if (i == 0 || referenceInstant >= states_.accessLast().getInstant())
+            if (i == 0 || referenceInstant >= states_.getLast().getInstant())
             {
                 continue;
             }
@@ -356,7 +348,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
         {
             const Instant referenceInstant = referenceStates_[i].getInstant();
 
-            if (i == 0 || referenceInstant >= states_.accessLast().getInstant())
+            if (i == 0 || referenceInstant >= states_.getLast().getInstant())
             {
                 continue;
             }

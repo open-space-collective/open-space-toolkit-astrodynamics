@@ -60,10 +60,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, Constructor)
             ostk::core::error::runtime::Wrong
         );
     }
-
-    {
-        EXPECT_THROW(Static staticModel(position_, Frame::Undefined()), ostk::core::error::runtime::Undefined);
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, EqualToOperator)
@@ -92,14 +88,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, NotEqualToOperato
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, IsDefined)
-{
-    {
-        EXPECT_TRUE(Static(position_).isDefined());
-        EXPECT_TRUE(Static(position_, Frame::GCRF()).isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, GetFrame)
 {
     {
@@ -117,10 +105,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, GetFrame)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Static, CalculateStateAt)
 {
-    {
-        EXPECT_THROW(Static(position_).calculateStateAt(Instant::Undefined()), ostk::core::error::runtime::Undefined);
-    }
-
     {
         const State state = Static(position_).calculateStateAt(instant_);
 

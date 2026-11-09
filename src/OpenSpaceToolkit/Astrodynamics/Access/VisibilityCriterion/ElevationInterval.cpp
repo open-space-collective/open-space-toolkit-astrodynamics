@@ -11,19 +11,19 @@ namespace astrodynamics
 namespace access
 {
 
-VisibilityCriterion::ElevationInterval::ElevationInterval(const Interval<Real>& anElevationInterval)
+VisibilityCriterion::ElevationInterval::ElevationInterval(const Interval<double>& anElevationInterval)
     : elevation(anElevationInterval)
 {
     if (elevation.getLowerBound() < -90.0 || elevation.getUpperBound() > 90.0)
     {
         throw ostk::core::error::RuntimeError(
             "The elevation interval [{}, {}] must be in the range [-90, 90] deg.",
-            elevation.accessLowerBound(),
-            elevation.accessUpperBound()
+            elevation.getLowerBound(),
+            elevation.getUpperBound()
         );
     }
 
-    this->elevation = Interval<Real>(
+    this->elevation = Interval<double>(
         anElevationInterval.getLowerBound() * M_PI / 180.0,
         anElevationInterval.getUpperBound() * M_PI / 180.0,
         anElevationInterval.getType()

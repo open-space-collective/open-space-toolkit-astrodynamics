@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
     using ostk::core::type::String;
@@ -15,7 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(pybind11
     using ostk::astrodynamics::dynamics::CentralBodyGravity;
 
     {
-        class_<CentralBodyGravity, Dynamics, Shared<CentralBodyGravity>>(
+        class_<CentralBodyGravity, Dynamics>(
             aModule,
             "CentralBodyGravity",
             R"doc(
@@ -39,18 +39,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_CentralBodyGravity(pybind11
 
             .def("__str__", &(shiftToString<CentralBodyGravity>))
             .def("__repr__", &(shiftToString<CentralBodyGravity>))
-
-            .def(
-                "is_defined",
-                &CentralBodyGravity::isDefined,
-                R"doc(
-                    Check if the central-body gravity is defined.
-
-                    Returns:
-                        bool: True if the central-body gravity is defined, False otherwise.
-
-                )doc"
-            )
 
             .def(
                 "get_celestial",

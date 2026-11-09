@@ -1,17 +1,13 @@
 
 /// Apache License 2.0
 
-#include <pybind11/eigen.h>
-#include <pybind11/functional.h>
-#include <pybind11/pybind11.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp>
 
-namespace py = pybind11;
+namespace py = nanobind;
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
@@ -57,7 +53,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
         )
         .def("__str__", &(shiftToString<LeastSquaresSolver::Step>))
         .def("__repr__", &(shiftToString<LeastSquaresSolver::Step>))
-        .def_readonly(
+        .def_ro(
             "rms_error",
             &LeastSquaresSolver::Step::rmsError,
             R"doc(
@@ -66,7 +62,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 :type: float
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "x_hat",
             &LeastSquaresSolver::Step::xHat,
             R"doc(
@@ -127,7 +123,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
         )doc",
             arg("observations")
         )
-        .def_readonly(
+        .def_ro(
             "rms_error",
             &LeastSquaresSolver::Analysis::rmsError,
             R"doc(
@@ -136,7 +132,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 :type: float
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "observation_count",
             &LeastSquaresSolver::Analysis::observationCount,
             R"doc(
@@ -145,7 +141,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 :type: int
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "iteration_count",
             &LeastSquaresSolver::Analysis::iterationCount,
             R"doc(
@@ -154,7 +150,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 :type: int
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "termination_criteria",
             &LeastSquaresSolver::Analysis::terminationCriteria,
             R"doc(
@@ -163,7 +159,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 :type: str
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "estimated_state",
             &LeastSquaresSolver::Analysis::estimatedState,
             R"doc(
@@ -172,7 +168,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 :type: State
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "estimated_covariance",
             &LeastSquaresSolver::Analysis::estimatedCovariance,
             R"doc(
@@ -181,7 +177,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 :type: Covariance
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "estimated_frisbee_covariance",
             &LeastSquaresSolver::Analysis::estimatedFrisbeeCovariance,
             R"doc(
@@ -190,7 +186,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 :type: Covariance
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "computed_observations",
             &LeastSquaresSolver::Analysis::computedObservationStates,
             R"doc(
@@ -199,7 +195,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
                 :type: np.ndarray
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "steps",
             &LeastSquaresSolver::Analysis::steps,
             R"doc(
@@ -225,8 +221,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             )doc",
             arg("maximum_iteration_count"),
             arg("rms_update_threshold"),
-            arg_v("finite_difference_solver", DEFAULT_FINITE_DIFFERENCE_SOLVER, "FiniteDifferenceSolver.default()"),
-            arg_v("scale_factor_generator", DEFAULT_SCALE_FACTOR_GENERATOR, "LeastSquaresSolver.no_scaling()")
+            arg("finite_difference_solver").sig("FiniteDifferenceSolver.default()") = DEFAULT_FINITE_DIFFERENCE_SOLVER,
+            arg("scale_factor_generator").sig("LeastSquaresSolver.no_scaling()") = DEFAULT_SCALE_FACTOR_GENERATOR
         )
         .def(
             "get_max_iteration_count",
@@ -287,8 +283,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_LeastSquaresSolver(py::module
             arg("initial_guess"),
             arg("observations"),
             arg("state_generator"),
-            arg_v("initial_guess_sigmas", DEFAULT_INITIAL_GUESS_SIGMAS, "{}"),
-            arg_v("observation_sigmas", DEFAULT_OBSERVATION_SIGMAS, "{}")
+            arg("initial_guess_sigmas").sig("{}") = DEFAULT_INITIAL_GUESS_SIGMAS,
+            arg("observation_sigmas").sig("{}") = DEFAULT_OBSERVATION_SIGMAS
         )
         .def_static(
             "calculate_empirical_covariance",

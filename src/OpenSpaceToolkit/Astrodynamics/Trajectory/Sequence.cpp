@@ -32,12 +32,12 @@ Sequence::Solution::Solution(const Array<Segment::Solution>& aSegmentSolutionArr
 
 Instant Sequence::Solution::getStartInstant() const
 {
-    return this->segmentSolutions.accessFirst().getStartInstant();
+    return this->segmentSolutions.getFirst().getStartInstant();
 }
 
 Instant Sequence::Solution::getEndInstant() const
 {
-    return this->segmentSolutions.accessLast().getEndInstant();
+    return this->segmentSolutions.getLast().getEndInstant();
 }
 
 Interval Sequence::Solution::getInterval() const
@@ -52,7 +52,7 @@ Array<State> Sequence::Solution::getStates() const
         throw ostk::core::error::RuntimeError("Segment solutions are empty.");
     }
 
-    Array<State> states = this->segmentSolutions.accessFirst().states;
+    Array<State> states = this->segmentSolutions.getFirst().states;
 
     for (Index i = 1; i < this->segmentSolutions.getSize(); ++i)
     {
@@ -67,12 +67,12 @@ Array<State> Sequence::Solution::getStates() const
 
 Mass Sequence::Solution::getInitialMass() const
 {
-    return this->segmentSolutions.accessFirst().getInitialMass();
+    return this->segmentSolutions.getFirst().getInitialMass();
 }
 
 Mass Sequence::Solution::getFinalMass() const
 {
-    return this->segmentSolutions.accessLast().getFinalMass();
+    return this->segmentSolutions.getLast().getFinalMass();
 }
 
 Duration Sequence::Solution::getPropagationDuration() const
@@ -208,11 +208,6 @@ Sequence::Sequence(
       dynamics_(aDynamicsArray),
       segmentPropagationDurationLimit_(aMaximumPropagationDuration)
 {
-    if (!aMaximumPropagationDuration.isDefined())
-    {
-        throw ostk::core::error::runtime::Wrong("Maximum propagation duration must be defined.");
-    }
-
     if (!aMaximumPropagationDuration.isStrictlyPositive())
     {
         throw ostk::core::error::runtime::Wrong("Maximum propagation duration must be strictly positive.");
@@ -313,7 +308,6 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
     Array<Segment::Solution> segmentSolutions = Array<Segment::Solution>::Empty();
 
     State initialState = aState;
-    State finalState = State::Undefined();
     Array<Interval> previousManeuverIntervals = Array<Interval>::Empty();
 
     for (Size i = 0; i < aRepetitionCount; ++i)
@@ -349,7 +343,7 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
                 return {segmentSolutions, false};
             }
 
-            initialState = segmentSolution.states.accessLast();
+            initialState = segmentSolution.states.getLast();
         }
     }
 
@@ -363,7 +357,6 @@ Sequence::Solution Sequence::solveToCondition(
     Array<Segment::Solution> segmentSolutions = Array<Segment::Solution>::Empty();
 
     State initialState = aState;
-    State finalState = State::Undefined();
     Array<Interval> previousManeuverIntervals = Array<Interval>::Empty();
 
     Duration propagationDuration = Duration::Zero();
@@ -408,8 +401,7 @@ Sequence::Solution Sequence::solveToCondition(
                 return {segmentSolutions, false};
             }
 
-            eventConditionIsSatisfied =
-                sequenceCondition->isSatisfied(segmentSolution.states.accessLast(), initialState);
+            eventConditionIsSatisfied = sequenceCondition->isSatisfied(segmentSolution.states.getLast(), initialState);
 
             // Terminate Sequence successfully if a provided event condition was satisfied
             if (eventConditionIsSatisfied)
@@ -419,7 +411,7 @@ Sequence::Solution Sequence::solveToCondition(
 
             propagationDuration += segmentSolution.getPropagationDuration();
 
-            initialState = segmentSolution.states.accessLast();
+            initialState = segmentSolution.states.getLast();
         }
     }
 

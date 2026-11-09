@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::String;
@@ -69,18 +69,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             arg("relative_metadata"),
             arg("objects_metadata_array"),
             arg("objects_data_array")
-        )
-
-        .def(
-            "is_defined",
-            &CDM::isDefined,
-            R"doc(
-                Check if the CDM is defined.
-
-                Returns:
-                    bool: True if the CDM is defined, False otherwise.
-
-            )doc"
         )
 
         .def(
@@ -280,16 +268,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
         )
 
         .def_static(
-            "undefined",
-            &CDM::Undefined,
-            R"doc(
-                Get an undefined CDM.
-
-                Returns:
-                    CDM: An undefined CDM.
-            )doc"
-        )
-        .def_static(
             "dictionary",
             &CDM::Dictionary,
             R"doc(
@@ -374,49 +352,49 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             )doc",
             kw_only(),
             arg("ccsds_cdm_version"),
-            arg_v("comment", String::Empty(), "String.empty()"),
+            arg("comment").sig("String.empty()") = String::Empty(),
             arg("creation_date"),
             arg("originator"),
-            arg_v("message_for", String::Empty(), "String.empty()"),
+            arg("message_for").sig("String.empty()") = String::Empty(),
             arg("message_id")
         )
 
-        .def_readonly(
+        .def_ro(
             "ccsds_cdm_version",
             &CDM::Header::ccsdsCdmVersion,
             R"doc(
                 The CCSDS CDM version.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "comment",
             &CDM::Header::comment,
             R"doc(
                 The comment.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "creation_date",
             &CDM::Header::creationDate,
             R"doc(
                 The creation date.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "originator",
             &CDM::Header::originator,
             R"doc(
                 The originator.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "message_for",
             &CDM::Header::messageFor,
             R"doc(
                 The message for.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "message_id",
             &CDM::Header::messageId,
             R"doc(
@@ -442,17 +420,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 const String&,
                 const Instant&,
                 const Length&,
-                const Position&,
-                const Velocity&,
-                const Instant&,
-                const Instant&,
+                const std::optional<Position>&,
+                const std::optional<Velocity>&,
+                const std::optional<Instant>&,
+                const std::optional<Instant>&,
                 const String&,
                 const String&,
                 const std::optional<double>&,
                 const std::optional<double>&,
                 const std::optional<double>&,
-                const Instant&,
-                const Instant&,
+                const std::optional<Instant>&,
+                const std::optional<Instant>&,
                 const std::optional<double>&,
                 const String&>(),
             R"doc(
@@ -462,146 +440,146 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                     comment (str): The comment.
                     time_of_closest_approach (Instant): The time of closest approach.
                     miss_distance (Distance): The miss distance.
-                    relative_position (Position): The relative position.
-                    relative_velocity (Velocity): The relative velocity.
-                    start_screen_period (Instant): The start screen period.
-                    end_screen_period (Instant): The end screen period.
+                    relative_position (Position | None): The relative position. None if not provided.
+                    relative_velocity (Velocity | None): The relative velocity. None if not provided.
+                    start_screen_period (Instant | None): The start screen period. None if not provided.
+                    end_screen_period (Instant | None): The end screen period. None if not provided.
                     screen_volume_frame (str): The screen volume frame.
                     screen_volume_shape (str): The screen volume shape.
                     screen_volume_x (float | None): The screen volume x. None if not provided.
                     screen_volume_y (float | None): The screen volume y. None if not provided.
                     screen_volume_z (float | None): The screen volume z. None if not provided.
-                    screen_entry_time (Instant): The screen entry time.
-                    screen_exit_time (Instant): The screen exit time.
+                    screen_entry_time (Instant | None): The screen entry time. None if not provided.
+                    screen_exit_time (Instant | None): The screen exit time. None if not provided.
                     collision_probability (float | None): The collision probability. None if not provided.
                     collision_probability_method (str): The collision probability method.
 
             )doc",
             kw_only(),
-            arg_v("comment", String::Empty(), "String.empty()"),
+            arg("comment").sig("String.empty()") = String::Empty(),
             arg("time_of_closest_approach"),
             arg("miss_distance"),
-            arg_v("relative_position", Position::Undefined(), "Position.undefined()"),
-            arg_v("relative_velocity", Velocity::Undefined(), "Velocity.undefined()"),
-            arg("start_screen_period"),
-            arg("end_screen_period"),
-            arg_v("screen_volume_frame", String::Empty(), "String.empty()"),
-            arg_v("screen_volume_shape", String::Empty(), "String.empty()"),
+            arg("relative_position") = none(),
+            arg("relative_velocity") = none(),
+            arg("start_screen_period") = none(),
+            arg("end_screen_period") = none(),
+            arg("screen_volume_frame").sig("String.empty()") = String::Empty(),
+            arg("screen_volume_shape").sig("String.empty()") = String::Empty(),
             arg("screen_volume_x") = none(),
             arg("screen_volume_y") = none(),
             arg("screen_volume_z") = none(),
-            arg("screen_entry_time"),
-            arg("screen_exit_time"),
+            arg("screen_entry_time") = none(),
+            arg("screen_exit_time") = none(),
             arg("collision_probability") = none(),
             arg("collision_probability_method")
         )
 
-        .def_readonly(
+        .def_ro(
             "comment",
             &CDM::RelativeMetadata::comment,
             R"doc(
                 The comment.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "time_of_closest_approach",
             &CDM::RelativeMetadata::TCA,
             R"doc(
                 The time of closest approach.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "miss_distance",
             &CDM::RelativeMetadata::missDistance,
             R"doc(
                 The miss distance.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "relative_position",
             &CDM::RelativeMetadata::relativePosition,
             R"doc(
-                The relative position.
+                The relative position, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "relative_velocity",
             &CDM::RelativeMetadata::relativeVelocity,
             R"doc(
-                The relative velocity.
+                The relative velocity, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "start_screen_period",
             &CDM::RelativeMetadata::startScreenPeriod,
             R"doc(
-                The start screen period.
+                The start screen period, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "end_screen_period",
             &CDM::RelativeMetadata::endScreenPeriod,
             R"doc(
-                The end screen period.
+                The end screen period, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "screen_volume_frame",
             &CDM::RelativeMetadata::screenVolumeFrame,
             R"doc(
                 The screen volume frame.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "screen_volume_shape",
             &CDM::RelativeMetadata::screenVolumeShape,
             R"doc(
                 The screen volume shape.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "screen_volume_x",
             &CDM::RelativeMetadata::screenVolumeX,
             R"doc(
                 The screen volume x, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "screen_volume_y",
             &CDM::RelativeMetadata::screenVolumeY,
             R"doc(
                 The screen volume y, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "screen_volume_z",
             &CDM::RelativeMetadata::screenVolumeZ,
             R"doc(
                 The screen volume z, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "screen_entry_time",
             &CDM::RelativeMetadata::screenEntryTime,
             R"doc(
-                The screen entry time.
+                The screen entry time, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "screen_exit_time",
             &CDM::RelativeMetadata::screenExitTime,
             R"doc(
-                The screen exit time.
+                The screen exit time, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "collision_probability",
             &CDM::RelativeMetadata::collisionProbability,
             R"doc(
                 The collision probability, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "collision_probability_method",
             &CDM::RelativeMetadata::collisionProbabilityMethod,
             R"doc(
@@ -675,178 +653,178 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
 
             )doc",
             kw_only(),
-            arg_v("comment", String::Empty(), "String.empty()"),
+            arg("comment").sig("String.empty()") = String::Empty(),
             arg("object"),
             arg("object_designator"),
-            arg_v("catalog_name", String::Empty(), "String.empty()"),
+            arg("catalog_name").sig("String.empty()") = String::Empty(),
             arg("object_name"),
             arg("international_designator"),
             arg("object_type"),
-            arg_v("operator_contact_position", String::Empty(), "String.empty()"),
-            arg_v("operator_organization", String::Empty(), "String.empty()"),
-            arg_v("operator_phone", String::Empty(), "String.empty()"),
-            arg_v("operator_email", String::Empty(), "String.empty()"),
+            arg("operator_contact_position").sig("String.empty()") = String::Empty(),
+            arg("operator_organization").sig("String.empty()") = String::Empty(),
+            arg("operator_phone").sig("String.empty()") = String::Empty(),
+            arg("operator_email").sig("String.empty()") = String::Empty(),
             arg("ephemeris_name"),
             arg("covariance_method"),
             arg("maneuverable"),
-            arg_v("orbit_center", String::Empty(), "String.empty()"),
+            arg("orbit_center").sig("String.empty()") = String::Empty(),
             arg("reference_frame"),
-            arg_v("gravity_model", String::Empty(), "String.empty()"),
-            arg_v("atmospheric_model", String::Empty(), "String.empty()"),
-            arg_v("n_body_perturbations", String::Empty(), "String.empty()"),
+            arg("gravity_model").sig("String.empty()") = String::Empty(),
+            arg("atmospheric_model").sig("String.empty()") = String::Empty(),
+            arg("n_body_perturbations").sig("String.empty()") = String::Empty(),
             arg("solar_radiation_pressure") = false,
             arg("earth_tides") = false,
             arg("in_track_thrust") = false
         )
 
-        .def_readonly(
+        .def_ro(
             "comment",
             &CDM::Metadata::comment,
             R"doc(
                 The comment.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "object",
             &CDM::Metadata::object,
             R"doc(
                 The object.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "object_designator",
             &CDM::Metadata::objectDesignator,
             R"doc(
                 The object designator.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "catalog_name",
             &CDM::Metadata::catalogName,
             R"doc(
                 The catalog name.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "object_name",
             &CDM::Metadata::objectName,
             R"doc(
                 The object name.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "international_designator",
             &CDM::Metadata::internationalDesignator,
             R"doc(
                 The international designator.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "object_type",
             &CDM::Metadata::objectType,
             R"doc(
                 The object type.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "operator_contact_position",
             &CDM::Metadata::operatorContactPosition,
             R"doc(
                 The operator contact position.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "operator_organization",
             &CDM::Metadata::operatorOrgnization,
             R"doc(
                 The operator organization.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "operator_phone",
             &CDM::Metadata::operatorPhone,
             R"doc(
                 The operator phone.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "operator_email",
             &CDM::Metadata::operatorEmail,
             R"doc(
                 The operator email.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "ephemeris_name",
             &CDM::Metadata::ephemerisName,
             R"doc(
                 The ephemeris name.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "covariance_method",
             &CDM::Metadata::covarianceMethod,
             R"doc(
                 The covariance method.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "maneuverable",
             &CDM::Metadata::maneuverable,
             R"doc(
                 The maneuverable.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "orbit_center",
             &CDM::Metadata::orbitCenter,
             R"doc(
                 The orbit center.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "reference_frame",
             &CDM::Metadata::refFrame,
             R"doc(
                 The reference frame.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "gravity_model",
             &CDM::Metadata::gravityModel,
             R"doc(
                 The gravity model.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "atmospheric_model",
             &CDM::Metadata::atmosphericModel,
             R"doc(
                 The atmospheric model.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "n_body_perturbations",
             &CDM::Metadata::nBodyPerturbations,
             R"doc(
                 The n-body perturbations.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "solar_radiation_pressure",
             &CDM::Metadata::solarRadiationPressure,
             R"doc(
                 The solar radiation pressure.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "earth_tides",
             &CDM::Metadata::earthTides,
             R"doc(
                 The earth tides.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "in_track_thrust",
             &CDM::Metadata::inTrackThrust,
             R"doc(
@@ -869,10 +847,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
 
         .def(
             init<
-                const Instant&,
-                const Instant&,
-                const Duration&,
-                const Duration&,
+                const std::optional<Instant>&,
+                const std::optional<Instant>&,
+                const std::optional<Duration>&,
+                const std::optional<Duration>&,
                 const std::optional<int>&,
                 const std::optional<int>&,
                 const std::optional<int>&,
@@ -882,7 +860,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 const std::optional<double>&,
                 const std::optional<double>&,
                 const std::optional<double>&,
-                const Mass&,
+                const std::optional<Mass>&,
                 const std::optional<double>&,
                 const std::optional<double>&,
                 const std::optional<double>&,
@@ -893,10 +871,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             Constructor.
 
             Args:
-                time_last_observation_start (Instant): The time of the last observation start.
-                time_last_observation_end (Instant): The time of the last observation end.
-                recommended_od_span (Duration): The recommended OD span.
-                actual_od_span (Duration): The actual OD span.
+                time_last_observation_start (Instant | None): The time of the last observation start. None if unknown.
+                time_last_observation_end (Instant | None): The time of the last observation end. None if unknown.
+                recommended_od_span (Duration | None): The recommended OD span. None if unknown.
+                actual_od_span (Duration | None): The actual OD span. None if unknown.
                 observations_available (int | None): The number of observations available. None if unknown.
                 observations_used (int | None): The number of observations used. None if unknown.
                 tracks_available (int | None): The number of tracks available. None if unknown.
@@ -906,7 +884,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 area_pc (float | None): The area PC. None if unknown.
                 area_drag (float | None): The area drag. None if unknown.
                 area_srp (float | None): The area SRP. None if unknown.
-                mass (Mass): The mass.
+                mass (Mass | None): The mass. None if unknown.
                 cd_area_over_mass (float | None): The CD area over mass. None if unknown.
                 cr_area_over_mass (float | None): The CR area over mass. None if unknown.
                 thrust_acceleration (float | None): The thrust acceleration. None if unknown.
@@ -933,144 +911,144 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             arg("cr_area_over_mass"),
             arg("thrust_acceleration"),
             arg("sedr"),
-            arg_v("state", State::Undefined(), "undefined"),
+            arg("state"),
             arg("covariance_matrix") = MatrixXd::Zero(9, 9)
         )
 
-        .def_readonly(
+        .def_ro(
             "time_last_observation_start",
             &CDM::Data::timeLastObStart,
             R"doc(
-                The time of the last observation start.
+                The time of the last observation start, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "time_last_observation_end",
             &CDM::Data::timeLastObEnd,
             R"doc(
-                The time of the last observation end.
+                The time of the last observation end, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "recommended_od_span",
             &CDM::Data::recommendedODSpan,
             R"doc(
-                The recommended OD span.
+                The recommended OD span, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "actual_od_span",
             &CDM::Data::actualODSpan,
             R"doc(
-                The actual OD span.
+                The actual OD span, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "observations_available",
             &CDM::Data::obsAvailable,
             R"doc(
                 The number of observations available, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "observations_used",
             &CDM::Data::obsUsed,
             R"doc(
                 The number of observations used, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "tracks_available",
             &CDM::Data::tracksAvailable,
             R"doc(
                 The number of tracks available, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "tracks_used",
             &CDM::Data::tracksUsed,
             R"doc(
                 The number of tracks used, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "residuals_accepted",
             &CDM::Data::residualsAccepted,
             R"doc(
                 The residuals accepted, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "weighted_rms",
             &CDM::Data::weightedRMS,
             R"doc(
                 The weighted RMS, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "area_pc",
             &CDM::Data::areaPC,
             R"doc(
                 The area PC, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "area_drag",
             &CDM::Data::areaDrag,
             R"doc(
                 The area drag, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "area_srp",
             &CDM::Data::areaSRP,
             R"doc(
                 The area SRP, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "mass",
             &CDM::Data::mass,
             R"doc(
-                The mass.
+                The mass, or None if not provided.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "cd_area_over_mass",
             &CDM::Data::cdAreaOverMass,
             R"doc(
                 The CD area over mass, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "cr_area_over_mass",
             &CDM::Data::crAreaOverMass,
             R"doc(
                 The CR area over mass, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "thrust_acceleration",
             &CDM::Data::thrustAcceleration,
             R"doc(
                 The thrust acceleration, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "sedr",
             &CDM::Data::SEDR,
             R"doc(
                 The SEDR, or None if unknown.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "state",
             &CDM::Data::state,
             R"doc(
                 The state.
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "covariance_matrix",
             &CDM::Data::covarianceMatrix,
             R"doc(

@@ -4,9 +4,9 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/Kepler/COE.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -82,7 +82,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                 arg("j2"),
                 arg("j4"),
                 arg("perturbation_type"),
-                arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
+                arg("frame").sig("Frame.GCRF()") = Frame::GCRF()
             )
 
             .def(
@@ -110,25 +110,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                 arg("celestial_object"),
                 arg("perturbation_type"),
                 arg("in_fixed_frame") = DEFAULT_IN_FIXED_FRAME,
-                arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
+                arg("frame").sig("Frame.GCRF()") = Frame::GCRF()
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const Kepler& self, const Kepler& other)
+                {
+                    return self == other;
+                },
+                is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const Kepler& self, const Kepler& other)
+                {
+                    return self != other;
+                },
+                is_operator()
+            )
 
             .def("__str__", &(shiftToString<Kepler>))
             .def("__repr__", &(shiftToString<Kepler>))
-
-            .def(
-                "is_defined",
-                &Kepler::isDefined,
-                R"doc(
-                    Check if the `Kepler` model is defined.
-
-                    Returns:
-                        bool: True if the `Kepler` model is defined, False otherwise.
-                )doc"
-            )
 
             .def(
                 "get_classical_orbital_elements",

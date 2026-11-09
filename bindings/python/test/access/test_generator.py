@@ -37,7 +37,7 @@ def environment() -> Environment:
 
 @pytest.fixture
 def earth(environment: Environment) -> Earth:
-    return environment.access_celestial_object_with_name("Earth")
+    return environment.get_celestial_object_with_name("Earth")
 
 
 @pytest.fixture
@@ -326,10 +326,3 @@ class TestGenerator:
 
     def test_set_state_filter_success(self, generator: Generator):
         generator.set_state_filter(state_filter=lambda state_1, state_2: True)
-
-    def test_undefined_success(self):
-        generator = Generator.undefined()
-
-        assert generator is not None
-        assert isinstance(generator, Generator)
-        assert generator.is_defined() is False

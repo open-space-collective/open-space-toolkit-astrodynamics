@@ -138,16 +138,6 @@ class OPM
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const OPM& anOPM);
 
-    /// @brief Check if the OPM is defined.
-    ///
-    /// @code{.cpp}
-    ///     OPM opm = ... ;
-    ///     bool defined = opm.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if the OPM is defined.
-    bool isDefined() const;
-
     /// @brief Get the OPM header.
     ///
     /// @code{.cpp}
@@ -200,15 +190,6 @@ class OPM
     /// @param anOutputStream An output stream.
     /// @param displayDecorator If true, display a decorator around the output.
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief Construct an undefined OPM.
-    ///
-    /// @code{.cpp}
-    ///     OPM opm = OPM::Undefined() ;
-    /// @endcode
-    ///
-    /// @return An undefined OPM.
-    static OPM Undefined();
 
     /// @brief Construct an OPM from a dictionary.
     ///

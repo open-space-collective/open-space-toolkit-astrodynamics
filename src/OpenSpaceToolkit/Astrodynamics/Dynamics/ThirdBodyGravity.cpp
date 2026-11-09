@@ -62,7 +62,7 @@ ThirdBodyGravity::ThirdBodyGravity(
         throw ostk::core::error::RuntimeError("Cannot calculate third body acceleration for the Earth yet.");
     }
 
-    usesPointMassGravitationalModel_ = celestialObjectSPtr_->accessGravitationalModel()->isPointMass();
+    usesPointMassGravitationalModel_ = celestialObjectSPtr_->getGravitationalModel()->isPointMass();
 }
 
 ThirdBodyGravity::~ThirdBodyGravity() {}
@@ -74,18 +74,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& a
     return anOutputStream;
 }
 
-bool ThirdBodyGravity::isDefined() const
-{
-    return celestialObjectSPtr_->isDefined();
-}
-
 const Shared<const Celestial>& ThirdBodyGravity::getCelestial() const
 {
-    if (!celestialObjectSPtr_->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Celestial");
-    }
-
     return celestialObjectSPtr_;
 }
 

@@ -102,18 +102,18 @@ class CDM
 
         Instant TCA;
         Length missDistance;
-        Position relativePosition = Position::Undefined();  // expressed in RTN frame at TCA
-        Velocity relativeVelocity = Velocity::Undefined();  // expressed in RTN frame at TCA
+        std::optional<Position> relativePosition = std::nullopt;  // expressed in RTN frame at TCA
+        std::optional<Velocity> relativeVelocity = std::nullopt;  // expressed in RTN frame at TCA
 
-        Instant startScreenPeriod = Instant::Undefined();  // UTC
-        Instant endScreenPeriod = Instant::Undefined();    // UTC
+        std::optional<Instant> startScreenPeriod = std::nullopt;  // UTC
+        std::optional<Instant> endScreenPeriod = std::nullopt;    // UTC
         String screenVolumeFrame = String::Empty();
         String screenVolumeShape = String::Empty();
         std::optional<double> screenVolumeX = std::nullopt;  // TBI: Make it a vector?
         std::optional<double> screenVolumeY = std::nullopt;
         std::optional<double> screenVolumeZ = std::nullopt;
-        Instant screenEntryTime = Instant::Undefined();  // UTC
-        Instant screenExitTime = Instant::Undefined();   // UTC
+        std::optional<Instant> screenEntryTime = std::nullopt;  // UTC
+        std::optional<Instant> screenExitTime = std::nullopt;   // UTC
 
         std::optional<double> collisionProbability = std::nullopt;
         String collisionProbabilityMethod = String::Empty();
@@ -161,10 +161,10 @@ class CDM
         // OD Parameters
 
         // String              ODComment = String::Empty();
-        Instant timeLastObStart = Instant::Undefined();
-        Instant timeLastObEnd = Instant::Undefined();
-        Duration recommendedODSpan = Duration::Undefined();
-        Duration actualODSpan = Duration::Undefined();
+        std::optional<Instant> timeLastObStart = std::nullopt;
+        std::optional<Instant> timeLastObEnd = std::nullopt;
+        std::optional<Duration> recommendedODSpan = std::nullopt;
+        std::optional<Duration> actualODSpan = std::nullopt;
         std::optional<int> obsAvailable = std::nullopt;
         std::optional<int> obsUsed = std::nullopt;
         std::optional<int> tracksAvailable = std::nullopt;
@@ -178,7 +178,7 @@ class CDM
         std::optional<double> areaPC = std::nullopt;  // Area, add Unit
         std::optional<double> areaDrag = std::nullopt;
         std::optional<double> areaSRP = std::nullopt;
-        Mass mass = Mass::Undefined();
+        std::optional<Mass> mass = std::nullopt;
         std::optional<double> cdAreaOverMass = std::nullopt;
         std::optional<double> crAreaOverMass = std::nullopt;
         std::optional<double> thrustAcceleration = std::nullopt;  // Acceleration, add Unit
@@ -221,16 +221,6 @@ class CDM
     /// @param anCDM A CDM.
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const CDM& anCDM);
-
-    /// @brief Check whether the CDM is defined.
-    ///
-    /// @code{.cpp}
-    ///     CDM cdm = CDM::Load(File::Path(Path::Parse("path/to/cdm.txt"))) ;
-    ///     cdm.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if defined.
-    bool isDefined() const;
 
     /// @brief Get the CDM header.
     ///
@@ -372,21 +362,21 @@ class CDM
     ///
     /// @code{.cpp}
     ///     CDM cdm = CDM::Load(File::Path(Path::Parse("path/to/cdm.txt"))) ;
-    ///     Position relativePosition = cdm.getRelativePosition() ;
+    ///     std::optional<Position> relativePosition = cdm.getRelativePosition() ;
     /// @endcode
     ///
-    /// @return The relative position at TCA.
-    const Position& getRelativePosition() const;
+    /// @return The relative position at TCA, or std::nullopt if not provided.
+    const std::optional<Position>& getRelativePosition() const;
 
     /// @brief Get the relative velocity at TCA, expressed in the RTN frame.
     ///
     /// @code{.cpp}
     ///     CDM cdm = CDM::Load(File::Path(Path::Parse("path/to/cdm.txt"))) ;
-    ///     Velocity relativeVelocity = cdm.getRelativeVelocity() ;
+    ///     std::optional<Velocity> relativeVelocity = cdm.getRelativeVelocity() ;
     /// @endcode
     ///
-    /// @return The relative velocity at TCA.
-    const Velocity& getRelativeVelocity() const;
+    /// @return The relative velocity at TCA, or std::nullopt if not provided.
+    const std::optional<Velocity>& getRelativeVelocity() const;
 
     /// @brief Get the probability of collision.
     ///
@@ -532,15 +522,6 @@ class CDM
     /// @param anOutputStream An output stream.
     /// @param displayDecorator If true, print a decorator around the output.
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief Construct an undefined CDM.
-    ///
-    /// @code{.cpp}
-    ///     CDM cdm = CDM::Undefined() ;
-    /// @endcode
-    ///
-    /// @return An undefined CDM.
-    static CDM Undefined();
 
     /// @brief Construct a CDM from a dictionary.
     ///

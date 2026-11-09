@@ -54,12 +54,6 @@ class TestLocalOrbitalFrameDirection:
             local_orbital_frame_direction.get_local_orbital_frame_factory(),
         )
 
-    def test_is_defined(
-        self,
-        local_orbital_frame_direction: LocalOrbitalFrameDirection,
-    ):
-        assert local_orbital_frame_direction.is_defined()
-
     def test_getters(
         self,
         local_orbital_frame_direction: LocalOrbitalFrameDirection,
@@ -71,11 +65,3 @@ class TestLocalOrbitalFrameDirection:
             local_orbital_frame_direction.get_local_orbital_frame_factory()
             == local_orbital_frame_factory
         )
-
-    def test_undefined(
-        self,
-    ):
-        local_orbital_frame_direction: LocalOrbitalFrameDirection = (
-            LocalOrbitalFrameDirection.undefined()
-        )
-        assert local_orbital_frame_direction.is_defined() is False

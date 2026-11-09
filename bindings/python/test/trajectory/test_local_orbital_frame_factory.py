@@ -96,13 +96,6 @@ class TestLocalOrbitalFrameFactory:
         frame = local_orbital_frame_factory.generate_frame(state=state)
 
         assert frame is not None
-        assert frame.is_defined()
-
-    def test_is_defined(
-        self,
-        local_orbital_frame_factory: LocalOrbitalFrameFactory,
-    ):
-        assert local_orbital_frame_factory.is_defined()
 
     def test_constructor(
         self,

@@ -20,6 +20,14 @@ from ostk.astrodynamics.trajectory import State
 from ostk.astrodynamics.conjunction.message.ccsds import CDM
 
 
+def make_state() -> State:
+    return State(
+        Instant.date_time(datetime(2010, 3, 13, 22, 37, 52, 618), Scale.UTC),
+        Position.meters([7.0e6, 0.0, 0.0], Frame.GCRF()),
+        Velocity.meters_per_second([0.0, 7.5e3, 0.0], Frame.GCRF()),
+    )
+
+
 @pytest.fixture
 def cdm() -> CDM:
     return CDM(
@@ -118,6 +126,7 @@ def cdm() -> CDM:
                 cr_area_over_mass=0.0,
                 thrust_acceleration=0.0,
                 sedr=0.0,
+                state=make_state(),
             ),
             CDM.Data(
                 time_last_observation_start=Instant.date_time(
@@ -142,6 +151,7 @@ def cdm() -> CDM:
                 cr_area_over_mass=0.0,
                 thrust_acceleration=0.0,
                 sedr=0.0,
+                state=make_state(),
             ),
         ],
     )
@@ -316,10 +326,10 @@ class TestCDM:
 
     def test_data_without_optional_values(self):
         data = CDM.Data(
-            time_last_observation_start=Instant.undefined(),
-            time_last_observation_end=Instant.undefined(),
-            recommended_od_span=Duration.undefined(),
-            actual_od_span=Duration.undefined(),
+            time_last_observation_start=None,
+            time_last_observation_end=None,
+            recommended_od_span=None,
+            actual_od_span=None,
             observations_available=None,
             observations_used=None,
             tracks_available=None,
@@ -334,6 +344,7 @@ class TestCDM:
             cr_area_over_mass=None,
             thrust_acceleration=None,
             sedr=None,
+            state=make_state(),
         )
 
         assert data.observations_available is None
@@ -352,10 +363,10 @@ class TestCDM:
 
     def test_data_with_optional_values(self):
         data = CDM.Data(
-            time_last_observation_start=Instant.undefined(),
-            time_last_observation_end=Instant.undefined(),
-            recommended_od_span=Duration.undefined(),
-            actual_od_span=Duration.undefined(),
+            time_last_observation_start=None,
+            time_last_observation_end=None,
+            recommended_od_span=None,
+            actual_od_span=None,
             observations_available=None,
             observations_used=None,
             tracks_available=None,
@@ -370,6 +381,7 @@ class TestCDM:
             cr_area_over_mass=0.2,
             thrust_acceleration=0.0,
             sedr=0.3,
+            state=make_state(),
         )
 
         assert data.residuals_accepted == 97.8
@@ -388,10 +400,10 @@ class TestCDM:
                 datetime(2010, 3, 13, 22, 37, 52, 618), Scale.UTC
             ),
             miss_distance=Length.meters(715.0),
-            start_screen_period=Instant.undefined(),
-            end_screen_period=Instant.undefined(),
-            screen_entry_time=Instant.undefined(),
-            screen_exit_time=Instant.undefined(),
+            start_screen_period=None,
+            end_screen_period=None,
+            screen_entry_time=None,
+            screen_exit_time=None,
             collision_probability_method="FOSTER-1992",
         )
 
@@ -406,10 +418,10 @@ class TestCDM:
             relative_metadata=CDM.RelativeMetadata(
                 time_of_closest_approach=cdm.get_time_of_closest_approach(),
                 miss_distance=cdm.get_miss_distance(),
-                start_screen_period=Instant.undefined(),
-                end_screen_period=Instant.undefined(),
-                screen_entry_time=Instant.undefined(),
-                screen_exit_time=Instant.undefined(),
+                start_screen_period=None,
+                end_screen_period=None,
+                screen_entry_time=None,
+                screen_exit_time=None,
                 collision_probability=None,
                 collision_probability_method="FOSTER-1992",
             ),
@@ -459,10 +471,10 @@ class TestCDM:
         assert cdm.get_miss_distance() == Length.meters(715.0)
 
     def test_get_relative_position(self, cdm: CDM):
-        assert cdm.get_relative_position().is_defined() is False
+        assert cdm.get_relative_position() is None
 
     def test_get_relative_velocity(self, cdm: CDM):
-        assert cdm.get_relative_velocity().is_defined() is False
+        assert cdm.get_relative_velocity() is None
 
     def test_get_collision_probability(self, cdm: CDM):
         assert cdm.get_collision_probability() == 0.0000435
@@ -470,8 +482,26 @@ class TestCDM:
     def test_get_collision_probability_method(self, cdm: CDM):
         assert cdm.get_collision_probability_method() == "FOSTER-1992"
 
-    def test_undefined(self):
-        assert CDM.undefined().is_defined() is False
+    def test_get_relative_position_and_velocity_provided(self, cdm: CDM):
+        relative_metadata = CDM.RelativeMetadata(
+            time_of_closest_approach=cdm.get_time_of_closest_approach(),
+            miss_distance=cdm.get_miss_distance(),
+            relative_position=Position.meters([27.4, -70.2, 711.8], Frame.GCRF()),
+            relative_velocity=Velocity.meters_per_second(
+                [-7.2, 14692.0, -1437.2], Frame.GCRF()
+            ),
+            collision_probability_method="FOSTER-1992",
+        )
+
+        cdm_with_relative_state = CDM(
+            header=cdm.get_header(),
+            relative_metadata=relative_metadata,
+            objects_metadata_array=cdm.get_metadata_array(),
+            objects_data_array=cdm.get_data_array(),
+        )
+
+        assert cdm_with_relative_state.get_relative_position() is not None
+        assert cdm_with_relative_state.get_relative_velocity() is not None
 
     def test_dictionary(self, cdm_spacetrack_dictionary: dict):
         dictionary = Dictionary(cdm_spacetrack_dictionary)
@@ -491,8 +521,8 @@ class TestCDM:
             datetime(2022, 12, 27, 13, 28, 59, 516000), Scale.UTC
         )
         assert cdm.get_miss_distance() == Length.meters(974.0)
-        assert cdm.get_relative_position().is_defined() is False
-        assert cdm.get_relative_velocity().is_defined() is False
+        assert cdm.get_relative_position() is None
+        assert cdm.get_relative_velocity() is None
         assert cdm.get_collision_probability() == 5.162516e-16
         assert cdm.get_collision_probability_method() == "FOSTER-1992"
 

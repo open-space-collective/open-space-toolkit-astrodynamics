@@ -75,12 +75,6 @@ class TestTrajectory:
     ):
         assert Trajectory(states) is not None
 
-    def test_is_defined(
-        self,
-        trajectory: Trajectory,
-    ):
-        assert trajectory.is_defined()
-
     def test_get_model(
         self,
         trajectory: Trajectory,
@@ -104,14 +98,12 @@ class TestTrajectory:
             is not None
         )
 
-    def test_trajectory_undefined(self):
+    def test_trajectory_without_enough_states_failure(self):
         assert not hasattr(Trajectory, "undefined")
+        assert not hasattr(Trajectory, "is_defined")
 
-        trajectory: Trajectory = Trajectory([])
-
-        assert trajectory is not None
-        assert isinstance(trajectory, Trajectory)
-        assert trajectory.is_defined() is False
+        with pytest.raises(Exception):
+            Trajectory([])
 
     def test_trajectory_position(
         self,

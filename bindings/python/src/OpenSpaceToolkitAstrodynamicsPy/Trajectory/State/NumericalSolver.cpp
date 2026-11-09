@@ -1,12 +1,10 @@
 /// Apache License 2.0
 
-#include <pybind11/functional.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
 
@@ -43,7 +41,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
         )doc"
     )
-        .def_readonly(
+        .def_ro(
             "state",
             &NumericalSolver::ConditionSolution::state,
             R"doc(
@@ -53,7 +51,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     State
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "condition_is_satisfied",
             &NumericalSolver::ConditionSolution::conditionIsSatisfied,
             R"doc(
@@ -63,7 +61,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     bool
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "iteration_count",
             &NumericalSolver::ConditionSolution::iterationCount,
             R"doc(
@@ -73,7 +71,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     int
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "root_solver_has_converged",
             &NumericalSolver::ConditionSolution::rootSolverHasConverged,
             R"doc(
@@ -116,26 +114,29 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                 arg("time_step"),
                 arg("relative_tolerance"),
                 arg("absolute_tolerance"),
-                arg_v("root_solver", RootSolver::Default(), "RootSolver.default()"),
+                arg("root_solver").sig("RootSolver.default()") = RootSolver::Default(),
                 arg("state_logger") = none()
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const NumericalSolver& self, const NumericalSolver& other)
+                {
+                    return self == other;
+                },
+                is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const NumericalSolver& self, const NumericalSolver& other)
+                {
+                    return self != other;
+                },
+                is_operator()
+            )
 
             .def("__str__", &(shiftToString<NumericalSolver>))
             .def("__repr__", &(shiftToString<NumericalSolver>))
-
-            .def(
-                "is_defined",
-                &NumericalSolver::isDefined,
-                R"doc(
-                    Check if the numerical solver is defined.
-
-                    Returns:
-                        bool: True if the numerical solver is defined, False otherwise.
-                )doc"
-            )
 
             .def(
                 "get_observed_states",
@@ -188,7 +189,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const bool& appendObservedStates) -> State
                 {
                     const auto pythonDynamicsEquation =
-                        pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
+                        nanobind::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
 
                     const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
                         [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
@@ -228,7 +229,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const object& aSystemOfEquationsObject) -> Array<State>
                 {
                     const auto pythonDynamicsEquation =
-                        pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
+                        nanobind::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
 
                     const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
                         [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
@@ -266,7 +267,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
                     const bool& appendObservedStates) -> NumericalSolver::ConditionSolution
                 {
                     const auto pythonDynamicsEquation =
-                        pybind11::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
+                        nanobind::cast<pythonSystemOfEquationsSignature>(aSystemOfEquationsObject);
 
                     const NumericalSolver::SystemOfEquationsWrapper& systemOfEquations =
                         [&](const NumericalSolver::StateVector& x, NumericalSolver::StateVector& dxdt, const double t
@@ -310,16 +311,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_NumericalSolver(pyb
 
                     Returns:
                         NumericalSolver: The default numerical solver.
-                )doc"
-            )
-            .def_static(
-                "undefined",
-                &NumericalSolver::Undefined,
-                R"doc(
-                    Return an undefined numerical solver.
-
-                    Returns:
-                        NumericalSolver: The undefined numerical solver.
                 )doc"
             )
             .def_static(

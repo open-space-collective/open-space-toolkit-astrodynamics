@@ -48,16 +48,6 @@ class PositionDerivative : public Dynamics
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative& aPositionDerivative);
 
-    /// @brief Check if the position derivative dynamics is defined.
-    ///
-    /// @code{.cpp}
-    ///     PositionDerivative positionDerivative = {} ;
-    ///     bool defined = positionDerivative.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if the position derivative dynamics is defined.
-    virtual bool isDefined() const override;
-
     /// @brief Get the coordinate subsets that the instance reads from.
     ///
     /// @code{.cpp}

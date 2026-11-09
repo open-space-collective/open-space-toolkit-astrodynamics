@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -32,7 +32,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
         .def(
             init<const NumericalSolver&, const Array<Shared<Dynamics>>&>(),
             arg("numerical_solver"),
-            arg_v("dynamics", Array<Shared<Dynamics>>::Empty(), "[]"),
+            arg("dynamics").sig("[]") = Array<Shared<Dynamics>>::Empty(),
             R"doc(
                 Construct a new `Propagator` object.
 
@@ -46,23 +46,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const Propagator& self, const Propagator& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const Propagator& self, const Propagator& other)
+            {
+                return self != other;
+            },
+            is_operator()
+        )
 
         .def("__str__", &(shiftToString<Propagator>))
         .def("__repr__", &(shiftToString<Propagator>))
-
-        .def(
-            "is_defined",
-            &Propagator::isDefined,
-            R"doc(
-                Check if the propagator is defined.
-
-                Returns:
-                    bool: True if the propagator is defined, False otherwise.
-
-            )doc"
-        )
 
         .def(
             "get_numerical_solver",
@@ -136,7 +138,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             &Propagator::calculateStateAt,
             arg("state"),
             arg("instant"),
-            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
+            arg("maneuvers").sig("[]") = Array<Maneuver>::Empty(),
             R"doc(
                 Calculate the state at a given instant.
 
@@ -158,7 +160,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             arg("state"),
             arg("instant"),
             arg("event_condition"),
-            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
+            arg("maneuvers").sig("[]") = Array<Maneuver>::Empty(),
             R"doc(
                 Calculate the state up to a given event condition.
 
@@ -181,7 +183,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Propagator(pybind11::modu
             &Propagator::calculateStatesAt,
             arg("state"),
             arg("instants"),
-            arg_v("maneuvers", Array<Maneuver>::Empty(), "[]"),
+            arg("maneuvers").sig("[]") = Array<Maneuver>::Empty(),
             R"doc(
                 Calculate the states at given instants. It is more performant than looping `calculate_state_at` for multiple instants.
 

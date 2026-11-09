@@ -154,16 +154,6 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const SGP4& aSGP4Model);
 
-    /// @brief Check if the SGP4 model is defined.
-    ///
-    /// @code{.cpp}
-    ///     SGP4 sgp4 = SGP4(tle);
-    ///     bool isDefined = sgp4.isDefined();
-    /// @endcode
-    ///
-    /// @return True if the model is defined.
-    virtual bool isDefined() const override;
-
     /// @brief Get the TLE associated with this model.
     ///
     /// @code{.cpp}

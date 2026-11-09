@@ -157,15 +157,6 @@ class NumericalSolver : public MathNumericalSolver
         const bool& appendObservedStates = false
     );
 
-    /// @brief Construct an undefined numerical solver.
-    ///
-    /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::Undefined();
-    /// @endcode
-    ///
-    /// @return An undefined numerical solver.
-    static NumericalSolver Undefined();
-
     /// @brief Construct a default numerical solver.
     ///
     /// @code{.cpp}
@@ -216,9 +207,7 @@ class NumericalSolver : public MathNumericalSolver
         const SystemOfEquationsWrapper& aSystemOfEquations
     ) = delete;
 
-    Array<MathNumericalSolver::Solution> getObservedStateVectors() const = delete;
-
-    const Array<MathNumericalSolver::Solution>& accessObservedStateVectors() const = delete;
+    const Array<MathNumericalSolver::Solution>& getObservedStateVectors() const = delete;
 
    private:
     RootSolver rootSolver_;

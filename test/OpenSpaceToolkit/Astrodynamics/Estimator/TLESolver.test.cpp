@@ -87,12 +87,12 @@ Array<State> loadData(const String& aFileName, const Shared<const Frame>& aFrame
 
     for (const auto& observationRow : observationData)
     {
-        const Instant instant = Instant::DateTime(DateTime::Parse(observationRow[0].accessString()), Scale::UTC);
+        const Instant instant = Instant::DateTime(DateTime::Parse(observationRow[0].getString()), Scale::UTC);
         const Position position = Position::Meters(
-            {observationRow[1].accessReal(), observationRow[2].accessReal(), observationRow[3].accessReal()}, aFrameSPtr
+            {observationRow[1].getReal(), observationRow[2].getReal(), observationRow[3].getReal()}, aFrameSPtr
         );
         const Velocity velocity = Velocity::MetersPerSecond(
-            {observationRow[4].accessReal(), observationRow[5].accessReal(), observationRow[6].accessReal()}, aFrameSPtr
+            {observationRow[4].getReal(), observationRow[5].getReal(), observationRow[6].getReal()}, aFrameSPtr
         );
 
         const State state = State(instant, position, velocity);
@@ -105,7 +105,7 @@ Array<State> loadData(const String& aFileName, const Shared<const Frame>& aFrame
 
 Array<State> truncateObservations(const Array<State>& anObservations, const Duration& aDuration)
 {
-    const Instant observationsCutoffInstant = anObservations.accessLast().getInstant() - aDuration;
+    const Instant observationsCutoffInstant = anObservations.getLast().getInstant() - aDuration;
     return anObservations.getWhere(
         [&observationsCutoffInstant](const auto& observation)
         {
@@ -116,7 +116,7 @@ Array<State> truncateObservations(const Array<State>& anObservations, const Dura
 
 Array<State> truncatePredictions(const Array<State>& aPredictions, const Duration& aDuration)
 {
-    const Instant predictsCutoffInstant = aPredictions.accessFirst().getInstant() + aDuration;
+    const Instant predictsCutoffInstant = aPredictions.getFirst().getInstant() + aDuration;
     return aPredictions.getWhere(
         [&predictsCutoffInstant](const auto& prediction)
         {

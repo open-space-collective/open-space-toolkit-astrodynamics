@@ -45,18 +45,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const CentralBodyGravity&
     return anOutputStream;
 }
 
-bool CentralBodyGravity::isDefined() const
-{
-    return celestialObjectSPtr_->isDefined();
-}
-
 const Shared<const Celestial>& CentralBodyGravity::getCelestial() const
 {
-    if (!celestialObjectSPtr_->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Celestial");
-    }
-
     return celestialObjectSPtr_;
 }
 

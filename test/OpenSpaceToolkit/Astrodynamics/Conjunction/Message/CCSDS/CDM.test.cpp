@@ -30,9 +30,18 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM : public ::te
    protected:
     // https://public.ccsds.org/Pubs/508x0b1e2c2.pdf (section 3.6.3 - page 3-12)
 
-    void SetUp() override
+    static State MakeState()
     {
-        this->cdm_ = CDM {
+        return State(
+            Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC),
+            Position::Meters({7000e3, 0.0, 0.0}, Frame::GCRF()),
+            Velocity::MetersPerSecond({0.0, 7500.0, 0.0}, Frame::GCRF())
+        );
+    }
+
+    static CDM MakeCDM()
+    {
+        return CDM {
             CDM::Header {
                 "1.0",
                 String::Empty(),
@@ -45,8 +54,8 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM : public ::te
                 String::Empty(),
                 Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC),
                 Length::Meters(715.0),
-                Position::Undefined(),  // Position::Meters({ 27.4, -70.2, 711.8 }, Frame::RTN()),
-                Velocity::Undefined(),  // Velocity::MetersPerSecond({ -7.2, 14692.0, -1437.2 }, Frame::RTN()),
+                std::nullopt,  // Position::Meters({ 27.4, -70.2, 711.8 }, Frame::RTN()),
+                std::nullopt,  // Velocity::MetersPerSecond({ -7.2, 14692.0, -1437.2 }, Frame::RTN()),
                 Instant::DateTime(DateTime(2010, 3, 12, 18, 29, 32, 212), Scale::UTC),
                 Instant::DateTime(DateTime(2010, 3, 15, 18, 29, 32, 212), Scale::UTC),
                 "RTN",
@@ -126,7 +135,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM : public ::te
                  0.0,
                  0.0,
                  0.000045457,
-                 State::Undefined(),
+                 MakeState(),
                  MatrixXd(9, 9)
              },
              CDM::Data {
@@ -148,25 +157,14 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM : public ::te
                  std::nullopt,
                  std::nullopt,
                  std::nullopt,
-                 State::Undefined(),
+                 MakeState(),
                  MatrixXd(9, 9)
              }}
         };
     }
 
-    CDM cdm_ = CDM::Undefined();
+    CDM cdm_ = MakeCDM();
 };
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, IsDefined)
-{
-    {
-        EXPECT_TRUE(this->cdm_.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(CDM::Undefined().isDefined());
-    }
-}
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetHeader)
 {
@@ -180,10 +178,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetHeader)
         EXPECT_EQ("SATELLITE A", header.messageFor);
         EXPECT_EQ("201113719185", header.messageId);
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getHeader());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelativeMetadata)
@@ -194,13 +188,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelative
         EXPECT_EQ(String::Empty(), relativeMetadata.comment);
         EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC), relativeMetadata.TCA);
         EXPECT_EQ(Length::Meters(715.0), relativeMetadata.missDistance);
-        // EXPECT_EQ(Position::Undefined(), relativeMetadata.relativePosition);
-        // EXPECT_EQ(Velocity::Undefined(), relativeMetadata.relativeVelocity);
+        EXPECT_FALSE(relativeMetadata.relativePosition.has_value());
+        EXPECT_FALSE(relativeMetadata.relativeVelocity.has_value());
         EXPECT_EQ(
-            Instant::DateTime(DateTime(2010, 3, 12, 18, 29, 32, 212), Scale::UTC), relativeMetadata.startScreenPeriod
+            Instant::DateTime(DateTime(2010, 3, 12, 18, 29, 32, 212), Scale::UTC), *relativeMetadata.startScreenPeriod
         );
         EXPECT_EQ(
-            Instant::DateTime(DateTime(2010, 3, 15, 18, 29, 32, 212), Scale::UTC), relativeMetadata.endScreenPeriod
+            Instant::DateTime(DateTime(2010, 3, 15, 18, 29, 32, 212), Scale::UTC), *relativeMetadata.endScreenPeriod
         );
         EXPECT_EQ("RTN", relativeMetadata.screenVolumeFrame);
         EXPECT_EQ("ELLIPSOID", relativeMetadata.screenVolumeShape);
@@ -208,17 +202,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelative
         EXPECT_EQ(std::optional<double>(1000.0), relativeMetadata.screenVolumeY);
         EXPECT_EQ(std::optional<double>(1000.0), relativeMetadata.screenVolumeZ);
         EXPECT_EQ(
-            Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 222), Scale::UTC), relativeMetadata.screenEntryTime
+            Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 222), Scale::UTC), *relativeMetadata.screenEntryTime
         );
         EXPECT_EQ(
-            Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 824), Scale::UTC), relativeMetadata.screenExitTime
+            Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 824), Scale::UTC), *relativeMetadata.screenExitTime
         );
         EXPECT_EQ(std::optional<double>(0.0000435), relativeMetadata.collisionProbability);
         EXPECT_EQ("FOSTER-1992", relativeMetadata.collisionProbabilityMethod);
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getRelativeMetadata());
     }
 }
 
@@ -229,10 +219,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMetadata
 
         EXPECT_EQ(objectsMetadataArray.getSize(), 2);
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getMetadataArray());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetDataArray)
@@ -241,10 +227,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetDataArra
         const Array<CDM::Data> objectsDataArray = this->cdm_.getDataArray();
 
         EXPECT_EQ(objectsDataArray.getSize(), 2);
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getDataArray());
     }
 }
 
@@ -283,10 +265,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectMe
     {
         EXPECT_ANY_THROW(this->cdm_.getObjectMetadataAt(2));
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectMetadataAt(0));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDataAt)
@@ -294,10 +272,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDa
     {
         const CDM::Data objectData = this->cdm_.getObjectDataAt(0);
 
-        EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC), objectData.timeLastObStart);
-        EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC), objectData.timeLastObEnd);
-        EXPECT_EQ(Duration::Days(7.88), objectData.recommendedODSpan);
-        EXPECT_EQ(Duration::Days(5.50), objectData.actualODSpan);
+        EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC), *objectData.timeLastObStart);
+        EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 12, 2, 14, 12, 746), Scale::UTC), *objectData.timeLastObEnd);
+        EXPECT_EQ(Duration::Days(7.88), *objectData.recommendedODSpan);
+        EXPECT_EQ(Duration::Days(5.50), *objectData.actualODSpan);
         EXPECT_EQ(std::optional<int>(592), objectData.obsAvailable);
         EXPECT_EQ(std::optional<int>(579), objectData.obsUsed);
         EXPECT_EQ(std::optional<int>(123), objectData.tracksAvailable);
@@ -307,12 +285,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDa
         EXPECT_EQ(std::optional<double>(5.2), objectData.areaPC);
         EXPECT_FALSE(objectData.areaDrag.has_value());
         EXPECT_FALSE(objectData.areaSRP.has_value());
-        EXPECT_EQ(Mass::Kilograms(251.6), objectData.mass);
+        EXPECT_EQ(Mass::Kilograms(251.6), *objectData.mass);
         EXPECT_EQ(std::optional<double>(0.045663), objectData.cdAreaOverMass);
         EXPECT_EQ(std::optional<double>(0.0), objectData.crAreaOverMass);
         EXPECT_EQ(std::optional<double>(0.0), objectData.thrustAcceleration);
         EXPECT_EQ(std::optional<double>(0.000045457), objectData.SEDR);
-        // EXPECT_EQ(State::Undefined(), objectData.state );
         // EXPECT_EQ(MatrixXd(9, 9), objectData.covarianceMatrix );
     }
 
@@ -323,21 +300,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDa
     {
         EXPECT_ANY_THROW(this->cdm_.getObjectDataAt(2));
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectDataAt(0));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, DataWithoutObservationCounts)
 {
     {
-        const CDM::Data objectData = {
-            Instant::Undefined(), Instant::Undefined(), Duration::Undefined(), Duration::Undefined(), std::nullopt,
-            std::nullopt,         std::nullopt,         std::nullopt,          std::nullopt,          std::nullopt,
-            std::nullopt,         std::nullopt,         std::nullopt,          Mass::Undefined(),     std::nullopt,
-            std::nullopt,         std::nullopt,         std::nullopt,          State::Undefined(),    MatrixXd(9, 9)
-        };
+        const CDM::Data objectData = {std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                      std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                      std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                      std::nullopt, std::nullopt, std::nullopt, MakeState(),  MatrixXd(9, 9)};
 
         EXPECT_FALSE(objectData.obsAvailable.has_value());
         EXPECT_FALSE(objectData.obsUsed.has_value());
@@ -372,12 +343,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, DataWithout
     }
 
     {
-        const CDM::Data objectData =
-            CDM::Data {Instant::Undefined(), Instant::Undefined(), Duration::Undefined(), Duration::Undefined(),
-                       std::nullopt,         std::nullopt,         std::nullopt,          std::nullopt,
-                       std::nullopt,         std::nullopt,         std::nullopt,          std::nullopt,
-                       std::nullopt,         Mass::Undefined(),    std::nullopt,          std::nullopt,
-                       std::nullopt,         std::nullopt,         State::Undefined(),    MatrixXd(9, 9)};
+        const CDM::Data objectData = CDM::Data {std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                                std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                                std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                                std::nullopt, std::nullopt, std::nullopt, MakeState(),  MatrixXd(9, 9)};
 
         EXPECT_FALSE(objectData.residualsAccepted.has_value());
         EXPECT_FALSE(objectData.weightedRMS.has_value());
@@ -396,20 +365,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetCCSDSCDM
     {
         EXPECT_EQ("1.0", this->cdm_.getCCSDSCDMVersion());
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getCCSDSCDMVersion());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, getCreationDate)
 {
     {
         EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 12, 22, 31, 12), Scale::UTC), this->cdm_.getCreationDate());
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getCreationDate());
     }
 }
 
@@ -418,20 +379,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetOriginat
     {
         EXPECT_EQ("JSPOC", this->cdm_.getOriginator());
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getOriginator());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMessageFor)
 {
     {
         EXPECT_EQ("SATELLITE A", this->cdm_.getMessageFor());
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getMessageFor());
     }
 }
 
@@ -440,20 +393,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMessageI
     {
         EXPECT_EQ("201113719185", this->cdm_.getMessageId());
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getMessageId());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetTCA)
 {
     {
         EXPECT_EQ(Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC), this->cdm_.getTCA());
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getTCA());
     }
 }
 
@@ -462,45 +407,51 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetMissDist
     {
         EXPECT_EQ(Length::Meters(715.0), this->cdm_.getMissDistance());
     }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelativePosition)
+{
+    {
+        EXPECT_FALSE(this->cdm_.getRelativePosition().has_value());
+    }
 
     {
-        EXPECT_ANY_THROW(CDM::Undefined().getMissDistance());
+        CDM::RelativeMetadata relativeMetadata = this->cdm_.getRelativeMetadata();
+        relativeMetadata.relativePosition = Position::Meters({27.4, -70.2, 711.8}, Frame::GCRF());
+
+        const CDM cdm = {
+            this->cdm_.getHeader(), relativeMetadata, this->cdm_.getMetadataArray(), this->cdm_.getDataArray()
+        };
+
+        ASSERT_TRUE(cdm.getRelativePosition().has_value());
+        EXPECT_EQ(
+            Position::Meters({27.4, -70.2, 711.8}, Frame::GCRF()).getCoordinates(),
+            cdm.getRelativePosition()->getCoordinates()
+        );
     }
 }
 
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelativePosition)
-// {
+TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelativeVelocity)
+{
+    {
+        EXPECT_FALSE(this->cdm_.getRelativeVelocity().has_value());
+    }
 
-//     {
+    {
+        CDM::RelativeMetadata relativeMetadata = this->cdm_.getRelativeMetadata();
+        relativeMetadata.relativeVelocity = Velocity::MetersPerSecond({-7.2, 14692.0, -1437.2}, Frame::GCRF());
 
-//         EXPECT_EQ(Length.Meters(715.0), this->cdm_.getRelativePosition());
+        const CDM cdm = {
+            this->cdm_.getHeader(), relativeMetadata, this->cdm_.getMetadataArray(), this->cdm_.getDataArray()
+        };
 
-//     }
-
-//     {
-
-//         EXPECT_ANY_THROW(CDM::Undefined().getRelativePosition());
-
-//     }
-
-// }
-
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetRelativeVelocity)
-// {
-
-//     {
-
-//         EXPECT_EQ(Length.Meters(715.0), this->cdm_.getRelativeVelocity());
-
-//     }
-
-//     {
-
-//         EXPECT_ANY_THROW(CDM::Undefined().getRelativeVelocity());
-
-//     }
-
-// }
+        ASSERT_TRUE(cdm.getRelativeVelocity().has_value());
+        EXPECT_EQ(
+            Velocity::MetersPerSecond({-7.2, 14692.0, -1437.2}, Frame::GCRF()).getCoordinates(),
+            cdm.getRelativeVelocity()->getCoordinates()
+        );
+    }
+}
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetCollisionProbability)
 {
@@ -515,17 +466,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetCollisio
                 String::Empty(),
                 Instant::DateTime(DateTime(2010, 3, 13, 22, 37, 52, 618), Scale::UTC),
                 Length::Meters(715.0),
-                Position::Undefined(),
-                Velocity::Undefined(),
-                Instant::Undefined(),
-                Instant::Undefined(),
+                std::nullopt,
+                std::nullopt,
+                std::nullopt,
+                std::nullopt,
                 String::Empty(),
                 String::Empty(),
                 std::nullopt,
                 std::nullopt,
                 std::nullopt,
-                Instant::Undefined(),
-                Instant::Undefined(),
+                std::nullopt,
+                std::nullopt,
                 std::nullopt,
                 String::Empty()
             },
@@ -535,20 +486,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetCollisio
 
         EXPECT_FALSE(cdm.getCollisionProbability().has_value());
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getCollisionProbability());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetCollisionProbabilityMethod)
 {
     {
         EXPECT_EQ("FOSTER-1992", this->cdm_.getCollisionProbabilityMethod());
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getCollisionProbabilityMethod());
     }
 }
 
@@ -557,20 +500,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectDe
     {
         EXPECT_EQ(30337, this->cdm_.getObjectDesignator(1));
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectDesignator(1));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectName)
 {
     {
         EXPECT_EQ("FENGYUN 1C DEB", this->cdm_.getObjectName(1));
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectName(1));
     }
 }
 
@@ -579,20 +514,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectIn
     {
         EXPECT_EQ("1999-025AA", this->cdm_.getObjectInternationalDesignator(1));
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectInternationalDesignator(1));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectType)
 {
     {
         EXPECT_EQ(CDM::ObjectType::Debris, this->cdm_.getObjectType(1));
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectType(1));
     }
 }
 
@@ -601,20 +528,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectEp
     {
         EXPECT_EQ("NONE", this->cdm_.getObjectEphemerisName(1));
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectEphemerisName(1));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectCovarianceMethod)
 {
     {
         EXPECT_EQ("CALCULATED", this->cdm_.getObjectCovarianceMethod(1));
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectCovarianceMethod(1));
     }
 }
 
@@ -623,61 +542,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectMa
     {
         EXPECT_EQ("NO", this->cdm_.getObjectManeuverability(1));
     }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectManeuverability(1));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectReferenceFrame)
 {
     {
         EXPECT_EQ("EME2000", this->cdm_.getObjectReferenceFrame(1));
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Undefined().getObjectReferenceFrame(1));
-    }
-}
-
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectStateAtTCA)
-// {
-
-//     {
-
-//         EXPECT_EQ("EME2000", this->cdm_.getObjectStateAtTCA(1));
-
-//     }
-
-//     {
-
-//         EXPECT_ANY_THROW(CDM::Undefined().getObjectStateAtTCA(1));
-
-//     }
-
-// }
-
-// TEST_F (OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, GetObjectCovarianceMatrix)
-// {
-
-//     {
-
-//         EXPECT_EQ("EME2000", this->cdm_.getObjectCovarianceMatrix(1));
-
-//     }
-
-//     {
-
-//         EXPECT_ANY_THROW(CDM::Undefined().getObjectCovarianceMatrix(1));
-
-//     }
-
-// }
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, Undefined)
-{
-    {
-        EXPECT_NO_THROW(CDM::Undefined());
     }
 }
 
@@ -759,10 +629,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM, Load)
         const CDM cdm = CDM::Load(
             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM/cdm.json"))
         );
-    }
-
-    {
-        EXPECT_ANY_THROW(CDM::Load(File::Undefined()));
     }
 }
 

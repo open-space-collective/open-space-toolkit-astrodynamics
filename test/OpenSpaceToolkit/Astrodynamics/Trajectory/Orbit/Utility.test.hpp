@@ -71,50 +71,50 @@ void testOrbit(
 
     for (const auto& referenceRow : referenceData)
     {
-        const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+        const Instant instant = Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC);
 
         const Vector3d referencePosition_GCRF = {
-            referenceRow[1].accessReal(), referenceRow[2].accessReal(), referenceRow[3].accessReal()
+            referenceRow[1].getReal(), referenceRow[2].getReal(), referenceRow[3].getReal()
         };
         const Vector3d referenceVelocity_GCRF = {
-            referenceRow[4].accessReal(), referenceRow[5].accessReal(), referenceRow[6].accessReal()
+            referenceRow[4].getReal(), referenceRow[5].getReal(), referenceRow[6].getReal()
         };
 
         const Vector3d referencePosition_ITRF = {
-            referenceRow[7].accessReal(), referenceRow[8].accessReal(), referenceRow[9].accessReal()
+            referenceRow[7].getReal(), referenceRow[8].getReal(), referenceRow[9].getReal()
         };
         const Vector3d referenceVelocity_ITRF = {
-            referenceRow[10].accessReal(), referenceRow[11].accessReal(), referenceRow[12].accessReal()
+            referenceRow[10].getReal(), referenceRow[11].getReal(), referenceRow[12].getReal()
         };
 
-        const double referenceRevolutionNumber = referenceRow[13].accessReal();
+        const double referenceRevolutionNumber = referenceRow[13].getReal();
 
         const State state_GCRF = anOrbit.getStateAt(instant);
 
         const Position position_GCRF = state_GCRF.getPosition();
         const Velocity velocity_GCRF = state_GCRF.getVelocity();
 
-        ASSERT_EQ(Frame::GCRF(), position_GCRF.accessFrame());
-        ASSERT_EQ(Frame::GCRF(), velocity_GCRF.accessFrame());
+        ASSERT_EQ(Frame::GCRF(), position_GCRF.getFrame());
+        ASSERT_EQ(Frame::GCRF(), velocity_GCRF.getFrame());
 
-        ASSERT_GT(aPositionTolerance_GCRF, (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm())
+        ASSERT_GT(aPositionTolerance_GCRF, (position_GCRF.getCoordinates() - referencePosition_GCRF).norm())
             << String::Format(
                    "[{}] {}: {} ≉ {} Δ {} > {} [m]",
                    aScenarioIdentifier,
                    instant.toString(),
                    referencePosition_GCRF.toString(),
-                   position_GCRF.accessCoordinates().toString(),
-                   (position_GCRF.accessCoordinates() - referencePosition_GCRF).norm(),
+                   position_GCRF.getCoordinates().toString(),
+                   (position_GCRF.getCoordinates() - referencePosition_GCRF).norm(),
                    aPositionTolerance_GCRF
                );
-        ASSERT_GT(aVelocityTolerance_GCRF, (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm())
+        ASSERT_GT(aVelocityTolerance_GCRF, (velocity_GCRF.getCoordinates() - referenceVelocity_GCRF).norm())
             << String::Format(
                    "[{}] {}: {} ≉ {} Δ {} > {} [m/s]",
                    aScenarioIdentifier,
                    instant.toString(),
                    referenceVelocity_GCRF.toString(),
-                   velocity_GCRF.accessCoordinates().toString(),
-                   (velocity_GCRF.accessCoordinates() - referenceVelocity_GCRF).norm(),
+                   velocity_GCRF.getCoordinates().toString(),
+                   (velocity_GCRF.getCoordinates() - referenceVelocity_GCRF).norm(),
                    aVelocityTolerance_GCRF
                );
 
@@ -125,27 +125,27 @@ void testOrbit(
         const Position position_ITRF = state_ITRF.getPosition();
         const Velocity velocity_ITRF = state_ITRF.getVelocity();
 
-        ASSERT_EQ(Frame::ITRF(), position_ITRF.accessFrame());
-        ASSERT_EQ(Frame::ITRF(), velocity_ITRF.accessFrame());
+        ASSERT_EQ(Frame::ITRF(), position_ITRF.getFrame());
+        ASSERT_EQ(Frame::ITRF(), velocity_ITRF.getFrame());
 
-        ASSERT_GT(aPositionTolerance_ITRF, (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm())
+        ASSERT_GT(aPositionTolerance_ITRF, (position_ITRF.getCoordinates() - referencePosition_ITRF).norm())
             << String::Format(
                    "[{}] {}: {} ≉ {} Δ {} > {} [m]",
                    aScenarioIdentifier,
                    instant.toString(),
                    referencePosition_ITRF.toString(),
-                   position_ITRF.accessCoordinates().toString(),
-                   (position_ITRF.accessCoordinates() - referencePosition_ITRF).norm(),
+                   position_ITRF.getCoordinates().toString(),
+                   (position_ITRF.getCoordinates() - referencePosition_ITRF).norm(),
                    aPositionTolerance_ITRF
                );
-        ASSERT_GT(aVelocityTolerance_ITRF, (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm())
+        ASSERT_GT(aVelocityTolerance_ITRF, (velocity_ITRF.getCoordinates() - referenceVelocity_ITRF).norm())
             << String::Format(
                    "[{}] {}: {} ≉ {} Δ {} > {} [m/s]",
                    aScenarioIdentifier,
                    instant.toString(),
                    referenceVelocity_ITRF.toString(),
-                   velocity_ITRF.accessCoordinates().toString(),
-                   (velocity_ITRF.accessCoordinates() - referenceVelocity_ITRF).norm(),
+                   velocity_ITRF.getCoordinates().toString(),
+                   (velocity_ITRF.getCoordinates() - referenceVelocity_ITRF).norm(),
                    aVelocityTolerance_ITRF
                );
 

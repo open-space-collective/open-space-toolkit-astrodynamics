@@ -86,17 +86,15 @@ def brouwer_lyddane_mean_short(
 
 class TestBrouwerLyddaneMeanShort:
     def test_to_coe(self, brouwer_lyddane_mean_short: BrouwerLyddaneMeanShort):
-        assert brouwer_lyddane_mean_short.to_coe().is_defined()
+        assert brouwer_lyddane_mean_short.to_coe() is not None
 
     def test_coe(self, coe: COE) -> COE:
-        assert BrouwerLyddaneMeanShort.COE(coe).is_defined()
+        assert BrouwerLyddaneMeanShort.COE(coe) is not None
 
     def test_cartesian(
         self, cartesian_state: tuple[Position, Velocity], gravitational_parameter
     ):
-        assert BrouwerLyddaneMeanShort.cartesian(
-            cartesian_state, gravitational_parameter
-        ).is_defined()
-
-    def test_undefined(self):
-        assert BrouwerLyddaneMeanShort.undefined().is_defined() is False
+        assert (
+            BrouwerLyddaneMeanShort.cartesian(cartesian_state, gravitational_parameter)
+            is not None
+        )

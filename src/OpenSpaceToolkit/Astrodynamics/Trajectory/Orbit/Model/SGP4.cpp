@@ -189,11 +189,6 @@ SGP4* SGP4::clone() const
 
 bool SGP4::operator==(const SGP4& aSGP4Model) const
 {
-    if ((!this->isDefined()) || (!aSGP4Model.isDefined()))
-    {
-        return false;
-    }
-
     return (this->tleArray_ == aSGP4Model.tleArray_) && (this->validityIntervals_ == aSGP4Model.validityIntervals_) &&
            ((*this->outputFrameSPtr_) == (*aSGP4Model.outputFrameSPtr_));
 }
@@ -210,99 +205,54 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SGP4& aSGP4Model)
     return anOutputStream;
 }
 
-bool SGP4::isDefined() const
-{
-    return !this->tleArray_.isEmpty();
-}
-
 const TLE& SGP4::getTle() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("SGP4");
-    }
-
     if (this->tleArray_.getSize() > 1)
     {
         throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Use getTles() instead.");
     }
 
-    return this->tleArray_.accessFirst();
+    return this->tleArray_.getFirst();
 }
 
 const Array<TLE>& SGP4::getTles() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("SGP4");
-    }
-
     return this->tleArray_;
 }
 
 const Array<Interval>& SGP4::getValidityIntervals() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("SGP4");
-    }
-
     return this->validityIntervals_;
 }
 
 const Shared<const Frame>& SGP4::getOutputFrame() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("SGP4");
-    }
-
     return this->outputFrameSPtr_;
 }
 
 Instant SGP4::getEpoch() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("SGP4");
-    }
-
     if (this->tleArray_.getSize() > 1)
     {
         throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Cannot get epoch.");
     }
 
-    return this->tleArray_.accessFirst().getEpoch();
+    return this->tleArray_.getFirst().getEpoch();
 }
 
 int SGP4::getRevolutionNumberAtEpoch() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("SGP4");
-    }
-
     if (this->tleArray_.getSize() > 1)
     {
         throw ostk::core::error::RuntimeError("Multiple TLEs exist in the model. Cannot get revolution number at epoch."
         );
     }
 
-    return this->tleArray_.accessFirst().getRevolutionNumberAtEpoch();
+    return this->tleArray_.getFirst().getRevolutionNumberAtEpoch();
 }
 
 State SGP4::calculateStateAt(const Instant& anInstant) const
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("SGP4");
-    }
-
     if (tleArray_.getSize() > 1 && !validityIntervals_[this->tleIndex_].contains(anInstant))
     {
         this->tleIndex_ = this->findTleIndexForInstant(anInstant);
@@ -313,11 +263,6 @@ State SGP4::calculateStateAt(const Instant& anInstant) const
 
 Array<State> SGP4::calculateStatesAt(const Array<Instant>& anInstantArray) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("SGP4");
-    }
-
     // TBI: Performance can be improved by pre-calculating intervals and TLEs in a single pass.
 
     Array<State> stateArray = Array<State>::Empty();
@@ -335,7 +280,7 @@ void SGP4::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "SGP4") : void();
 
-    if (this->isDefined() && tleArray_.getSize() == 1)
+    if (tleArray_.getSize() == 1)
     {
         ostk::core::utils::Print::Line(anOutputStream) << "Epoch:" << this->getEpoch().toString();
     }
@@ -393,32 +338,31 @@ Array<Interval> SGP4::GenerateIntervalsFromEpochs(const Array<TLE>& aTleArray)
 
     for (Size i = 0; i < aTleArray.getSize(); ++i)
     {
-        Instant start = Instant::Undefined();
-        Instant end = Instant::Undefined();
+        const Instant start = [&]() -> Instant
+        {
+            if (i == 0)
+            {
+                // First TLE: start at far past
+                return aTleArray[0].getEpoch() - epochBuffer_;
+            }
 
-        if (i == 0)
-        {
-            // First TLE: start at far past
-            start = aTleArray[0].getEpoch() - epochBuffer_;
-        }
-        else
-        {
             // Midpoint between previous and current epoch
             const Duration halfGap = Duration::Between(aTleArray[i - 1].getEpoch(), aTleArray[i].getEpoch()) / 2.0;
-            start = aTleArray[i - 1].getEpoch() + halfGap;
-        }
+            return aTleArray[i - 1].getEpoch() + halfGap;
+        }();
 
-        if (i == aTleArray.getSize() - 1)
+        const Instant end = [&]() -> Instant
         {
-            // Last TLE: end at far future
-            end = aTleArray[i].getEpoch() + epochBuffer_;
-        }
-        else
-        {
+            if (i == aTleArray.getSize() - 1)
+            {
+                // Last TLE: end at far future
+                return aTleArray[i].getEpoch() + epochBuffer_;
+            }
+
             // Midpoint between current and next epoch
             const Duration halfGap = Duration::Between(aTleArray[i].getEpoch(), aTleArray[i + 1].getEpoch()) / 2.0;
-            end = aTleArray[i].getEpoch() + halfGap;
-        }
+            return aTleArray[i].getEpoch() + halfGap;
+        }();
 
         // Use HalfOpenRight [start, end) for all except the last, which is Closed [start, end]
         if (i < aTleArray.getSize() - 1)

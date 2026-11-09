@@ -74,11 +74,6 @@ Profile::TrajectoryPointingTarget::TrajectoryPointingTarget(
     : PointingTarget(aType, aDirectionInBodyFrame),
       trajectory(aTrajectory)
 {
-    if (!trajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
     if (aType != PointingTarget::Type::TrajectoryPosition && aType != PointingTarget::Type::TrajectoryVelocity &&
         aType != PointingTarget::Type::TrajectorySlidingGroundVelocity)
     {
@@ -104,7 +99,7 @@ Profile::TabulatedPointingTarget::TabulatedPointingTarget(
 
     for (Index i = 0; i < aPointingProfileInECI.getSize(); ++i)
     {
-        timestamps(i) = (aPointingProfileInECI[i].first - aPointingProfileInECI.accessFirst().first).inSeconds();
+        timestamps(i) = (aPointingProfileInECI[i].first - aPointingProfileInECI.getFirst().first).inSeconds();
 
         coordinates.row(i) = aPointingProfileInECI[i].second;
     }
@@ -121,7 +116,7 @@ Vector3d Profile::TabulatedPointingTarget::interpolatePointingVectorAt(const Ins
 {
     Vector3d interpolatedCoordinates = Vector3d::Zero();
 
-    const double duration = (anInstant - pointingProfileInECI.accessFirst().first).inSeconds();
+    const double duration = (anInstant - pointingProfileInECI.getFirst().first).inSeconds();
 
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
@@ -166,58 +161,28 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Profile& aProfile)
     return anOutputStream;
 }
 
-bool Profile::isDefined() const
-{
-    return this->modelUPtr_->isDefined();
-}
-
 const Model& Profile::getModel() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     return *modelUPtr_;
 }
 
 State Profile::getStateAt(const Instant& anInstant) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     return this->modelUPtr_->calculateStateAt(anInstant);
 }
 
 Array<State> Profile::getStatesAt(const Array<Instant>& anInstantArray) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     return this->modelUPtr_->calculateStatesAt(anInstantArray);
 }
 
 Axes Profile::getAxesAt(const Instant& anInstant) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     return modelUPtr_->getAxesAt(anInstant);
 }
 
 Shared<const Frame> Profile::constructBodyFrame(const String& aFrameName, const bool& overwrite) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Profile");
-    }
-
     if (Manager::Get().hasFrameWithName(aFrameName))
     {
         if (overwrite)
@@ -237,14 +202,7 @@ void Profile::print(std::ostream& anOutputStream, bool displayDecorator) const
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Flight Profile") : void();
 
-    if (this->isDefined())
-    {
-        this->modelUPtr_->print(anOutputStream, false);
-    }
-    else
-    {
-        ostk::core::utils::Print::Line(anOutputStream) << "Model:" << "Undefined";
-    }
+    this->modelUPtr_->print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
@@ -292,8 +250,8 @@ Profile Profile::CustomPointing(
 
         return Transform::Active(
             anInstant,
-            -position.accessCoordinates(),
-            -velocity.accessCoordinates(),
+            -position.getCoordinates(),
+            -velocity.getCoordinates(),
             anOrientationGenerator(state),
             Vector3d(0.0, 0.0, 0.0)  // TBM: Artificially set to 0 for now.
         );
@@ -337,7 +295,7 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrainGenerator(
         );
     }
 
-    const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->accessFrame();
+    const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->getFrame();
 
     const auto targetVectorGenerator = [aCelestialSPtr,
                                         celestialFrameSPtr](const Shared<const PointingTarget>& aPointingTargetSPtr
@@ -457,20 +415,20 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrainGenerator(
 
 Vector3d Profile::ComputeGeocentricNadirDirectionVector(const State& aState)
 {
-    return -aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates().normalized();
+    return -aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().getCoordinates().normalized();
 }
 
 Vector3d Profile::ComputeGeodeticNadirDirectionVector(
     const State& aState, const Shared<const Celestial>& aCelestialSPtr
 )
 {
-    const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->accessFrame();
+    const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->getFrame();
     const Transform celestialFrame_GCRF_transform =
         celestialFrameSPtr->getTransformTo(DEFAULT_PROFILE_FRAME, aState.getInstant());
 
     const LLA lla = LLA::Cartesian(
         celestialFrame_GCRF_transform.getInverse().applyToPosition(
-            aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates()
+            aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().getCoordinates()
         ),
         aCelestialSPtr->getEquatorialRadius(),
         aCelestialSPtr->getFlattening()
@@ -488,9 +446,8 @@ Vector3d Profile::ComputeGeodeticNadirDirectionVector(
 Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
 {
     const Vector3d targetPositionCoordinates =
-        aTrajectory.getStateAt(aState.getInstant()).inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates();
-    const Vector3d satellitePositionCoordinates =
-        aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates();
+        aTrajectory.getStateAt(aState.getInstant()).inFrame(DEFAULT_PROFILE_FRAME).getPosition().getCoordinates();
+    const Vector3d satellitePositionCoordinates = aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().getCoordinates();
 
     return (targetPositionCoordinates - satellitePositionCoordinates).normalized();
 }
@@ -498,7 +455,7 @@ Vector3d Profile::ComputeTargetDirectionVector(const State& aState, const ostk::
 Vector3d Profile::ComputeTargetVelocityVector(const State& aState, const ostk::astrodynamics::Trajectory& aTrajectory)
 {
     const Vector3d targetVelocityCoordinates =
-        aTrajectory.getStateAt(aState.getInstant()).inFrame(DEFAULT_PROFILE_FRAME).getVelocity().accessCoordinates();
+        aTrajectory.getStateAt(aState.getInstant()).inFrame(DEFAULT_PROFILE_FRAME).getVelocity().getCoordinates();
 
     if (targetVelocityCoordinates.isZero())
     {
@@ -518,7 +475,7 @@ Vector3d Profile::ComputeTargetSlidingGroundVelocityVector(
     const Instant& instant = aState.getInstant();
 
     const Vector3d targetSlidingGroundVelocityCoordinates =
-        aTrajectory.getStateAt(instant).inFrame(aCelestialFrameSPtr).getVelocity().accessCoordinates();
+        aTrajectory.getStateAt(instant).inFrame(aCelestialFrameSPtr).getVelocity().getCoordinates();
 
     if (targetSlidingGroundVelocityCoordinates.isZero())
     {
@@ -539,16 +496,15 @@ Vector3d Profile::ComputeTargetSlidingGroundVelocityVector(
 Vector3d Profile::ComputeCelestialDirectionVector(const State& aState, const Celestial& aCelestial)
 {
     const Vector3d celestialPositionCoordinates =
-        aCelestial.getPositionIn(DEFAULT_PROFILE_FRAME, aState.getInstant()).accessCoordinates();
-    const Vector3d satellitePositionCoordinates =
-        aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().accessCoordinates();
+        aCelestial.getPositionIn(DEFAULT_PROFILE_FRAME, aState.getInstant()).getCoordinates();
+    const Vector3d satellitePositionCoordinates = aState.inFrame(DEFAULT_PROFILE_FRAME).getPosition().getCoordinates();
 
     return (celestialPositionCoordinates - satellitePositionCoordinates).normalized();
 }
 
 Vector3d Profile::ComputeVelocityDirectionVector_ECI(const State& aState)
 {
-    return aState.inFrame(DEFAULT_PROFILE_FRAME).getVelocity().accessCoordinates().normalized();
+    return aState.inFrame(DEFAULT_PROFILE_FRAME).getVelocity().getCoordinates().normalized();
 }
 
 Vector3d Profile::ComputeVelocityDirectionVector_ECEF(
@@ -557,7 +513,7 @@ Vector3d Profile::ComputeVelocityDirectionVector_ECEF(
 {
     const Instant& instant = aState.getInstant();
 
-    const Vector3d velocityCoordinates_ECEF = aState.inFrame(aCelestialFrameSPtr).getVelocity().accessCoordinates();
+    const Vector3d velocityCoordinates_ECEF = aState.inFrame(aCelestialFrameSPtr).getVelocity().getCoordinates();
 
     const Transform celestialFrame_GCRF_transform = aCelestialFrameSPtr->getTransformTo(DEFAULT_PROFILE_FRAME, instant);
 

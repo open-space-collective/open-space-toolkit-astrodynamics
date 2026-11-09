@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Uncertainty/Covariance.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     // Create "uncertainty" python submodule
     auto uncertainty = aModule.def_submodule("uncertainty");

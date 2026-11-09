@@ -58,11 +58,6 @@ struct SharedFrameEnabler : public Frame
 
 bool LocalOrbitalFrameFactory::operator==(const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory) const
 {
-    if ((!this->isDefined()) || (!aLocalOrbitalFrameFactory.isDefined()))
-    {
-        return false;
-    }
-
     if (type_ == LocalOrbitalFrameTransformProvider::Type::Custom)
     {
         return this == &aLocalOrbitalFrameFactory;
@@ -87,7 +82,7 @@ Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(const State& aState)
 
     const String name = this->generateFrameName(positionVelocityStateInParentFrame);
 
-    if (const auto frameSPtr = FrameManager::Get().accessFrameWithName(name))
+    if (const auto frameSPtr = FrameManager::Get().getFrameWithName(name))
     {
         return frameSPtr;
     }
@@ -105,19 +100,8 @@ Shared<const Frame> LocalOrbitalFrameFactory::generateFrame(const State& aState)
     return frameSPtr;
 }
 
-bool LocalOrbitalFrameFactory::isDefined() const
-{
-    return (parentFrameSPtr_ != nullptr) && parentFrameSPtr_->isDefined() &&
-           (type_ != LocalOrbitalFrameTransformProvider::Type::Undefined);
-}
-
 const Shared<const Frame>& LocalOrbitalFrameFactory::getParentFrame() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Local Orbital Frame Factory");
-    }
-
     return this->parentFrameSPtr_;
 }
 
@@ -156,11 +140,6 @@ LocalOrbitalFrameFactory LocalOrbitalFrameFactory::VNC(const Shared<const Frame>
     return Construct(LocalOrbitalFrameTransformProvider::Type::VNC, aParentFrame);
 }
 
-LocalOrbitalFrameFactory LocalOrbitalFrameFactory::Undefined()
-{
-    return Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, nullptr);
-}
-
 LocalOrbitalFrameFactory LocalOrbitalFrameFactory::Construct(
     const LocalOrbitalFrameTransformProvider::Type& aType, const Shared<const Frame>& aParentFrame
 )
@@ -193,6 +172,10 @@ LocalOrbitalFrameFactory::LocalOrbitalFrameFactory(
       parentFrameSPtr_(aParentFrame),
       transformGenerator_(aTransformGenerator)
 {
+    if (parentFrameSPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Parent frame");
+    }
 }
 
 String LocalOrbitalFrameFactory::generateFrameName(const State& aState) const

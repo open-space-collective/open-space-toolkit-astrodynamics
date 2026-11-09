@@ -125,11 +125,6 @@ class Orbit : public Trajectory
     /// @return True if Orbits are not equal, false otherwise.
     bool operator!=(const Orbit& anOrbit) const;
 
-    /// @brief Check if the Orbit is defined.
-    ///
-    /// @return True if the Orbit is defined, false otherwise.
-    bool isDefined() const;
-
     /// @brief Get the celestial object.
     ///
     /// @return Shared pointer to the celestial object.
@@ -192,15 +187,6 @@ class Orbit : public Trajectory
     /// @param anOutputStream Output stream to print to.
     /// @param displayDecorator Whether to display the decorator.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
-
-    /// @brief Constructs an undefined orbit
-    ///
-    /// @code{.cpp}
-    ///     Orbit orbit = Orbit::Undefined() ;
-    /// @endcode
-    ///
-    /// @return Undefined orbit
-    static Orbit Undefined();
 
     /// @brief Constructs a circular orbit
     ///
@@ -323,9 +309,9 @@ class Orbit : public Trajectory
     /// @param anAltitude An orbit altitude (wrt. equatorial radius)
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @param anEccentricity An eccentricity
-    /// @param anInclination An inclination
+    /// @param anInclination An inclination (std::nullopt if not provided)
     /// @param aRaan A raan
-    /// @param anAop An aop
+    /// @param anAop An aop (std::nullopt if not provided)
     /// @param aTrueAnomaly A true anomaly
     /// @return Frozen orbit
     static Orbit Frozen(
@@ -333,9 +319,9 @@ class Orbit : public Trajectory
         const Length& anAltitude,
         const Shared<const Celestial>& aCelestialObjectSPtr,
         const std::optional<double>& anEccentricity = std::nullopt,
-        const Angle& anInclination = Angle::Undefined(),
+        const std::optional<Angle>& anInclination = std::nullopt,
         const Angle& aRaan = Angle::Degrees(0.0),
-        const Angle& anAop = Angle::Undefined(),
+        const std::optional<Angle>& anAop = std::nullopt,
         const Angle& aTrueAnomaly = Angle::Degrees(0.0)
     );
 
@@ -403,12 +389,13 @@ class Orbit : public Trajectory
     /// @param anEndInstant The end instant.
     /// @return Tuple of instants at which the orbit crosses the north point, descending node, south point and pass
     /// break.
-    static Tuple<Instant, Instant, Instant, Instant> ComputeCrossings(
+    static Tuple<std::optional<Instant>, std::optional<Instant>, std::optional<Instant>, std::optional<Instant>>
+    ComputeCrossings(
         const orbit::Model& aModel,
         Instant previousInstant,
         const Duration& stepDuration,
         const bool& isForwardPropagated,
-        const Instant& anEndInstant = Instant::Undefined()
+        const std::optional<Instant>& anEndInstant = std::nullopt
     );
 };
 

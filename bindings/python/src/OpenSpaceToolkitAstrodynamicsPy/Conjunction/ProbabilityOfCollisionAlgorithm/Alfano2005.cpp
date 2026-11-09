@@ -3,10 +3,10 @@
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005(
-    pybind11::module& aModule
+    nanobind::module_& aModule
 )
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -16,7 +16,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
     using ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm;
     using ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005;
 
-    class_<Alfano2005, ProbabilityOfCollisionAlgorithm, Shared<Alfano2005>>(
+    class_<Alfano2005, ProbabilityOfCollisionAlgorithm>(
         aModule,
         "Alfano2005",
         R"doc(
@@ -47,14 +47,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                     frame (Frame, optional): An inertial (or quasi-inertial) frame to use. Defaults to GCRF.
 
                 Raises:
-                    RuntimeError: If the frame is undefined or not quasi-inertial.
+                    RuntimeError: If the frame is null or not quasi-inertial.
             )doc",
-            arg_v(
-                "relative_speed_threshold",
+            arg("relative_speed_threshold").sig("Derived(100.0, Derived.Unit.meter_per_second())") =
                 Derived(100.0, Derived::Unit::MeterPerSecond()),
-                "Derived(100.0, Derived.Unit.meter_per_second())"
-            ),
-            arg_v("frame", Frame::GCRF(), "Frame.GCRF()")
+            arg("frame").sig("Frame.GCRF()") = Frame::GCRF()
         )
 
         .def(

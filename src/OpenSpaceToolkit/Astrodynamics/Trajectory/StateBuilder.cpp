@@ -20,6 +20,10 @@ StateBuilder::StateBuilder(
     : frameSPtr_(aFrameSPtr),
       coordinatesBrokerSPtr_(std::make_shared<CoordinateBroker>(CoordinateBroker(aCoordinateSubsetsArray)))
 {
+    if (frameSPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
 }
 
 StateBuilder::StateBuilder(
@@ -28,6 +32,15 @@ StateBuilder::StateBuilder(
     : frameSPtr_(aFrameSPtr),
       coordinatesBrokerSPtr_(aCoordinateBrokerSPtr)
 {
+    if (frameSPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
+    if (coordinatesBrokerSPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Coordinate broker");
+    }
 }
 
 StateBuilder::StateBuilder(const State& aState)
@@ -38,11 +51,6 @@ StateBuilder::StateBuilder(const State& aState)
 
 bool StateBuilder::operator==(const StateBuilder& aStateBuilder) const
 {
-    if ((!this->isDefined()) || (!aStateBuilder.isDefined()))
-    {
-        return false;
-    }
-
     if ((*this->frameSPtr_) != (*aStateBuilder.frameSPtr_))
     {
         return false;
@@ -63,11 +71,6 @@ bool StateBuilder::operator!=(const StateBuilder& aStateBuilder) const
 
 const StateBuilder StateBuilder::operator+(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
     if (this->coordinatesBrokerSPtr_->hasSubset(aCoordinateSubsetSPtr))
     {
         throw ostk::core::error::RuntimeError("Duplicate CoordinateSubset: [{}]", aCoordinateSubsetSPtr->getName());
@@ -81,11 +84,6 @@ const StateBuilder StateBuilder::operator+(const Shared<const CoordinateSubset>&
 
 const StateBuilder StateBuilder::operator-(const Shared<const CoordinateSubset>& aCoordinateSubsetSPtr) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
     if (!this->coordinatesBrokerSPtr_->hasSubset(aCoordinateSubsetSPtr))
     {
         throw ostk::core::error::RuntimeError("Missing CoordinateSubset: [{}]", aCoordinateSubsetSPtr->getName());
@@ -110,33 +108,13 @@ std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStat
     return anOutputStream;
 }
 
-bool StateBuilder::isDefined() const
-{
-    return (this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined() && (this->coordinatesBrokerSPtr_ != nullptr);
-}
-
 const State StateBuilder::build(const Instant& anInstant, const VectorXd& aCoordinates) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
     return {anInstant, aCoordinates, this->frameSPtr_, this->coordinatesBrokerSPtr_};
 }
 
 const State StateBuilder::reduce(const State& aState) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
-    if (!aState.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     int nextIndex = 0;
 
@@ -158,21 +136,6 @@ const State StateBuilder::reduce(const State& aState) const
 
 const State StateBuilder::expand(const State& aState, const State& defaultState) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
-    if (!aState.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
-    if (!defaultState.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Default State");
-    }
-
     VectorXd coordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     int nextIndex = 0;
     int nonDefaultSubsetDetections = 0;
@@ -217,41 +180,21 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
 
 const Shared<const CoordinateBroker>& StateBuilder::getCoordinateBroker() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
     return this->coordinatesBrokerSPtr_;
 }
 
 const Shared<const Frame>& StateBuilder::getFrame() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
     return this->frameSPtr_;
 }
 
 const Array<Shared<const CoordinateSubset>>& StateBuilder::getCoordinateSubsets() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
     return this->coordinatesBrokerSPtr_->getSubsets();
 }
 
 Size StateBuilder::getSize() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
     return this->coordinatesBrokerSPtr_->getNumberOfCoordinates();
 }
 
@@ -261,28 +204,15 @@ void StateBuilder::print(std::ostream& anOutputStream, bool displayDecorator) co
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Trajectory :: StateBuilder") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Frame:" << (this->frameSPtr_->isDefined() ? this->frameSPtr_->getName() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Frame:" << this->frameSPtr_->getName();
 
-    if (!this->isDefined())
-    {
-        ostk::core::utils::Print::Line(anOutputStream) << "Coordinates Subsets: Undefined";
-    }
-    else
-    {
-        const Array<Shared<const CoordinateSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
+    const Array<Shared<const CoordinateSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
 
-        for (const auto& subset : subsets)
-        {
-            ostk::core::utils::Print::Line(anOutputStream) << subset->getName();
-        }
+    for (const auto& subset : subsets)
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << subset->getName();
     }
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-StateBuilder StateBuilder::Undefined()
-{
-    return {Frame::Undefined(), nullptr};
 }
 
 }  // namespace trajectory

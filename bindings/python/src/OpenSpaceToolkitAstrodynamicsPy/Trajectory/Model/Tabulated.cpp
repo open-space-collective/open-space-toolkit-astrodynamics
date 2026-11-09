@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Map;
@@ -39,12 +39,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                     output_frame (Frame, optional): The reference frame in which the computed states are expressed. The provided states are converted to this frame and interpolation is performed in this frame. Defaults to Frame.GCRF().
              )doc",
             arg("states"),
-            arg_v(
-                "interpolation_type",
+            arg("interpolation_type").sig("Interpolator.Type.BarycentricRational") =
                 DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
-                "Interpolator.Type.BarycentricRational"
-            ),
-            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
+            arg("output_frame").sig("Frame.GCRF()") = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME
         )
 
         .def(
@@ -65,7 +62,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
              )doc",
             arg("states"),
             arg("interpolation_types"),
-            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
+            arg("output_frame").sig("Frame.GCRF()") = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME
         )
 
         .def(
@@ -87,17 +84,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
 
                 Returns:
                     str: The string representation of the model.
-             )doc"
-        )
-
-        .def(
-            "is_defined",
-            &Tabulated::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
              )doc"
         )
 
@@ -204,7 +190,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model_Tabulated(pybind11:
                     Tabulated: A tabulated model using the default interpolation types.
              )doc",
             arg("states"),
-            arg_v("output_frame", DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, "Frame.GCRF()")
+            arg("output_frame").sig("Frame.GCRF()") = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME
         )
 
         ;

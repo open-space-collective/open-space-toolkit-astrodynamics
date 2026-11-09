@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <pybind11/stl.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/HardBody/Custom.cpp>
@@ -18,28 +16,26 @@ using ostk::astrodynamics::trajectory::State;
 class PyHardBody : public HardBody
 {
    public:
-    using HardBody::HardBody;
+    NB_TRAMPOLINE(HardBody);
 
     // Trampoline (need one for each virtual function)
 
     HardBody::CrossSection calculateCrossSectionAt(const State& aState, const Shared<const Frame>& aFrameSPtr)
         const override
     {
-        PYBIND11_OVERRIDE_PURE_NAME(
-            HardBody::CrossSection, HardBody, "calculate_cross_section_at", calculateCrossSectionAt, aState, aFrameSPtr
-        );
+        NB_OVERRIDE_PURE_NAME("calculate_cross_section_at", calculateCrossSectionAt, aState, aFrameSPtr);
     }
 };
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
 
     using ostk::mathematics::geometry::d2::object::Point;
 
-    class_<HardBody, PyHardBody, Shared<HardBody>> hardBody(
+    class_<HardBody, PyHardBody> hardBody(
         aModule,
         "HardBody",
         R"doc(

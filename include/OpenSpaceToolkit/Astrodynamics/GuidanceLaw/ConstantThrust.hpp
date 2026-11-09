@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust__
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -101,7 +103,7 @@ class ConstantThrust : public GuidanceLaw
     /// The local orbital frame maneuver's mean thrust direction is calculated and used to create a
     /// constant thrust guidance law in said direction.
     ///
-    /// If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thrust
+    /// If provided, a runtime error will be thrown if the maximum allowed angular offset between the original thrust
     /// acceleration direction and the mean thrust direction is violated.
     ///
     /// @code{.cpp}
@@ -112,13 +114,13 @@ class ConstantThrust : public GuidanceLaw
     /// @param aManeuver A maneuver
     /// @param aLocalOrbitalFrameFactory A local orbital frame factory
     /// @param aMaximumAllowedAngularOffset A maximum allowed angular offset to consider (if any). Defaults to
-    /// Undefined.
+    /// std::nullopt.
     ///
     /// @return Constant Thrust guidance law
     static ConstantThrust FromManeuver(
         const Maneuver& aManeuver,
         const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory,
-        const Angle& aMaximumAllowedAngularOffset = Angle::Undefined()
+        const std::optional<Angle>& aMaximumAllowedAngularOffset = std::nullopt
     );
 
    private:

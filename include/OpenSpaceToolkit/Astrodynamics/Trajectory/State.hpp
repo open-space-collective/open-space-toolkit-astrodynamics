@@ -179,11 +179,6 @@ class State
     /// @return The output stream with the State inserted
     friend std::ostream& operator<<(std::ostream& anOutputStream, const State& aState);
 
-    /// @brief Check if the State is defined.
-    ///
-    /// @return True if the State is defined, false otherwise
-    bool isDefined() const;
-
     /// @brief Get the instant associated with the State.
     ///
     /// @return Const reference to the instant
@@ -330,15 +325,6 @@ class State
     /// @param anOutputStream The output stream to print to
     /// @param displayDecorator Whether or not to display the decorator
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief Get an undefined State.
-    ///
-    /// @code{.cpp}
-    ///     State state = State::Undefined() ;
-    /// @endcode
-    ///
-    /// @return An undefined State
-    static State Undefined();
 
    private:
     Instant instant_;

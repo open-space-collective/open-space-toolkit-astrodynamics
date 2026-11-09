@@ -16,9 +16,9 @@ namespace system
 {
 
 SatelliteSystemBuilder::SatelliteSystemBuilder()
-    : dryMass_(Mass::Undefined()),
-      geometry_(Composite::Undefined()),
-      inertiaTensor_(Matrix3d::Undefined()),
+    : dryMass_(std::nullopt),
+      geometry_(std::nullopt),
+      inertiaTensor_(std::nullopt),
       crossSectionalSurfaceArea_(std::nullopt),
       dragCoefficient_(std::nullopt),
       propulsionSystem_(std::nullopt)
@@ -77,10 +77,25 @@ SatelliteSystemBuilder& SatelliteSystemBuilder::withPropulsionSystem(const Propu
 
 const SatelliteSystem SatelliteSystemBuilder::build() const
 {
+    if (!dryMass_.has_value())
+    {
+        throw ostk::core::error::runtime::Undefined("Dry Mass");
+    }
+
+    if (!geometry_.has_value())
+    {
+        throw ostk::core::error::runtime::Undefined("Geometry");
+    }
+
+    if (!inertiaTensor_.has_value())
+    {
+        throw ostk::core::error::runtime::Undefined("Inertia Tensor");
+    }
+
     return {
-        dryMass_,
-        geometry_,
-        inertiaTensor_,
+        dryMass_.value(),
+        geometry_.value(),
+        inertiaTensor_.value(),
         crossSectionalSurfaceArea_,
         dragCoefficient_,
         propulsionSystem_,
@@ -92,11 +107,11 @@ void SatelliteSystemBuilder::print(std::ostream& anOutputStream, bool displayDec
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Satellite System BUILDER") : void();
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Dry Mass:" << (dryMass_.isDefined() ? dryMass_.toString() : "Undefined");
+        << "Dry Mass:" << (dryMass_.has_value() ? dryMass_.value().toString() : "Undefined");
     ostk::core::utils::Print::Separator(anOutputStream, "Geometry");
-    geometry_.isDefined() ? geometry_.print(anOutputStream, false) : void();
+    geometry_.has_value() ? geometry_.value().print(anOutputStream, false) : void();
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Inertia Tensor:" << (inertiaTensor_.isDefined() ? inertiaTensor_.toString() : "Undefined");
+        << "Inertia Tensor:" << (inertiaTensor_.has_value() ? inertiaTensor_.value().toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Cross Sectional Surface Area:"
         << (crossSectionalSurfaceArea_.has_value() ? utility::DoubleToString(crossSectionalSurfaceArea_.value())

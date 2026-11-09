@@ -48,7 +48,7 @@ def orbit(instant: Instant, environment: Environment) -> Orbit:
         epoch=instant,
         altitude=Length.kilometers(500.0),
         local_time_at_descending_node=Time(14, 0, 0),
-        celestial_object=environment.access_celestial_object_with_name("Earth"),
+        celestial_object=environment.get_celestial_object_with_name("Earth"),
     )
 
 
@@ -182,7 +182,6 @@ class TestProfile:
 
         assert state is not None
         assert isinstance(state, State)
-        state.is_defined()
 
     def test_get_states_at(self, profile: Profile, instant: Instant):
         states = profile.get_states_at([instant, instant])
@@ -207,11 +206,6 @@ class TestProfile:
         frame_2: Frame = profile.construct_body_frame(frame_name, True)
         assert frame_2 is not None
 
-    def test_undefined(self):
-        assert not hasattr(Profile, "undefined")
-
-        assert Profile(model=TransformModel.undefined()).is_defined() is False
-
     def test_constant_inertial_pointing(self):
         quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)
 
@@ -223,7 +217,6 @@ class TestProfile:
 
         assert profile is not None
         assert isinstance(profile, Profile)
-        assert profile.is_defined()
 
     def test_constant_local_orbital_frame_pointing(
         self,
@@ -235,7 +228,6 @@ class TestProfile:
 
         assert profile is not None
         assert isinstance(profile, Profile)
-        assert profile.is_defined()
 
     def test_aligned_and_constrained_pointing(
         self,
@@ -250,7 +242,6 @@ class TestProfile:
         )
 
         assert profile is not None
-        assert profile.is_defined()
 
         profile = Profile.aligned_and_constrained_pointing(
             orbit=orbit,
@@ -260,7 +251,6 @@ class TestProfile:
         )
 
         assert profile is not None
-        assert profile.is_defined()
 
     def test_custom_pointing(
         self,
@@ -278,7 +268,6 @@ class TestProfile:
         )
 
         assert profile is not None
-        assert profile.is_defined()
 
     def test_align_and_constrain_generator(
         self,

@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
-
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
@@ -37,7 +35,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Constructor)
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid systemCuboid = {center, axes, extent};
         const Composite systemGeometry(systemCuboid);
@@ -56,7 +54,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Constructor)
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid systemCuboid = {center, axes, extent};
         const Composite systemGeometry(systemCuboid);
@@ -92,7 +90,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, EqualToOperator)
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid systemCuboid = {center, axes, extent};
         const Composite systemGeometry(systemCuboid);
@@ -141,7 +139,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, NotEqualToOperator)
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid systemCuboid = {center, axes, extent};
         const Composite systemGeometry(systemCuboid);
@@ -163,42 +161,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, NotEqualToOperator)
         const System system_2 = {systemMass, systemGeometry_0};
 
         EXPECT_TRUE(system != system_2);
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, IsDefined)
-{
-    using ostk::core::type::String;
-
-    using ostk::mathematics::geometry::d3::object::Composite;
-    using ostk::mathematics::geometry::d3::object::Cuboid;
-    using ostk::mathematics::geometry::d3::object::Point;
-    using ostk::mathematics::object::Matrix3d;
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::unit::Mass;
-
-    using ostk::astrodynamics::flight::System;
-
-    {
-        // Define satellite mass
-        const Mass systemMass = {100.0, Mass::Unit::Kilogram};
-
-        // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid systemCuboid = {center, axes, extent};
-        const Composite systemGeometry(systemCuboid);
-
-        EXPECT_TRUE(System(systemMass, systemGeometry).isDefined());
-
-        EXPECT_FALSE(System(Mass::Undefined(), systemGeometry).isDefined());
-
-        EXPECT_FALSE(System(systemMass, Composite::Undefined()).isDefined());
     }
 }
 
@@ -225,7 +187,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, StreamOperator)
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid systemCuboid = {center, axes, extent};
         const Composite systemGeometry(systemCuboid);
@@ -264,7 +226,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Print)
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid systemCuboid = {center, axes, extent};
         const Composite systemGeometry(systemCuboid);
@@ -282,12 +244,9 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, Print)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getMass)
 {
-    using ostk::core::type::String;
-
     using ostk::mathematics::geometry::d3::object::Composite;
     using ostk::mathematics::geometry::d3::object::Cuboid;
     using ostk::mathematics::geometry::d3::object::Point;
-    using ostk::mathematics::object::Matrix3d;
     using ostk::mathematics::object::Vector3d;
 
     using ostk::physics::unit::Mass;
@@ -298,67 +257,51 @@ TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getMass)
         // Define satellite mass
         const Mass systemMass = {100.0, Mass::Unit::Kilogram};
 
-        // Construct System object
-        const System system = {systemMass, Composite::Undefined()};
-
-        EXPECT_EQ(system.getMass(), systemMass);
-    }
-
-    {  // Define satellite geometry
-        const Point center = {0.0, 0.0, 0.0};
-        const std::array<Vector3d, 3> axes = {
-            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
-        };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
-
-        const Cuboid systemCuboid = {center, axes, extent};
-        const Composite systemGeometry(systemCuboid);
-
-        // Construct System object
-        const System system = {Mass::Undefined(), systemGeometry};
-
-        EXPECT_ANY_THROW(system.getMass());
-    }
-}
-
-TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getGeometry)
-{
-    using ostk::core::type::String;
-
-    using ostk::mathematics::geometry::d3::object::Composite;
-    using ostk::mathematics::geometry::d3::object::Cuboid;
-    using ostk::mathematics::geometry::d3::object::Point;
-    using ostk::mathematics::object::Matrix3d;
-    using ostk::mathematics::object::Vector3d;
-
-    using ostk::physics::unit::Mass;
-
-    using ostk::astrodynamics::flight::System;
-
-    {
         // Define satellite geometry
         const Point center = {0.0, 0.0, 0.0};
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid systemCuboid = {center, axes, extent};
         const Composite systemGeometry(systemCuboid);
 
         // Construct System object
-        const System system = {Mass::Undefined(), systemGeometry};
+        const System system = {systemMass, systemGeometry};
 
-        EXPECT_EQ(system.getGeometry(), systemGeometry);
+        EXPECT_EQ(system.getMass(), systemMass);
     }
+}
+
+TEST(OpenSpaceToolkit_Astrodynamics_Flight_System, getGeometry)
+{
+    using ostk::mathematics::geometry::d3::object::Composite;
+    using ostk::mathematics::geometry::d3::object::Cuboid;
+    using ostk::mathematics::geometry::d3::object::Point;
+    using ostk::mathematics::object::Vector3d;
+
+    using ostk::physics::unit::Mass;
+
+    using ostk::astrodynamics::flight::System;
 
     {
         // Define satellite mass
         const Mass systemMass = {100.0, Mass::Unit::Kilogram};
 
-        // Construct System object
-        const System system = {systemMass, Composite::Undefined()};
+        // Define satellite geometry
+        const Point center = {0.0, 0.0, 0.0};
+        const std::array<Vector3d, 3> axes = {
+            Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
+        };
+        const std::array<double, 3> extent = {1.0, 2.0, 3.0};
 
-        EXPECT_ANY_THROW(system.getGeometry());
+        const Cuboid systemCuboid = {center, axes, extent};
+        const Composite systemGeometry(systemCuboid);
+
+        // Construct System object
+        const System system = {systemMass, systemGeometry};
+
+        EXPECT_EQ(system.getGeometry(), systemGeometry);
     }
 }

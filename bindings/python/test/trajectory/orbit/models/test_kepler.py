@@ -28,7 +28,7 @@ TLE = astrodynamics.trajectory.orbit.model.sgp4.TLE
 State = astrodynamics.trajectory.State
 Access = astrodynamics.Access
 
-earth = Environment.default().access_celestial_object_with_name("Earth")
+earth = Environment.default().get_celestial_object_with_name("Earth")
 
 
 def construct_kepler():
@@ -70,7 +70,6 @@ def test_trajectory_orbit_models_kepler_constructors():
 
     assert kepler is not None
     assert isinstance(kepler, Kepler)
-    assert kepler.is_defined()
 
 
 def test_trajectory_orbit_models_kepler_comparators():

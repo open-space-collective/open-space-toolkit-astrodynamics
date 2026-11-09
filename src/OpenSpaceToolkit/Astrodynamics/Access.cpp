@@ -10,7 +10,7 @@ namespace astrodynamics
 Access::Access(
     const Access::Type& aType,
     const Instant& anAcquisitionOfSignal,
-    const Instant& aTimeOfClosestApproach,
+    const std::optional<Instant>& aTimeOfClosestApproach,
     const Instant& aLossOfSignal,
     const std::optional<Angle>& aMaxElevation
 )
@@ -20,44 +20,41 @@ Access::Access(
       lossOfSignal_(aLossOfSignal),
       maxElevation_(aMaxElevation)
 {
-    if (this->isDefined())
+    if (type_ == Access::Type::Complete)
     {
-        if (type_ == Access::Type::Complete)
+        if (!timeOfClosestApproach_.has_value())
         {
-            if (timeOfClosestApproach_ < acquisitionOfSignal_)
-            {
-                throw ostk::core::error::RuntimeError(
-                    "TCA [{}] < AOS [{}]", timeOfClosestApproach_.toString(), acquisitionOfSignal_.toString()
-                );
-            }
-
-            if (lossOfSignal_ < timeOfClosestApproach_)
-            {
-                throw ostk::core::error::RuntimeError(
-                    "LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.toString()
-                );
-            }
+            throw ostk::core::error::RuntimeError("A complete access requires a time of closest approach.");
         }
 
-        else if (type_ == Access::Type::Partial)
+        if (timeOfClosestApproach_.value() < acquisitionOfSignal_)
         {
-            if (lossOfSignal_ < acquisitionOfSignal_)
-            {
-                throw ostk::core::error::RuntimeError(
-                    "LOS [{}] < AOS [{}]", lossOfSignal_.toString(), acquisitionOfSignal_.toString()
-                );
-            }
+            throw ostk::core::error::RuntimeError(
+                "TCA [{}] < AOS [{}]", timeOfClosestApproach_.value().toString(), acquisitionOfSignal_.toString()
+            );
+        }
+
+        if (lossOfSignal_ < timeOfClosestApproach_.value())
+        {
+            throw ostk::core::error::RuntimeError(
+                "LOS [{}] < TCA [{}]", lossOfSignal_.toString(), timeOfClosestApproach_.value().toString()
+            );
+        }
+    }
+
+    else if (type_ == Access::Type::Partial)
+    {
+        if (lossOfSignal_ < acquisitionOfSignal_)
+        {
+            throw ostk::core::error::RuntimeError(
+                "LOS [{}] < AOS [{}]", lossOfSignal_.toString(), acquisitionOfSignal_.toString()
+            );
         }
     }
 }
 
 bool Access::operator==(const Access& anAccess) const
 {
-    if ((!this->isDefined()) || (!anAccess.isDefined()))
-    {
-        return false;
-    }
-
     return (type_ == anAccess.type_) && (acquisitionOfSignal_ == anAccess.acquisitionOfSignal_) &&
            (timeOfClosestApproach_ == anAccess.timeOfClosestApproach_) && (lossOfSignal_ == anAccess.lossOfSignal_) &&
            (maxElevation_ == anAccess.maxElevation_);
@@ -77,132 +74,63 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Access& anAccess)
     ostk::core::utils::Print::Line(anOutputStream) << "Type:" << Access::StringFromType(anAccess.type_);
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Acquisition Of Signal:"
-        << (anAccess.acquisitionOfSignal_.isDefined() ? anAccess.acquisitionOfSignal_.toString() : "Undefined");
+        << "Acquisition Of Signal:" << anAccess.acquisitionOfSignal_.toString();
     ostk::core::utils::Print::Line(anOutputStream)
         << "Time of Closest Approach:"
-        << (anAccess.timeOfClosestApproach_.isDefined() ? anAccess.timeOfClosestApproach_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Loss Of Signal:" << (anAccess.lossOfSignal_.isDefined() ? anAccess.lossOfSignal_.toString() : "Undefined");
+        << (anAccess.timeOfClosestApproach_.has_value() ? anAccess.timeOfClosestApproach_.value().toString()
+                                                        : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Loss Of Signal:" << anAccess.lossOfSignal_.toString();
 
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Duration:"
-        << ((anAccess.acquisitionOfSignal_.isDefined() && anAccess.lossOfSignal_.isDefined())
-                ? Duration::Between(anAccess.acquisitionOfSignal_, anAccess.lossOfSignal_).toString()
-                : "Undefined");
+        << "Duration:" << Duration::Between(anAccess.acquisitionOfSignal_, anAccess.lossOfSignal_).toString();
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Maximum Elevation:"
-        << ((anAccess.maxElevation_.has_value() && anAccess.maxElevation_->isDefined())
-                ? anAccess.maxElevation_->toString()
-                : "Undefined");
+        << (anAccess.maxElevation_.has_value() ? anAccess.maxElevation_->toString() : "Undefined");
 
     ostk::core::utils::Print::Footer(anOutputStream);
 
     return anOutputStream;
 }
 
-bool Access::isDefined() const
-{
-    if (type_ == Access::Type::Complete)
-    {
-        return acquisitionOfSignal_.isDefined() && timeOfClosestApproach_.isDefined() && lossOfSignal_.isDefined() &&
-               (!maxElevation_.has_value() || maxElevation_->isDefined());
-    }
-
-    if (type_ == Access::Type::Partial)
-    {
-        return acquisitionOfSignal_.isDefined() && lossOfSignal_.isDefined();
-    }
-
-    return false;
-}
-
 bool Access::isComplete() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Access");
-    }
-
     return type_ == Access::Type::Complete;
 }
 
 Access::Type Access::getType() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Access");
-    }
-
     return type_;
 }
 
 const Instant& Access::getAcquisitionOfSignal() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Access");
-    }
-
     return acquisitionOfSignal_;
 }
 
-const Instant& Access::getTimeOfClosestApproach() const
+const std::optional<Instant>& Access::getTimeOfClosestApproach() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Access");
-    }
-
     return timeOfClosestApproach_;
 }
 
 const Instant& Access::getLossOfSignal() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Access");
-    }
-
     return lossOfSignal_;
 }
 
 Interval Access::getInterval() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Access");
-    }
-
     return Interval::Closed(acquisitionOfSignal_, lossOfSignal_);
 }
 
 Duration Access::getDuration() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Access");
-    }
-
     return Duration::Between(acquisitionOfSignal_, lossOfSignal_);
 }
 
 const std::optional<Angle>& Access::getMaxElevation() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Access");
-    }
-
     return maxElevation_;
-}
-
-Access Access::Undefined()
-{
-    return Access(
-        Access::Type::Partial, Instant::Undefined(), Instant::Undefined(), Instant::Undefined(), std::nullopt
-    );
 }
 
 String Access::StringFromType(const Access::Type& aType)

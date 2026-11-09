@@ -41,10 +41,7 @@ Tabulated::Tabulated(
     VectorXd timestamps;
     MatrixXd coordinates;
 
-    if (!this->computeInterpolationData(aStateArray, timestamps, coordinates))
-    {
-        return;
-    }
+    this->computeInterpolationData(aStateArray, timestamps, coordinates);
 
     interpolators_.reserve(coordinates.cols());
 
@@ -74,12 +71,9 @@ Tabulated::Tabulated(
     VectorXd timestamps;
     MatrixXd coordinates;
 
-    if (!this->computeInterpolationData(aStateArray, timestamps, coordinates))
-    {
-        return;
-    }
+    this->computeInterpolationData(aStateArray, timestamps, coordinates);
 
-    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.getCoordinateBroker();
+    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_->getCoordinateBroker();
 
     // Index the requested interpolation types by coordinate subset id. Entries for coordinate subsets that are not
     // present in the states are ignored.
@@ -129,11 +123,6 @@ Tabulated* Tabulated::clone() const
 
 bool Tabulated::operator==(const Tabulated& aTabulatedModel) const
 {
-    if ((!this->isDefined()) || (!aTabulatedModel.isDefined()))
-    {
-        return false;
-    }
-
     if (interpolators_.getSize() != aTabulatedModel.interpolators_.getSize())
     {
         return false;
@@ -169,11 +158,6 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulat
     return anOutputStream;
 }
 
-bool Tabulated::isDefined() const
-{
-    return !interpolators_.isEmpty() && firstState_.isDefined() && lastState_.isDefined();
-}
-
 const Shared<const Frame>& Tabulated::getFrame() const
 {
     return outputFrameSPtr_;
@@ -181,33 +165,23 @@ const Shared<const Frame>& Tabulated::getFrame() const
 
 Interval Tabulated::getInterval() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
-    return Interval::Closed(firstState_.getInstant(), lastState_.getInstant());
+    return Interval::Closed(firstState_->getInstant(), lastState_->getInstant());
 }
 
 Interpolator::Type Tabulated::getInterpolationType() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
     // Since all interpolators are of the same type, we can just return the type of the first one.
     return interpolators_[0]->getInterpolationType();
 }
 
 const State& Tabulated::getFirstState() const
 {
-    return firstState_;
+    return firstState_.value();
 }
 
 const State& Tabulated::getLastState() const
 {
-    return lastState_;
+    return lastState_.value();
 }
 
 State Tabulated::calculateStateAt(const Instant& anInstant) const
@@ -217,23 +191,13 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     using ostk::astrodynamics::trajectory::state::CoordinateBroker;
 
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
-
-    if (anInstant < firstState_.getInstant() || anInstant > lastState_.getInstant())
+    if (anInstant < firstState_->getInstant() || anInstant > lastState_->getInstant())
     {
         throw ostk::core::error::RuntimeError(String::Format(
             "Provided instant [{}] is outside of interpolation range [{}, {}].",
             anInstant.toString(),
-            firstState_.getInstant().toString(),
-            lastState_.getInstant().toString()
+            firstState_->getInstant().toString(),
+            lastState_->getInstant().toString()
         ));
     }
 
@@ -241,11 +205,11 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
-        interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.getInstant()).inSeconds());
+        interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_->getInstant()).inSeconds());
     }
 
     // The interpolators are built in the output frame, so the interpolated coordinates are already expressed in it.
-    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.getCoordinateBroker();
+    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_->getCoordinateBroker();
 
     return State(anInstant, interpolatedCoordinates, outputFrameSPtr_, coordinatesBroker);
 }
@@ -259,16 +223,12 @@ Array<State> Tabulated::calculateStatesAt(const Array<Instant>& anInstantArray) 
         return Array<State>::Empty();
     }
 
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Tabulated");
-    }
+    Array<State> stateArray = Array<State>::Empty();
+    stateArray.reserve(anInstantArray.getSize());
 
-    Array<State> stateArray = Array<State>(anInstantArray.getSize(), State::Undefined());
-
-    for (Index i = 0; i < anInstantArray.getSize(); ++i)
+    for (const Instant& instant : anInstantArray)
     {
-        stateArray[i] = this->calculateStateAt(anInstantArray[i]);
+        stateArray.add(this->calculateStateAt(instant));
     }
 
     return stateArray;
@@ -280,41 +240,33 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Tabulated") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Start instant:" << (this->isDefined() ? this->getInterval().accessStart().toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "End instant:" << (this->isDefined() ? this->getInterval().accessEnd().toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Start instant:" << this->getInterval().getStart().toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "End instant:" << this->getInterval().getEnd().toString();
 
     ostk::core::utils::Print::Separator(anOutputStream);
 
     {
-        const State firstState =
-            this->isDefined() ? this->calculateStateAt(this->getInterval().accessStart()) : State::Undefined();
+        const State firstState = this->calculateStateAt(this->getInterval().getStart());
 
-        ostk::core::utils::Print::Line(anOutputStream)
-            << "First state:"
-            << (firstState.isDefined() ? String::Format(
-                                             "{} - {} - {}",
-                                             firstState.getInstant().toString(),
-                                             firstState.getPosition().toString(),
-                                             firstState.getVelocity().toString()
-                                         )
-                                       : "Undefined");
+        ostk::core::utils::Print::Line(anOutputStream) << "First state:"
+                                                       << String::Format(
+                                                              "{} - {} - {}",
+                                                              firstState.getInstant().toString(),
+                                                              firstState.getPosition().toString(),
+                                                              firstState.getVelocity().toString()
+                                                          );
     }
 
     {
-        const State lastState =
-            this->isDefined() ? this->calculateStateAt(this->getInterval().accessEnd()) : State::Undefined();
+        const State lastState = this->calculateStateAt(this->getInterval().getEnd());
 
-        ostk::core::utils::Print::Line(anOutputStream)
-            << "Last state:"
-            << (lastState.isDefined() ? String::Format(
-                                            "{} - {} - {}",
-                                            lastState.getInstant().toString(),
-                                            lastState.getPosition().toString(),
-                                            lastState.getVelocity().toString()
-                                        )
-                                      : "Undefined");
+        ostk::core::utils::Print::Line(anOutputStream) << "Last state:"
+                                                       << String::Format(
+                                                              "{} - {} - {}",
+                                                              lastState.getInstant().toString(),
+                                                              lastState.getPosition().toString(),
+                                                              lastState.getVelocity().toString()
+                                                          );
     }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
@@ -354,13 +306,13 @@ bool Tabulated::operator!=(const Model& aModel) const
     return !((*this) == aModel);
 }
 
-bool Tabulated::computeInterpolationData(
+void Tabulated::computeInterpolationData(
     const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aCoordinateMatrix
 )
 {
     if (aStateArray.getSize() < 2)
     {
-        return false;
+        throw ostk::core::error::runtime::Wrong("State array", "At least two states are required.");
     }
 
     Array<State> stateArray = aStateArray;
@@ -376,11 +328,11 @@ bool Tabulated::computeInterpolationData(
 
     // Cache the first and last states in their native frame, so getFirstState()/getLastState() preserve the
     // frame of the provided states.
-    firstState_ = stateArray.accessFirst();
-    lastState_ = stateArray.accessLast();
+    firstState_ = stateArray.getFirst();
+    lastState_ = stateArray.getLast();
 
     aTimestampVector.resize(stateArray.getSize());
-    aCoordinateMatrix.resize(stateArray.getSize(), firstState_.getSize());
+    aCoordinateMatrix.resize(stateArray.getSize(), firstState_->getSize());
 
     // Express each state in the output frame before extracting its coordinates, so that interpolation is performed
     // directly in the output frame and calculateStateAt requires no per-evaluation frame transform.
@@ -388,12 +340,10 @@ bool Tabulated::computeInterpolationData(
     {
         const State stateInOutputFrame = stateArray[i].inFrame(outputFrameSPtr_);
 
-        aTimestampVector(i) = (stateInOutputFrame.getInstant() - firstState_.getInstant()).inSeconds();
+        aTimestampVector(i) = (stateInOutputFrame.getInstant() - firstState_->getInstant()).inSeconds();
 
         aCoordinateMatrix.row(i) = stateInOutputFrame.getCoordinates();
     }
-
-    return true;
 }
 
 }  // namespace model

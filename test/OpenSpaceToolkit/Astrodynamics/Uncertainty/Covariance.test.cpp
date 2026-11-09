@@ -627,16 +627,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Rotate)
             },
             ostk::core::error::runtime::Undefined
         );
-
-        EXPECT_THROW(
-            try {
-                defaultCovariance_.rotate(Frame::Undefined());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_NE(e.getMessage().find("Frame"), std::string::npos);
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 

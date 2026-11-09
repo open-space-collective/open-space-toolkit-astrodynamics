@@ -125,46 +125,46 @@
         EXPECT_INSTANTS_ALMOST_EQUAL((i1).getEnd(), (i2).getEnd(), tolerance);     \
     } while (0)
 
-#define EXPECT_STATES_ALMOST_EQUAL(s1, s2, instantTolerance, positionTolerance, velocityTolerance)  \
-    do                                                                                              \
-    {                                                                                               \
-        if ((s1).getFrame() != (s2).getFrame())                                                     \
-        {                                                                                           \
-            ADD_FAILURE() << "States have different frames.";                                       \
-        }                                                                                           \
-        else                                                                                        \
-        {                                                                                           \
-            EXPECT_INSTANTS_ALMOST_EQUAL((s1).getInstant(), (s2).getInstant(), instantTolerance);   \
-            const auto pos1 = (s1).getPosition().inMeters().accessCoordinates();                    \
-            const auto pos2 = (s2).getPosition().inUnit(Position::Unit::Meter).accessCoordinates(); \
-            EXPECT_TRUE(pos1.isNear(pos2, positionTolerance))                                       \
-                << "Positions differ. Values: " << pos1.toString() << " vs. " << pos2.toString();   \
-            const auto vel1 = (s1).getVelocity().inMetersPerSecond().accessCoordinates();           \
-            const auto vel2 = (s2).getVelocity().inMetersPerSecond().accessCoordinates();           \
-            EXPECT_TRUE(vel1.isNear(vel2, velocityTolerance))                                       \
-                << "Velocities differ. Values: " << vel1.toString() << " vs. " << vel2.toString();  \
-        }                                                                                           \
+#define EXPECT_STATES_ALMOST_EQUAL(s1, s2, instantTolerance, positionTolerance, velocityTolerance) \
+    do                                                                                             \
+    {                                                                                              \
+        if ((s1).getFrame() != (s2).getFrame())                                                    \
+        {                                                                                          \
+            ADD_FAILURE() << "States have different frames.";                                      \
+        }                                                                                          \
+        else                                                                                       \
+        {                                                                                          \
+            EXPECT_INSTANTS_ALMOST_EQUAL((s1).getInstant(), (s2).getInstant(), instantTolerance);  \
+            const auto pos1 = (s1).getPosition().inMeters().getCoordinates();                      \
+            const auto pos2 = (s2).getPosition().inUnit(Position::Unit::Meter).getCoordinates();   \
+            EXPECT_TRUE(pos1.isNear(pos2, positionTolerance))                                      \
+                << "Positions differ. Values: " << pos1.toString() << " vs. " << pos2.toString();  \
+            const auto vel1 = (s1).getVelocity().inMetersPerSecond().getCoordinates();             \
+            const auto vel2 = (s2).getVelocity().inMetersPerSecond().getCoordinates();             \
+            EXPECT_TRUE(vel1.isNear(vel2, velocityTolerance))                                      \
+                << "Velocities differ. Values: " << vel1.toString() << " vs. " << vel2.toString(); \
+        }                                                                                          \
     } while (0)
 
-#define ASSERT_STATES_ALMOST_EQUAL(s1, s2, instantTolerance, positionTolerance, velocityTolerance)           \
-    do                                                                                                       \
-    {                                                                                                        \
-        if ((s1).getFrame() != (s2).getFrame())                                                              \
-        {                                                                                                    \
-            FAIL() << "States have different frames.";                                                       \
-        }                                                                                                    \
-        else                                                                                                 \
-        {                                                                                                    \
-            ASSERT_INSTANTS_ALMOST_EQUAL((s1).getInstant(), (s2).getInstant(), instantTolerance);            \
-            const auto pos1 = (s1).getPosition().inUnit(Position::Unit::Meter).accessCoordinates();          \
-            const auto pos2 = (s2).getPosition().inUnit(Position::Unit::Meter).accessCoordinates();          \
-            ASSERT_TRUE(pos1.isNear(pos2, positionTolerance))                                                \
-                << "Positions differ. Values: " << pos1.toString() << " vs. " << pos2.toString();            \
-            const auto vel1 = (s1).getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates(); \
-            const auto vel2 = (s2).getVelocity().inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates(); \
-            ASSERT_TRUE(vel1.isNear(vel2, velocityTolerance))                                                \
-                << "Velocities differ. Values: " << vel1.toString() << " vs. " << vel2.toString();           \
-        }                                                                                                    \
+#define ASSERT_STATES_ALMOST_EQUAL(s1, s2, instantTolerance, positionTolerance, velocityTolerance)        \
+    do                                                                                                    \
+    {                                                                                                     \
+        if ((s1).getFrame() != (s2).getFrame())                                                           \
+        {                                                                                                 \
+            FAIL() << "States have different frames.";                                                    \
+        }                                                                                                 \
+        else                                                                                              \
+        {                                                                                                 \
+            ASSERT_INSTANTS_ALMOST_EQUAL((s1).getInstant(), (s2).getInstant(), instantTolerance);         \
+            const auto pos1 = (s1).getPosition().inUnit(Position::Unit::Meter).getCoordinates();          \
+            const auto pos2 = (s2).getPosition().inUnit(Position::Unit::Meter).getCoordinates();          \
+            ASSERT_TRUE(pos1.isNear(pos2, positionTolerance))                                             \
+                << "Positions differ. Values: " << pos1.toString() << " vs. " << pos2.toString();         \
+            const auto vel1 = (s1).getVelocity().inUnit(Velocity::Unit::MeterPerSecond).getCoordinates(); \
+            const auto vel2 = (s2).getVelocity().inUnit(Velocity::Unit::MeterPerSecond).getCoordinates(); \
+            ASSERT_TRUE(vel1.isNear(vel2, velocityTolerance))                                             \
+                << "Velocities differ. Values: " << vel1.toString() << " vs. " << vel2.toString();        \
+        }                                                                                                 \
     } while (0)
 
 #define ASSERT_STATES_ARE_STRICTLY_MONOTONIC(states)                                                                   \

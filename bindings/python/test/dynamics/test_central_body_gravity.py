@@ -44,7 +44,6 @@ class TestCentralBodyGravity:
         assert dynamics is not None
         assert isinstance(dynamics, CentralBodyGravity)
         assert isinstance(dynamics, Dynamics)
-        assert dynamics.is_defined()
 
     def test_getters(self, dynamics: CentralBodyGravity, earth: Earth):
         assert dynamics.get_celestial() == earth

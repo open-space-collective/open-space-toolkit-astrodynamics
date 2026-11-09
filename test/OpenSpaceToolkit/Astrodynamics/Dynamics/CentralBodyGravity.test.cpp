@@ -111,9 +111,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_CentralBodyGravity, Constructor)
             0.0,
             0.0,
             std::make_shared<Analytical>(Frame::ITRF()),
-            std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Undefined),
-            std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
-            std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Undefined),
+            nullptr,
+            nullptr,
+            nullptr,
         };
 
         const String expectedString = "{Gravitational Model} is undefined.";
@@ -133,15 +133,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_CentralBodyGravity, Constructor)
             },
             ostk::core::error::runtime::Undefined
         );
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_CentralBodyGravity, IsDefined)
-{
-    {
-        const CentralBodyGravity centralBodyGravity(sphericalEarthSPtr_);
-
-        EXPECT_TRUE(centralBodyGravity.isDefined());
     }
 }
 

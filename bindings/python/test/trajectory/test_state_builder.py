@@ -74,7 +74,6 @@ class TestStateBuilder:
         builder = StateBuilder(frame, coordinate_broker)
         assert builder is not None
         assert isinstance(builder, StateBuilder)
-        assert builder.is_defined()
 
     def test_subsets_constructor(
         self,
@@ -84,7 +83,6 @@ class TestStateBuilder:
         builder = StateBuilder(frame, coordinate_subsets)
         assert builder is not None
         assert isinstance(builder, StateBuilder)
-        assert builder.is_defined()
 
     def test_state_constructor(
         self,
@@ -93,7 +91,6 @@ class TestStateBuilder:
         builder = StateBuilder(state)
         assert builder is not None
         assert isinstance(builder, StateBuilder)
-        assert builder.is_defined()
 
     def test_comparators(self, state_builder: StateBuilder):
         assert (state_builder == state_builder) is True
@@ -121,7 +118,6 @@ class TestStateBuilder:
 
         assert state is not None
         assert isinstance(state, State)
-        assert state.is_defined()
         assert state.get_instant() == instant
         assert (state.get_coordinates() == coordinates).all()
         assert state.get_frame() == state_builder.get_frame()

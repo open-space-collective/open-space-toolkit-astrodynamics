@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::mathematics::geometry::d3::object::Composite;
     using ostk::mathematics::object::Matrix3d;
@@ -154,6 +154,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder
 
                     Returns:
                         SatelliteSystem: A new satellite system.
+
+                    Raises:
+                        RuntimeError: If the dry mass, geometry or inertia tensor has not been set.
 
                 )doc"
             )

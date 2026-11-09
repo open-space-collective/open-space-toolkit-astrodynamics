@@ -45,10 +45,6 @@ Custom::Custom(
             throw ostk::core::error::runtime::Undefined("Frame");
         }
     }
-    else if (!std::get<LocalOrbitalFrameFactory>(frameOrLOF_).isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Frame");
-    }
 }
 
 const Custom::VertexGenerator& Custom::getVertexGenerator() const

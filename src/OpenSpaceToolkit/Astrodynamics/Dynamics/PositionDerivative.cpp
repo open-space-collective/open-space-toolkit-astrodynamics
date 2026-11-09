@@ -24,11 +24,6 @@ PositionDerivative::PositionDerivative()
 
 PositionDerivative::~PositionDerivative() {}
 
-bool PositionDerivative::isDefined() const
-{
-    return true;
-}
-
 std::ostream& operator<<(std::ostream& anOutputStream, const PositionDerivative& aPositionDerivative)
 {
     aPositionDerivative.print(anOutputStream);

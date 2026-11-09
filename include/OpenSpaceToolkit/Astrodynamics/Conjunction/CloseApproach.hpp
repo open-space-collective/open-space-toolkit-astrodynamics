@@ -81,16 +81,6 @@ class CloseApproach
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const CloseApproach& aCloseApproach);
 
-    /// @brief Check if the close approach is defined
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = { ... } ;
-    ///              closeApproach.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if close approach is defined
-    bool isDefined() const;
-
     /// @brief Get the instant of the close approach
     ///
     /// @code{.cpp}
@@ -238,8 +228,7 @@ class CloseApproach
     /// - If xAlongMajorPrincipalAxis is false, the x-axis is along the minor principal axis and the y-axis along the
     /// major principal axis.
     ///
-    /// Raises an Undefined error if the close approach or the encounter frame is undefined, or if a state has no
-    /// position covariance.
+    /// Raises an Undefined error if the encounter frame is null, or if a state has no position covariance.
     ///
     /// @code{.cpp}
     ///              CloseApproach closeApproach = { ... } ;
@@ -266,15 +255,6 @@ class CloseApproach
     /// @param displayDecorator A boolean indicating whether or not to display decorator during
     ///                  printing
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief Construct an undefined close approach
-    ///
-    /// @code{.cpp}
-    ///              CloseApproach closeApproach = CloseApproach::Undefined() ;
-    /// @endcode
-    ///
-    /// @return Undefined close approach
-    static CloseApproach Undefined();
 
    private:
     State object1State_;

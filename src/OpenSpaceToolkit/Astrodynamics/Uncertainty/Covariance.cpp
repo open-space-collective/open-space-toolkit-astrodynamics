@@ -222,7 +222,7 @@ MatrixXd Covariance::extractCoordinates(const Array<Shared<const CoordinateSubse
 
 Covariance Covariance::rotate(const Shared<const Frame>& aFrameSPtr) const
 {
-    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    if (aFrameSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }
@@ -350,11 +350,8 @@ void Covariance::print(std::ostream& anOutputStream, bool displayDecorator) cons
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Uncertainty :: Covariance") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Frame:"
-        << ((this->frameSPtr_ != nullptr) && this->frameSPtr_->isDefined() ? this->frameSPtr_->getName() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Instant:" << this->instant_.toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Frame:" << this->frameSPtr_->getName();
 
     const Array<Shared<const CoordinateSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
 

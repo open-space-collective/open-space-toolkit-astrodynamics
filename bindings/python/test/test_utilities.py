@@ -106,7 +106,6 @@ class TestUtility:
 
         assert lla is not None
         assert isinstance(lla, LLA)
-        assert lla.is_defined()
 
     def test_lla_from_position(
         self,
@@ -117,7 +116,6 @@ class TestUtility:
 
         assert lla is not None
         assert isinstance(lla, LLA)
-        assert lla.is_defined()
 
     def test_position_from_lla(
         self,
@@ -127,7 +125,6 @@ class TestUtility:
 
         assert position is not None
         assert isinstance(position, Position)
-        assert position.is_defined()
 
     def test_compute_aer(
         self,

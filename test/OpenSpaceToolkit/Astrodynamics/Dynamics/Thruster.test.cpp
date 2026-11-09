@@ -70,10 +70,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, Constructor)
     EXPECT_NO_THROW(Thruster thruster(defaultSatelliteSystem_, defaultGuidanceLaw_, defaultName_));
 
     {
-        EXPECT_NO_THROW(Thruster(SatelliteSystem::Undefined(), defaultGuidanceLaw_, defaultName_));
-    }
-
-    {
         const SatelliteSystem satelliteSystemWithoutPropulsion = {
             defaultSatelliteSystem_.getMass(),
             defaultSatelliteSystem_.getGeometry(),
@@ -113,11 +109,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetSatelliteSystem)
 {
     {
         EXPECT_EQ(defaultThruster_.getSatelliteSystem(), defaultSatelliteSystem_);
-    }
-
-    {
-        const Thruster undefinedThruster = {SatelliteSystem::Undefined(), defaultGuidanceLaw_, defaultName_};
-        EXPECT_THROW(undefinedThruster.getSatelliteSystem(), ostk::core::error::runtime::Undefined);
     }
 }
 
@@ -160,11 +151,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, GetWriteCoordinateSubse
     {
         EXPECT_EQ(*writeSubsets[i], *expectedSubsets[i]);
     }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, IsDefined)
-{
-    EXPECT_TRUE(defaultThruster_.isDefined());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, ComputeContribution)

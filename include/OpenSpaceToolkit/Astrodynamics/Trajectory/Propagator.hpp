@@ -94,11 +94,6 @@ class Propagator
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Propagator& aPropagator);
 
-    /// @brief Check if propagator is defined
-    ///
-    /// @return True if propagator is defined
-    bool isDefined() const;
-
     /// @brief Get the coordinate broker
     ///
     /// @return The coordinate broker
@@ -195,11 +190,6 @@ class Propagator
     /// @param anOutputStream An output stream
     /// @param (optional) displayDecorator If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief Undefined
-    ///
-    /// @return An undefined propagator
-    static Propagator Undefined();
 
     /// @brief Default
     ///

@@ -79,8 +79,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Constructor)
 
         const Tabulated tabulated(states_, interpolationTypes);
 
-        EXPECT_TRUE(tabulated.isDefined());
-        EXPECT_TRUE(tabulated.getInterval().isDefined());
+        EXPECT_EQ(tabulated.getInterval().getStart(), states_.getFirst().getInstant());
+        EXPECT_EQ(tabulated.getInterval().getEnd(), states_.getLast().getInstant());
     }
 
     // Coordinate subsets in the map that are not present in the states are ignored (no error).
@@ -92,9 +92,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Constructor)
             {CoordinateSubset::DragCoefficient(), Interpolator::Type::ZeroOrder},
         };
 
-        const Tabulated tabulated(states_, interpolationTypes);
-
-        EXPECT_TRUE(tabulated.isDefined());
+        EXPECT_NO_THROW(Tabulated(states_, interpolationTypes));
     }
 
     // A per-subset map assigning the same type to every subset must behave identically to the single-type
@@ -143,9 +141,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Constructor)
         EXPECT_TRUE(tabulatedFromMap != Tabulated(states_, Interpolator::Type::Linear));
 
         const State state =
-            tabulatedFromMap.calculateStateAt(states_.accessFirst().getInstant() + Duration::Seconds(30.0));
+            tabulatedFromMap.calculateStateAt(states_.getFirst().getInstant() + Duration::Seconds(30.0));
 
-        EXPECT_TRUE(state.isDefined());
         EXPECT_TRUE(state.getCoordinates().allFinite());
     }
 
@@ -155,6 +152,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Constructor)
 
         EXPECT_EQ(tabulated.getFrame(), Frame::ITRF());
     }
+
+    // At least two states are required.
+    {
+        const Map<Shared<const CoordinateSubset>, Interpolator::Type> interpolationTypes = {
+            {CartesianPosition::Default(), Interpolator::Type::Linear},
+            {CartesianVelocity::Default(), Interpolator::Type::Linear},
+        };
+
+        const Array<State> oneState = {states_.getFirst()};
+
+        EXPECT_THROW(Tabulated(Array<State>::Empty(), Interpolator::Type::Linear), ostk::core::error::runtime::Wrong);
+        EXPECT_THROW(Tabulated(oneState, Interpolator::Type::Linear), ostk::core::error::runtime::Wrong);
+        EXPECT_THROW(Tabulated(oneState, interpolationTypes), ostk::core::error::runtime::Wrong);
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Default)
@@ -162,7 +173,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Default)
     {
         const Tabulated tabulated = Tabulated::Default(states_);
 
-        EXPECT_TRUE(tabulated.isDefined());
         // Position is interpolated using barycentric rational by default.
         EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
     }
@@ -177,7 +187,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Default)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
 {
-    const Instant queryInstant = states_.accessFirst().getInstant() + Duration::Seconds(30.0);
+    const Instant queryInstant = states_.getFirst().getInstant() + Duration::Seconds(30.0);
 
     // The default output frame is GCRF (backward-compatible behavior).
     {

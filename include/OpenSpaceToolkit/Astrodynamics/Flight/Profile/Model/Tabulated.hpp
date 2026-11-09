@@ -121,11 +121,6 @@ class Tabulated : public virtual Model
     /// @return A reference to the output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Tabulated& aTabulatedModel);
 
-    /// @brief Check if the tabulated model is defined
-    ///
-    /// @return True if the model is defined
-    virtual bool isDefined() const override;
-
     /// @brief Get the interval of the tabulated model
     ///
     /// @return Interval of the model
@@ -213,8 +208,8 @@ class Tabulated : public virtual Model
         const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
     );
 
-    /// @brief Sort the provided states, build the (reduced) state builders, and compute the interpolation timestamps
-    /// and reduced coordinate matrix (excluding the attitude quaternion) shared by all constructors.
+    /// @brief Sort the provided states, and compute the interpolation timestamps and reduced coordinate matrix
+    /// (excluding the attitude quaternion) shared by all constructors.
     void computeReducedInterpolationData(
         const Array<State>& aStateArray, VectorXd& aTimestampVector, MatrixXd& aReducedCoordinateMatrix
     );

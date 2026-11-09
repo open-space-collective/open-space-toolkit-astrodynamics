@@ -3,10 +3,10 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddaneMean_BrouwerLyddaneMeanShort(
-    pybind11::module& aModule
+    nanobind::module_& aModule
 )
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::physics::unit::Angle;
     using ostk::physics::unit::Length;
@@ -88,17 +88,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_BrouwerLyddan
             )doc",
             arg("cartesian_state"),
             arg("gravitational_parameter")
-        )
-
-        .def_static(
-            "undefined",
-            &BrouwerLyddaneMeanShort::Undefined,
-            R"doc(
-                Create an undefined `BrouwerLyddaneMeanShort` model.
-
-                Returns:
-                    BrouwerLyddaneMeanShort: The undefined `BrouwerLyddaneMeanShort` model.
-            )doc"
         )
 
         ;

@@ -115,11 +115,6 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     /// @return True if the models are not equal.
     bool operator!=(const Tabulated& aTabulatedModel) const;
 
-    /// @brief Check if the tabulated orbit model is defined.
-    ///
-    /// @return True if the model is defined.
-    virtual bool isDefined() const override;
-
     /// @brief Get the epoch of the tabulated orbit model.
     ///
     /// @return The epoch instant, corresponding to the first tabulated state.

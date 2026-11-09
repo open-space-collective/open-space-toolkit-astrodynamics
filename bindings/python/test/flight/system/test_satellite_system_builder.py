@@ -71,7 +71,21 @@ class TestSatelliteSystemBuilder:
         assert satellite_system.get_propulsion_system() == propulsion_system
 
     def test_build_without_optional_parameters(self):
-        satellite_system: SatelliteSystem = SatelliteSystemBuilder().build()
+        satellite_system: SatelliteSystem = (
+            SatelliteSystemBuilder()
+            .with_dry_mass(Mass(90.0, Mass.Unit.Kilogram))
+            .with_geometry(
+                Composite(
+                    Cuboid(
+                        Point(0.0, 0.0, 0.0),
+                        [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]],
+                        [1.0, 2.0, 3.0],
+                    )
+                )
+            )
+            .with_inertia_tensor(np.identity(3))
+            .build()
+        )
 
         with pytest.raises(RuntimeError):
             satellite_system.get_cross_sectional_surface_area()
@@ -81,3 +95,11 @@ class TestSatelliteSystemBuilder:
 
         with pytest.raises(RuntimeError):
             satellite_system.get_propulsion_system()
+
+    def test_build_without_required_parameters_failure(self):
+        # The dry mass, geometry and inertia tensor are required
+        with pytest.raises(RuntimeError):
+            SatelliteSystemBuilder().build()
+
+        with pytest.raises(RuntimeError):
+            SatelliteSystemBuilder().with_dry_mass(Mass(90.0, Mass.Unit.Kilogram)).build()

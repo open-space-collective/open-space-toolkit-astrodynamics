@@ -54,22 +54,17 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocit
 CloseApproach::CloseApproach(const State& anObject1State, const State& anObject2State)
     : object1State_(anObject1State),
       object2State_(anObject2State),
-      stateBuilder_(StateBuilder::Undefined())
+      stateBuilder_(
+          anObject1State.getFrame(),
+          Array<Shared<const CoordinateSubset>> {
+              CartesianPosition::Default(),
+              CartesianVelocity::Default(),
+          }
+      )
 {
-    if (anObject1State.isDefined() && anObject2State.isDefined())
+    if (anObject1State.getInstant() != anObject2State.getInstant())
     {
-        if (anObject1State.getInstant() != anObject2State.getInstant())
-        {
-            throw ostk::core::error::RuntimeError("Inconsistent state instants.");
-        }
-
-        // Build state builder with the frame of Object 1 and position/velocity coordinate subsets
-        const Array<Shared<const CoordinateSubset>> coordinateSubsets = {
-            CartesianPosition::Default(),
-            CartesianVelocity::Default(),
-        };
-
-        stateBuilder_ = StateBuilder(anObject1State.getFrame(), coordinateSubsets);
+        throw ostk::core::error::RuntimeError("Inconsistent state instants.");
     }
 }
 
@@ -80,38 +75,18 @@ std::ostream& operator<<(std::ostream& anOutputStream, const CloseApproach& aClo
     return anOutputStream;
 }
 
-bool CloseApproach::isDefined() const
-{
-    return object1State_.isDefined() && object2State_.isDefined() && stateBuilder_.isDefined();
-}
-
 const Instant& CloseApproach::getInstant() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
     return object1State_.getInstant();
 }
 
 const State& CloseApproach::getObject1State() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
     return object1State_;
 }
 
 const State& CloseApproach::getObject2State() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
     return object2State_;
 }
 
@@ -119,11 +94,6 @@ CloseApproach CloseApproach::scale(
     const std::optional<double>& aScaleFactor1, const std::optional<double>& aScaleFactor2
 ) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
     const State scaledObject1State =
         (aScaleFactor1.has_value() && object1State_.hasCovariance())
             ? object1State_.withCovariance(object1State_.getCovariance().value().scale(aScaleFactor1.value()))
@@ -138,21 +108,11 @@ CloseApproach CloseApproach::scale(
 
 CloseApproach CloseApproach::swap() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
     return {object2State_, object1State_};
 }
 
 State CloseApproach::computeRelativeState() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
     const State reducedObject1State = stateBuilder_.reduce(object1State_);
     const State reducedObject2State = stateBuilder_.reduce(object2State_.inFrame(object1State_.getFrame()));
 
@@ -161,11 +121,6 @@ State CloseApproach::computeRelativeState() const
 
 Length CloseApproach::computeMissDistance() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
     const State relativeState = this->computeRelativeState();
     const Position relativePosition = relativeState.getPosition();
     const Vector3d relativePositionCoordinates = relativePosition.inMeters().getCoordinates();
@@ -175,11 +130,6 @@ Length CloseApproach::computeMissDistance() const
 
 Derived CloseApproach::computeRelativeSpeed() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
     const State relativeState = this->computeRelativeState();
     const Velocity relativeVelocity = relativeState.getVelocity();
     const Vector3d relativeVelocityCoordinates =
@@ -191,12 +141,7 @@ Derived CloseApproach::computeRelativeSpeed() const
 Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInFrame(const Shared<const Frame>& aFrame
 ) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
-    if ((aFrame == nullptr) || (!aFrame->isDefined()))
+    if (aFrame == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }
@@ -215,16 +160,6 @@ Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInLoca
     const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
 ) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
-    if (!aLocalOrbitalFrameFactory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("LocalOrbitalFrameFactory");
-    }
-
     const Shared<const Frame> localOrbitalFrame = aLocalOrbitalFrameFactory.generateFrame(object1State_);
     const State relativeStateInFrame = object2State_.inFrame(localOrbitalFrame);
     const Position relativePosition = relativeStateInFrame.getPosition();
@@ -235,12 +170,7 @@ Tuple<Length, Length, Length> CloseApproach::computeMissDistanceComponentsInLoca
 
 Shared<const Frame> CloseApproach::computeEncounterFrame(const Shared<const Frame>& aFrameSPtr) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
-    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    if (aFrameSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }
@@ -318,12 +248,7 @@ CloseApproach::RotatedEncounterFrameParameters CloseApproach::computeRotatedEnco
     const Shared<const Frame>& anEncounterFrameSPtr, const bool& xAlongMajorPrincipalAxis
 ) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("CloseApproach");
-    }
-
-    if ((anEncounterFrameSPtr == nullptr) || (!anEncounterFrameSPtr->isDefined()))
+    if (anEncounterFrameSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Encounter frame");
     }
@@ -420,24 +345,11 @@ void CloseApproach::print(std::ostream& anOutputStream, bool displayDecorator) c
 {
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Close Approach") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Instant:" << (this->isDefined() ? this->getInstant().toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Instant:" << this->getInstant().toString();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Miss Distance:" << (this->isDefined() ? this->computeMissDistance().toString() : "Undefined");
-
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Object 1 State:" << (object1State_.isDefined() ? "Defined" : "Undefined");
-
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Object 2 State:" << (object2State_.isDefined() ? "Defined" : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Miss Distance:" << this->computeMissDistance().toString();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-CloseApproach CloseApproach::Undefined()
-{
-    return CloseApproach(State::Undefined(), State::Undefined());
 }
 
 }  // namespace conjunction

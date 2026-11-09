@@ -12,6 +12,7 @@
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.hpp>
 
 #include <Global.test.hpp>
@@ -42,6 +43,7 @@ using ostk::physics::unit::Length;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
 using ostk::astrodynamics::Trajectory;
+using ostk::astrodynamics::trajectory::model::Static;
 using ostk::astrodynamics::trajectory::model::Tabulated;
 using ostk::astrodynamics::trajectory::State;
 
@@ -63,7 +65,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
 
         const Trajectory trajectory = {model};
 
-        EXPECT_TRUE(trajectory.isDefined());
+        EXPECT_TRUE(trajectory.getModel().is<Tabulated>());
     }
 
     {
@@ -87,7 +89,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Constructor)
         // The default (barycentric rational) interpolation requires at least 4 states.
         const Trajectory trajectory = {states};
 
-        EXPECT_TRUE(trajectory.isDefined());
+        EXPECT_TRUE(trajectory.getModel().is<Tabulated>());
     }
 }
 
@@ -142,13 +144,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, EqualToOperator)
         const Trajectory trajectory_B = {model_B};
 
         EXPECT_FALSE(trajectory_A == trajectory_B);
-
-        EXPECT_FALSE(trajectory_A == Trajectory(Array<State>::Empty()));
-        EXPECT_FALSE(Trajectory(Array<State>::Empty()) == trajectory_B);
-    }
-
-    {
-        EXPECT_FALSE(Trajectory(Array<State>::Empty()) == Trajectory(Array<State>::Empty()));
     }
 }
 
@@ -203,13 +198,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, NotEqualToOperator)
         const Trajectory trajectory_B = {model_B};
 
         EXPECT_TRUE(trajectory_A != trajectory_B);
-
-        EXPECT_TRUE(trajectory_A != Trajectory(Array<State>::Empty()));
-        EXPECT_TRUE(Trajectory(Array<State>::Empty()) != trajectory_B);
-    }
-
-    {
-        EXPECT_TRUE(Trajectory(Array<State>::Empty()) != Trajectory(Array<State>::Empty()));
     }
 }
 
@@ -257,11 +245,11 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, IsDefined)
 
         const Trajectory trajectory = {model};
 
-        EXPECT_TRUE(trajectory.isDefined());
+        EXPECT_TRUE(trajectory.getModel().is<Tabulated>());
     }
 
     {
-        EXPECT_FALSE(Trajectory(Array<State>::Empty()).isDefined());
+        EXPECT_THROW(Trajectory(Array<State>::Empty()), ostk::core::error::runtime::Wrong);
     }
 }
 
@@ -334,12 +322,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStateAt)
                 Velocity::MetersPerSecond({1.0, 0.0, 0.0}, gcrfSPtr)
             ),
             trajectory.getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0, 500), Scale::UTC))
-        );
-    }
-
-    {
-        EXPECT_ANY_THROW(
-            Trajectory(Array<State>::Empty()).getStateAt(Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC))
         );
     }
 }
@@ -441,15 +423,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, GetStatesAt)
             EXPECT_EQ(referenceStates, trajectory.getStatesAt(desiredInstants));
         }
     }
-
-    {
-        const Trajectory undefinedTrajectory = {Array<State>::Empty()};
-
-        EXPECT_ANY_THROW(undefinedTrajectory.getStatesAt(
-            {Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC),
-             Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 1), Scale::UTC)}
-        ));
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Print)
@@ -483,7 +456,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory, Position)
 {
     {
         const Trajectory trajectory = Trajectory::Position(Position::Meters({2.0, 0.0, 0.0}, Frame::ITRF()));
-        EXPECT_TRUE(trajectory.isDefined());
+        EXPECT_TRUE(trajectory.getModel().is<Static>());
     }
 
     {

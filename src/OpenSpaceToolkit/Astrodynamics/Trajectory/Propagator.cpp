@@ -75,11 +75,6 @@ Propagator& Propagator::operator=(const Propagator& aPropagator)
 
 bool Propagator::operator==(const Propagator& aPropagator) const
 {
-    if ((!this->isDefined()) || (!aPropagator.isDefined()))
-    {
-        return false;
-    }
-
     return (
         numericalSolver_ == aPropagator.numericalSolver_ &&
         *(coordinatesBrokerSPtr_) == *(aPropagator.coordinatesBrokerSPtr_)
@@ -98,28 +93,13 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Propagator& aPropag
     return anOutputStream;
 }
 
-bool Propagator::isDefined() const
-{
-    return numericalSolver_.isDefined() && coordinatesBrokerSPtr_ != nullptr && !dynamicsContexts_.isEmpty();
-}
-
 const Shared<CoordinateBroker>& Propagator::getCoordinateBroker() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagator");
-    }
-
     return coordinatesBrokerSPtr_;
 }
 
 const NumericalSolver& Propagator::getNumericalSolver() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagator");
-    }
-
     return numericalSolver_;
 }
 
@@ -152,7 +132,7 @@ void Propagator::setDynamics(const Array<Shared<Dynamics>>& aDynamicsArray)
 
 void Propagator::addDynamics(const Shared<Dynamics>& aDynamicsSPtr)
 {
-    if (aDynamicsSPtr == nullptr || !aDynamicsSPtr->isDefined())
+    if (aDynamicsSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Dynamics");
     }
@@ -169,11 +149,6 @@ void Propagator::clearDynamics()
 State Propagator::calculateStateAt(const State& aState, const Instant& anInstant, const Array<Maneuver>& aManeuverArray)
     const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagator");
-    }
-
     this->validateDynamicsSet();
 
     const ManeuverSchedule maneuverSchedule = this->generateManeuverSchedule(aManeuverArray);
@@ -214,11 +189,6 @@ NumericalSolver::ConditionSolution Propagator::calculateStateToCondition(
     const Array<Maneuver>& aManeuverArray
 ) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagator");
-    }
-
     this->validateDynamicsSet();
 
     const ManeuverSchedule maneuverSchedule = this->generateManeuverSchedule(aManeuverArray);
@@ -322,16 +292,6 @@ Array<State> Propagator::calculateStatesAt(
     const State& aState, const Array<Instant>& anInstantArray, const Array<Maneuver>& aManeuverArray
 ) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Propagator");
-    }
-
-    if (!aState.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     if (anInstantArray.isEmpty())
     {
         return Array<State>::Empty();
@@ -416,14 +376,6 @@ void Propagator::print(std::ostream& anOutputStream, bool displayDecorator) cons
     numericalSolver_.print(anOutputStream, false);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-Propagator Propagator::Undefined()
-{
-    return {
-        NumericalSolver::Undefined(),
-        Array<Shared<Dynamics>>::Empty(),
-    };
 }
 
 Propagator Propagator::Default()
@@ -596,7 +548,7 @@ Array<State> Propagator::propagateThroughManeuverSchedule(
         return Array<State>::Empty();
     }
 
-    const bool isForward = anInstantArray.accessLast() > aState.getInstant();
+    const bool isForward = anInstantArray.getLast() > aState.getInstant();
 
     Array<State> states = Array<State>::Empty();
     states.reserve(anInstantArray.getSize());
@@ -605,7 +557,7 @@ Array<State> Propagator::propagateThroughManeuverSchedule(
     Index nextInstantIndex = 0;
 
     for (const ManeuverSchedule::Arc& arc :
-         aManeuverSchedule.generateArcs(aState.getInstant(), anInstantArray.accessLast()))
+         aManeuverSchedule.generateArcs(aState.getInstant(), anInstantArray.getLast()))
     {
         // The instants that fall within this arc (an instant on a boundary belongs to the arc that ends there)
         Array<Instant> arcInstants = Array<Instant>::Empty();
@@ -618,7 +570,7 @@ Array<State> Propagator::propagateThroughManeuverSchedule(
         }
 
         // Always integrate up to the end of the arc, which is where the next arc starts
-        const bool isArcEndRequested = !arcInstants.isEmpty() && arcInstants.accessLast() == arc.endInstant;
+        const bool isArcEndRequested = !arcInstants.isEmpty() && arcInstants.getLast() == arc.endInstant;
         if (!isArcEndRequested)
         {
             arcInstants.add(arc.endInstant);
@@ -636,7 +588,7 @@ Array<State> Propagator::propagateThroughManeuverSchedule(
             states.add(arcStates[i]);
         }
 
-        arcInputState = arcStates.accessLast();
+        arcInputState = arcStates.getLast();
     }
 
     return states;

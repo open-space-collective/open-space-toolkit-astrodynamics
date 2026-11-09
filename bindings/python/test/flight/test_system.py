@@ -32,7 +32,6 @@ class TestSatelliteSystem:
     def test_constructors(self, system: System):
         assert system is not None
         assert isinstance(system, System)
-        assert system.is_defined()
 
     def test_comparators(self, system: System):
         assert (system == system) is True

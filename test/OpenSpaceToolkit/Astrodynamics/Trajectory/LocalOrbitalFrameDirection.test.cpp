@@ -78,10 +78,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Equ
     {
         EXPECT_FALSE(localOrbitalFrameDirection_ == LocalOrbitalFrameDirection(anotherDirection_, LOFFactory_));
     }
-
-    {
-        EXPECT_FALSE(LocalOrbitalFrameDirection::Undefined() == localOrbitalFrameDirection_);
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, NotEqualToOperator)
@@ -106,17 +102,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Str
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, isDefined)
-{
-    {
-        EXPECT_TRUE(localOrbitalFrameDirection_.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(LocalOrbitalFrameDirection(anotherDirection_, LocalOrbitalFrameFactory::Undefined()).isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Getters)
 {
     {
@@ -130,24 +115,5 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Get
 
         EXPECT_EQ(anotherDirection_.normalized(), localOrbitalFrameDirection.getValue());
         EXPECT_EQ(LOFFactory_, localOrbitalFrameDirection.getLocalOrbitalFrameFactory());
-    }
-
-    {
-        EXPECT_ANY_THROW(LocalOrbitalFrameDirection(anotherDirection_, LocalOrbitalFrameFactory::Undefined()).getValue()
-        );
-        EXPECT_ANY_THROW(LocalOrbitalFrameDirection(anotherDirection_, LocalOrbitalFrameFactory::Undefined())
-                             .getLocalOrbitalFrameFactory());
-    }
-
-    {
-        EXPECT_ANY_THROW(LocalOrbitalFrameDirection::Undefined().getValue());
-        EXPECT_ANY_THROW(LocalOrbitalFrameDirection::Undefined().getLocalOrbitalFrameFactory());
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameDirection, Undefined)
-{
-    {
-        EXPECT_NO_THROW(LocalOrbitalFrameDirection::Undefined());
     }
 }

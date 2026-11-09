@@ -66,10 +66,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Constructor)
 
         EXPECT_NO_THROW(StateBuilder builder(state));
     }
-
-    {
-        EXPECT_ANY_THROW(StateBuilder builder(State::Undefined()));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, EqualToOperator)
@@ -138,14 +134,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, EqualToOperator)
         const StateBuilder anotherStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
         EXPECT_TRUE(aStateBuilder == anotherStateBuilder);
-    }
-
-    {
-        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
-
-        EXPECT_FALSE(StateBuilder::Undefined() == aStateBuilder);
-        EXPECT_FALSE(aStateBuilder == StateBuilder::Undefined());
-        EXPECT_FALSE(StateBuilder::Undefined() == StateBuilder::Undefined());
     }
 }
 
@@ -216,14 +204,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, NotEqualToOperato
 
         EXPECT_FALSE(aStateBuilder != anotherStateBuilder);
     }
-
-    {
-        const StateBuilder aStateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
-
-        EXPECT_TRUE(StateBuilder::Undefined() != aStateBuilder);
-        EXPECT_TRUE(aStateBuilder != StateBuilder::Undefined());
-        EXPECT_TRUE(StateBuilder::Undefined() != StateBuilder::Undefined());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, AdditionOperator)
@@ -245,12 +225,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, AdditionOperator)
         EXPECT_EQ(CartesianPosition::Default(), expandedSubsets[0]);
         EXPECT_EQ(CartesianVelocity::Default(), expandedSubsets[1]);
         EXPECT_EQ(CoordinateSubset::Mass(), expandedSubsets[2]);
-    }
-
-    {
-        const StateBuilder stateBuilder = StateBuilder::Undefined();
-
-        EXPECT_ANY_THROW(stateBuilder + CartesianPosition::Default());
     }
 
     {
@@ -282,12 +256,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, SubtractionOperat
     }
 
     {
-        const StateBuilder stateBuilder = StateBuilder::Undefined();
-
-        EXPECT_ANY_THROW(stateBuilder - CartesianPosition::Default());
-    }
-
-    {
         const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelBrokerSPtr);
 
         EXPECT_ANY_THROW(stateBuilder - CoordinateSubset::Mass());
@@ -302,14 +270,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, StreamOperator)
         testing::internal::CaptureStdout();
 
         EXPECT_NO_THROW(std::cout << aStateBuilder << std::endl);
-
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-
-    {
-        testing::internal::CaptureStdout();
-
-        EXPECT_NO_THROW(std::cout << StateBuilder::Undefined() << std::endl);
 
         EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
     }
@@ -366,14 +326,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Build)
 
         EXPECT_ANY_THROW(stateBuilder.build(instant, coordinates));
     }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(6);
-        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0;
-
-        EXPECT_ANY_THROW(StateBuilder::Undefined().build(instant, coordinates));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Reduce)
@@ -396,25 +348,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Reduce)
         EXPECT_EQ(aState.getFrame(), anotherState.getFrame());
         EXPECT_EQ(coordinates, aState.getCoordinates());
         EXPECT_EQ(expectedAnotherCoordinates, anotherState.getCoordinates());
-    }
-
-    {
-        const State aState = State::Undefined();
-
-        const StateBuilder stateBuilder = StateBuilder(Frame::ITRF(), massPosBrokerSPtr);  // Undefined
-
-        EXPECT_ANY_THROW(stateBuilder.reduce(aState));
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(7);
-        coordinates << 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 100.0;
-        const State aState = State(instant, coordinates, Frame::GCRF(), posVelMassBrokerSPtr);
-
-        const StateBuilder stateBuilder = StateBuilder::Undefined();  // Undefined
-
-        EXPECT_ANY_THROW(stateBuilder.reduce(aState));
     }
 
     {
@@ -473,47 +406,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
         EXPECT_EQ(coordinates, aState.getCoordinates());
         EXPECT_EQ(defaultCoordinates, defaultState.getCoordinates());
         EXPECT_EQ(expectedAnotherCoordinates, anotherState.getCoordinates());
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        const State aState = State::Undefined();  // Undefined
-
-        VectorXd defaultCoordinates(6);
-        defaultCoordinates << -1.0, -2.0, -3.0, -4.0, -5.0, -6.0;
-        const State defaultState = State(instant, defaultCoordinates, Frame::GCRF(), posVelBrokerSPtr);
-
-        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelMassBrokerSPtr);
-
-        EXPECT_ANY_THROW(stateBuilder.expand(aState, defaultState));
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(4);
-        coordinates << 100.0, 1.0, 2.0, 3.0;
-        const State aState = State(instant, coordinates, Frame::GCRF(), massPosBrokerSPtr);
-
-        const State defaultState = State::Undefined();  // Undefined
-
-        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelMassBrokerSPtr);
-
-        EXPECT_ANY_THROW(stateBuilder.expand(aState, defaultState));
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2018, 1, 1, 0, 0, 0), Scale::UTC);
-        VectorXd coordinates(4);
-        coordinates << 100.0, 1.0, 2.0, 3.0;
-        const State aState = State(instant, coordinates, Frame::GCRF(), massPosBrokerSPtr);
-
-        VectorXd defaultCoordinates(6);
-        defaultCoordinates << -1.0, -2.0, -3.0, -4.0, -5.0, -6.0;
-        const State defaultState = State(instant, defaultCoordinates, Frame::GCRF(), posVelBrokerSPtr);
-
-        const StateBuilder stateBuilder = StateBuilder::Undefined();  // Undefined
-
-        EXPECT_ANY_THROW(stateBuilder.expand(aState, defaultState));
     }
 
     {
@@ -580,11 +472,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, GetCoordinateBrok
         EXPECT_EQ(Frame::GCRF(), stateBuilder.getFrame());
         EXPECT_EQ(posVelBrokerSPtr, stateBuilder.getCoordinateBroker());
     }
-
-    {
-        EXPECT_ANY_THROW(StateBuilder::Undefined().getFrame());
-        EXPECT_ANY_THROW(StateBuilder::Undefined().getCoordinateBroker());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Getters)
@@ -599,49 +486,5 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Getters)
         EXPECT_EQ(&stateBuilder.getFrame(), &stateBuilder.getFrame());
         EXPECT_EQ(&stateBuilder.getCoordinateBroker(), &stateBuilder.getCoordinateBroker());
         EXPECT_EQ(&stateBuilder.getCoordinateSubsets(), &posVelBrokerSPtr->getSubsets());
-    }
-
-    {
-        EXPECT_ANY_THROW(StateBuilder::Undefined().getCoordinateSubsets());
-        EXPECT_ANY_THROW(StateBuilder::Undefined().getSize());
-        EXPECT_ANY_THROW(StateBuilder::Undefined().getFrame());
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, IsDefined)
-{
-    {
-        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), posVelBrokerSPtr);
-
-        EXPECT_TRUE(stateBuilder.isDefined());
-    }
-
-    {
-        const StateBuilder stateBuilder = StateBuilder(nullptr, posVelBrokerSPtr);
-
-        EXPECT_FALSE(stateBuilder.isDefined());
-    }
-
-    {
-        const StateBuilder stateBuilder = StateBuilder(Frame::Undefined(), posVelBrokerSPtr);
-
-        EXPECT_FALSE(stateBuilder.isDefined());
-    }
-
-    {
-        const StateBuilder stateBuilder = StateBuilder(Frame::GCRF(), nullptr);
-
-        EXPECT_FALSE(stateBuilder.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(StateBuilder::Undefined().isDefined());
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Undefined)
-{
-    {
-        EXPECT_NO_THROW(StateBuilder::Undefined());
     }
 }

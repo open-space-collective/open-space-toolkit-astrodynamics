@@ -4,9 +4,9 @@
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
@@ -24,7 +24,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
     using ostk::astrodynamics::trajectory::Orbit;
     using ostk::astrodynamics::trajectory::State;
 
-    class_<Profile, Shared<Profile>> profileClass(
+    class_<Profile> profileClass(
         aModule,
         "Profile",
         R"doc(
@@ -33,7 +33,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         )doc"
     );
 
-    class_<Profile::PointingTarget, Shared<Profile::PointingTarget>> pointingTargetClass(
+    class_<Profile::PointingTarget> pointingTargetClass(
         profileClass,
         "PointingTarget",
         R"doc(
@@ -121,8 +121,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("direction_in_body_frame")
         )
 
-        .def_readonly("type", &Profile::PointingTarget::type, "The type of the target.")
-        .def_readonly(
+        .def_ro("type", &Profile::PointingTarget::type, "The type of the target.")
+        .def_ro(
             "direction_in_body_frame",
             &Profile::PointingTarget::directionInBodyFrame,
             "The direction (unit vector) in the spacecraft's body frame of the target."
@@ -130,7 +130,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         ;
 
-    class_<Profile::TrajectoryPointingTarget, Profile::PointingTarget, Shared<Profile::TrajectoryPointingTarget>>(
+    class_<Profile::TrajectoryPointingTarget, Profile::PointingTarget>(
         profileClass,
         "TrajectoryPointingTarget",
         R"doc(
@@ -192,11 +192,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("direction_in_body_frame")
         )
 
-        .def_readonly("trajectory", &Profile::TrajectoryPointingTarget::trajectory, "The trajectory to point towards.")
+        .def_ro("trajectory", &Profile::TrajectoryPointingTarget::trajectory, "The trajectory to point towards.")
 
         ;
 
-    class_<Profile::TabulatedPointingTarget, Profile::PointingTarget, Shared<Profile::TabulatedPointingTarget>>(
+    class_<Profile::TabulatedPointingTarget, Profile::PointingTarget>(
         profileClass,
         "TabulatedPointingTarget",
         R"doc(
@@ -218,14 +218,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             )doc",
             arg("pointing_profile_in_eci"),
             arg("direction_in_body_frame"),
-            arg_v(
-                "interpolation_type",
-                DEFAULT_TABULATED_POINTING_TARGET_INTERPOLATION_TYPE,
-                "Interpolator.Type.BarycentricRational"
-            )
+            arg("interpolation_type").sig("Interpolator.Type.BarycentricRational") =
+                DEFAULT_TABULATED_POINTING_TARGET_INTERPOLATION_TYPE
         )
 
-        .def_readonly(
+        .def_ro(
             "pointing_profile_in_eci",
             &Profile::TabulatedPointingTarget::pointingProfileInECI,
             "The profile of pointing vectors in the ECI frame."
@@ -233,7 +230,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
 
         ;
 
-    class_<Profile::PointingTargetGenerator, Profile::PointingTarget, Shared<Profile::PointingTargetGenerator>>(
+    class_<Profile::PointingTargetGenerator, Profile::PointingTarget>(
         profileClass,
         "PointingTargetGenerator",
         R"doc(
@@ -256,7 +253,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("direction_in_body_frame")
         )
 
-        .def_readonly(
+        .def_ro(
             "pointing_profile_generator_in_eci",
             &Profile::PointingTargetGenerator::pointingProfileGeneratorInECI,
             "The function that generates the pointing vector in the ECI frame."
@@ -281,20 +278,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         .def("__repr__", &(shiftToString<Profile>))
 
         .def(
-            "is_defined",
-            &Profile::isDefined,
-            R"doc(
-                Check if the profile is defined.
-
-                Returns:
-                    bool: True if the profile is defined, False otherwise.
-            )doc"
-        )
-
-        .def(
             "get_model",
             &Profile::getModel,
-            return_value_policy::reference_internal,
+            rv_policy::reference_internal,
             R"doc(
                 Get the profile model.
 
@@ -425,7 +411,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("orbit"),
             arg("alignment_pointing_target"),
             arg("clocking_pointing_target"),
-            arg_v("angular_clocking_offset", Angle::Zero(), "Angle.Zero()")
+            arg("angular_clocking_offset").sig("Angle.Zero()") = Angle::Zero()
         )
 
         .def_static(
@@ -483,7 +469,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
             arg("celestial"),
             arg("alignment_pointing_target"),
             arg("clocking_pointing_target"),
-            arg_v("angular_clocking_offset", Angle::Zero(), "Angle.Zero()")
+            arg("angular_clocking_offset").sig("Angle.Zero()") = Angle::Zero()
         )
 
         ;

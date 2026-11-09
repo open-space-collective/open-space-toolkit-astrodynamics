@@ -5,9 +5,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model/Tabulated.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/Profile/Model/Transform.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::module &aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(nanobind::module_ &aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::astrodynamics::flight::profile::Model;
 
@@ -37,17 +37,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model(pybind11::modul
 
         .def("__str__", &(shiftToString<Model>))
         .def("__repr__", &(shiftToString<Model>))
-
-        .def(
-            "is_defined",
-            &Model::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-            )doc"
-        )
 
         .def(
             "is_tabulated",

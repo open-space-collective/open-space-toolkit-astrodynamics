@@ -132,8 +132,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Constructor)
         EXPECT_NO_THROW(CloseApproach closeApproach(object1State, object2State););
 
         const CloseApproach closeApproach(object1State, object2State);
-
-        EXPECT_TRUE(closeApproach.isDefined());
         expectCovarianceEq(object1Covariance, closeApproach.getObject1State().getCovariance().value());
         expectCovarianceEq(object2Covariance, closeApproach.getObject2State().getCovariance().value());
         EXPECT_NEAR(
@@ -184,39 +182,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, StreamOperator)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, IsDefined)
-{
-    {
-        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
-        const Shared<const Frame> gcrfFrame = Frame::GCRF();
-
-        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
-        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
-
-        const CloseApproach closeApproach(object1State, object2State);
-
-        EXPECT_TRUE(closeApproach.isDefined());
-    }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_FALSE(closeApproach.isDefined());
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
-        const Shared<const Frame> gcrfFrame = Frame::GCRF();
-
-        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
-        const State object2State = State::Undefined();
-
-        const CloseApproach closeApproach(object1State, object2State);
-
-        EXPECT_FALSE(closeApproach.isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetInstant)
 {
     {
@@ -229,18 +194,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetInstant)
         const CloseApproach closeApproach(object1State, object2State);
 
         EXPECT_EQ(instant, closeApproach.getInstant());
-    }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try { closeApproach.getInstant(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -257,18 +210,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject1State
 
         EXPECT_EQ(object1State, closeApproach.getObject1State());
     }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try { closeApproach.getObject1State(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject2State)
@@ -283,18 +224,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, GetObject2State
         const CloseApproach closeApproach(object1State, object2State);
 
         EXPECT_EQ(object2State, closeApproach.getObject2State());
-    }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try { closeApproach.getObject2State(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -411,18 +340,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Scale)
         EXPECT_FALSE(scaledCloseApproach.getObject1State().hasCovariance());
         EXPECT_FALSE(scaledCloseApproach.getObject2State().hasCovariance());
     }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try { closeApproach.scale(2.0, 4.0); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Swap)
@@ -448,8 +365,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Swap)
         const CloseApproach closeApproach(object1State, object2State);
 
         const CloseApproach swappedCloseApproach = closeApproach.swap();
-
-        EXPECT_TRUE(swappedCloseApproach.isDefined());
         EXPECT_EQ(object2State, swappedCloseApproach.getObject1State());
         EXPECT_EQ(object1State, swappedCloseApproach.getObject2State());
         expectCovarianceEq(object2Covariance, swappedCloseApproach.getObject1State().getCovariance().value());
@@ -477,18 +392,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Swap)
         EXPECT_EQ(object1State, swappedCloseApproach.getObject2State());
         EXPECT_FALSE(swappedCloseApproach.getObject1State().hasCovariance());
         EXPECT_FALSE(swappedCloseApproach.getObject2State().hasCovariance());
-    }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try { closeApproach.swap(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -529,18 +432,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRelative
         EXPECT_NEAR(coordinates[4], -8.0e3, 1e-3);
         EXPECT_NEAR(coordinates[5], 8.0e3, 1e-3);
     }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try { closeApproach.computeRelativeState(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDistance)
@@ -560,18 +451,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDist
         const double expectedMissDistance = std::sqrt(7.0e6 * 7.0e6 + 7.0e6 * 7.0e6);
 
         EXPECT_NEAR(missDistance.inMeters(), expectedMissDistance, 1e-6);
-    }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try { closeApproach.computeMissDistance(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -593,18 +472,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRelative
 
         EXPECT_EQ(Derived::Unit::MeterPerSecond(), relativeSpeed.getUnit());
         EXPECT_NEAR(relativeSpeed.in(Derived::Unit::MeterPerSecond()), expectedRelativeSpeed, 1e-6);
-    }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try { closeApproach.computeRelativeSpeed(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -685,20 +552,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDist
     }
 
     {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try {
-                closeApproach.computeMissDistanceComponentsInFrame(Frame::GCRF());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
         const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
         const Shared<const Frame> gcrfFrame = Frame::GCRF();
 
@@ -739,44 +592,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeMissDist
         EXPECT_NEAR(std::get<1>(missDistanceComponents).inMeters(), 7.0e6, 1e-3);
         EXPECT_NEAR(std::get<2>(missDistanceComponents).inMeters(), 0.0, 1e-3);
     }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        const LocalOrbitalFrameFactory qswFactory = LocalOrbitalFrameFactory::QSW(Frame::GCRF());
-
-        EXPECT_THROW(
-            try {
-                closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(qswFactory);
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        const Instant instant = Instant::DateTime(DateTime(2024, 1, 1, 0, 0, 0), Scale::UTC);
-        const Shared<const Frame> gcrfFrame = Frame::GCRF();
-
-        const State object1State = buildState(instant, gcrfFrame, Vector3d(7.0e6, 0.0, 0.0), Vector3d(0.0, 8.0e3, 0.0));
-        const State object2State = buildState(instant, gcrfFrame, Vector3d(0.0, 7.0e6, 0.0), Vector3d(0.0, 0.0, 8.0e3));
-
-        const CloseApproach closeApproach(object1State, object2State);
-
-        const LocalOrbitalFrameFactory undefinedFactory = LocalOrbitalFrameFactory::Undefined();
-
-        EXPECT_THROW(
-            try {
-                closeApproach.computeMissDistanceComponentsInLocalOrbitalFrame(undefinedFactory);
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{LocalOrbitalFrameFactory} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeEncounterFrame)
@@ -798,8 +613,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeEncounte
         const Shared<const Frame> encounterFrame = closeApproach.computeEncounterFrame();
 
         EXPECT_TRUE(encounterFrame != nullptr);
-        EXPECT_TRUE(encounterFrame->isDefined());
-        EXPECT_EQ(gcrfFrame, encounterFrame->accessParent());
+        EXPECT_EQ(gcrfFrame, encounterFrame->getParent());
 
         const Vector3d relativePosition = object2Position - object1Position;
         const Vector3d relativeVelocity = object2Velocity - object1Velocity;
@@ -847,16 +661,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeEncounte
 
         EXPECT_THROW(
             try {
-                closeApproach.computeEncounterFrame(Frame::Undefined());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Frame} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
                 closeApproach.computeEncounterFrame(Frame::ITRF());
             } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_EQ("Frame = ITRF is wrong.", e.getMessage());
@@ -889,18 +693,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeEncounte
         const CloseApproach closeApproach(object1State, object2State);
 
         EXPECT_THROW(closeApproach.computeEncounterFrame(), ostk::core::error::RuntimeError);
-    }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try { closeApproach.computeEncounterFrame(); } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
     }
 }
 
@@ -955,8 +747,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRotatedE
         const Shared<const Frame> rotatedEncounterFrameSPtr = parameters.rotatedEncounterFrameSPtr;
 
         ASSERT_TRUE(rotatedEncounterFrameSPtr != nullptr);
-        EXPECT_TRUE(rotatedEncounterFrameSPtr->isDefined());
-        EXPECT_EQ(encounterFrameSPtr, rotatedEncounterFrameSPtr->accessParent());
+        EXPECT_EQ(encounterFrameSPtr, rotatedEncounterFrameSPtr->getParent());
 
         // In the rotated encounter frame, the miss distance lies in the x-y plane, with the 60 m component along x
         const Tuple<Length, Length, Length> missDistanceComponents =
@@ -1023,7 +814,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRotatedE
         const Shared<const Frame> rotatedEncounterFrameSPtr = parameters.rotatedEncounterFrameSPtr;
 
         ASSERT_TRUE(rotatedEncounterFrameSPtr != nullptr);
-        EXPECT_EQ(encounterFrameSPtr, rotatedEncounterFrameSPtr->accessParent());
+        EXPECT_EQ(encounterFrameSPtr, rotatedEncounterFrameSPtr->getParent());
 
         const Tuple<Length, Length, Length> missDistanceComponents =
             closeApproach.computeMissDistanceComponentsInFrame(rotatedEncounterFrameSPtr);
@@ -1053,23 +844,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRotatedE
         EXPECT_NEAR(parameters.sigmaY.inMeters(), 10.0, 1e-6);
     }
 
-    // Undefined encounter frame
+    // Null encounter frame
     {
         const CloseApproach closeApproach = buildCloseApproach({6.0, 50.0, 3.0}, {8.0, 50.0, 4.0});
 
         EXPECT_THROW(
             try {
                 closeApproach.computeRotatedEncounterFrameParameters(nullptr);
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Encounter frame} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
-                closeApproach.computeRotatedEncounterFrameParameters(Frame::Undefined());
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Encounter frame} is undefined.", e.getMessage());
                 throw;
@@ -1117,20 +898,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, ComputeRotatedE
         }
     }
 
-    // Undefined close approach
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_THROW(
-            try {
-                closeApproach.computeRotatedEncounterFrameParameters(gcrfFrame);
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{CloseApproach} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
+    // Null close approach
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Print)
@@ -1167,24 +935,5 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Print)
         const std::string output = testing::internal::GetCapturedStdout();
 
         EXPECT_FALSE(output.empty());
-    }
-
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        testing::internal::CaptureStdout();
-
-        EXPECT_NO_THROW(closeApproach.print(std::cout, true));
-
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach, Undefined)
-{
-    {
-        const CloseApproach closeApproach = CloseApproach::Undefined();
-
-        EXPECT_FALSE(closeApproach.isDefined());
     }
 }

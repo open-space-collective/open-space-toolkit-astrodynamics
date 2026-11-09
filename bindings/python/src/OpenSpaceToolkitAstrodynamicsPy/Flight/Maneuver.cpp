@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::mathematics::curvefitting::Interpolator;
 
@@ -24,7 +24,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
         .def(
             init<const Array<State>&, const Interpolator::Type&>(),
             arg("states"),
-            arg_v("interpolation_type", DEFAULT_MANEUVER_INTERPOLATION_TYPE, "Interpolator.Type.BarycentricRational"),
+            arg("interpolation_type").sig("Interpolator.Type.BarycentricRational") =
+                DEFAULT_MANEUVER_INTERPOLATION_TYPE,
             R"doc(
                 Constructor.
 
@@ -34,22 +35,26 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
+        .def(
+            "__eq__",
+            [](const Maneuver& self, const Maneuver& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const Maneuver& self, const Maneuver& other)
+            {
+                return self != other;
+            },
+            is_operator()
+        )
 
         .def("__str__", &(shiftToString<Maneuver>))
         .def("__repr__", &(shiftToString<Maneuver>))
 
-        .def(
-            "is_defined",
-            &Maneuver::isDefined,
-            R"doc(
-                Check if the maneuver is defined.
-
-                Returns:
-                    bool: True if the maneuver is defined, False otherwise. (Always returns true).
-            )doc"
-        )
         .def(
             "get_states",
             &Maneuver::getStates,
@@ -131,7 +136,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
         .def(
             "to_tabulated_dynamics",
             &Maneuver::toTabulatedDynamics,
-            arg_v("frame", Maneuver::DefaultAccelFrameSPtr, "GCRF"),
+            arg("frame").sig("GCRF") = Maneuver::DefaultAccelFrameSPtr,
             R"doc(
                 Convert the maneuver to tabulated dynamics, which use the interpolation type of the maneuver.
 
@@ -160,7 +165,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             "to_constant_local_orbital_frame_direction_maneuver",
             &Maneuver::toConstantLocalOrbitalFrameDirectionManeuver,
             arg("local_orbital_frame_factory"),
-            arg_v("maximum_allowed_angular_offset", Angle::Undefined(), "Angle.Undefined()"),
+            arg("maximum_allowed_angular_offset") = none(),
             R"doc(
                 Create a maneuver with a constant thrust acceleration direction in the Local Orbital Frame.
 
@@ -168,12 +173,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
                 constant in the Local Orbital Frame. Said direction is the mean direction of the thrust acceleration directions 
                 in the Local Orbital Frame of the original Maneuver. The thrust acceleration magnitude profile is the same as the original.
 
-                If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thrust acceleration direction 
+                If provided, a runtime error will be thrown if the maximum allowed angular offset between the original thrust acceleration direction 
                 and the mean thrust direction is violated.
 
                 Args:
                     local_orbital_frame_factory (LocalOrbitalFrameFactory): The local orbital frame factory.
-                    maximum_allowed_angular_offset (Angle, optional): The maximum allowed angular offset to consider (if any). Defaults to Undefined.
+                    maximum_allowed_angular_offset (Angle | None, optional): The maximum allowed angular offset to consider (if any). Defaults to None.
 
                 Returns:
                     Maneuver: The constant local orbital frame direction maneuver.
@@ -184,7 +189,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Maneuver(pybind11::module& aM
             &Maneuver::ConstantMassFlowRateProfile,
             arg("states"),
             arg("mass_flow_rate"),
-            arg_v("interpolation_type", DEFAULT_MANEUVER_INTERPOLATION_TYPE, "Interpolator.Type.BarycentricRational"),
+            arg("interpolation_type").sig("Interpolator.Type.BarycentricRational") =
+                DEFAULT_MANEUVER_INTERPOLATION_TYPE,
             R"doc(
                 Create a maneuver from a constant mass flow rate profile.
 

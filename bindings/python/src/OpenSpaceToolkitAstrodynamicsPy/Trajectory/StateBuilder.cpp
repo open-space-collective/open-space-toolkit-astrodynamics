@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -69,7 +69,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
         )
 
         .def(
-            self == self,
+            "__eq__",
+            [](const StateBuilder& self, const StateBuilder& other)
+            {
+                return self == other;
+            },
+            is_operator(),
             R"doc(
                 Check if two `StateBuilder` objects are equal.
 
@@ -78,7 +83,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
             )doc"
         )
         .def(
-            self != self,
+            "__ne__",
+            [](const StateBuilder& self, const StateBuilder& other)
+            {
+                return self != other;
+            },
+            is_operator(),
             R"doc(
                 Check if two `StateBuilder` objects are not equal.
 
@@ -123,17 +133,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
 
         .def("__str__", &(shiftToString<StateBuilder>))
         .def("__repr__", &(shiftToString<StateBuilder>))
-
-        .def(
-            "is_defined",
-            &StateBuilder::isDefined,
-            R"doc(
-                Check if the `StateBuilder` is defined.
-
-                Returns:
-                    bool: True if the `StateBuilder` is defined, False otherwise.
-            )doc"
-        )
 
         .def(
             "build",
@@ -222,17 +221,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_StateBuilder(pybind11::mo
 
                 Returns:
                     Frame: The reference frame of the `StateBuilder`.
-            )doc"
-        )
-
-        .def_static(
-            "undefined",
-            &StateBuilder::Undefined,
-            R"doc(
-                Get an undefined `StateBuilder`.
-
-                Returns:
-                    StateBuilder: The undefined `StateBuilder`.
             )doc"
         )
 

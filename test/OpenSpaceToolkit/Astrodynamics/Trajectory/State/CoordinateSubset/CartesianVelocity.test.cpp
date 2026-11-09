@@ -59,7 +59,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Cartesia
         expected << 5.0, 7.0, 9.0;
 
         const VectorXd actual = defaultCartesianVelocity_.add(
-            Instant::Undefined(), allCoordinates_1, allCoordinates_2, Frame::Undefined(), defaultCoordinateBroker_
+            Instant::J2000(), allCoordinates_1, allCoordinates_2, Frame::GCRF(), defaultCoordinateBroker_
         );
 
         EXPECT_EQ(expected, actual);
@@ -78,7 +78,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_CoordinateSubset_Cartesia
         expected << 5.0, 7.0, 9.0;
 
         const VectorXd actual = defaultCartesianVelocity_.subtract(
-            Instant::Undefined(), allCoordinates_1, allCoordinates_2, Frame::Undefined(), defaultCoordinateBroker_
+            Instant::J2000(), allCoordinates_1, allCoordinates_2, Frame::GCRF(), defaultCoordinateBroker_
         );
 
         EXPECT_EQ(expected, actual);

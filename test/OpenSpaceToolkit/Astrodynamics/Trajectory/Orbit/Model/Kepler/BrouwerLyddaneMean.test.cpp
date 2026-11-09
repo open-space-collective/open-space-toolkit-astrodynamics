@@ -88,13 +88,4 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLydda
             COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly_, eccentricity_, 1e-15)
         );
     }
-
-    {
-        const BrouwerLyddaneMeanMock brouwerLyddaneMeanMock(
-            Length::Undefined(), eccentricity_, inclination_, raan_, aop_, meanAnomaly_
-        );
-        EXPECT_ANY_THROW(brouwerLyddaneMeanMock.getMeanAnomaly());
-        EXPECT_ANY_THROW(brouwerLyddaneMeanMock.getTrueAnomaly());
-        EXPECT_ANY_THROW(brouwerLyddaneMeanMock.getEccentricAnomaly());
-    }
 }

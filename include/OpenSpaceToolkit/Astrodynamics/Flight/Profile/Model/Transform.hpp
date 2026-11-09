@@ -54,6 +54,7 @@ class Transform : public virtual Model
     ///
     /// @param aDynamicTransformProvider A dynamic transform provider.
     /// @param aFrameSPtr A shared pointer to a reference frame.
+    /// @throw ostk::core::error::runtime::Undefined If the frame pointer is null.
     Transform(const DynamicProvider& aDynamicTransformProvider, const Shared<const Frame>& aFrameSPtr);
 
     /// @brief Clone the transform model.
@@ -75,15 +76,6 @@ class Transform : public virtual Model
     /// @param aTransformModel A transform model.
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Transform& aTransformModel);
-
-    /// @brief Check if the transform model is defined.
-    ///
-    /// @code{.cpp}
-    ///     bool defined = transform.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if the transform model is defined.
-    virtual bool isDefined() const override;
 
     /// @brief Calculate the state at a given instant.
     ///
@@ -124,15 +116,6 @@ class Transform : public virtual Model
     /// @param anOutputStream An output stream.
     /// @param displayDecorator If true, display a decorator.
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
-
-    /// @brief Construct an undefined transform model.
-    ///
-    /// @code{.cpp}
-    ///     Transform transform = Transform::Undefined() ;
-    /// @endcode
-    ///
-    /// @return An undefined transform model.
-    static Transform Undefined();
 
     /// @brief Constructs a flight profile with inertial pointing
     ///

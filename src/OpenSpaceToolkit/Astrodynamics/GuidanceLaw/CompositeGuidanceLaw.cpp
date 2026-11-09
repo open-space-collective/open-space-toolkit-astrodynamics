@@ -57,11 +57,6 @@ void CompositeGuidanceLaw::addGuidanceLaw(const Shared<const GuidanceLaw>& aGuid
         throw ostk::core::error::RuntimeError("Guidance law cannot be null.");
     }
 
-    if (!anInterval.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Interval");
-    }
-
     for (const Interval& interval : intervals_)
     {
         if (interval.intersects(anInterval))

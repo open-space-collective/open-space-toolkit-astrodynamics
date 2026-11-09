@@ -51,11 +51,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, Constructor)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, IsDefined)
-{
-    EXPECT_TRUE(positionDerivative_.isDefined());
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, StreamOperator)
 {
     {
@@ -101,7 +96,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, GetWriteCoord
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative, ComputeContribution)
 {
     const VectorXd contribution =
-        positionDerivative_.computeContribution(startInstant_, startStateVector_.segment(3, 3), Frame::Undefined());
+        positionDerivative_.computeContribution(startInstant_, startStateVector_.segment(3, 3), Frame::GCRF());
 
     EXPECT_EQ(3, contribution.size());
     EXPECT_EQ(startStateVector_[3], contribution[0]);

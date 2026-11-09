@@ -146,14 +146,12 @@ class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver : public ::
 
         for (const auto& observationRow : observationData)
         {
-            const Instant instant = Instant::DateTime(DateTime::Parse(observationRow[0].accessString()), Scale::UTC);
+            const Instant instant = Instant::DateTime(DateTime::Parse(observationRow[0].getString()), Scale::UTC);
             const Position position = Position::Meters(
-                {observationRow[1].accessReal(), observationRow[2].accessReal(), observationRow[3].accessReal()},
-                Frame::ITRF()
+                {observationRow[1].getReal(), observationRow[2].getReal(), observationRow[3].getReal()}, Frame::ITRF()
             );
             const Velocity velocity = Velocity::MetersPerSecond(
-                {observationRow[4].accessReal(), observationRow[5].accessReal(), observationRow[6].accessReal()},
-                Frame::ITRF()
+                {observationRow[4].getReal(), observationRow[5].getReal(), observationRow[6].getReal()}, Frame::ITRF()
             );
 
             observationStates_.add(State(instant, position, velocity));
@@ -218,8 +216,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Getters)
     {
         const OrbitDeterminationSolver odSolver(environment_, numericalSolver_);
 
-        EXPECT_EQ(odSolver.getEnvironment().accessCentralCelestialObject()->getName(), "Earth");
-        EXPECT_TRUE(odSolver.getPropagator().isDefined());
+        EXPECT_EQ(odSolver.getEnvironment().getCentralCelestialObject()->getName(), "Earth");
         EXPECT_NO_THROW(odSolver.getSolver());
         EXPECT_EQ(odSolver.getEstimationFrame()->getName(), "GCRF");
     }
@@ -309,11 +306,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateO
         // Test basic orbit estimator
         const Orbit orbit = odSolver_.estimateOrbit(observationStates_[0], observationStates_);
 
-        EXPECT_TRUE(orbit.isDefined());
-
         // Check propagated state matches initial condition
-        const State orbitState = orbit.getStateAt(observationStates_[0].getInstant());
-        EXPECT_TRUE(orbitState.isDefined());
+        EXPECT_NO_THROW(orbit.getStateAt(observationStates_[0].getInstant()));
     }
 
     {
@@ -326,6 +320,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, EstimateO
             observationStates_[0], observationStates_, estimationSubsets, initialGuessSigmas_, observationSigmas_
         );
 
-        EXPECT_TRUE(orbit.isDefined());
+        EXPECT_NO_THROW(orbit.getStateAt(observationStates_[0].getInstant()));
     }
 }

@@ -174,7 +174,7 @@ Array<Shared<Dynamics>> Dynamics::FromEnvironment(const Environment& anEnvironme
 
     for (const String& name : anEnvironment.getObjectNames())
     {
-        const Shared<const Celestial> celestialSPtr = anEnvironment.accessCelestialObjectWithName(name);
+        const Shared<const Celestial> celestialSPtr = anEnvironment.getCelestialObjectWithName(name);
 
         dynamicsArray.add(getDynamics(celestialSPtr));
     }

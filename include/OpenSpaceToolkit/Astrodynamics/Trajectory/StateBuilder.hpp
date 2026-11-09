@@ -105,11 +105,6 @@ class StateBuilder
     /// @return The output stream with the StateBuilder inserted
     friend std::ostream& operator<<(std::ostream& anOutputStream, const StateBuilder& aStateBuilder);
 
-    /// @brief Check if the StateBuilder is defined.
-    ///
-    /// @return True if the StateBuilder is defined, false otherwise
-    bool isDefined() const;
-
     /// @brief Produce a State linked to the Frame and Coordinates Broker of the StateBuilder.
     ///
     /// @code{.cpp}
@@ -173,15 +168,6 @@ class StateBuilder
     /// @param anOutputStream The output stream to print to
     /// @param displayDecorator Whether or not to display the decorator
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
-
-    /// @brief Get an undefined StateBuilder.
-    ///
-    /// @code{.cpp}
-    ///     StateBuilder builder = StateBuilder::Undefined() ;
-    /// @endcode
-    ///
-    /// @return An undefined StateBuilder.
-    static StateBuilder Undefined();
 
    private:
     Shared<const Frame> frameSPtr_;

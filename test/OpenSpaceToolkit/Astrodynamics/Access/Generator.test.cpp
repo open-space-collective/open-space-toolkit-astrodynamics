@@ -5,7 +5,6 @@
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 
@@ -30,7 +29,6 @@ using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -74,7 +72,7 @@ class OpenSpaceToolkit_Astrodynamics_Access_Generator : public ::testing::Test
 {
    protected:
     Environment defaultEnvironment_ = Environment::Default();
-    const Shared<const Celestial> defaultEarthSPtr_ = defaultEnvironment_.accessCelestialObjectWithName("Earth");
+    const Shared<const Celestial> defaultEarthSPtr_ = defaultEnvironment_.getCelestialObjectWithName("Earth");
     Duration defaultStep_ = Duration::Minutes(1.0);
     Duration defaultTolerance_ = Duration::Microseconds(1.0);
     Generator defaultGenerator_ = {this->defaultEnvironment_, this->defaultStep_, this->defaultTolerance_};
@@ -84,13 +82,13 @@ class OpenSpaceToolkit_Astrodynamics_Access_AccessTarget : public ::testing::Tes
 {
    protected:
     Environment defaultEnvironment_ = Environment::Default();
-    const Shared<const Celestial> defaultEarthSPtr_ = defaultEnvironment_.accessCelestialObjectWithName("Earth");
-    const ostk::mathematics::object::Interval<Real> defaultAzimuthInterval_ =
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
-    const ostk::mathematics::object::Interval<Real> defaultElevationInterval_ =
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
-    const ostk::mathematics::object::Interval<Real> defaultRangeInterval_ =
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
+    const Shared<const Celestial> defaultEarthSPtr_ = defaultEnvironment_.getCelestialObjectWithName("Earth");
+    const ostk::mathematics::object::Interval<double> defaultAzimuthInterval_ =
+        ostk::mathematics::object::Interval<double>::Closed(0.0, 360.0);
+    const ostk::mathematics::object::Interval<double> defaultElevationInterval_ =
+        ostk::mathematics::object::Interval<double>::Closed(0.0, 90.0);
+    const ostk::mathematics::object::Interval<double> defaultRangeInterval_ =
+        ostk::mathematics::object::Interval<double>::Closed(0.0, 1.0e10);
     const LLA defaultLLA_ = LLA::Vector({0.0, 0.0, 0.0});
 
     const VisibilityCriterion defaultVisibilityCriterion_ =
@@ -109,11 +107,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, Constructor)
 
         {
             EXPECT_NO_THROW(AccessTarget::FromLLA(defaultVisibilityCriterion_, defaultLLA_, defaultEarthSPtr_));
-
-            EXPECT_THROW(
-                AccessTarget::FromLLA(defaultVisibilityCriterion_, LLA::Undefined(), defaultEarthSPtr_),
-                ostk::core::error::runtime::Undefined
-            );
         }
 
         // FromPosition
@@ -123,13 +116,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, Constructor)
                 const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
                 EXPECT_NO_THROW(AccessTarget::FromPosition(defaultVisibilityCriterion_, position));
             }
-
-            {
-                EXPECT_THROW(
-                    AccessTarget::FromPosition(defaultVisibilityCriterion_, Position::Undefined()),
-                    ostk::core::error::runtime::Undefined
-                );
-            }
         }
 
         // FromTrajectory
@@ -138,13 +124,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, Constructor)
             {
                 const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
                 EXPECT_NO_THROW(AccessTarget::FromTrajectory(defaultVisibilityCriterion_, trajectory));
-            }
-
-            {
-                EXPECT_THROW(
-                    AccessTarget::FromTrajectory(defaultVisibilityCriterion_, Trajectory(Array<State>::Empty())),
-                    ostk::core::error::runtime::Undefined
-                );
             }
         }
     }
@@ -201,14 +180,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetPosition)
 {
     {
         EXPECT_VECTORS_ALMOST_EQUAL(
-            defaultAccessTarget_.getPosition(defaultEarthSPtr_).accessCoordinates(),
+            defaultAccessTarget_.getPosition(defaultEarthSPtr_).getCoordinates(),
             Position::Meters(
                 defaultLLA_.toCartesian(
                     EarthGravitationalModel::EGM2008.equatorialRadius_, EarthGravitationalModel::EGM2008.flattening_
                 ),
-                defaultEarthSPtr_->accessFrame()
+                defaultEarthSPtr_->getFrame()
             )
-                .accessCoordinates(),
+                .getCoordinates(),
             1e-13
         );
     }
@@ -265,43 +244,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromTrajectory)
     EXPECT_EQ(accessTarget.getVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
-{
-    {
-        EXPECT_TRUE(defaultGenerator_.isDefined());
-    }
-
-    {
-        const auto stateFilter = [](const State& aFirstState, const State& aSecondState) -> bool
-        {
-            (void)aFirstState;
-            (void)aSecondState;
-            return true;
-        };
-
-        const auto accessFilter = [](const Access&) -> bool
-        {
-            return true;
-        };
-
-        const Generator generator = {defaultEnvironment_, defaultStep_, defaultTolerance_, accessFilter, stateFilter};
-
-        EXPECT_TRUE(generator.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(Generator::Undefined().isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStep)
 {
     {
         EXPECT_EQ(defaultStep_, defaultGenerator_.getStep());
-    }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getStep());
     }
 }
 
@@ -310,10 +256,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetTolerance)
     {
         EXPECT_EQ(defaultTolerance_, defaultGenerator_.getTolerance());
     }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getTolerance());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAccessFilter)
@@ -321,20 +263,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetAccessFilter)
     {
         EXPECT_EQ(nullptr, defaultGenerator_.getAccessFilter());
     }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getAccessFilter());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetStateFilter)
 {
     {
         EXPECT_EQ(nullptr, defaultGenerator_.getStateFilter());
-    }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getStateFilter());
     }
 }
 
@@ -362,7 +296,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.getCelestialObjectWithName("Earth")};
 
         return orbit;
     };
@@ -387,7 +321,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.getCelestialObjectWithName("Earth")};
 
         return orbit;
     };
@@ -396,9 +330,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
     const Orbit toOrbit = generateSecondOrbit();
 
     const VisibilityCriterion visibilityCriterion = VisibilityCriterion::FromAERInterval(
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0),
-        ostk::mathematics::object::Interval<Real>::Closed(-90.0, 90.0),
-        ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10)
+        ostk::mathematics::object::Interval<double>::Closed(0.0, 360.0),
+        ostk::mathematics::object::Interval<double>::Closed(-90.0, 90.0),
+        ostk::mathematics::object::Interval<double>::Closed(0.0, 1.0e10)
     );
     const AccessTarget accessTarget = AccessTarget::FromTrajectory(visibilityCriterion, fromOrbit);
 
@@ -407,14 +341,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
 
         EXPECT_NE(nullptr, conditionFunction);
         EXPECT_TRUE(conditionFunction(epoch));
-    }
-
-    {
-        EXPECT_ANY_THROW(Generator::Undefined().getConditionFunction(accessTarget, toOrbit));
-    }
-
-    {
-        EXPECT_ANY_THROW(defaultGenerator_.getConditionFunction(accessTarget, Trajectory(Array<State>::Empty())));
     }
 }
 
@@ -446,7 +372,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.getCelestialObjectWithName("Earth")};
 
         return orbit;
     };
@@ -472,7 +398,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.getCelestialObjectWithName("Earth")};
 
         return orbit;
     };
@@ -506,20 +432,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_1)
         const Access& access = std::get<1>(accessTuple);
 
         const Instant reference_acquisitionOfSignal =
-            Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+            Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC);
         const Instant reference_timeOfClosestApproach =
-            Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+            Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
         const Instant reference_lossOfSignal =
-            Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
-        const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
+            Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
+        const Duration reference_duration = Duration::Seconds(referenceRow[3].getReal());
 
         ASSERT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
             << String::Format(
                    "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
                );
-        ASSERT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
+        ASSERT_TRUE(access.getTimeOfClosestApproach().value().isNear(reference_timeOfClosestApproach, toleranceDuration)
+        )
             << String::Format(
-                   "{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()
+                   "{} ~ {}",
+                   reference_timeOfClosestApproach.toString(),
+                   access.getTimeOfClosestApproach().value().toString()
                );
         ASSERT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
             << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
@@ -558,7 +487,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
             coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::None
         };
 
-        const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
+        const Orbit orbit = {keplerianModel, defaultEnvironment_.getCelestialObjectWithName("Earth")};
 
         return orbit;
     };
@@ -589,7 +518,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
                                  const Position& aToPosition,
                                  const Shared<const Celestial>& anEarthSPtr) -> AER
     {
-        const Vector3d referenceCoordinates_ITRF = aFromPosition.inFrame(Frame::ITRF(), anInstant).accessCoordinates();
+        const Vector3d referenceCoordinates_ITRF = aFromPosition.inFrame(Frame::ITRF(), anInstant).getCoordinates();
 
         const LLA referencePoint_LLA =
             LLA::Cartesian(referenceCoordinates_ITRF, anEarthSPtr->getEquatorialRadius(), anEarthSPtr->getFlattening());
@@ -612,30 +541,33 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
         const Access& access = std::get<1>(accessTuple);
 
         const Instant reference_acquisitionOfSignal =
-            Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+            Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC);
         const Instant reference_timeOfClosestApproach =
-            Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+            Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
         const Instant reference_lossOfSignal =
-            Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
-        const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
+            Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
+        const Duration reference_duration = Duration::Seconds(referenceRow[3].getReal());
 
         EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
             << String::Format(
                    "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
                );
-        EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
+        EXPECT_TRUE(access.getTimeOfClosestApproach().value().isNear(reference_timeOfClosestApproach, toleranceDuration)
+        )
             << String::Format(
-                   "{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()
+                   "{} ~ {}",
+                   reference_timeOfClosestApproach.toString(),
+                   access.getTimeOfClosestApproach().value().toString()
                );
         EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
             << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
         EXPECT_TRUE(access.getDuration().isNear(reference_duration, toleranceDuration))
             << String::Format("{} ~ {}", reference_duration.toString(), access.getDuration().toString());
 
-        const State groundStateAtTCA = groundTrajectory.getStateAt(access.getTimeOfClosestApproach());
-        const State satelliteStateAtTCA = satelliteOrbit.getStateAt(access.getTimeOfClosestApproach());
+        const State groundStateAtTCA = groundTrajectory.getStateAt(access.getTimeOfClosestApproach().value());
+        const State satelliteStateAtTCA = satelliteOrbit.getStateAt(access.getTimeOfClosestApproach().value());
         const AER aerAtTCA = calculateAer(
-            access.getTimeOfClosestApproach(),
+            access.getTimeOfClosestApproach().value(),
             groundStateAtTCA.getPosition(),
             satelliteStateAtTCA.getPosition(),
             defaultEarthSPtr_
@@ -696,20 +628,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_3)
         const Access& access = std::get<1>(accessTuple);
 
         const Instant reference_acquisitionOfSignal =
-            Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+            Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC);
         const Instant reference_timeOfClosestApproach =
-            Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+            Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
         const Instant reference_lossOfSignal =
-            Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
-        const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
+            Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
+        const Duration reference_duration = Duration::Seconds(referenceRow[3].getReal());
 
         EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
             << String::Format(
                    "{} ~ {}", reference_acquisitionOfSignal.toString(), access.getAcquisitionOfSignal().toString()
                );
-        EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(reference_timeOfClosestApproach, toleranceDuration))
+        EXPECT_TRUE(access.getTimeOfClosestApproach().value().isNear(reference_timeOfClosestApproach, toleranceDuration)
+        )
             << String::Format(
-                   "{} ~ {}", reference_timeOfClosestApproach.toString(), access.getTimeOfClosestApproach().toString()
+                   "{} ~ {}",
+                   reference_timeOfClosestApproach.toString(),
+                   access.getTimeOfClosestApproach().value().toString()
                );
         EXPECT_TRUE(access.getLossOfSignal().isNear(reference_lossOfSignal, toleranceDuration))
             << String::Format("{} ~ {}", reference_lossOfSignal.toString(), access.getLossOfSignal().toString());
@@ -735,7 +670,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, TimeOfClosestApproachIsA
     const Orbit orbit = {SGP4(tle), defaultEarthSPtr_};
 
     const VisibilityCriterion visibilityCriterion =
-        VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0));
+        VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<double>::Closed(0.0, 90.0));
 
     const AccessTarget accessTarget = AccessTarget::FromLLA(
         visibilityCriterion, LLA(Angle::Degrees(-45.0), Angle::Degrees(-170.0), Length::Meters(0.0)), defaultEarthSPtr_
@@ -749,21 +684,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, TimeOfClosestApproachIsA
 
     const auto rangeAt = [&targetTrajectory, &orbit, this](const Instant& anInstant) -> double
     {
-        const Shared<const Frame> earthFrameSPtr = defaultEarthSPtr_->accessFrame();
+        const Shared<const Frame> earthFrameSPtr = defaultEarthSPtr_->getFrame();
 
-        return (orbit.getStateAt(anInstant).getPosition().inFrame(earthFrameSPtr, anInstant).accessCoordinates() -
-                targetTrajectory.getStateAt(anInstant)
-                    .getPosition()
-                    .inFrame(earthFrameSPtr, anInstant)
-                    .accessCoordinates())
+        return (orbit.getStateAt(anInstant).getPosition().inFrame(earthFrameSPtr, anInstant).getCoordinates() -
+                targetTrajectory.getStateAt(anInstant).getPosition().inFrame(earthFrameSPtr, anInstant).getCoordinates()
+        )
             .norm();
     };
 
     for (const Access& access : accesses)
     {
-        const Instant timeOfClosestApproach = access.getTimeOfClosestApproach();
+        ASSERT_TRUE(access.getTimeOfClosestApproach().has_value());
 
-        ASSERT_TRUE(timeOfClosestApproach.isDefined());
+        const Instant timeOfClosestApproach = access.getTimeOfClosestApproach().value();
+
         EXPECT_TRUE(access.getAcquisitionOfSignal() <= timeOfClosestApproach);
         EXPECT_TRUE(timeOfClosestApproach <= access.getLossOfSignal());
 
@@ -884,12 +818,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         const SGP4 sgp4 = SGP4(tle);
         const Orbit orbit = Orbit(sgp4, defaultEarthSPtr_);
 
-        const ostk::mathematics::object::Interval<Real> azimuthInterval =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
-        const ostk::mathematics::object::Interval<Real> elevationInterval =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
-        const ostk::mathematics::object::Interval<Real> rangeInterval =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
+        const ostk::mathematics::object::Interval<double> azimuthInterval =
+            ostk::mathematics::object::Interval<double>::Closed(0.0, 360.0);
+        const ostk::mathematics::object::Interval<double> elevationInterval =
+            ostk::mathematics::object::Interval<double>::Closed(0.0, 90.0);
+        const ostk::mathematics::object::Interval<double> rangeInterval =
+            ostk::mathematics::object::Interval<double>::Closed(0.0, 1.0e10);
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
@@ -905,17 +839,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         // Array of targets
 
         {
-            EXPECT_THROW(
-                defaultGenerator_.computeAccesses(Interval::Undefined(), {accessTarget}, orbit),
-                ostk::core::error::runtime::Undefined
-            );
-
             EXPECT_THROW(defaultGenerator_.computeAccesses(interval, {}, orbit), ostk::core::error::runtime::Undefined);
-
-            EXPECT_THROW(
-                defaultGenerator_.computeAccesses(interval, {accessTarget}, Trajectory(Array<State>::Empty())),
-                ostk::core::error::runtime::Undefined
-            );
 
             EXPECT_THROW(
                 defaultGenerator_.computeAccesses(interval, {trajectoryTarget}, orbit, true),
@@ -932,16 +856,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
         {
             EXPECT_THROW(
-                defaultGenerator_.computeAccesses(Interval::Undefined(), accessTarget, orbit),
-                ostk::core::error::runtime::Undefined
-            );
-
-            EXPECT_THROW(
-                defaultGenerator_.computeAccesses(interval, accessTarget, Trajectory(Array<State>::Empty())),
-                ostk::core::error::runtime::Undefined
-            );
-
-            EXPECT_THROW(
                 defaultGenerator_.computeAccesses(interval, trajectoryTarget, orbit, true),
                 ostk::core::error::RuntimeError
             );
@@ -954,7 +868,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             "2 60504  97.4383   7.6998 0003154 274.9510 182.9597 15.19652001  9607",
         };
         const SGP4 sgp4 = SGP4(tle);
-        const Orbit toTrajectory = Orbit(sgp4, defaultEnvironment_.accessCelestialObjectWithName("Earth"));
+        const Orbit toTrajectory = Orbit(sgp4, defaultEnvironment_.getCelestialObjectWithName("Earth"));
 
         const Instant startInstant = Instant::Parse("2024-10-19 02:25:00.744.384", Scale::UTC);
         const Instant endInstant = startInstant + Duration::Hours(6.0);
@@ -980,12 +894,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         // AER Interval visibility criterion, multiple targets
 
         {
-            const ostk::mathematics::object::Interval<Real> azimuthInterval =
-                ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
-            const ostk::mathematics::object::Interval<Real> elevationInterval =
-                ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
-            const ostk::mathematics::object::Interval<Real> rangeInterval =
-                ostk::mathematics::object::Interval<Real>::Closed(0.0, 1.0e10);
+            const ostk::mathematics::object::Interval<double> azimuthInterval =
+                ostk::mathematics::object::Interval<double>::Closed(0.0, 360.0);
+            const ostk::mathematics::object::Interval<double> elevationInterval =
+                ostk::mathematics::object::Interval<double>::Closed(0.0, 90.0);
+            const ostk::mathematics::object::Interval<double> rangeInterval =
+                ostk::mathematics::object::Interval<double>::Closed(0.0, 1.0e10);
 
             const VisibilityCriterion visibilityCriterion =
                 VisibilityCriterion::FromAERInterval(azimuthInterval, elevationInterval, rangeInterval);
@@ -1021,10 +935,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                         expectedAccess.getAcquisitionOfSignal(), Duration::Microseconds(1.0)
                     )) << access.getAcquisitionOfSignal().toString()
                        << " ~ " << expectedAccess.getAcquisitionOfSignal().toString();
-                    EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(
-                        expectedAccess.getTimeOfClosestApproach(), Duration::Microseconds(1.0)
-                    )) << access.getTimeOfClosestApproach().toString()
-                       << " ~ " << expectedAccess.getTimeOfClosestApproach().toString();
+                    EXPECT_TRUE(access.getTimeOfClosestApproach().value().isNear(
+                        expectedAccess.getTimeOfClosestApproach().value(), Duration::Microseconds(1.0)
+                    )) << access.getTimeOfClosestApproach().value().toString()
+                       << " ~ " << expectedAccess.getTimeOfClosestApproach().value().toString();
                     EXPECT_TRUE(
                         access.getLossOfSignal().isNear(expectedAccess.getLossOfSignal(), Duration::Microseconds(1.0))
                     ) << access.getLossOfSignal().toString()
@@ -1038,8 +952,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         // Elevation Interval visibility criterion, multiple targets
 
         {
-            const ostk::mathematics::object::Interval<Real> elevationInterval =
-                ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+            const ostk::mathematics::object::Interval<double> elevationInterval =
+                ostk::mathematics::object::Interval<double>::Closed(0.0, 90.0);
 
             const VisibilityCriterion visibilityCriterion =
                 VisibilityCriterion::FromElevationInterval(elevationInterval);
@@ -1075,10 +989,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
                         expectedAccess.getAcquisitionOfSignal(), Duration::Microseconds(1.0)
                     )) << access.getAcquisitionOfSignal().toString()
                        << " ~ " << expectedAccess.getAcquisitionOfSignal().toString();
-                    EXPECT_TRUE(access.getTimeOfClosestApproach().isNear(
-                        expectedAccess.getTimeOfClosestApproach(), Duration::Microseconds(1.0)
-                    )) << access.getTimeOfClosestApproach().toString()
-                       << " ~ " << expectedAccess.getTimeOfClosestApproach().toString();
+                    EXPECT_TRUE(access.getTimeOfClosestApproach().value().isNear(
+                        expectedAccess.getTimeOfClosestApproach().value(), Duration::Microseconds(1.0)
+                    )) << access.getTimeOfClosestApproach().value().toString()
+                       << " ~ " << expectedAccess.getTimeOfClosestApproach().value().toString();
                     EXPECT_TRUE(
                         access.getLossOfSignal().isNear(expectedAccess.getLossOfSignal(), Duration::Microseconds(1.0))
                     ) << access.getLossOfSignal().toString()
@@ -1102,8 +1016,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             const Generator generator =
                 Generator(defaultEnvironment_, Duration::Minutes(1.0), Duration::Seconds(5.0), {}, stateFilter);
 
-            const ostk::mathematics::object::Interval<Real> elevationInterval =
-                ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+            const ostk::mathematics::object::Interval<double> elevationInterval =
+                ostk::mathematics::object::Interval<double>::Closed(0.0, 90.0);
 
             const VisibilityCriterion visibilityCriterion =
                 VisibilityCriterion::FromElevationInterval(elevationInterval);
@@ -1127,8 +1041,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
         //                AOS          start     TCA      end     LOS
 
         {
-            const ostk::mathematics::object::Interval<Real> elevationInterval =
-                ostk::mathematics::object::Interval<Real>::Closed(0.0, 90.0);
+            const ostk::mathematics::object::Interval<double> elevationInterval =
+                ostk::mathematics::object::Interval<double>::Closed(0.0, 90.0);
 
             const VisibilityCriterion visibilityCriterion =
                 VisibilityCriterion::FromElevationInterval(elevationInterval);
@@ -1141,7 +1055,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
 
             ASSERT_FALSE(referenceAccesses.isEmpty());
 
-            Access referenceAccess = referenceAccesses.accessFirst();
+            Access referenceAccess = referenceAccesses.getFirst();
 
             for (const Access& access : referenceAccesses)
             {
@@ -1155,8 +1069,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             ASSERT_GT(referenceAccess.getDuration(), Duration::Minutes(2.0));
 
             // Non-integer offset, to keep the window bounds off the 1 minute grid starting at the acquisition of signal
-            const Instant windowStartInstant = referenceAccess.getTimeOfClosestApproach() - Duration::Seconds(45.5);
-            const Instant windowEndInstant = referenceAccess.getTimeOfClosestApproach() + Duration::Seconds(45.5);
+            const Instant windowStartInstant =
+                referenceAccess.getTimeOfClosestApproach().value() - Duration::Seconds(45.5);
+            const Instant windowEndInstant =
+                referenceAccess.getTimeOfClosestApproach().value() + Duration::Seconds(45.5);
 
             const auto stateFilter = [windowStartInstant,
                                       windowEndInstant](const State& aFirstState, const State& aSecondState) -> bool
@@ -1217,7 +1133,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_5)
         ));
 
         const VisibilityCriterion visibilityCriterion =
-            VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(5.0, 90.0));
+            VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<double>::Closed(5.0, 90.0));
 
         const AccessTarget accessTarget = AccessTarget::FromTrajectory(visibilityCriterion, trajectory);
 
@@ -1279,7 +1195,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_6)
         };
 
         const VisibilityCriterion visibilityCriterion =
-            VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(5.0, 90.0));
+            VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<double>::Closed(5.0, 90.0));
 
         const AccessTarget accessTarget =
             AccessTarget::FromPosition(visibilityCriterion, Position::FromLLA(lla, defaultEarthSPtr_));
@@ -1329,7 +1245,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_7)
         };
 
         const VisibilityCriterion visibilityCriterion =
-            VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<Real>::Closed(0.0, 85.0));
+            VisibilityCriterion::FromElevationInterval(ostk::mathematics::object::Interval<double>::Closed(0.0, 85.0));
 
         const AccessTarget accessTarget =
             AccessTarget::FromPosition(visibilityCriterion, Position::FromLLA(lla, defaultEarthSPtr_));
@@ -1418,8 +1334,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_8)
             {300.0, -5.0},
             {359.0, 0.0}
         };
-        const ostk::mathematics::object::Interval<Real> rangeRange =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
+        const ostk::mathematics::object::Interval<double> rangeRange =
+            ostk::mathematics::object::Interval<double>::Closed(0.0, 10000e3);
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeRange);
@@ -1453,8 +1369,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStep)
         const Duration step = Duration::Seconds(1.0);
 
         EXPECT_NO_THROW(defaultGenerator_.setStep(step));
-
-        EXPECT_ANY_THROW(defaultGenerator_.setStep(Duration::Undefined()));
     }
 }
 
@@ -1464,8 +1378,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetTolerance)
         const Duration tolerance = Duration::Seconds(1.0);
 
         EXPECT_NO_THROW(defaultGenerator_.setTolerance(tolerance));
-
-        EXPECT_ANY_THROW(defaultGenerator_.setTolerance(Duration::Undefined()));
     }
 }
 
@@ -1497,26 +1409,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, SetStateFilter)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, Undefined)
-{
-    {
-        EXPECT_NO_THROW(Generator::Undefined());
-
-        EXPECT_FALSE(Generator::Undefined().isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
 {
     {
         // Access computation
 
-        const ostk::mathematics::object::Interval<Real> azimuthRange =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 360.0);
-        const ostk::mathematics::object::Interval<Real> elevationRange =
-            ostk::mathematics::object::Interval<Real>::Closed(60.0, 90.0);
-        const ostk::mathematics::object::Interval<Real> rangeRange =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
+        const ostk::mathematics::object::Interval<double> azimuthRange =
+            ostk::mathematics::object::Interval<double>::Closed(0.0, 360.0);
+        const ostk::mathematics::object::Interval<double> elevationRange =
+            ostk::mathematics::object::Interval<double>::Closed(60.0, 90.0);
+        const ostk::mathematics::object::Interval<double> rangeRange =
+            ostk::mathematics::object::Interval<double>::Closed(0.0, 10000e3);
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromAERInterval(azimuthRange, elevationRange, rangeRange);
@@ -1549,7 +1452,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
             };
 
-            const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
+            const Orbit orbit = {keplerianModel, defaultEnvironment_.getCelestialObjectWithName("Earth")};
 
             return orbit;
         };
@@ -1580,12 +1483,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerRanges_1)
             const Access& access = std::get<1>(accessTuple);
 
             const Instant reference_acquisitionOfSignal =
-                Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC);
             // const Instant reference_timeOfClosestApproach =
-            // Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+            // Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
             const Instant reference_lossOfSignal =
-                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
-            const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
+                Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
+            const Duration reference_duration = Duration::Seconds(referenceRow[3].getReal());
 
             EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
                 << String::Format(
@@ -1611,8 +1514,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask_1)
         const ostk::core::container::Map<double, double> azimuthElevationMask = {
             {0.0, 30.0}, {90.0, 60.0}, {180.0, 60.0}, {270.0, 30.0}, {359.0, 30.0}
         };
-        const ostk::mathematics::object::Interval<Real> rangeRange =
-            ostk::mathematics::object::Interval<Real>::Closed(0.0, 10000e3);
+        const ostk::mathematics::object::Interval<double> rangeRange =
+            ostk::mathematics::object::Interval<double>::Closed(0.0, 10000e3);
 
         const VisibilityCriterion visibilityCriterion =
             VisibilityCriterion::FromAERMask(azimuthElevationMask, rangeRange);
@@ -1645,7 +1548,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask_1)
                 coe, epoch, gravitationalParameter, equatorialRadius, J2, J4, Kepler::PerturbationType::J2
             };
 
-            const Orbit orbit = {keplerianModel, defaultEnvironment_.accessCelestialObjectWithName("Earth")};
+            const Orbit orbit = {keplerianModel, defaultEnvironment_.getCelestialObjectWithName("Earth")};
 
             return orbit;
         };
@@ -1676,12 +1579,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, AerMask_1)
             const Access& access = std::get<1>(accessTuple);
 
             const Instant reference_acquisitionOfSignal =
-                Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC);
+                Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC);
             // const Instant reference_timeOfClosestApproach =
-            // Instant::DateTime(DateTime::Parse(referenceRow[1].accessString()), Scale::UTC);
+            // Instant::DateTime(DateTime::Parse(referenceRow[1].getString()), Scale::UTC);
             const Instant reference_lossOfSignal =
-                Instant::DateTime(DateTime::Parse(referenceRow[2].accessString()), Scale::UTC);
-            const Duration reference_duration = Duration::Seconds(referenceRow[3].accessReal());
+                Instant::DateTime(DateTime::Parse(referenceRow[2].getString()), Scale::UTC);
+            const Duration reference_duration = Duration::Seconds(referenceRow[3].getReal());
 
             EXPECT_TRUE(access.getAcquisitionOfSignal().isNear(reference_acquisitionOfSignal, toleranceDuration))
                 << String::Format(

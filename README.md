@@ -48,7 +48,7 @@ tle = TLE(
     '2 25544  51.6447  64.7824 0005971  73.1467  36.4366 15.53848234128316'
 )  # Construct Two-Line Element set
 
-earth = Environment.default().access_celestial_object_with_name('Earth')  # Access Earth model
+earth = Environment.default().get_celestial_object_with_name('Earth')  # Access Earth model
 
 orbit = Orbit(SGP4(tle), earth)  # Construct orbit using SGP4 model
 
@@ -362,7 +362,7 @@ The validation tests can be run with `ostk-validate` from within the dev contain
 
 | Name        | Version       | License            | Link                                                                                                                                       |
 | ----------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Pybind11    | `2.10.1`  | BSD-3-Clause       | [github.com/pybind/pybind11](https://github.com/pybind/pybind11)                                                                           |
+| nanobind    | `3.1.0`   | BSD-3-Clause       | [github.com/wjakob/nanobind](https://github.com/wjakob/nanobind)                                                                           |
 | ordered-map | `0.6.0`   | MIT                | [github.com/Tessil/ordered-map](https://github.com/Tessil/ordered-map)                                                                     |
 | Eigen       | `3.3.7`   | MPL2               | [eigen.tuxfamily.org](http://eigen.tuxfamily.org/index.php)                                                                                |
 | SGP4        | `2020-07-13` | None stated        | [celestrak.org/software/vallado-sw.php](https://celestrak.org/software/vallado-sw.php) (vendored, see `thirdparty/vallado-sgp4`)            |

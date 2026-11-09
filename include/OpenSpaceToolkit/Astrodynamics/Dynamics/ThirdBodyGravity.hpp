@@ -60,16 +60,6 @@ class ThirdBodyGravity : public Dynamics
     /// @return A reference to the output stream.
     friend std::ostream& operator<<(std::ostream& anOutputStream, const ThirdBodyGravity& aThirdBodyGravity);
 
-    /// @brief Check if the third-body gravity dynamics is defined.
-    ///
-    /// @code{.cpp}
-    ///     ThirdBodyGravity thirdBodyGravity = { ... } ;
-    ///     bool defined = thirdBodyGravity.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if the third-body gravity dynamics is defined.
-    virtual bool isDefined() const override;
-
     /// @brief Get the celestial object.
     ///
     /// @code{.cpp}

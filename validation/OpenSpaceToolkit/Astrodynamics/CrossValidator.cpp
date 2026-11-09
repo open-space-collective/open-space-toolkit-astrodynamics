@@ -34,11 +34,11 @@ Array<Array<VectorXd>> CrossValidator::IngestOutputQuantities(
             {
                 if ((aToolComparison.tool == Tool::GMAT) && (quantity != Quantity::MASS))
                 {
-                    coordinateSubset(quantityDimensionIndex) = row[1 + rowReadIndex].accessReal() * 1.0e3;
+                    coordinateSubset(quantityDimensionIndex) = row[1 + rowReadIndex].getReal() * 1.0e3;
                 }
                 else
                 {
-                    coordinateSubset(quantityDimensionIndex) = row[1 + rowReadIndex].accessReal();
+                    coordinateSubset(quantityDimensionIndex) = row[1 + rowReadIndex].getReal();
                 }
                 rowReadIndex++;
             }

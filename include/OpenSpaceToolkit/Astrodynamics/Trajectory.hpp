@@ -113,15 +113,6 @@ class Trajectory
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Trajectory& aTrajectory);
 
-    /// @brief Check if trajectory is defined
-    ///
-    /// @code{.cpp}
-    ///              Trajectory(...).isDefined();
-    /// @endcode
-    ///
-    /// @return True if the trajectory model is defined
-    bool isDefined() const;
-
     /// @brief Get trajectory model
     ///
     /// @return Reference to trajectory model

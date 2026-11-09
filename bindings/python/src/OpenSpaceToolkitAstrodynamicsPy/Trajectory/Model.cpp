@@ -7,9 +7,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model/Tabulated.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Model/TargetScan.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(nanobind::module_ &aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using BaseModel = ostk::astrodynamics::trajectory::Model;
 
@@ -38,18 +38,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Model(pybind11::module &a
 
         .def("__str__", &(shiftToString<BaseModel>))
         .def("__repr__", &(shiftToString<BaseModel>))
-
-        .def(
-            "is_defined",
-            &BaseModel::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-
-            )doc"
-        )
 
         .def(
             "calculate_state_at",

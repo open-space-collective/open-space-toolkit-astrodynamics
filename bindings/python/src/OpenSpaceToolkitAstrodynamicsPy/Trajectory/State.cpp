@@ -6,9 +6,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/CoordinateSubset.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/State/NumericalSolver.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -113,24 +113,41 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         )
         .def(init<const State&>(), arg("state"))
 
-        .def(self == self)
-        .def(self != self)
-        .def(self + self)
-        .def(self - self)
+        .def(
+            "__eq__",
+            [](const State& self, const State& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const State& self, const State& other)
+            {
+                return self != other;
+            },
+            is_operator()
+        )
+        .def(
+            "__add__",
+            [](const State& self, const State& other)
+            {
+                return self + other;
+            },
+            is_operator()
+        )
+        .def(
+            "__sub__",
+            [](const State& self, const State& other)
+            {
+                return self - other;
+            },
+            is_operator()
+        )
 
         .def("__str__", &(shiftToString<State>))
         .def("__repr__", &(shiftToString<State>))
-
-        .def(
-            "is_defined",
-            &State::isDefined,
-            R"doc(
-                Check if the state is defined.
-
-                Returns:
-                    bool: True if the state is defined, False otherwise.
-            )doc"
-        )
         .def(
             "get_size",
             &State::getSize,
@@ -370,17 +387,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
                     State: The transformed state.
             )doc",
             arg("frame")
-        )
-
-        .def_static(
-            "undefined",
-            &State::Undefined,
-            R"doc(
-                Get an undefined state.
-
-                Returns:
-                    State: An undefined state.
-            )doc"
         )
 
         ;

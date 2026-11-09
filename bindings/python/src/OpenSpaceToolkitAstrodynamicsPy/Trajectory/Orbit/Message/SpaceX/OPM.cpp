@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::String;
@@ -44,18 +44,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
             )doc",
             arg("header"),
             arg("deployments")
-        )
-
-        .def(
-            "is_defined",
-            &OPM::isDefined,
-            R"doc(
-                Check if the OPM message is defined.
-
-                Returns:
-                    is_defined (bool): True if the OPM message is defined, False otherwise.
-
-            )doc"
         )
 
         .def(
@@ -111,16 +99,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
             arg("name")
         )
 
-        .def_static(
-            "undefined",
-            &OPM::Undefined,
-            R"doc(
-                Return an undefined OPM message.
-
-                Returns:
-                    opm (OPM): An undefined OPM message.
-            )doc"
-        )
         .def_static(
             "dictionary",
             &OPM::Dictionary,
@@ -189,7 +167,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
             arg("launch_date")
         )
 
-        .def_readonly(
+        .def_ro(
             "generation_date",
             &OPM::Header::generationDate,
             R"doc(
@@ -200,7 +178,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "launch_date",
             &OPM::Header::launchDate,
             R"doc(
@@ -272,7 +250,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
             )doc"
         )
 
-        .def_readonly(
+        .def_ro(
             "name",
             &OPM::Deployment::name,
             R"doc(
@@ -282,7 +260,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "sequence_number",
             &OPM::Deployment::sequenceNumber,
             R"doc(
@@ -292,7 +270,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "mission_time",
             &OPM::Deployment::missionTime,
             R"doc(
@@ -302,7 +280,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "date",
             &OPM::Deployment::date,
             R"doc(
@@ -312,7 +290,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "position",
             &OPM::Deployment::position,
             R"doc(
@@ -322,7 +300,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "velocity",
             &OPM::Deployment::velocity,
             R"doc(
@@ -332,7 +310,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "mean_perigee_altitude",
             &OPM::Deployment::meanPerigeeAltitude,
             R"doc(
@@ -342,7 +320,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "mean_apogee_altitude",
             &OPM::Deployment::meanApogeeAltitude,
             R"doc(
@@ -352,7 +330,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "mean_inclination",
             &OPM::Deployment::meanInclination,
             R"doc(
@@ -362,7 +340,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "mean_argument_of_perigee",
             &OPM::Deployment::meanArgumentOfPerigee,
             R"doc(
@@ -372,7 +350,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "mean_longitude_ascending_node",
             &OPM::Deployment::meanLongitudeAscendingNode,
             R"doc(
@@ -382,7 +360,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "mean_mean_anomaly",
             &OPM::Deployment::meanMeanAnomaly,
             R"doc(
@@ -392,7 +370,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
 
         )doc"
         )
-        .def_readonly(
+        .def_ro(
             "ballistic_coefficient",
             &OPM::Deployment::ballisticCoefficient,
             R"doc(

@@ -6,9 +6,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/SatelliteSystem.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Flight/System/SatelliteSystemBuilder.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::mathematics::geometry::d3::object::Composite;
 
@@ -44,23 +44,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
                 arg("geometry")
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const System& self, const System& other)
+                {
+                    return self == other;
+                },
+                is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const System& self, const System& other)
+                {
+                    return self != other;
+                },
+                is_operator()
+            )
 
             .def("__str__", &(shiftToString<System>))
             .def("__repr__", &(shiftToString<System>))
-
-            .def(
-                "is_defined",
-                &System::isDefined,
-                R"doc(
-                    Check if the system is defined.
-
-                    Returns:
-                        bool: True if the system is defined, False otherwise.
-
-                )doc"
-            )
 
             .def(
                 "get_mass",
@@ -83,17 +85,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System(pybind11::module& aMod
                     Returns:
                         Composite: The geometry of the system.
 
-                )doc"
-            )
-
-            .def_static(
-                "undefined",
-                &System::Undefined,
-                R"doc(
-                    Create an undefined system.
-
-                    Returns:
-                        System: The undefined system.
                 )doc"
             )
 

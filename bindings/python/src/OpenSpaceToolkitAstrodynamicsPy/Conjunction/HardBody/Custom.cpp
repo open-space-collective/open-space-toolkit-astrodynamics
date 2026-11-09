@@ -1,13 +1,10 @@
 /// Apache License 2.0
 
-#include <pybind11/functional.h>
-#include <pybind11/stl.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Custom(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Custom(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -17,7 +14,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Custom(pybind11
     using ostk::astrodynamics::conjunction::hardbody::Custom;
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
 
-    class_<Custom, HardBody, Shared<Custom>>(
+    class_<Custom, HardBody>(
         aModule,
         "Custom",
         R"doc(
@@ -50,7 +47,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Custom(pybind11
                         frame factory generating the vertex frame.
 
                 Raises:
-                    RuntimeError: If the vertex generator, the frame or the factory is undefined.
+                    RuntimeError: If the vertex generator or the frame is null.
 
                 Examples:
                     >>> # Cube of side 2.0 m, with edges aligned with the GCRF axes

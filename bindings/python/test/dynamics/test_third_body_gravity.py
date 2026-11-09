@@ -44,7 +44,6 @@ class TestThirdBodyGravity:
         assert dynamics is not None
         assert isinstance(dynamics, ThirdBodyGravity)
         assert isinstance(dynamics, Dynamics)
-        assert dynamics.is_defined()
 
     def test_getters(
         self,

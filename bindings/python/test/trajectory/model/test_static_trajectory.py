@@ -26,7 +26,6 @@ class TestStatic:
         assert static is not None
         assert isinstance(static, Static)
         assert isinstance(static, Model)
-        assert static.is_defined()
 
     def test_constructor_with_output_frame(
         self,
@@ -35,7 +34,6 @@ class TestStatic:
         static: Static = Static(position, Frame.GCRF())
 
         assert isinstance(static, Static)
-        assert static.is_defined()
 
     def test_constructor_with_none_output_frame(
         self,
@@ -44,7 +42,6 @@ class TestStatic:
         static: Static = Static(position, None)
 
         assert isinstance(static, Static)
-        assert static.is_defined()
         assert static == Static(position)
 
     def test_get_frame(
@@ -52,12 +49,6 @@ class TestStatic:
         static: Static,
     ):
         assert isinstance(static.get_frame(), Frame)
-
-    def test_is_defined(
-        self,
-        static: Static,
-    ):
-        assert static.is_defined()
 
     def test_calculate_state_at(
         self,

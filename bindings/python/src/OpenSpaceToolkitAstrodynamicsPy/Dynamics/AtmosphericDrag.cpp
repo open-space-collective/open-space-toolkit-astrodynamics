@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/AtmosphericDrag.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
     using ostk::core::type::String;
@@ -15,7 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::m
     using ostk::astrodynamics::dynamics::AtmosphericDrag;
 
     {
-        class_<AtmosphericDrag, Dynamics, Shared<AtmosphericDrag>>(
+        class_<AtmosphericDrag, Dynamics>(
             aModule,
             "AtmosphericDrag",
             R"doc(
@@ -39,18 +39,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_AtmosphericDrag(pybind11::m
 
             .def("__str__", &(shiftToString<AtmosphericDrag>))
             .def("__repr__", &(shiftToString<AtmosphericDrag>))
-
-            .def(
-                "is_defined",
-                &AtmosphericDrag::isDefined,
-                R"doc(
-                    Check if the atmospheric drag is defined.
-
-                    Returns:
-                        bool: True if the atmospheric drag is defined, False otherwise.
-
-                )doc"
-            )
 
             .def(
                 "get_celestial",

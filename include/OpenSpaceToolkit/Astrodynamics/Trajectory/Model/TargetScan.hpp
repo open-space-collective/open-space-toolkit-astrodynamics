@@ -164,16 +164,6 @@ class TargetScan : public virtual Model
     /// @return The output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const TargetScan& aTargetScanModel);
 
-    /// @brief Check if the static model is defined
-    ///
-    /// @code{.cpp}
-    ///              TargetScan targetScanModel = { ... };
-    ///              bool isDefined = targetScanModel.isDefined();
-    /// @endcode
-    ///
-    /// @return True if the model is defined, false otherwise
-    virtual bool isDefined() const override;
-
     /// @brief Calculate the state at a given instant
     ///
     /// @code{.cpp}

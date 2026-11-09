@@ -313,11 +313,6 @@ COE BrouwerLyddaneMeanShort::toCOE() const
 
 BrouwerLyddaneMeanShort BrouwerLyddaneMeanShort::COE(const classicalOE &aCOE)
 {
-    if (!aCOE.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("COE");
-    }
-
     const classicalOE::CartesianState cartesianState =
         aCOE.getCartesianState(EarthGravitationalModel::EGM2008.gravitationalParameter_, Frame::GCRF());
 
@@ -336,18 +331,6 @@ BrouwerLyddaneMeanShort BrouwerLyddaneMeanShort::Cartesian(
     return BrouwerLyddaneMeanShort::FromSIVector(
         BrouwerLyddaneMean::Cartesian(aCartesianState, aGravitationalParameter, toCOEVector)
     );
-}
-
-BrouwerLyddaneMeanShort BrouwerLyddaneMeanShort::Undefined()
-{
-    return {
-        Length::Undefined(),
-        0.0,
-        Angle::Undefined(),
-        Angle::Undefined(),
-        Angle::Undefined(),
-        Angle::Undefined(),
-    };
 }
 
 BrouwerLyddaneMeanShort BrouwerLyddaneMeanShort::FromSIVector(const Vector6d &aVector)

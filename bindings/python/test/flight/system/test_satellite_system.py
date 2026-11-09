@@ -52,7 +52,6 @@ class TestSatelliteSystem:
     ):
         assert satellite_system is not None
         assert isinstance(satellite_system, SatelliteSystem)
-        assert satellite_system.is_defined()
 
     def test_comparators(
         self,

@@ -109,16 +109,6 @@ class Nadir : public virtual Model
     /// @return The output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const Nadir& aNadirModel);
 
-    /// @brief Check if the nadir model is defined
-    ///
-    /// @code{.cpp}
-    ///              Nadir nadirModel = { ... };
-    ///              bool isDefined = nadirModel.isDefined();
-    /// @endcode
-    ///
-    /// @return True if the model is defined, false otherwise
-    virtual bool isDefined() const override;
-
     /// @brief Calculate the state at a given instant
     ///
     /// @code{.cpp}

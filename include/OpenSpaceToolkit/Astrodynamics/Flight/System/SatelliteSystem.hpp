@@ -95,11 +95,6 @@ class SatelliteSystem : public System
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystem& aSatelliteSystem);
 
-    /// @brief Check if satellite system is defined
-    ///
-    /// @return True if satellite system is defined
-    virtual bool isDefined() const override;
-
     /// @brief Get satellite system's inertia tensor
     ///
     /// @code{.cpp}
@@ -144,15 +139,6 @@ class SatelliteSystem : public System
     /// @param anOutputStream An output stream
     /// @param (optional) displayDecorators If true, display decorators
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const override;
-
-    /// @brief Undefined satellite system
-    ///
-    /// @code{.cpp}
-    ///                  SatelliteSystem satelliteSystem = SatelliteSystem::Undefined();
-    /// @endcode
-    ///
-    /// @return Undefined satellite system
-    static SatelliteSystem Undefined();
 
     /// @brief Default satellite system
     ///

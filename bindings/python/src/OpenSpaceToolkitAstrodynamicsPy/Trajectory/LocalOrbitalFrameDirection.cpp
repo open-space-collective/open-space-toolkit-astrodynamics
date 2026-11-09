@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirection(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirection(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection;
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
@@ -33,19 +33,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
             )doc"
         )
 
-        .def(self == self)
-        .def(self != self)
-
         .def(
-            "is_defined",
-            &LocalOrbitalFrameDirection::isDefined,
-            R"doc(
-                Check if the local orbital frame direction is defined.
-
-                Returns:
-                    bool: True if the local orbital frame direction is defined, False otherwise.
-
-            )doc"
+            "__eq__",
+            [](const LocalOrbitalFrameDirection& self, const LocalOrbitalFrameDirection& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const LocalOrbitalFrameDirection& self, const LocalOrbitalFrameDirection& other)
+            {
+                return self != other;
+            },
+            is_operator()
         )
 
         .def(
@@ -68,17 +70,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameDirectio
                 Returns:
                     LocalOrbitalFrameFactory: The local orbital frame factory that defines the frame.
 
-            )doc"
-        )
-
-        .def_static(
-            "undefined",
-            &LocalOrbitalFrameDirection::Undefined,
-            R"doc(
-                Get an undefined local orbital frame direction.
-
-                Returns:
-                    LocalOrbitalFrameDirection: The undefined local orbital frame direction.
             )doc"
         )
 

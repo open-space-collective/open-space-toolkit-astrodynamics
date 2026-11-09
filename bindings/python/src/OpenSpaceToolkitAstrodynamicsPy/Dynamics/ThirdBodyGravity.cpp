@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/ThirdBodyGravity.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
     using ostk::core::type::String;
@@ -15,7 +15,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(pybind11::
     using ostk::astrodynamics::dynamics::ThirdBodyGravity;
 
     {
-        class_<ThirdBodyGravity, Dynamics, Shared<ThirdBodyGravity>>(
+        class_<ThirdBodyGravity, Dynamics>(
             aModule,
             "ThirdBodyGravity",
             R"doc(
@@ -39,18 +39,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Dynamics_ThirdBodyGravity(pybind11::
 
             .def("__str__", &(shiftToString<ThirdBodyGravity>))
             .def("__repr__", &(shiftToString<ThirdBodyGravity>))
-
-            .def(
-                "is_defined",
-                &ThirdBodyGravity::isDefined,
-                R"doc(
-                    Check if the third-body gravity is defined.
-
-                    Returns:
-                        bool: True if the third-body gravity is defined, False otherwise.
-
-                )doc"
-            )
 
             .def(
                 "get_celestial",

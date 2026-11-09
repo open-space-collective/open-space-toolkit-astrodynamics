@@ -46,18 +46,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const AtmosphericDrag& an
     return anOutputStream;
 }
 
-bool AtmosphericDrag::isDefined() const
-{
-    return celestialObjectSPtr_->isDefined();
-}
-
 const Shared<const Celestial>& AtmosphericDrag::getCelestial() const
 {
-    if (!celestialObjectSPtr_->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Celestial Object");
-    }
-
     return celestialObjectSPtr_;
 }
 
@@ -96,7 +86,7 @@ VectorXd AtmosphericDrag::computeContribution(
             .getValue();
 
     const Vector3d earthAngularVelocity =
-        aFrameSPtr->getTransformTo(celestialObjectSPtr_->accessFrame(), anInstant).getAngularVelocity();  // rad/s
+        aFrameSPtr->getTransformTo(celestialObjectSPtr_->getFrame(), anInstant).getAngularVelocity();  // rad/s
 
     const Vector3d relativeVelocity = velocityCoordinates - earthAngularVelocity.cross(positionCoordinates);
 

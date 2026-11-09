@@ -40,7 +40,17 @@ State::State(
       frameSPtr_(aFrameSPtr),
       coordinatesBrokerSPtr_(aCoordinateBrokerSPtr)
 {
-    if (coordinatesBrokerSPtr_ && (Size)coordinates_.size() != coordinatesBrokerSPtr_->getNumberOfCoordinates())
+    if (frameSPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
+
+    if (coordinatesBrokerSPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Coordinate broker");
+    }
+
+    if ((Size)coordinates_.size() != coordinatesBrokerSPtr_->getNumberOfCoordinates())
     {
         throw ostk::core::error::runtime::Wrong("Number of Coordinates");
     }
@@ -57,34 +67,23 @@ State::State(
       frameSPtr_(aFrameSPtr),
       coordinatesBrokerSPtr_(std::make_shared<CoordinateBroker>(CoordinateBroker(aCoordinateSubsetsArray)))
 {
+    if (frameSPtr_ == nullptr)
+    {
+        throw ostk::core::error::runtime::Undefined("Frame");
+    }
 }
 
 State::State(const Instant& anInstant, const Position& aPosition, const Velocity& aVelocity)
     : instant_(anInstant)
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!aPosition.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Position");
-    }
-
-    if (!aVelocity.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Velocity");
-    }
-
-    if ((*aPosition.accessFrame()) != (*aVelocity.accessFrame()))
+    if ((*aPosition.getFrame()) != (*aVelocity.getFrame()))
     {
         throw ostk::core::error::runtime::Wrong("Position-Velocity Frames");
     }
 
     VectorXd coordinates(6);
-    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
-    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).getCoordinates();
+    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
 
     static const Shared<CoordinateBroker> coordinatesBrokerSPtr = std::make_shared<CoordinateBroker>(CoordinateBroker({
         CartesianPosition::Default(),
@@ -92,7 +91,7 @@ State::State(const Instant& anInstant, const Position& aPosition, const Velocity
     }));
 
     this->coordinates_ = coordinates;
-    this->frameSPtr_ = aPosition.accessFrame();
+    this->frameSPtr_ = aPosition.getFrame();
     this->coordinatesBrokerSPtr_ = coordinatesBrokerSPtr;
 }
 
@@ -106,40 +105,15 @@ State::State(
 )
     : instant_(anInstant)
 {
-    if (!anInstant.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Instant");
-    }
-
-    if (!aPosition.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Position");
-    }
-
-    if (!aVelocity.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Velocity");
-    }
-
-    if (!anAttitude.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Attitude");
-    }
-
-    if (!anAngularVelocity.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Angular Velocity");
-    }
-
-    if (((*aPosition.accessFrame()) != (*aVelocity.accessFrame())) ||
-        ((*aPosition.accessFrame()) != (*anAttitudeReferenceFrame)))
+    if (((*aPosition.getFrame()) != (*aVelocity.getFrame())) ||
+        ((*aPosition.getFrame()) != (*anAttitudeReferenceFrame)))
     {
         throw ostk::core::error::runtime::Wrong("Position-Velocity-Attitude Frames");
     }
 
     VectorXd coordinates(13);
-    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).accessCoordinates();
-    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).accessCoordinates();
+    coordinates.segment(0, 3) = aPosition.inUnit(Position::Unit::Meter).getCoordinates();
+    coordinates.segment(3, 3) = aVelocity.inUnit(Velocity::Unit::MeterPerSecond).getCoordinates();
     coordinates.segment(6, 4) = anAttitude.toVector(Quaternion::Format::XYZS);
     coordinates.segment(10, 3) = anAngularVelocity;
 
@@ -151,7 +125,7 @@ State::State(
     ));
 
     this->coordinates_ = coordinates;
-    this->frameSPtr_ = aPosition.accessFrame();
+    this->frameSPtr_ = aPosition.getFrame();
     this->coordinatesBrokerSPtr_ = coordinatesBrokerSPtr;
 }
 
@@ -179,11 +153,6 @@ State& State::operator=(const State& aState)
 
 bool State::operator==(const State& aState) const
 {
-    if ((!this->isDefined()) || (!aState.isDefined()))
-    {
-        return false;
-    }
-
     if (this->instant_ != aState.instant_)
     {
         return false;
@@ -222,11 +191,6 @@ bool State::operator!=(const State& aState) const
 
 State State::operator+(const State& aState) const
 {
-    if ((!this->isDefined()) || (!aState.isDefined()))
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     if (this->instant_ != aState.instant_)
     {
         throw ostk::core::error::runtime::Wrong("Instant");
@@ -263,11 +227,6 @@ State State::operator+(const State& aState) const
 
 State State::operator-(const State& aState) const
 {
-    if ((!this->isDefined()) || (!aState.isDefined()))
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     if (this->instant_ != aState.instant_)
     {
         throw ostk::core::error::runtime::Wrong("Instant");
@@ -309,39 +268,18 @@ std::ostream& operator<<(std::ostream& anOutputStream, const State& aState)
     return anOutputStream;
 }
 
-bool State::isDefined() const
-{
-    return this->instant_.isDefined() && this->coordinates_.isDefined() && (this->frameSPtr_ != nullptr) &&
-           this->frameSPtr_->isDefined() && (this->coordinatesBrokerSPtr_ != nullptr);
-}
-
 const Instant& State::getInstant() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return this->instant_;
 }
 
 const Shared<const Frame>& State::getFrame() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return this->frameSPtr_;
 }
 
 const VectorXd& State::getCoordinates() const&
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return this->coordinates_;
 }
 
@@ -352,21 +290,11 @@ VectorXd State::getCoordinates() &&
 
 const Shared<const CoordinateBroker>& State::getCoordinateBroker() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return this->coordinatesBrokerSPtr_;
 }
 
 Size State::getSize() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return this->coordinates_.size();
 }
 
@@ -377,31 +305,16 @@ const std::optional<Covariance>& State::getCovariance() const
 
 Position State::getPosition() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return Position::Meters(this->extractCoordinate(CartesianPosition::Default()), this->frameSPtr_);
 }
 
 Velocity State::getVelocity() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return Velocity::MetersPerSecond(this->extractCoordinate(CartesianVelocity::Default()), this->frameSPtr_);
 }
 
 Quaternion State::getAttitude() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     const VectorXd attitudeQuaternionCoordinates = this->extractCoordinate(AttitudeQuaternion::Default());
 
     return Quaternion::XYZS(
@@ -414,21 +327,11 @@ Quaternion State::getAttitude() const
 
 Vector3d State::getAngularVelocity() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return this->extractCoordinate(AngularVelocity::Default());
 }
 
 const Array<Shared<const CoordinateSubset>>& State::getCoordinateSubsets() const&
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return this->coordinatesBrokerSPtr_->getSubsets();
 }
 
@@ -439,11 +342,6 @@ Array<Shared<const CoordinateSubset>> State::getCoordinateSubsets() &&
 
 bool State::hasSubset(const Shared<const CoordinateSubset>& aSubsetSPtr) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
-    }
-
     return this->coordinatesBrokerSPtr_->hasSubset(aSubsetSPtr);
 }
 
@@ -464,14 +362,9 @@ VectorXd State::extractCoordinates(const Array<Shared<const CoordinateSubset>>& 
 
 State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
 {
-    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    if (aFrameSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
-    }
-
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("State");
     }
 
     if (aFrameSPtr == this->frameSPtr_)
@@ -555,31 +448,17 @@ void State::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Trajectory :: State") : void();
 
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Instant:" << (this->instant_.isDefined() ? this->instant_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Frame:" << (this->frameSPtr_->isDefined() ? this->frameSPtr_->getName() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Instant:" << this->instant_.toString();
+    ostk::core::utils::Print::Line(anOutputStream) << "Frame:" << this->frameSPtr_->getName();
 
-    if (!this->isDefined())
-    {
-        ostk::core::utils::Print::Line(anOutputStream) << "Coordinates: Undefined";
-    }
-    else
-    {
-        const Array<Shared<const CoordinateSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
+    const Array<Shared<const CoordinateSubset>> subsets = this->coordinatesBrokerSPtr_->getSubsets();
 
-        for (const auto& subset : subsets)
-        {
-            ostk::core::utils::Print::Line(anOutputStream)
-                << subset->getName() << this->extractCoordinate(subset).toString(4);
-        }
+    for (const auto& subset : subsets)
+    {
+        ostk::core::utils::Print::Line(anOutputStream)
+            << subset->getName() << this->extractCoordinate(subset).toString(4);
     }
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
-}
-
-State State::Undefined()
-{
-    return {Instant::Undefined(), VectorXd(0), Frame::Undefined(), nullptr};
 }
 
 }  // namespace trajectory

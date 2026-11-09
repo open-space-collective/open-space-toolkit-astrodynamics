@@ -1,14 +1,12 @@
 /// Apache License 2.0
 
-#include <pybind11/stl.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/CloseApproach/Generator.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Tuple;
     using ostk::core::type::Shared;
@@ -46,27 +44,27 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )doc"
     )
 
-        .def_readonly(
+        .def_ro(
             "rotated_encounter_frame",
             &CloseApproach::RotatedEncounterFrameParameters::rotatedEncounterFrameSPtr,
             "Frame: The rotated encounter frame (child of the encounter frame)."
         )
-        .def_readonly(
+        .def_ro(
             "x_m",
             &CloseApproach::RotatedEncounterFrameParameters::xM,
             "Length: The miss distance component along the x-axis (absolute value)."
         )
-        .def_readonly(
+        .def_ro(
             "y_m",
             &CloseApproach::RotatedEncounterFrameParameters::yM,
             "Length: The miss distance component along the y-axis (absolute value)."
         )
-        .def_readonly(
+        .def_ro(
             "sigma_x",
             &CloseApproach::RotatedEncounterFrameParameters::sigmaX,
             "Length: The combined position standard deviation along the x-axis."
         )
-        .def_readonly(
+        .def_ro(
             "sigma_y",
             &CloseApproach::RotatedEncounterFrameParameters::sigmaY,
             "Length: The combined position standard deviation along the y-axis."
@@ -91,17 +89,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
 
         .def("__str__", &(shiftToString<CloseApproach>))
         .def("__repr__", &(shiftToString<CloseApproach>))
-
-        .def(
-            "is_defined",
-            &CloseApproach::isDefined,
-            R"doc(
-                Check if the close approach is defined.
-
-                Returns:
-                    bool: True if close approach is defined, False otherwise.
-            )doc"
-        )
 
         .def(
             "get_instant",
@@ -249,7 +236,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
                 Returns:
                     Frame: The encounter frame.
             )doc",
-            arg_v("frame", Frame::GCRF(), "GCRF")
+            arg("frame").sig("GCRF") = Frame::GCRF()
         )
 
         .def(
@@ -277,7 +264,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
                     CloseApproach.RotatedEncounterFrameParameters: The rotated encounter frame parameters.
 
                 Raises:
-                    RuntimeError: If the close approach or the encounter frame is undefined, or if a state has no
+                    RuntimeError: If the encounter frame is null, or if a state has no
                         position covariance.
 
                 Examples:
@@ -292,17 +279,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             )doc",
             arg("encounter_frame"),
             arg("x_along_major_principal_axis") = true
-        )
-
-        .def_static(
-            "undefined",
-            &CloseApproach::Undefined,
-            R"doc(
-                Construct an undefined close approach.
-
-                Returns:
-                    CloseApproach: An undefined close approach.
-            )doc"
         )
 
         ;

@@ -300,7 +300,7 @@ class Viewer:
         reference_frame: Frame = Frame.GCRF()
         reference_vector: np.ndarray = np.array([0.0, 0.0, 1.0])
         instants: list[Instant] = self._interval.generate_grid(time_step)
-        celestial_name: str = str(celestial.access_name())
+        celestial_name: str = str(celestial.get_name())
 
         if color is None:
             if celestial_name == "Earth":
@@ -826,7 +826,7 @@ def _compute_celestial_angular_diameter_from_states(
 
     for i, state in enumerate(states):
         celestial_to_observer_meters[:, i] = (
-            state.in_frame(celestial.access_frame())
+            state.in_frame(celestial.get_frame())
             .get_position()
             .in_meters()
             .get_coordinates()

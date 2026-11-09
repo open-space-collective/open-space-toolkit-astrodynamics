@@ -2,9 +2,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -41,17 +41,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybin
 
         .def("__str__", &(shiftToString<Transform>))
         .def("__repr__", &(shiftToString<Transform>))
-
-        .def(
-            "is_defined",
-            &Transform::isDefined,
-            R"doc(
-                Check if the model is defined.
-
-                Returns:
-                    bool: True if the model is defined, False otherwise.
-             )doc"
-        )
 
         .def(
             "calculate_state_at",
@@ -96,17 +85,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile_Model_Transform(pybin
                     Frame: The body frame of the model with the specified name.
              )doc",
             arg("frame_name")
-        )
-
-        .def_static(
-            "undefined",
-            &Transform::Undefined,
-            R"doc(
-                Get an undefined transform.
-
-                Returns:
-                    Transform: The undefined transform.
-             )doc"
         )
 
         .def_static(

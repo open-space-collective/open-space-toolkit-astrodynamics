@@ -137,16 +137,6 @@ class Tabulated : public Dynamics
     /// @return The interpolation type.
     Interpolator::Type getInterpolationType() const;
 
-    /// @brief Check if the tabulated dynamics is defined.
-    ///
-    /// @code{.cpp}
-    ///     Tabulated tabulated = { ... } ;
-    ///     bool defined = tabulated.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if the tabulated dynamics is defined.
-    virtual bool isDefined() const override;
-
     /// @brief Get the coordinate subsets that the instance reads from.
     ///
     /// @code{.cpp}

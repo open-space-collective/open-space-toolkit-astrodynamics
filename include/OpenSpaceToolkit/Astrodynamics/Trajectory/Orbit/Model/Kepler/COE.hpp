@@ -130,11 +130,6 @@ class COE
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const COE& aCOE);
 
-    /// @brief Check if COE is defined
-    ///
-    /// @return True if COE is defined
-    bool isDefined() const;
-
     /// @brief Get Semi Major Axis
     ///
     /// @return Semi Major Axis
@@ -264,15 +259,6 @@ class COE
     /// @param (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Construct an undefined COE
-    ///
-    /// @code{.cpp}
-    ///                  COE coe = COE::Undefined();
-    /// @endcode
-    ///
-    /// @return Undefined coe
-    static COE Undefined();
-
     /// @brief Construct a COE from a cartesian state
     ///
     /// @code{.cpp}
@@ -322,18 +308,18 @@ class COE
     /// @param aSemiMajorAxis A semi-major axis
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @param anEccentricity An eccentricity
-    /// @param anInclination An inclination
+    /// @param anInclination An inclination (std::nullopt if not provided)
     /// @param aRaan A raan
-    /// @param anAop An aop
+    /// @param anAop An aop (std::nullopt if not provided)
     /// @param aTrueAnomaly A true anomaly
     /// @return COE
     static COE FrozenOrbit(
         const Length& aSemiMajorAxis,
         const Shared<const Celestial>& aCelestialObjectSPtr,
         const std::optional<double>& anEccentricity = std::nullopt,
-        const Angle& anInclination = Angle::Undefined(),
+        const std::optional<Angle>& anInclination = std::nullopt,
         const Angle& aRaan = Angle::Degrees(0.0),
-        const Angle& anAop = Angle::Undefined(),
+        const std::optional<Angle>& anAop = std::nullopt,
         const Angle& aTrueAnomaly = Angle::Degrees(0.0)
     );
 
@@ -363,9 +349,9 @@ class COE
     /// @param aJ2 A J2
     /// @param aJ3 A J3
     /// @param anEccentricity An eccentricity
-    /// @param anInclination An inclination
+    /// @param anInclination An inclination (std::nullopt if not provided)
     /// @param aRaan A raan
-    /// @param anAop An aop
+    /// @param anAop An aop (std::nullopt if not provided)
     /// @param aTrueAnomaly A true anomaly
     /// @return COE
     static COE FrozenOrbit(
@@ -374,9 +360,9 @@ class COE
         double aJ2,
         double aJ3,
         const std::optional<double>& anEccentricity = std::nullopt,
-        const Angle& anInclination = Angle::Undefined(),
+        const std::optional<Angle>& anInclination = std::nullopt,
         const Angle& aRaan = Angle::Degrees(0.0),
-        const Angle& anAop = Angle::Undefined(),
+        const std::optional<Angle>& anAop = std::nullopt,
         const Angle& aTrueAnomaly = Angle::Degrees(0.0)
     );
 

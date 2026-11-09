@@ -125,7 +125,6 @@ class TestNumericalSolver:
     def test_constructors(self, numerical_solver: NumericalSolver):
         assert numerical_solver is not None
         assert isinstance(numerical_solver, NumericalSolver)
-        assert numerical_solver.is_defined()
 
     def test_constructor_with_state_logger(
         self,
@@ -336,10 +335,6 @@ class TestNumericalSolver:
 
     def test_default(self):
         assert NumericalSolver.default() is not None
-
-    def test_undefined(self):
-        assert NumericalSolver.undefined() is not None
-        assert NumericalSolver.undefined().is_defined() is False
 
     def test_fixed_step_size(
         self,

@@ -93,12 +93,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_OrbitalElementCondition
         const Angle previousAngle =
             (theory == OrbitalElementCondition::Theory::Osculating) ? Angle::Degrees(358.0) : Angle::Degrees(359.0);
 
-        Position currentPosition = Position::Undefined();
-        Position previousPosition = Position::Undefined();
-        Velocity currentVelocity = Velocity::Undefined();
-        Velocity previousVelocity = Velocity::Undefined();
-
-        std::tie(currentPosition, currentVelocity) = ComputeCartesianState(
+        const COE::CartesianState currentCartesianState = ComputeCartesianState(
             theory,
             Length::Kilometers(551.0) + Earth::EGM2008.equatorialRadius_,
             0.00021,
@@ -108,7 +103,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_OrbitalElementCondition
             Angle::Degrees(1.0)
         );
 
-        std::tie(previousPosition, previousVelocity) = ComputeCartesianState(
+        const COE::CartesianState previousCartesianState = ComputeCartesianState(
             theory,
             Length::Kilometers(549.0) + Earth::EGM2008.equatorialRadius_,
             0.00019,
@@ -118,15 +113,20 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_OrbitalElementCondition
             previousAngle
         );
 
-        currentState_ = {defaultInstant_, currentPosition, currentVelocity};
-        previousState_ = {defaultInstant_, previousPosition, previousVelocity};
+        currentState_ = {defaultInstant_, currentCartesianState.first, currentCartesianState.second};
+        previousState_ = {defaultInstant_, previousCartesianState.first, previousCartesianState.second};
     }
 
     const Derived gravitationalParameter_ = Earth::Spherical.gravitationalParameter_;
     const Instant defaultInstant_ = Instant::J2000();
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
-    State currentState_ = State::Undefined();
-    State previousState_ = State::Undefined();
+    // Placeholders, overwritten in SetUp
+    State currentState_ = {
+        Instant::J2000(),
+        Position::Meters({7.0e6, 0.0, 0.0}, Frame::GCRF()),
+        Velocity::MetersPerSecond({0.0, 7.5e3, 0.0}, Frame::GCRF())
+    };
+    State previousState_ = currentState_;
 };
 
 TEST_P(OpenSpaceToolkit_Astrodynamics_EventCondition_OrbitalElementCondition, SemiMajorAxis)

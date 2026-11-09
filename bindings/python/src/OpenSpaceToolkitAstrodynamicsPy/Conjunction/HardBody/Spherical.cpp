@@ -2,16 +2,16 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Spherical(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Spherical(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
     using ostk::astrodynamics::conjunction::HardBody;
     using ostk::astrodynamics::conjunction::hardbody::Spherical;
 
-    class_<Spherical, HardBody, Shared<Spherical>>(
+    class_<Spherical, HardBody>(
         aModule,
         "Spherical",
         R"doc(

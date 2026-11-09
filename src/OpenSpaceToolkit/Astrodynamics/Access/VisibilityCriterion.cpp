@@ -20,14 +20,14 @@ bool VisibilityCriterion::operator!=(const VisibilityCriterion& aVisibilityCrite
 }
 
 VisibilityCriterion VisibilityCriterion::FromAERInterval(
-    const Interval<Real>& azimuth, const Interval<Real>& elevation, const Interval<Real>& range
+    const Interval<double>& azimuth, const Interval<double>& elevation, const Interval<double>& range
 )
 {
     return VisibilityCriterion(AERInterval {azimuth, elevation, range});
 }
 
 VisibilityCriterion VisibilityCriterion::FromAERMask(
-    const Map<double, double>& azimuthElevationMask, const Interval<Real>& range
+    const Map<double, double>& azimuthElevationMask, const Interval<double>& range
 )
 {
     return VisibilityCriterion(AERMask {azimuthElevationMask, range});
@@ -38,7 +38,7 @@ VisibilityCriterion VisibilityCriterion::FromLineOfSight(const Environment& envi
     return VisibilityCriterion(LineOfSight {environment});
 }
 
-VisibilityCriterion VisibilityCriterion::FromElevationInterval(const Interval<Real>& anElevationInterval)
+VisibilityCriterion VisibilityCriterion::FromElevationInterval(const Interval<double>& anElevationInterval)
 {
     return VisibilityCriterion(ElevationInterval {anElevationInterval});
 }

@@ -56,7 +56,7 @@ Frisbee2015::Frisbee2015(
         name_ = String::Format("Frisbee 2015 ({})", aProbabilityOfCollisionAlgorithmSPtr.value()->getName());
     }
 
-    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    if (aFrameSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }

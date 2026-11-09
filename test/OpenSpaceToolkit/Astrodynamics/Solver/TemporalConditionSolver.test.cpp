@@ -52,16 +52,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_TemporalConditionSolver, Construct
     {
         EXPECT_THROW(
             try {
-                TemporalConditionSolver solver(Duration::Undefined(), defaultTolerance_);
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Time step} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            try {
                 TemporalConditionSolver solver(Duration::Zero(), defaultTolerance_);
             } catch (const ostk::core::error::RuntimeError& e) {
                 EXPECT_EQ(
@@ -88,16 +78,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_TemporalConditionSolver, Construct
     }
 
     {
-        EXPECT_THROW(
-            try {
-                TemporalConditionSolver solver(defaultTimeStep_, Duration::Undefined());
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Tolerance} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-
         EXPECT_THROW(
             try {
                 TemporalConditionSolver solver(defaultTimeStep_, Duration::Zero());
@@ -335,16 +315,4 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_TemporalConditionSolver, Solve)
     }
 
     // Undefined interval: throws
-    {
-        EXPECT_THROW(
-            defaultSolver_.solve(
-                [](const Instant&) -> bool
-                {
-                    return true;
-                },
-                Interval::Undefined()
-            ),
-            ostk::core::error::runtime::Undefined
-        );
-    }
 }

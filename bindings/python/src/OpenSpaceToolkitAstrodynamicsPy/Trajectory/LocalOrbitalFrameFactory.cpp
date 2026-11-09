@@ -4,9 +4,9 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
 
@@ -28,19 +28,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
         )doc"
     )
 
-        .def(self == self)
-        .def(self != self)
-
         .def(
-            "is_defined",
-            &LocalOrbitalFrameFactory::isDefined,
-            R"doc(
-                Check if the local orbital frame factory is defined.
-
-                Returns:
-                    Frame: True if the local orbital frame factory is defined, False otherwise.
-
-            )doc"
+            "__eq__",
+            [](const LocalOrbitalFrameFactory& self, const LocalOrbitalFrameFactory& other)
+            {
+                return self == other;
+            },
+            is_operator()
+        )
+        .def(
+            "__ne__",
+            [](const LocalOrbitalFrameFactory& self, const LocalOrbitalFrameFactory& other)
+            {
+                return self != other;
+            },
+            is_operator()
         )
 
         .def(
@@ -78,17 +80,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
                 Returns:
                     Frame: The local orbital frame.
 
-            )doc"
-        )
-
-        .def_static(
-            "undefined",
-            &LocalOrbitalFrameFactory::Undefined,
-            R"doc(
-                Get an undefined local orbital frame factory.
-
-                Returns:
-                    LocalOrbitalFrameFactory: The undefined local orbital frame factory.
             )doc"
         )
         .def_static(

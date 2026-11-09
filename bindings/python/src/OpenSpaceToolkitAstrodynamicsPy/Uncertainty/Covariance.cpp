@@ -1,13 +1,10 @@
 /// Apache License 2.0
 
-#include <pybind11/eigen.h>
-#include <pybind11/stl.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::type::Shared;
@@ -39,7 +36,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
 
         )doc"
     )
-        .def_readonly(
+        .def_ro(
             "mahalanobis_distance_squared",
             &Covariance::MahalanobisDistanceAnalysis::mahalanobisDistanceSquared,
             R"doc(
@@ -49,7 +46,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
                     float
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "p_value",
             &Covariance::MahalanobisDistanceAnalysis::pValue,
             R"doc(
@@ -59,7 +56,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
                     float
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "number_of_dimensions",
             &Covariance::MahalanobisDistanceAnalysis::numberOfDimensions,
             R"doc(
@@ -69,7 +66,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
                     int
             )doc"
         )
-        .def_readonly(
+        .def_ro(
             "coordinate_subsets",
             &Covariance::MahalanobisDistanceAnalysis::coordinateSubsets,
             R"doc(
@@ -110,7 +107,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
         .def(init<const Covariance&>(), arg("covariance"))
 
         .def(
-            self + self,
+            "__add__",
+            [](const Covariance& self, const Covariance& other)
+            {
+                return self + other;
+            },
+            is_operator(),
             R"doc(
                 Add two Covariances element-wise.
 
@@ -122,7 +124,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
             )doc"
         )
         .def(
-            self - self,
+            "__sub__",
+            [](const Covariance& self, const Covariance& other)
+            {
+                return self - other;
+            },
+            is_operator(),
             R"doc(
                 Subtract two Covariances element-wise.
 

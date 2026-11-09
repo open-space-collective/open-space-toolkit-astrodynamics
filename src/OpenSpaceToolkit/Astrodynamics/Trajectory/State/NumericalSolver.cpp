@@ -87,23 +87,6 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 
 using stepper_type_4 = runge_kutta4<NumericalSolver::StateVector>;
 
-namespace
-{
-
-/// @brief Convert a double into the ostk::core::type::Real expected by MathNumericalSolver
-///
-/// NaN maps to Real::Undefined(), which is how the base solver (ostk-mathematics, which still takes Real) represents
-/// an undefined solver: NumericalSolver::Undefined() relies on it. This is the only place NaN is interpreted.
-///
-/// @param [in] aValue A value
-/// @return Real value
-ostk::core::type::Real ToMathNumericalSolverReal(double aValue)
-{
-    return std::isnan(aValue) ? ostk::core::type::Real::Undefined() : ostk::core::type::Real(aValue);
-}
-
-}  // namespace
-
 template <size_t Order>
 auto make_controlled_adam_bashforth_moulton(double abs_tol, double rel_tol)
 {
@@ -130,13 +113,7 @@ NumericalSolver::NumericalSolver(
     const RootSolver& aRootSolver,
     const std::function<void(const State&)>& aStateLogger
 )
-    : MathNumericalSolver(
-          aLogType,
-          aStepperType,
-          ToMathNumericalSolverReal(aTimeStep),
-          ToMathNumericalSolverReal(aRelativeTolerance),
-          ToMathNumericalSolverReal(anAbsoluteTolerance)
-      ),
+    : MathNumericalSolver(aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance),
       rootSolver_(aRootSolver),
       observedStates_(),
       stateLogger_(aStateLogger)
@@ -145,31 +122,16 @@ NumericalSolver::NumericalSolver(
 
 const RootSolver& NumericalSolver::getRootSolver() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("NumericalSolver");
-    }
-
     return rootSolver_;
 }
 
 const Array<State>& NumericalSolver::getObservedStates() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("NumericalSolver");
-    }
-
     return observedStates_;
 }
 
 std::optional<double> NumericalSolver::getMaxStepSize() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("NumericalSolver");
-    }
-
     return maxStepSize_;
 }
 
@@ -184,9 +146,8 @@ Array<State> NumericalSolver::integrateTime(
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    // MathNumericalSolver::integrateDuration takes an Array<Real>
-    const Array<ostk::core::type::Real> durationArray = anInstantArray.map<ostk::core::type::Real>(
-        [&aState](const Instant& anInstant) -> ostk::core::type::Real
+    const Array<double> durationArray = anInstantArray.map<double>(
+        [&aState](const Instant& anInstant) -> double
         {
             return (anInstant - aState.getInstant()).inSeconds();
         }
@@ -313,19 +274,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
     );
 }
 
-NumericalSolver NumericalSolver::Undefined()
-{
-    return {
-        LogType::NoLog,
-        StepperType::RungeKuttaCashKarp54,
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        RootSolver::Default(),
-        nullptr,
-    };
-}
-
 NumericalSolver NumericalSolver::Default()
 {
     return {
@@ -373,13 +321,13 @@ void NumericalSolver::resumeObservedStates(const State& aState, const Instant& a
     const bool isForward = anInstant >= startInstant;
 
     // Discard the states beyond the initial state, e.g. an event state found past the end of a previous integration
-    while (!observedStates_.isEmpty() && (isForward ? observedStates_.accessLast().getInstant() > startInstant
-                                                    : observedStates_.accessLast().getInstant() < startInstant))
+    while (!observedStates_.isEmpty() && (isForward ? observedStates_.getLast().getInstant() > startInstant
+                                                    : observedStates_.getLast().getInstant() < startInstant))
     {
         observedStates_.pop_back();
     }
 
-    if (observedStates_.isEmpty() || observedStates_.accessLast().getInstant() != startInstant)
+    if (observedStates_.isEmpty() || observedStates_.getLast().getInstant() != startInstant)
     {
         this->observeState(aState);
     }
@@ -485,7 +433,6 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     double previousTime = 0.0;
     double currentTime = 0.0;
     double dt = aSignedTimeStep;
-    State currentState = State::Undefined();
     State previousState = aState;
     bool conditionSatisfied = false;
     bool isInitialState = true;
@@ -516,7 +463,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
 
         doStep(aStepper, aSystemOfEquations, currentStateVector, currentTime, dt);
 
-        currentState = createState(currentStateVector, currentTime);
+        const State currentState = createState(currentStateVector, currentTime);
 
         conditionSatisfied = anEventCondition.isSatisfied(currentState, previousState);
 
@@ -544,7 +491,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         // the trim integration above can produce a state at the exact same instant as the
         // last observed entry (e.g. when currentTime already coincided with endTime within
         // tolerance), and emitting a duplicate would silently regress monotonicity downstream.
-        if (observedStates_.isEmpty() || finalState.getInstant() != observedStates_.accessLast().getInstant())
+        if (observedStates_.isEmpty() || finalState.getInstant() != observedStates_.getLast().getInstant())
         {
             observeState(finalState);
         }

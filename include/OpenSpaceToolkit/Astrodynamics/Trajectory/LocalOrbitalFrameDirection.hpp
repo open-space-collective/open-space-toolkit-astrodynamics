@@ -65,16 +65,6 @@ class LocalOrbitalFrameDirection
         std::ostream& anOutputStream, const LocalOrbitalFrameDirection& aLocalOrbitalFrameDirection
     );
 
-    /// @brief Check if local orbital frame direction is defined.
-    ///
-    /// @code{.cpp}
-    ///     LocalOrbitalFrameDirection direction = { ... } ;
-    ///     bool defined = direction.isDefined() ;
-    /// @endcode
-    ///
-    /// @return True if local orbital frame direction is defined.
-    bool isDefined() const;
-
     /// @brief Print local orbital frame direction
     ///
     /// @param anOutputStream An output stream
@@ -100,15 +90,6 @@ class LocalOrbitalFrameDirection
     ///
     /// @return The local orbital frame factory.
     const LocalOrbitalFrameFactory& getLocalOrbitalFrameFactory() const;
-
-    /// @brief Construct an undefined local orbital frame direction.
-    ///
-    /// @code{.cpp}
-    ///     LocalOrbitalFrameDirection direction = LocalOrbitalFrameDirection::Undefined() ;
-    /// @endcode
-    ///
-    /// @return An undefined local orbital frame direction.
-    static LocalOrbitalFrameDirection Undefined();
 
    private:
     Vector3d value_;

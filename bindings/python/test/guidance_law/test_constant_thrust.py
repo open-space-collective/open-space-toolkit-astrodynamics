@@ -170,6 +170,17 @@ class TestConstantThrust:
         )
         assert isinstance(constant_thrust, ConstantThrust)
 
+        constant_thrust_without_maximum_allowed_angular_offset = (
+            ConstantThrust.from_maneuver(
+                maneuver=maneuver,
+                local_orbital_frame_factory=LocalOrbitalFrameFactory.TNW(Frame.GCRF()),
+                maximum_allowed_angular_offset=None,
+            )
+        )
+        assert isinstance(
+            constant_thrust_without_maximum_allowed_angular_offset, ConstantThrust
+        )
+
         constant_thrust_with_maximum_allowed_angular_offset = (
             ConstantThrust.from_maneuver(
                 maneuver=maneuver,

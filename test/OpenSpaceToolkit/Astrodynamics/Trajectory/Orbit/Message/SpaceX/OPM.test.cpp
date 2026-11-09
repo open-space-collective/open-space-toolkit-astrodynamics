@@ -26,47 +26,42 @@ using ostk::astrodynamics::trajectory::orbit::message::spacex::OPM;
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM : public ::testing::Test
 {
    protected:
-    void SetUp() override
-    {
-        this->opm_ = OPM {
-            OPM::Header {
-                Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 5), Scale::UTC),
-                Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
-            },
-            {OPM::Deployment {
-                 "A",
-                 123,
-                 Duration::Seconds(123.456),
-                 Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
-                 Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()),
-                 Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
-                 Length::Kilometers(100.0),
-                 Length::Kilometers(200.0),
-                 Angle::Degrees(1.0),
-                 Angle::Degrees(2.0),
-                 Angle::Degrees(3.0),
-                 Angle::Degrees(4.0),
-                 123.456
-             },
-             OPM::Deployment {
-                 "B",
-                 456,
-                 Duration::Seconds(456.123),
-                 Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 7), Scale::UTC),
-                 Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()),
-                 Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
-                 Length::Kilometers(300.0),
-                 Length::Kilometers(400.0),
-                 Angle::Degrees(5.0),
-                 Angle::Degrees(6.0),
-                 Angle::Degrees(7.0),
-                 Angle::Degrees(8.0),
-                 456.123
-             }}
-        };
-    }
-
-    OPM opm_ = OPM::Undefined();
+    const OPM opm_ = OPM {
+        OPM::Header {
+            Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 5), Scale::UTC),
+            Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
+        },
+        {OPM::Deployment {
+             "A",
+             123,
+             Duration::Seconds(123.456),
+             Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()),
+             Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
+             Length::Kilometers(100.0),
+             Length::Kilometers(200.0),
+             Angle::Degrees(1.0),
+             Angle::Degrees(2.0),
+             Angle::Degrees(3.0),
+             Angle::Degrees(4.0),
+             123.456
+         },
+         OPM::Deployment {
+             "B",
+             456,
+             Duration::Seconds(456.123),
+             Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 7), Scale::UTC),
+             Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()),
+             Velocity::MetersPerSecond({0.0, 0.0, 0.0}, Frame::ITRF()),
+             Length::Kilometers(300.0),
+             Length::Kilometers(400.0),
+             Angle::Degrees(5.0),
+             Angle::Degrees(6.0),
+             Angle::Degrees(7.0),
+             Angle::Degrees(8.0),
+             456.123
+         }}
+    };
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Constructor)
@@ -94,17 +89,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Const
     };
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, IsDefined)
-{
-    {
-        EXPECT_TRUE(this->opm_.isDefined());
-    }
-
-    {
-        EXPECT_FALSE(OPM::Undefined().isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetHeader)
 {
     {
@@ -112,10 +96,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetHe
 
         EXPECT_EQ(Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 5), Scale::UTC), header.generationDate);
         EXPECT_EQ(Instant::DateTime(DateTime(2022, 1, 2, 3, 4, 6), Scale::UTC), header.launchDate);
-    }
-
-    {
-        EXPECT_ANY_THROW(OPM::Undefined().getHeader());
     }
 }
 
@@ -139,10 +119,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetDe
         EXPECT_EQ(Angle::Degrees(3.0), deployments[0].meanLongitudeAscendingNode);
         EXPECT_EQ(Angle::Degrees(4.0), deployments[0].meanMeanAnomaly);
         EXPECT_EQ(123.456, deployments[0].ballisticCoefficient);
-    }
-
-    {
-        EXPECT_ANY_THROW(OPM::Undefined().getDeployments());
     }
 }
 
@@ -169,10 +145,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetDe
     {
         EXPECT_ANY_THROW(this->opm_.getDeploymentAt(2));
     }
-
-    {
-        EXPECT_ANY_THROW(OPM::Undefined().getDeploymentAt(0));
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetDeploymentWithName)
@@ -197,17 +169,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, GetDe
 
     {
         EXPECT_ANY_THROW(this->opm_.getDeploymentWithName("C"));
-    }
-
-    {
-        EXPECT_ANY_THROW(OPM::Undefined().getDeploymentWithName("B"));
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Undefined)
-{
-    {
-        EXPECT_NO_THROW(OPM::Undefined());
     }
 }
 
@@ -296,10 +257,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Message_SpaceX_OPM, Load)
         EXPECT_EQ(Angle::Degrees(85.032), opm.getDeployments()[1].meanLongitudeAscendingNode);
         EXPECT_EQ(Angle::Degrees(-127.164), opm.getDeployments()[1].meanMeanAnomaly);
         EXPECT_EQ(44.26, opm.getDeployments()[1].ballisticCoefficient);
-    }
-
-    {
-        EXPECT_ANY_THROW(OPM::Load(File::Undefined()));
     }
 }
 

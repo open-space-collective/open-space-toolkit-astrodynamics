@@ -3,10 +3,10 @@
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAlgorithm_Foster1992(
-    pybind11::module& aModule
+    nanobind::module_& aModule
 )
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::type::Shared;
     using ostk::core::type::Size;
@@ -18,7 +18,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
     using ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm;
     using ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992;
 
-    class_<Foster1992, ProbabilityOfCollisionAlgorithm, Shared<Foster1992>>(
+    class_<Foster1992, ProbabilityOfCollisionAlgorithm>(
         aModule,
         "Foster1992",
         R"doc(
@@ -72,16 +72,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_ProbabilityOfCollisionAl
                         Defaults to True.
 
                 Raises:
-                    RuntimeError: If the frame is undefined or not quasi-inertial, if the angular step size is
-                        undefined or not within (0, 360] deg, or if the number of radial steps is zero.
+                    RuntimeError: If the frame is null or not quasi-inertial, if the angular step size is
+                        not within (0, 360] deg, or if the number of radial steps is zero.
             )doc",
-            arg_v(
-                "relative_speed_threshold",
+            arg("relative_speed_threshold").sig("Derived(100.0, Derived.Unit.meter_per_second())") =
                 Derived(100.0, Derived::Unit::MeterPerSecond()),
-                "Derived(100.0, Derived.Unit.meter_per_second())"
-            ),
-            arg_v("frame", Frame::GCRF(), "Frame.GCRF()"),
-            arg_v("angular_step_size", Angle::Degrees(0.5), "Angle.degrees(0.5)"),
+            arg("frame").sig("Frame.GCRF()") = Frame::GCRF(),
+            arg("angular_step_size").sig("Angle.degrees(0.5)") = Angle::Degrees(0.5),
             arg("number_of_radial_steps") = 12,
             arg("increase_number_of_radial_steps_if_needed") = true
         )

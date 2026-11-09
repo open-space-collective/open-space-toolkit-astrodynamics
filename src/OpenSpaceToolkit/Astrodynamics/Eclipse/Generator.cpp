@@ -34,38 +34,18 @@ Generator::Generator(
 {
 }
 
-bool Generator::isDefined() const
-{
-    return environment_.isDefined();
-}
-
 const Environment& Generator::getEnvironment() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return environment_;
 }
 
 const Duration& Generator::getSearchStepSize() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return temporalConditionSolver_.getTimeStep();
 }
 
 const Duration& Generator::getSearchTolerance() const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
     return temporalConditionSolver_.getTolerance();
 }
 
@@ -76,26 +56,11 @@ Array<Eclipse> Generator::generate(
     const String& anOccultingCelestialObjectName
 ) const
 {
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Generator");
-    }
-
-    if (!aTrajectory.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Trajectory");
-    }
-
-    if (!anAnalysisInterval.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Analysis interval");
-    }
-
     // Get celestial objects
     const Shared<const Celestial> occultedCelestialObject =
-        environment_.accessCelestialObjectWithName(anOccultedCelestialObjectName);
+        environment_.getCelestialObjectWithName(anOccultedCelestialObjectName);
     const Shared<const Celestial> occultingCelestialObject =
-        environment_.accessCelestialObjectWithName(anOccultingCelestialObjectName);
+        environment_.getCelestialObjectWithName(anOccultingCelestialObjectName);
 
     // Define condition for penumbra and umbra (shadow factor < 1.0)
     const auto penumbraAndUmbraCondition =
@@ -171,8 +136,8 @@ Array<Eclipse> Generator::generate(
         eclipses.end(),
         [](const Eclipse& firstEclipse, const Eclipse& secondEclipse) -> bool
         {
-            return firstEclipse.getPhases().accessFirst().getInterval().getStart() <
-                   secondEclipse.getPhases().accessFirst().getInterval().getStart();
+            return firstEclipse.getPhases().getFirst().getInterval().getStart() <
+                   secondEclipse.getPhases().getFirst().getInterval().getStart();
         }
     );
 

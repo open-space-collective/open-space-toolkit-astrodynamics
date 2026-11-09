@@ -136,37 +136,6 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
         return State(anInstant, coordinates, Frame::GCRF(), Maneuver::RequiredCoordinateSubsets);
     }
 
-    void SetUp() override
-    {
-        const Composite satelliteGeometry(Cuboid(
-            {0.0, 0.0, 0.0},
-            {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}},
-            {1.0, 2.0, 3.0}
-        ));
-
-        const PropulsionSystem propulsionSystem = {0.1, 1500.0};
-
-        this->satelliteGeometry_ = satelliteGeometry;
-        this->propulsionSystem_ = propulsionSystem;
-
-        this->satelliteSystem_ = {
-            this->satelliteDryMass_,
-            satelliteGeometry_,
-            Matrix3d::Identity(),
-            1.0,
-            2.1,
-            propulsionSystem_,
-        };
-
-        this->earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
-        this->defaultDynamics_ = {
-            std::make_shared<PositionDerivative>(),
-            std::make_shared<CentralBodyGravity>(earthSpherical_),
-        };
-
-        this->defaultPropagator_ = {defaultNumericalSolver_, defaultDynamics_};
-    }
-
     const NumericalSolver defaultNumericalSolver_ = {
         NumericalSolver::LogType::NoLog,
         NumericalSolver::StepperType::RungeKuttaFehlberg78,
@@ -185,16 +154,28 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
 
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
 
-    Array<Shared<Dynamics>> defaultDynamics_ = Array<Shared<Dynamics>>::Empty();
     const Mass satelliteDryMass_ = Mass(100.0, Mass::Unit::Kilogram);
     const Mass propellantMass_ = Mass(15.0, Mass::Unit::Kilogram);
     const Mass satelliteWetMass_ =
         Mass(satelliteDryMass_.inKilograms() + propellantMass_.inKilograms(), Mass::Unit::Kilogram);
-    PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
-    Composite satelliteGeometry_ = Composite::Undefined();
-    SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
-    Shared<Celestial> earthSpherical_ = nullptr;
-    Propagator defaultPropagator_ = Propagator::Undefined();
+    PropulsionSystem propulsionSystem_ = {0.1, 1500.0};
+    Composite satelliteGeometry_ = Composite(Cuboid(
+        {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
+    ));
+    SatelliteSystem satelliteSystem_ = {
+        satelliteDryMass_,
+        satelliteGeometry_,
+        Matrix3d::Identity(),
+        1.0,
+        2.1,
+        propulsionSystem_,
+    };
+    Shared<Celestial> earthSpherical_ = std::make_shared<Celestial>(Earth::Spherical());
+    Array<Shared<Dynamics>> defaultDynamics_ = {
+        std::make_shared<PositionDerivative>(),
+        std::make_shared<CentralBodyGravity>(earthSpherical_),
+    };
+    Propagator defaultPropagator_ = {defaultNumericalSolver_, defaultDynamics_};
 
     // Setup maneuver defaults
     const Array<State> defaultManeuverStates_ = {
@@ -284,27 +265,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, NotEqua
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, IsDefined)
-{
-    {
-        EXPECT_TRUE(defaultPropagator_.isDefined());
-    }
-
-    {
-        const Propagator propagatorWithEmptyDynamicsArray = {defaultNumericalSolver_};
-        EXPECT_FALSE(propagatorWithEmptyDynamicsArray.isDefined());
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Undefined)
-{
-    {
-        EXPECT_NO_THROW(Propagator::Undefined());
-
-        EXPECT_FALSE(Propagator::Undefined().isDefined());
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, StreamOperator)
 {
     {
@@ -335,20 +295,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, GetCoor
         EXPECT_EQ(brokerSPtr->getNumberOfCoordinates(), 6);
         EXPECT_EQ(brokerSPtr->getNumberOfSubsets(), 2);
     }
-
-    {
-        EXPECT_ANY_THROW(Propagator::Undefined().getCoordinateBroker());
-    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, GetNumericalSolver)
 {
     {
         EXPECT_EQ(defaultPropagator_.getNumericalSolver(), defaultNumericalSolver_);
-    }
-
-    {
-        EXPECT_ANY_THROW(Propagator::Undefined().getNumericalSolver());
     }
 }
 
@@ -379,7 +331,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, SetDyna
         defaultPropagator_.setDynamics({});
 
         EXPECT_EQ(defaultPropagator_.getDynamics().getSize(), 0);
-        EXPECT_FALSE(defaultPropagator_.isDefined());
     }
 }
 
@@ -732,17 +683,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
 
     for (const auto& referenceRow : referenceData)
     {
-        instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].accessString()), Scale::UTC));
+        instantArray.add(Instant::DateTime(DateTime::Parse(referenceRow[0].getString()), Scale::UTC));
 
         referencePositionArray.add({
-            referenceRow[1].accessReal(),
-            referenceRow[2].accessReal(),
-            referenceRow[3].accessReal(),
+            referenceRow[1].getReal(),
+            referenceRow[2].getReal(),
+            referenceRow[3].getReal(),
         });
         referenceVelocityArray.add({
-            referenceRow[4].accessReal(),
-            referenceRow[5].accessReal(),
-            referenceRow[6].accessReal(),
+            referenceRow[4].getReal(),
+            referenceRow[5].getReal(),
+            referenceRow[6].getReal(),
         });
     }
 
@@ -765,8 +716,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             const Position position = propagatedStateArray[i].getPosition();
             const Velocity velocity = propagatedStateArray[i].getVelocity();
 
-            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
+            const double positionError = (position.getCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.getCoordinates() - referenceVelocityArray[i]).norm();
 
             ASSERT_GT(2e-7, positionError);
             ASSERT_GT(2e-10, velocityError);
@@ -801,8 +752,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             const Position position = propagatedStateArray[i].getPosition();
             const Velocity velocity = propagatedStateArray[i].getVelocity();
 
-            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
+            const double positionError = (position.getCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.getCoordinates() - referenceVelocityArray[i]).norm();
 
             ASSERT_GT(2e-7, positionError);
             ASSERT_GT(2e-10, velocityError);
@@ -837,8 +788,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             const Position position = propagatedStateArray[i].getPosition();
             const Velocity velocity = propagatedStateArray[i].getVelocity();
 
-            const double positionError = (position.accessCoordinates() - referencePositionArray[i]).norm();
-            const double velocityError = (velocity.accessCoordinates() - referenceVelocityArray[i]).norm();
+            const double positionError = (position.getCoordinates() - referencePositionArray[i]).norm();
+            const double velocityError = (velocity.getCoordinates() - referenceVelocityArray[i]).norm();
 
             ASSERT_GT(2e-7, positionError);
             ASSERT_GT(2e-10, velocityError);
@@ -975,10 +926,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
             const Position positionWithManeuvers = propagatedStateArrayWithManeuvers[i].getPosition();
             const Velocity velocityWithManeuvers = propagatedStateArrayWithManeuvers[i].getVelocity();
 
-            const double positionError =
-                (position.accessCoordinates() - positionWithManeuvers.accessCoordinates()).norm();
-            const double velocityError =
-                (velocity.accessCoordinates() - velocityWithManeuvers.accessCoordinates()).norm();
+            const double positionError = (position.getCoordinates() - positionWithManeuvers.getCoordinates()).norm();
+            const double velocityError = (velocity.getCoordinates() - velocityWithManeuvers.getCoordinates()).norm();
 
             ASSERT_GT(positionError, 1.0e-15);
             ASSERT_GT(velocityError, 1.0e-15);
@@ -1497,8 +1446,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
     {
         ASSERT_GT(anObservedStateArray.getSize(), 2);
 
-        EXPECT_EQ(anObservedStateArray.accessFirst().getInstant(), aStartInstant);
-        EXPECT_EQ(anObservedStateArray.accessLast().getInstant(), anEndInstant);
+        EXPECT_EQ(anObservedStateArray.getFirst().getInstant(), aStartInstant);
+        EXPECT_EQ(anObservedStateArray.getLast().getInstant(), anEndInstant);
 
         const bool isForward = anEndInstant > aStartInstant;
 
@@ -1576,7 +1525,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
 
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             expectObservedStates(observedStates, epoch, conditionSolution.state.getInstant(), true);
-            EXPECT_EQ(observedStates.accessLast().getInstant(), conditionSolution.state.getInstant());
+            EXPECT_EQ(observedStates.getLast().getInstant(), conditionSolution.state.getInstant());
         }
 
         // calculateStateToCondition: the condition is reached in the middle of the maneuver, so the states stop there
@@ -1595,7 +1544,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
 
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             expectObservedStates(observedStates, epoch, conditionSolution.state.getInstant(), false);
-            EXPECT_EQ(observedStates.accessLast(), conditionSolution.state);
+            EXPECT_EQ(observedStates.getLast(), conditionSolution.state);
             EXPECT_LT(std::abs((conditionSolution.state.getInstant() - condition.getInstant()).inSeconds()), 1e-3);
         }
 
@@ -1618,7 +1567,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_LT(std::abs((conditionSolution.state.getInstant() - condition.getInstant()).inSeconds()), 1e-3);
             expectObservedStates(observedStates, epoch, conditionSolution.state.getInstant(), true);
-            EXPECT_EQ(observedStates.accessLast(), conditionSolution.state);
+            EXPECT_EQ(observedStates.getLast(), conditionSolution.state);
         }
 
         // calculateStateToCondition backwards
@@ -1646,13 +1595,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Default
 {
     {
         EXPECT_NO_THROW(Propagator::Default());
-        EXPECT_TRUE(Propagator::Default().isDefined());
     }
 
     {
         Environment environment = Environment::Default();
         EXPECT_NO_THROW(Propagator::Default(environment));
-        EXPECT_NO_THROW(Propagator::Default(environment).isDefined());
     }
 }
 
@@ -1668,16 +1615,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, FromEnv
         // and 1 default dynamics of integrating the Position Derivative
         EXPECT_TRUE(propagator.getDynamics().getSize() == 4);
 
-        EXPECT_TRUE(static_cast<const CentralBodyGravity&>(*propagator.getDynamics()[0]).isDefined());
-        EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[1]).isDefined());
-        EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[2]).isDefined());
+        EXPECT_TRUE(std::dynamic_pointer_cast<CentralBodyGravity>(propagator.getDynamics()[0]) != nullptr);
+        EXPECT_TRUE(std::dynamic_pointer_cast<ThirdBodyGravity>(propagator.getDynamics()[1]) != nullptr);
+        EXPECT_TRUE(std::dynamic_pointer_cast<ThirdBodyGravity>(propagator.getDynamics()[2]) != nullptr);
     }
 
     {
         const Array<Shared<const Object>> celestials = {
             std::make_shared<Earth>(Earth::FromModels(
                 std::make_shared<EarthGravitationalModel>(EarthGravitationalModel::Type::Spherical),
-                std::make_shared<EarthMagneticModel>(EarthMagneticModel::Type::Undefined),
+                nullptr,
                 std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential)
             )),
             std::make_shared<Moon>(Moon::Default()),
@@ -1688,11 +1635,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, FromEnv
 
         EXPECT_TRUE(propagator.getDynamics().getSize() == 5);
 
-        EXPECT_TRUE(static_cast<const CentralBodyGravity&>(*propagator.getDynamics()[0]).isDefined());
-        EXPECT_TRUE(static_cast<const AtmosphericDrag&>(*propagator.getDynamics()[1]).isDefined());
-        EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[2]).isDefined());
-        EXPECT_TRUE(static_cast<const ThirdBodyGravity&>(*propagator.getDynamics()[3]).isDefined());
-        EXPECT_TRUE(static_cast<const PositionDerivative&>(*propagator.getDynamics()[4]).isDefined());
+        EXPECT_TRUE(std::dynamic_pointer_cast<CentralBodyGravity>(propagator.getDynamics()[0]) != nullptr);
+        EXPECT_TRUE(std::dynamic_pointer_cast<AtmosphericDrag>(propagator.getDynamics()[1]) != nullptr);
+        EXPECT_TRUE(std::dynamic_pointer_cast<ThirdBodyGravity>(propagator.getDynamics()[2]) != nullptr);
+        EXPECT_TRUE(std::dynamic_pointer_cast<ThirdBodyGravity>(propagator.getDynamics()[3]) != nullptr);
+        EXPECT_TRUE(std::dynamic_pointer_cast<PositionDerivative>(propagator.getDynamics()[4]) != nullptr);
     }
 }
 

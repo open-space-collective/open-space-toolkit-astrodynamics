@@ -137,7 +137,7 @@ QLaw::QLaw(
       stateBuilder_(aFrameSPtr, {std::make_shared<CoordinateSubset>("QLaw Element Vector", 5)}),
       coeDomain_(aCOEDomain)
 {
-    if ((frameSPtr_ == nullptr) || (!frameSPtr_->isDefined()))
+    if (frameSPtr_ == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }

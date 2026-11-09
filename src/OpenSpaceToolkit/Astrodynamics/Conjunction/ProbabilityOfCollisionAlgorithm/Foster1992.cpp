@@ -44,7 +44,7 @@ Foster1992::Foster1992(
       angularSliceSines_(Array<double>::Empty()),
       angularSliceCosines_(Array<double>::Empty())
 {
-    if ((aFrameSPtr == nullptr) || (!aFrameSPtr->isDefined()))
+    if (aFrameSPtr == nullptr)
     {
         throw ostk::core::error::runtime::Undefined("Frame");
     }
@@ -52,11 +52,6 @@ Foster1992::Foster1992(
     if (!aFrameSPtr->isQuasiInertial())
     {
         throw ostk::core::error::runtime::Wrong("Frame", aFrameSPtr->getName());
-    }
-
-    if (!anAngularStepSize.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("Angular step size");
     }
 
     const double angularStepSizeDegrees = anAngularStepSize.inDegrees();

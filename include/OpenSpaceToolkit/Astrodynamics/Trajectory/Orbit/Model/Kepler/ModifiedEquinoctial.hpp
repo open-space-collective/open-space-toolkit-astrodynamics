@@ -108,11 +108,6 @@ class ModifiedEquinoctial
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const ModifiedEquinoctial& aMEOE);
 
-    /// @brief Check if ModifiedEquinoctial is defined
-    ///
-    /// @return True if ModifiedEquinoctial is defined
-    bool isDefined() const;
-
     /// @brief Get semi-latus rectum
     ///
     /// @return Semi-latus rectum
@@ -174,15 +169,6 @@ class ModifiedEquinoctial
     /// @param [in] anOutputStream An output stream
     /// @param [in] (optional) displayDecorators If true, display decorators
     void print(std::ostream& anOutputStream, bool displayDecorators = true) const;
-
-    /// @brief Construct an undefined ModifiedEquinoctial.
-    ///
-    /// @code{.cpp}
-    ///     ModifiedEquinoctial meoe = ModifiedEquinoctial::Undefined() ;
-    /// @endcode
-    ///
-    /// @return Undefined ModifiedEquinoctial.
-    static ModifiedEquinoctial Undefined();
 
     /// @brief Create ModifiedEquinoctial from Cartesian state.
     ///

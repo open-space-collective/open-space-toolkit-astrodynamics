@@ -1,15 +1,13 @@
 /// Apache License 2.0
 
-#include <pybind11/stl.h>
-
 #include <OpenSpaceToolkit/Astrodynamics/Access.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Access/Generator.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Access/VisibilityCriterion.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Access(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::physics::time::Instant;
     using ostk::physics::unit::Angle;
@@ -46,15 +44,19 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
         access_class
 
             .def(
-                init<const Access::Type&, const Instant&, const Instant&, const Instant&, const std::optional<Angle>&>(
-                ),
+                init<
+                    const Access::Type&,
+                    const Instant&,
+                    const std::optional<Instant>&,
+                    const Instant&,
+                    const std::optional<Angle>&>(),
                 R"doc(
                     Constructs an Access object.
 
                     Args:
                         type (Access.Type): Type of the access (Complete, Partial)
                         acquisition_of_signal (Instant): The instant when the signal is first acquired
-                        time_of_closest_approach (Instant): The time of closest approach between objects
+                        time_of_closest_approach (Instant | None): The time of closest approach between objects. It can only be None for a partial access.
                         loss_of_signal (Instant): The instant when the signal is lost
                         max_elevation (Angle | None, optional): The maximum elevation angle during the access, not defined for satellite to satellite accesses. Defaults to None.
                 )doc",
@@ -65,22 +67,25 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                 arg("max_elevation") = none()
             )
 
-            .def(self == self)
-            .def(self != self)
+            .def(
+                "__eq__",
+                [](const Access& self, const Access& other)
+                {
+                    return self == other;
+                },
+                is_operator()
+            )
+            .def(
+                "__ne__",
+                [](const Access& self, const Access& other)
+                {
+                    return self != other;
+                },
+                is_operator()
+            )
 
             .def("__str__", &(shiftToString<Access>))
             .def("__repr__", &(shiftToString<Access>))
-
-            .def(
-                "is_defined",
-                &Access::isDefined,
-                R"doc(
-                    Check if the Access object is defined.
-
-                    Returns:
-                       bool: True if defined, False otherwise.
-                 )doc"
-            )
 
             .def(
                 "is_complete",
@@ -122,7 +127,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
                     Get the time of closest approach of the access.
 
                     Returns:
-                        Instant: The time of closest approach of the access.
+                        Instant | None: The time of closest approach of the access, or None if not set (only possible for a partial access).
                 )doc"
             )
 
@@ -167,17 +172,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access(pybind11::module& aModule)
 
                     Returns:
                       Angle | None: The maximum elevation of the access, or None if not set (e.g., for satellite to satellite accesses).
-                )doc"
-            )
-
-            .def_static(
-                "undefined",
-                &Access::Undefined,
-                R"doc(
-                    Creates an undefined Access object.
-
-                    Returns:
-                        Access: An undefined Access object.
                 )doc"
             )
 

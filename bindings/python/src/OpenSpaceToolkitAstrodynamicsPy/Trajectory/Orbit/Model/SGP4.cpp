@@ -10,9 +10,9 @@
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/SGP4FullPrecision.cpp>
 #include <OpenSpaceToolkitAstrodynamicsPy/Trajectory/Orbit/Model/SGP4/TLE.cpp>
 
-inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11::module& aModule)
+inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(nanobind::module_& aModule)
 {
-    using namespace pybind11;
+    using namespace nanobind;
 
     using ostk::core::container::Array;
     using ostk::core::container::Pair;
@@ -51,7 +51,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
 
                 )doc",
                 arg("tle"),
-                arg_v("output_frame", DEFAULT_SGP4_OUTPUT_FRAME, "Frame.TEME()")
+                arg("output_frame").sig("Frame.TEME()") = DEFAULT_SGP4_OUTPUT_FRAME
             )
 
             .def(
@@ -68,7 +68,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                         output_frame (Frame, optional): The output frame for state calculations. Defaults to Frame.TEME().
                 )doc",
                 arg("tles"),
-                arg_v("output_frame", DEFAULT_SGP4_OUTPUT_FRAME, "Frame.TEME()")
+                arg("output_frame").sig("Frame.TEME()") = DEFAULT_SGP4_OUTPUT_FRAME
             )
 
             .def(
@@ -84,19 +84,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4(pybind11
                         output_frame (Frame, optional): The output frame for state calculations. Defaults to Frame.TEME().
                 )doc",
                 arg("tles_with_intervals"),
-                arg_v("output_frame", DEFAULT_SGP4_OUTPUT_FRAME, "Frame.TEME()")
-            )
-
-            .def(
-                "is_defined",
-                &SGP4::isDefined,
-                R"doc(
-                    Check if the `SGP4` model is defined.
-
-                    Returns:
-                        bool: True if the `SGP4` model is defined, False otherwise.
-
-                )doc"
+                arg("output_frame").sig("Frame.TEME()") = DEFAULT_SGP4_OUTPUT_FRAME
             )
 
             .def(

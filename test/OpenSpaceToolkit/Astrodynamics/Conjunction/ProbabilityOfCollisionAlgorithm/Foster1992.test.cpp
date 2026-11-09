@@ -98,18 +98,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
     {
         EXPECT_THROW(
             try {
-                Foster1992(Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Undefined(), 12);
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Angular step size} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            try {
                 Foster1992(Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::GCRF(), Angle::Degrees(0.0), 12);
             } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_EQ("Angular step size = 0.0 [deg] is wrong.", e.getMessage());
@@ -159,18 +147,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorith
         EXPECT_THROW(
             try {
                 Foster1992(Derived(100.0, Derived::Unit::MeterPerSecond()), nullptr);
-            } catch (const ostk::core::error::runtime::Undefined& e) {
-                EXPECT_EQ("{Frame} is undefined.", e.getMessage());
-                throw;
-            },
-            ostk::core::error::runtime::Undefined
-        );
-    }
-
-    {
-        EXPECT_THROW(
-            try {
-                Foster1992(Derived(100.0, Derived::Unit::MeterPerSecond()), Frame::Undefined());
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Frame} is undefined.", e.getMessage());
                 throw;

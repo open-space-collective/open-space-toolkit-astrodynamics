@@ -53,11 +53,6 @@ LocalOrbitalFrameTransformProvider* LocalOrbitalFrameTransformProvider::clone() 
     return new LocalOrbitalFrameTransformProvider(*this);
 }
 
-bool LocalOrbitalFrameTransformProvider::isDefined() const
-{
-    return transform_.isDefined();
-}
-
 Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anInstant) const
 {
     if (anInstant != transform_.getInstant())
@@ -83,10 +78,10 @@ Transform LocalOrbitalFrameTransformProvider::getTransformAt(const Instant& anIn
         // on its own instant-equality check.
         return {
             anInstant,
-            transform_.accessTranslation(),
-            transform_.accessVelocity(),
-            transform_.accessOrientation(),
-            transform_.accessAngularVelocity(),
+            transform_.getTranslation(),
+            transform_.getVelocity(),
+            transform_.getOrientation(),
+            transform_.getAngularVelocity(),
             Transform::Type::Passive,  // transforms are always stored as passive
         };
     }
@@ -108,9 +103,6 @@ String LocalOrbitalFrameTransformProvider::StringFromType(const LocalOrbitalFram
 {
     switch (aType)
     {
-        case LocalOrbitalFrameTransformProvider::Type::Undefined:
-            return "Undefined";
-
         case LocalOrbitalFrameTransformProvider::Type::NED:
             return "NED";
 
@@ -148,8 +140,8 @@ Transform LocalOrbitalFrameTransformProvider::GenerateTransform(
 )
 {
     const Instant& instant = aState.getInstant();
-    const Vector3d positionCoordinates = aState.getPosition().accessCoordinates();
-    const Vector3d velocityCoordinates = aState.getVelocity().accessCoordinates();
+    const Vector3d positionCoordinates = aState.getPosition().getCoordinates();
+    const Vector3d velocityCoordinates = aState.getVelocity().getCoordinates();
 
     switch (aType)
     {

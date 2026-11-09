@@ -21,9 +21,6 @@ def environment() -> Environment:
 @pytest.fixture
 def dynamics(name: str) -> Dynamics:
     class MyDynamics(Dynamics):
-        def is_defined(self):
-            return True
-
         def get_read_coordinate_subsets(self):
             return [CartesianPosition.default()]
 

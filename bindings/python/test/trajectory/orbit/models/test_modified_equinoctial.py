@@ -75,17 +75,12 @@ class TestModifiedEquinoctial:
         modified_equinoctial: ModifiedEquinoctial,
         meoe_default_values: dict,
     ):
-        assert modified_equinoctial.is_defined()
         assert modified_equinoctial.get_semi_latus_rectum() == meoe_default_values["p"]
         assert modified_equinoctial.get_eccentricity_x() == meoe_default_values["f"]
         assert modified_equinoctial.get_eccentricity_y() == meoe_default_values["g"]
         assert modified_equinoctial.get_node_x() == meoe_default_values["h"]
         assert modified_equinoctial.get_node_y() == meoe_default_values["k"]
         assert modified_equinoctial.get_true_longitude() == meoe_default_values["L"]
-
-    def test_undefined_state(self):
-        meoe_undefined = ModifiedEquinoctial.undefined()
-        assert not meoe_undefined.is_defined()
 
     def test_get_si_vector(
         self,
@@ -133,10 +128,22 @@ class TestModifiedEquinoctial:
 
         assert ModifiedEquinoctial.coe(coe) is not None
 
+    def test_coe_method_parabolic_raises(self):
+        coe = COE(
+            Length.kilometers(24396.137),
+            1.0,
+            Angle.degrees(7.0),
+            Angle.degrees(0.0),
+            Angle.degrees(90.0),
+            Angle.degrees(0.0),
+        )
+
+        with pytest.raises(RuntimeError):
+            ModifiedEquinoctial.coe(coe)
+
     def test_to_coe(
         self,
         modified_equinoctial: ModifiedEquinoctial,
         earth_gravitational_parameter: Derived,
     ):
         coe = modified_equinoctial.to_coe(earth_gravitational_parameter)
-        assert coe.is_defined()
