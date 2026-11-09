@@ -92,7 +92,8 @@ class Orbit : public Trajectory
 
     /// @brief Constructor.
     ///
-    /// @param aStateArray An array of states.
+    /// @param aStateArray An array of states. States are interpolated with barycentric rational interpolation, which
+    /// requires at least 4 states.
     /// @param anInitialRevolutionNumber An initial revolution number.
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body.
     Orbit(
@@ -261,12 +262,14 @@ class Orbit : public Trajectory
     /// @param anInclination An orbit inclination
     /// @param aLongitude A longitude above the surface
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @param aFrameSPtr The inertial frame in which the orbit is defined and propagated. Defaults to GCRF.
     /// @return Geosynchronous orbit
     static Orbit GeoSynchronous(
         const Instant& anEpoch,
         const Angle& anInclination,
         const Angle& aLongitude,
-        const Shared<const Celestial>& aCelestialObjectSPtr
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
 
     /// @brief Constructs a Sun-synchronous orbit
@@ -284,13 +287,17 @@ class Orbit : public Trajectory
     /// @param aLocalTimeAtDescendingNode A local time at descending node
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @param anArgumentOfLatitude An argument of latitude
+    /// @param aFrameSPtr The inertial frame in which the Sun direction is evaluated and in which the orbit is defined
+    /// and propagated. Its Z axis is the pole about which J2 acts, so a frame aligned with the true pole (e.g. TEME)
+    /// is appropriate for mean elements. Must be quasi-inertial. Defaults to GCRF.
     /// @return Sun-synchronous orbit
     static Orbit SunSynchronous(
         const Instant& anEpoch,
         const Length& anAltitude,
         const Time& aLocalTimeAtDescendingNode,
         const Shared<const Celestial>& aCelestialObjectSPtr,
-        const Angle& anArgumentOfLatitude = Angle::Zero()
+        const Angle& anArgumentOfLatitude = Angle::Zero(),
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
 
     /// @brief Constructs a Frozen orbit

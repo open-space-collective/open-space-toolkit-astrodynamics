@@ -138,7 +138,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Default)
     const Tabulated tabulated = Tabulated::Default(states_);
 
     EXPECT_TRUE(tabulated.isDefined());
-    EXPECT_EQ(tabulated.getInterpolatorType(), Interpolator::Type::BarycentricRational);
+    EXPECT_EQ(tabulated.getInterpolationType(), Interpolator::Type::BarycentricRational);
 
     EXPECT_NO_THROW(tabulated.calculateStateAt(Instant::DateTime(DateTime(2024, 1, 29, 0, 0, 15), Scale::UTC)));
 }
@@ -204,8 +204,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Getters)
     }
 
     {
-        const Interpolator::Type interpolatorType = tabulated_.getInterpolatorType();
-        EXPECT_EQ(interpolatorType, Interpolator::Type::Linear);
+        const Interpolator::Type interpolationType = tabulated_.getInterpolationType();
+        EXPECT_EQ(interpolationType, Interpolator::Type::Linear);
     }
 }
 

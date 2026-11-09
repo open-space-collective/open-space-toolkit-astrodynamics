@@ -53,6 +53,8 @@ using ostk::physics::unit::Length;
 using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
 using ostk::astrodynamics::trajectory::State;
 
+#define DEFAULT_SGP4_OUTPUT_FRAME Frame::TEME()
+
 /// @brief Simplified General Perturbations 4 (SGP4) Orbit Model, propagating a Two-Line Element set.
 ///
 /// @details Takes one TLE, or several with validity intervals.
@@ -65,29 +67,18 @@ using ostk::astrodynamics::trajectory::State;
 class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
 {
    public:
-    /// @brief Construct an SGP4 model from a TLE. Sets the output frame to GCRF by default.
-    ///
-    /// @code{.cpp}
-    ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
-    ///                   "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
-    ///     SGP4 sgp4 = SGP4(tle);
-    /// @endcode
-    ///
-    /// @param aTle A Two-Line Element set.
-    SGP4(const TLE& aTle);
-
     /// @brief Construct an SGP4 model from a TLE and an output frame. If TEME, the runtime is faster as no frame
     /// transformations are needed.
     ///
     /// @code{.cpp}
     ///     TLE tle = TLE("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927",
     ///                   "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537");
-    ///     SGP4 sgp4 = SGP4(tle, Frame::TEME());
+    ///     SGP4 sgp4 = SGP4(tle, Frame::GCRF());
     /// @endcode
     ///
     /// @param aTle A Two-Line Element set.
-    /// @param anOutputFrameSPtr An output frame.
-    SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr);
+    /// @param anOutputFrameSPtr An output frame. Defaults to TEME.
+    SGP4(const TLE& aTle, const Shared<const Frame>& anOutputFrameSPtr = DEFAULT_SGP4_OUTPUT_FRAME);
 
     /// @brief Construct an SGP4 model from an array of TLEs and an output frame.
     ///
@@ -105,7 +96,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     ///
     /// @param aTleArray An array of Two-Line Element sets.
     /// @param anOutputFrameSPtr An output frame. Defaults to TEME.
-    SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME());
+    SGP4(const Array<TLE>& aTleArray, const Shared<const Frame>& anOutputFrameSPtr = DEFAULT_SGP4_OUTPUT_FRAME);
 
     /// @brief Construct an SGP4 model from an array of TLE-Interval pairs and an output frame.
     ///
@@ -126,7 +117,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param anOutputFrameSPtr An output frame. Defaults to TEME.
     SGP4(
         const Array<Pair<TLE, Interval>>& aTleIntervalArray,
-        const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME()
+        const Shared<const Frame>& anOutputFrameSPtr = DEFAULT_SGP4_OUTPUT_FRAME
     );
 
     /// @brief Copy constructor.

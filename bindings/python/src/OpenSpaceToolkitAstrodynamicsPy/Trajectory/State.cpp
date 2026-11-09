@@ -234,6 +234,92 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
             arg("subset")
         )
         .def(
+            "has_covariance",
+            &State::hasCovariance,
+            R"doc(
+                Check if the state has a Covariance.
+
+                Returns:
+                    bool: True if a Covariance is attached to the state, False otherwise.
+            )doc"
+        )
+        .def(
+            "get_covariance",
+            &State::getCovariance,
+            R"doc(
+                Get the Covariance of the state.
+
+                Returns:
+                    Covariance | None: The Covariance of the state, or None if no Covariance is attached.
+            )doc"
+        )
+        .def(
+            "with_covariance",
+            &State::withCovariance,
+            R"doc(
+                Return a copy of the state with a Covariance attached.
+
+                Passing None returns a copy of the state without a Covariance.
+
+                Args:
+                    covariance (Covariance | None): The Covariance to attach, or None to remove it.
+
+                Returns:
+                    State: A copy of the state with the Covariance attached.
+
+                Raises:
+                    RuntimeError: If the Covariance instant differs from the state's instant.
+            )doc",
+            arg("covariance")
+        )
+        .def(
+            "compute_mahalanobis_distance_analysis",
+            [](const State& aState, const State& anotherState)
+            {
+                return aState.computeMahalanobisDistanceAnalysis(anotherState);
+            },
+            R"doc(
+                Compute the Mahalanobis distance analysis of another state's position with respect to this state's
+                Covariance.
+
+                Both states are expressed in the Covariance frame and reduced to their cartesian position. The
+                residuals (other - this) are then analyzed against the Covariance reduced to the cartesian position.
+
+                Args:
+                    state (State): The state to analyze.
+
+                Returns:
+                    Covariance.MahalanobisDistanceAnalysis: The Mahalanobis distance analysis.
+
+                Raises:
+                    RuntimeError: If this state has no Covariance.
+            )doc",
+            arg("state")
+        )
+        .def(
+            "compute_mahalanobis_distance_analysis",
+            &State::computeMahalanobisDistanceAnalysis,
+            R"doc(
+                Compute the Mahalanobis distance analysis of another state with respect to this state's Covariance.
+
+                Both states are expressed in the Covariance frame and reduced to the given coordinate subsets, which
+                must be present in both states. The residuals (other - this) are then analyzed against the Covariance
+                reduced to the same coordinate subsets.
+
+                Args:
+                    state (State): The state to analyze.
+                    coordinate_subsets (list[CoordinateSubset]): The coordinate subsets to compute the analysis for.
+
+                Returns:
+                    Covariance.MahalanobisDistanceAnalysis: The Mahalanobis distance analysis.
+
+                Raises:
+                    RuntimeError: If this state has no Covariance or the coordinate subsets are empty.
+            )doc",
+            arg("state"),
+            arg("coordinate_subsets")
+        )
+        .def(
             "extract_coordinate",
             &State::extractCoordinate,
             R"doc(

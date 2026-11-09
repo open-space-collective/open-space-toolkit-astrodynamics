@@ -64,6 +64,7 @@ class TestTLE:
         )
 
         assert isinstance(tle, TLE)
+        assert tle.get_satellite_name() is None
 
     def test_constructor_with_satellite_name(self):
         tle = TLE(

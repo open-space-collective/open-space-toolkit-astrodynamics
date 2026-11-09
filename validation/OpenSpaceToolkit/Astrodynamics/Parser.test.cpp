@@ -355,7 +355,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSequenceAndCreate
                 const LocalOrbitalFrameDirection localThrustDirection = constantThrustSPtr->getLocalThrustDirection();
                 EXPECT_EQ(localThrustDirection.getValue(), defaultThrustDirection1);
                 EXPECT_EQ(
-                    localThrustDirection.getLocalOrbitalFrameFactory()->getProviderType(),
+                    localThrustDirection.getLocalOrbitalFrameFactory().getProviderType(),
                     LocalOrbitalFrameTransformProvider::Type::VNC
                 );
             }
@@ -393,7 +393,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_Parser, CreateSequenceAndCreate
                 const LocalOrbitalFrameDirection localThrustDirection = constantThrustSPtr->getLocalThrustDirection();
                 EXPECT_EQ(localThrustDirection.getValue(), defaultThrustDirection2);
                 EXPECT_EQ(
-                    localThrustDirection.getLocalOrbitalFrameFactory()->getProviderType(),
+                    localThrustDirection.getLocalOrbitalFrameFactory().getProviderType(),
                     LocalOrbitalFrameTransformProvider::Type::VNC
                 );
             }

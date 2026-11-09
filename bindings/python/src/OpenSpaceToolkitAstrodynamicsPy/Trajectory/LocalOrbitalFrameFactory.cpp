@@ -19,7 +19,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameTransformProvider;
 
-    class_<LocalOrbitalFrameFactory, Shared<LocalOrbitalFrameFactory>>(
+    class_<LocalOrbitalFrameFactory>(
         aModule,
         "LocalOrbitalFrameFactory",
         R"doc(
@@ -27,6 +27,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_LocalOrbitalFrameFactory(
 
         )doc"
     )
+
+        .def(self == self)
+        .def(self != self)
+
         .def(
             "is_defined",
             &LocalOrbitalFrameFactory::isDefined,

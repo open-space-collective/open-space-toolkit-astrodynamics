@@ -439,7 +439,9 @@ Tabulated Propagated::toTabulated(const Array<Instant>& anInstantArray) const
 {
     const Array<State> propagatedStates = this->calculateStatesAt(anInstantArray);
 
-    return Tabulated::Default(propagatedStates, this->initialRevolutionNumber_);
+    return Tabulated::Default(
+        propagatedStates, DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME, this->initialRevolutionNumber_
+    );
 }
 
 }  // namespace model

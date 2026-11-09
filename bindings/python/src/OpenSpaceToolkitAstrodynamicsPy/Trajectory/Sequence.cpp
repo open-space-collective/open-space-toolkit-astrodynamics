@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <pybind11/stl.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module& aModule)
@@ -77,24 +79,24 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
         )
 
         .def(
-            "access_start_instant",
-            &Sequence::Solution::accessStartInstant,
+            "get_start_instant",
+            &Sequence::Solution::getStartInstant,
             R"doc(
-                Get the instant at which the access starts.
+                Get the instant at which the sequence starts.
 
                 Returns:
-                    Instant: The instant at which the access starts.
+                    Instant: The instant at which the sequence starts.
 
             )doc"
         )
         .def(
-            "access_end_instant",
-            &Sequence::Solution::accessEndInstant,
+            "get_end_instant",
+            &Sequence::Solution::getEndInstant,
             R"doc(
-                Get the instant at which the access ends.
+                Get the instant at which the sequence ends.
 
                 Returns:
-                    Instant: The instant at which the access ends.
+                    Instant: The instant at which the sequence ends.
 
             )doc"
         )
@@ -336,10 +338,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Sequence(pybind11::module
                     Args:
                         event_condition (EventCondition): The event condition.
                         thruster_dynamics (Thruster): The thruster dynamics.
+                        maneuver_constraints (Segment.ManeuverConstraints | None, optional): The maneuver constraints. Defaults to None.
 
                 )doc",
                 arg("event_condition"),
-                arg("thruster_dynamics")
+                arg("thruster_dynamics"),
+                arg("maneuver_constraints") = none()
             )
 
             .def(

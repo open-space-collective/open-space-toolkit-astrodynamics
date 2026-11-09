@@ -329,3 +329,31 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
         EXPECT_NO_THROW(BrouwerLyddaneMeanLong::Undefined());
     }
 }
+
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddaneMeanLong, Cartesian_Frame)
+{
+    const COE coe = {
+        Length::Kilometers(7000.0),
+        0.01,
+        Angle::Degrees(97.5),
+        Angle::Degrees(40.0),
+        Angle::Degrees(10.0),
+        Angle::Degrees(20.0),
+    };
+
+    const Derived gravitationalParameter = EarthGravitationalModel::EGM2008.gravitationalParameter_;
+
+    // Mean elements of a Cartesian state expressed in another frame are computed in that frame
+    {
+        const COE::CartesianState cartesianStateGCRF = coe.getCartesianState(gravitationalParameter, Frame::GCRF());
+        const COE::CartesianState cartesianStateCIRF = {
+            Position::Meters(cartesianStateGCRF.first.getCoordinates(), Frame::CIRF()),
+            Velocity::MetersPerSecond(cartesianStateGCRF.second.getCoordinates(), Frame::CIRF())
+        };
+
+        EXPECT_EQ(
+            BrouwerLyddaneMeanLong::Cartesian(cartesianStateGCRF, gravitationalParameter),
+            BrouwerLyddaneMeanLong::Cartesian(cartesianStateCIRF, gravitationalParameter)
+        );
+    }
+}

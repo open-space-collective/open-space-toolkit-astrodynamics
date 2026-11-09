@@ -53,7 +53,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory : publi
    protected:
     const LocalOrbitalFrameTransformProvider::Type type_ = LocalOrbitalFrameTransformProvider::Type::VNC;
     const Shared<const Frame> gcrfSPtr_ = Frame::GCRF();
-    const Shared<const LocalOrbitalFrameFactory> LOFFactorySPtr_ = LocalOrbitalFrameFactory::VNC(gcrfSPtr_);
+    const LocalOrbitalFrameFactory LOFFactory_ = LocalOrbitalFrameFactory::VNC(gcrfSPtr_);
 
     const Instant instant_ = Instant::DateTime(DateTime(2018, 1, 2, 0, 0, 0), Scale::UTC);
     const Vector3d position_ = {7000000.0, 0.0, 0.0};
@@ -132,10 +132,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Const
                 };
             };
 
-            const Shared<const LocalOrbitalFrameFactory> localOrbitalFrameFactory =
+            const LocalOrbitalFrameFactory localOrbitalFrameFactory =
                 LocalOrbitalFrameFactory::Construct(aTransformGenerator, gcrfSPtr_);
 
-            EXPECT_TRUE(localOrbitalFrameFactory->isDefined());
+            EXPECT_TRUE(localOrbitalFrameFactory.isDefined());
         }
     }
 }
@@ -167,16 +167,48 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Const
     }
 }
 
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, EqualToOperator)
+{
+    {
+        EXPECT_TRUE(LOFFactory_ == LocalOrbitalFrameFactory::VNC(gcrfSPtr_));
+    }
+
+    {
+        EXPECT_FALSE(LOFFactory_ == LocalOrbitalFrameFactory::TNW(gcrfSPtr_));
+        EXPECT_FALSE(LOFFactory_ == LocalOrbitalFrameFactory::VNC(Frame::ITRF()));
+    }
+
+    {
+        EXPECT_FALSE(LocalOrbitalFrameFactory::Undefined() == LocalOrbitalFrameFactory::Undefined());
+        EXPECT_FALSE(LOFFactory_ == LocalOrbitalFrameFactory::Undefined());
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, NotEqualToOperator)
+{
+    {
+        EXPECT_FALSE(LOFFactory_ != LocalOrbitalFrameFactory::VNC(gcrfSPtr_));
+    }
+
+    {
+        EXPECT_TRUE(LOFFactory_ != LocalOrbitalFrameFactory::TNW(gcrfSPtr_));
+    }
+
+    {
+        EXPECT_TRUE(LOFFactory_ != LocalOrbitalFrameFactory::Undefined());
+    }
+}
+
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Accessors)
 {
     {
-        EXPECT_EQ(gcrfSPtr_, LOFFactorySPtr_->accessParentFrame());
+        EXPECT_EQ(gcrfSPtr_, LOFFactory_.accessParentFrame());
     }
 
     {
         EXPECT_ANY_THROW(
             LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, gcrfSPtr_)
-                ->accessParentFrame()
+                .accessParentFrame()
         );
     }
 }
@@ -184,7 +216,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Acces
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, GenerateFrame)
 {
     {
-        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(state_);
+        Shared<const Frame> localOrbitalFrame = LOFFactory_.generateFrame(state_);
 
         Transform transform = localOrbitalFrame->getTransformTo(gcrfSPtr_, instant_);
 
@@ -192,7 +224,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Gener
     }
 
     {
-        Shared<const Frame> localOrbitalFrame = LOFFactorySPtr_->generateFrame(state_);
+        Shared<const Frame> localOrbitalFrame = LOFFactory_.generateFrame(state_);
 
         EXPECT_ANY_THROW(localOrbitalFrame->getTransformTo(gcrfSPtr_, Instant::J2000()));
     }

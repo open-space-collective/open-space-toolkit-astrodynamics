@@ -62,18 +62,18 @@ def dense_states() -> list[State]:
 
 
 @pytest.fixture
-def interpolator_type() -> Interpolator.Type:
+def interpolation_type() -> Interpolator.Type:
     return Interpolator.Type.Linear
 
 
 @pytest.fixture
 def tabulated_model(
     states: list[State],
-    interpolator_type: Interpolator.Type,
+    interpolation_type: Interpolator.Type,
 ) -> TabulatedModel:
     return TabulatedModel(
         states=states,
-        interpolator_type=interpolator_type,
+        interpolation_type=interpolation_type,
     )
 
 
@@ -122,7 +122,7 @@ class TestTabulatedProfile:
 
         assert tabulated_model.is_defined()
         assert (
-            tabulated_model.get_interpolator_type()
+            tabulated_model.get_interpolation_type()
             == Interpolator.Type.BarycentricRational
         )
 
@@ -140,13 +140,13 @@ class TestTabulatedProfile:
 
         assert interval is not None
 
-    def test_get_interpolator_type(
+    def test_get_interpolation_type(
         self,
         tabulated_model: TabulatedModel,
     ):
-        interpolator_type = tabulated_model.get_interpolator_type()
+        interpolation_type = tabulated_model.get_interpolation_type()
 
-        assert interpolator_type is not None
+        assert interpolation_type is not None
 
     def test_calculate_state_at(
         self,

@@ -525,8 +525,16 @@ class COE
     ///
     /// @param raan Right Ascension of the Ascending Node
     /// @param anInstant The instant at which to compute LTAN
+    /// @param sun A Sun model
+    /// @param aFrameSPtr The frame in which the RAAN is measured (its Z axis is the reference pole). Defaults to
+    /// GCRF. Use a frame aligned with the true pole (e.g. CIRF or TEME) when working with mean elements.
     /// @return Mean Local Time of the Ascending Node (MLTAN) in hours
-    static Time ComputeMeanLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
+    static Time ComputeMeanLTAN(
+        const Angle& raan,
+        const Instant& anInstant,
+        const Sun& sun = Sun::Default(),
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
+    );
 
     /// @brief Compute Mean Local Time of the Descending Node (MLTDN) from the RAAN and instant
     ///
@@ -535,8 +543,16 @@ class COE
     ///
     /// @param raan Right Ascension of the Ascending Node
     /// @param anInstant The instant at which to compute LTAN
+    /// @param sun A Sun model
+    /// @param aFrameSPtr The frame in which the RAAN is measured (its Z axis is the reference pole). Defaults to
+    /// GCRF. Use a frame aligned with the true pole (e.g. CIRF or TEME) when working with mean elements.
     /// @return Mean Local Time of the Descending Node (MLTDN) in hours
-    static Time ComputeMeanLTDN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
+    static Time ComputeMeanLTDN(
+        const Angle& raan,
+        const Instant& anInstant,
+        const Sun& sun = Sun::Default(),
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
+    );
 
     /// @brief Compute Local Time of the Ascending Node (LTAN) from the RAAN and instant
     ///
@@ -545,8 +561,16 @@ class COE
     ///
     /// @param raan Right Ascension of the Ascending Node
     /// @param anInstant The instant at which to compute LTAN
+    /// @param sun A Sun model
+    /// @param aFrameSPtr The frame in which the RAAN is measured (its Z axis is the reference pole). Defaults to
+    /// GCRF. Use a frame aligned with the true pole (e.g. CIRF or TEME) when working with mean elements.
     /// @return Local Time of the Ascending Node (LTAN) in hours
-    static Time ComputeLTAN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
+    static Time ComputeLTAN(
+        const Angle& raan,
+        const Instant& anInstant,
+        const Sun& sun = Sun::Default(),
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
+    );
 
     /// @brief Compute Local Time of the Descending Node (LTDN) from the RAAN and instant
     ///
@@ -555,8 +579,16 @@ class COE
     ///
     /// @param raan Right Ascension of the Ascending Node
     /// @param anInstant The instant at which to compute LTAN
+    /// @param sun A Sun model
+    /// @param aFrameSPtr The frame in which the RAAN is measured (its Z axis is the reference pole). Defaults to
+    /// GCRF. Use a frame aligned with the true pole (e.g. CIRF or TEME) when working with mean elements.
     /// @return Local Time of the Descending Node (LTDN) in hours
-    static Time ComputeLTDN(const Angle& raan, const Instant& anInstant, const Sun& sun = Sun::Default());
+    static Time ComputeLTDN(
+        const Angle& raan,
+        const Instant& anInstant,
+        const Sun& sun = Sun::Default(),
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
+    );
 
     /// @brief Compute the Sun-synchronous inclination for a given semi-major axis and eccentricity
     ///
@@ -576,12 +608,15 @@ class COE
     /// @param anEpoch An epoch
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @param sun A Sun model
-    /// @return Right Ascension of the Ascending Node
+    /// @param aFrameSPtr The frame in which the RAAN is measured (its Z axis is the reference pole). Defaults to
+    /// GCRF. Use a frame aligned with the true pole (e.g. CIRF or TEME) when working with mean elements.
+    /// @return Right Ascension of the Ascending Node, measured in the provided frame
     static Angle ComputeRaanFromLTAN(
         const Time& aLocalTimeAtAscendingNode,
         const Instant& anEpoch,
         const Shared<const Celestial>& aCelestialObjectSPtr,
-        const Sun& sun = Sun::Default()
+        const Sun& sun = Sun::Default(),
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
 
     /// @brief Construct a Sun-synchronous COE
@@ -598,6 +633,7 @@ class COE
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
     /// @param anEccentricity An eccentricity
     /// @param anArgumentOfLatitude An argument of latitude
+    /// @param aFrameSPtr The frame in which the RAAN of the resulting COE is measured. Defaults to GCRF.
     /// @return Sun-synchronous COE
     static COE SunSynchronous(
         const Length& aSemiMajorAxis,
@@ -605,7 +641,8 @@ class COE
         const Instant& anEpoch,
         const Shared<const Celestial>& aCelestialObjectSPtr,
         const Real& anEccentricity = Real::Zero(),
-        const Angle& anArgumentOfLatitude = Angle::Zero()
+        const Angle& anArgumentOfLatitude = Angle::Zero(),
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
 
     /// @brief Construct a Geo-synchronous COE
@@ -614,12 +651,14 @@ class COE
     /// @param anInclination An inclination
     /// @param aLongitude A longitude above the surface
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body
+    /// @param aFrameSPtr The frame in which the RAAN of the resulting COE is measured. Defaults to GCRF.
     /// @return Geo-synchronous COE
     static COE GeoSynchronous(
         const Instant& anEpoch,
         const Angle& anInclination,
         const Angle& aLongitude,
-        const Shared<const Celestial>& aCelestialObjectSPtr
+        const Shared<const Celestial>& aCelestialObjectSPtr,
+        const Shared<const Frame>& aFrameSPtr = Frame::GCRF()
     );
 
     /// @brief Construct a Circular COE

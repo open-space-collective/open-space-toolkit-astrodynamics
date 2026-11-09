@@ -31,31 +31,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
     )
 
         .def(
-            init<String, String>(),
+            init<const String&, const String&, const std::optional<String>&>(),
             arg("first_line"),
             arg("second_line"),
+            arg("satellite_name") = none(),
             R"doc(
                 Constructor.
 
                 Args:
                     first_line (str): The first line of the TLE.
                     second_line (str): The second line of the TLE.
-
-            )doc"
-        )
-
-        .def(
-            init<String, String, String>(),
-            arg("satellite_name"),
-            arg("first_line"),
-            arg("second_line"),
-            R"doc(
-                Constructor.
-
-                Args:
-                    satellite_name (str): The name of the satellite.
-                    first_line (str): The first line of the TLE.
-                    second_line (str): The second line of the TLE.
+                    satellite_name (str, optional): The name of the satellite. Defaults to None.
 
             )doc"
         )
@@ -85,7 +71,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
                 Get the name of the satellite.
 
                 Returns:
-                    str: The name of the satellite.
+                    str | None: The name of the satellite, or None if not set.
 
             )doc"
         )
@@ -431,7 +417,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
         .def_static(
             "construct",
             overload_cast<
-                const String&,
+                const std::optional<String>&,
                 const Integer&,
                 const String&,
                 const String&,
@@ -469,7 +455,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
                 Construct a TLE.
 
                 Args:
-                    satellite_name (str): The name of the satellite.
+                    satellite_name (str | None): The name of the satellite.
                     satellite_number (int): The satellite number.
                     classification (str): The classification.
                     international_designator (str): The international designator.

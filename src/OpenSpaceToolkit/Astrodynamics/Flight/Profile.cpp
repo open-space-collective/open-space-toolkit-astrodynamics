@@ -35,70 +35,43 @@ using TransformModel = ostk::astrodynamics::flight::profile::model::Transform;
 
 static const Shared<const Frame> DEFAULT_PROFILE_FRAME = Frame::GCRF();
 
-Profile::Target::Target(const TargetType& aType, const Vector3d& aDirection)
+Profile::PointingTarget::PointingTarget(const Type& aType, const Vector3d& aDirectionInBodyFrame)
     : type(aType),
-      direction(aDirection)
+      directionInBodyFrame(aDirectionInBodyFrame)
 {
-    if (std::abs(aDirection.norm() - 1.0) > Real::Epsilon())
+    if (std::abs(aDirectionInBodyFrame.norm() - 1.0) > Real::Epsilon())
     {
         throw ostk::core::error::RuntimeError("Direction is not a unit vector.");
     }
 }
 
-Profile::Target::Target(const TargetType& aType, const Axis& anAxis, const bool& isAntiDirection)
-    : type(aType),
-      direction(Profile::AxisToDirection(anAxis, isAntiDirection))
-{
-}
-
-Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetPosition(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
+Profile::TrajectoryPointingTarget Profile::TrajectoryPointingTarget::TargetPosition(
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
 )
 {
-    return TrajectoryTarget(TargetType::TargetPosition, aTrajectory, aDirection);
+    return TrajectoryPointingTarget(PointingTarget::Type::TrajectoryPosition, aTrajectory, aDirectionInBodyFrame);
 }
 
-Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetVelocity(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
+Profile::TrajectoryPointingTarget Profile::TrajectoryPointingTarget::TargetVelocity(
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
 )
 {
-    return TrajectoryTarget(TargetType::TargetVelocity, aTrajectory, aDirection);
+    return TrajectoryPointingTarget(PointingTarget::Type::TrajectoryVelocity, aTrajectory, aDirectionInBodyFrame);
 }
 
-Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetSlidingGroundVelocity(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
+Profile::TrajectoryPointingTarget Profile::TrajectoryPointingTarget::TargetSlidingGroundVelocity(
+    const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
 )
 {
-    return TrajectoryTarget(TargetType::TargetSlidingGroundVelocity, aTrajectory, aDirection);
-}
-
-Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetPosition(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
-)
-{
-    return TrajectoryTarget(TargetType::TargetPosition, aTrajectory, Profile::AxisToDirection(anAxis, isAntiDirection));
-}
-
-Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetVelocity(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
-)
-{
-    return TrajectoryTarget(TargetType::TargetVelocity, aTrajectory, Profile::AxisToDirection(anAxis, isAntiDirection));
-}
-
-Profile::TrajectoryTarget Profile::TrajectoryTarget::TargetSlidingGroundVelocity(
-    const ostk::astrodynamics::Trajectory& aTrajectory, const Axis& anAxis, const bool& isAntiDirection
-)
-{
-    return TrajectoryTarget(
-        TargetType::TargetSlidingGroundVelocity, aTrajectory, Profile::AxisToDirection(anAxis, isAntiDirection)
+    return TrajectoryPointingTarget(
+        PointingTarget::Type::TrajectorySlidingGroundVelocity, aTrajectory, aDirectionInBodyFrame
     );
 }
 
-Profile::TrajectoryTarget::TrajectoryTarget(
-    const TargetType& aType, const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirection
+Profile::TrajectoryPointingTarget::TrajectoryPointingTarget(
+    const Type& aType, const ostk::astrodynamics::Trajectory& aTrajectory, const Vector3d& aDirectionInBodyFrame
 )
-    : Target(aType, aDirection),
+    : PointingTarget(aType, aDirectionInBodyFrame),
       trajectory(aTrajectory)
 {
     if (!trajectory.isDefined())
@@ -106,81 +79,49 @@ Profile::TrajectoryTarget::TrajectoryTarget(
         throw ostk::core::error::runtime::Undefined("Trajectory");
     }
 
-    if (aType != TargetType::TargetPosition && aType != TargetType::TargetVelocity &&
-        aType != TargetType::TargetSlidingGroundVelocity)
+    if (aType != PointingTarget::Type::TrajectoryPosition && aType != PointingTarget::Type::TrajectoryVelocity &&
+        aType != PointingTarget::Type::TrajectorySlidingGroundVelocity)
     {
         throw ostk::core::error::runtime::Wrong("Target type");
     }
 }
 
-Profile::OrientationProfileTarget::OrientationProfileTarget(
-    const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
-    const Vector3d& aDirection,
-    const Interpolator::Type& anInterpolatorType
+Profile::TabulatedPointingTarget::TabulatedPointingTarget(
+    const Array<Pair<Instant, Vector3d>>& aPointingProfileInECI,
+    const Vector3d& aDirectionInBodyFrame,
+    const Interpolator::Type& anInterpolationType
 )
-    : Target(TargetType::OrientationProfile, aDirection),
-      orientationProfile(anOrientationProfile)
+    : PointingTarget(PointingTarget::Type::Tabulated, aDirectionInBodyFrame),
+      pointingProfileInECI(aPointingProfileInECI)
 {
-    if (orientationProfile.isEmpty())
+    if (pointingProfileInECI.isEmpty())
     {
-        throw ostk::core::error::runtime::Undefined("Orientation Profile");
+        throw ostk::core::error::runtime::Undefined("Pointing Profile");
     }
 
-    VectorXd timestamps(anOrientationProfile.getSize());
-    MatrixXd coordinates(anOrientationProfile.getSize(), 3);
+    VectorXd timestamps(aPointingProfileInECI.getSize());
+    MatrixXd coordinates(aPointingProfileInECI.getSize(), 3);
 
-    for (Index i = 0; i < anOrientationProfile.getSize(); ++i)
+    for (Index i = 0; i < aPointingProfileInECI.getSize(); ++i)
     {
-        timestamps(i) = (anOrientationProfile[i].first - anOrientationProfile.accessFirst().first).inSeconds();
+        timestamps(i) = (aPointingProfileInECI[i].first - aPointingProfileInECI.accessFirst().first).inSeconds();
 
-        coordinates.row(i) = anOrientationProfile[i].second;
+        coordinates.row(i) = aPointingProfileInECI[i].second;
     }
 
     interpolators_.reserve(coordinates.cols());
 
     for (Index i = 0; i < Size(coordinates.cols()); ++i)
     {
-        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i)));
+        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolationType, timestamps, coordinates.col(i)));
     }
 }
 
-Profile::OrientationProfileTarget::OrientationProfileTarget(
-    const Array<Pair<Instant, Vector3d>>& anOrientationProfile,
-    const Axis& anAxis,
-    const bool& isAntiDirection,
-    const Interpolator::Type& anInterpolatorType
-)
-    : Target(TargetType::OrientationProfile, anAxis, isAntiDirection),
-      orientationProfile(anOrientationProfile)
-{
-    if (orientationProfile.isEmpty())
-    {
-        throw ostk::core::error::runtime::Undefined("Orientation Profile");
-    }
-
-    VectorXd timestamps(anOrientationProfile.getSize());
-    MatrixXd coordinates(anOrientationProfile.getSize(), 3);
-
-    for (Index i = 0; i < anOrientationProfile.getSize(); ++i)
-    {
-        timestamps(i) = (anOrientationProfile[i].first - anOrientationProfile.accessFirst().first).inSeconds();
-
-        coordinates.row(i) = anOrientationProfile[i].second;
-    }
-
-    interpolators_.reserve(coordinates.cols());
-
-    for (Index i = 0; i < Size(coordinates.cols()); ++i)
-    {
-        interpolators_.add(Interpolator::GenerateInterpolator(anInterpolatorType, timestamps, coordinates.col(i)));
-    }
-}
-
-Vector3d Profile::OrientationProfileTarget::getAlignmentVectorAt(const Instant& anInstant) const
+Vector3d Profile::TabulatedPointingTarget::interpolatePointingVectorAt(const Instant& anInstant) const
 {
     Vector3d interpolatedCoordinates = Vector3d::Zero();
 
-    const Real duration = (anInstant - orientationProfile.accessFirst().first).inSeconds();
+    const Real duration = (anInstant - pointingProfileInECI.accessFirst().first).inSeconds();
 
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
@@ -190,19 +131,11 @@ Vector3d Profile::OrientationProfileTarget::getAlignmentVectorAt(const Instant& 
     return interpolatedCoordinates;
 }
 
-Profile::CustomTarget::CustomTarget(
-    std::function<Vector3d(const State&)> anOrientationGenerator, const Vector3d& aDirection
+Profile::PointingTargetGenerator::PointingTargetGenerator(
+    std::function<Vector3d(const State&)> aPointingProfileGeneratorInECI, const Vector3d& aDirectionInBodyFrame
 )
-    : Target(TargetType::Custom, aDirection),
-      orientationGenerator(anOrientationGenerator)
-{
-}
-
-Profile::CustomTarget::CustomTarget(
-    std::function<Vector3d(const State&)> anOrientationGenerator, const Axis& anAxis, const bool& isAntiDirection
-)
-    : Target(TargetType::Custom, anAxis, isAntiDirection),
-      orientationGenerator(anOrientationGenerator)
+    : PointingTarget(PointingTarget::Type::Generator, aDirectionInBodyFrame),
+      pointingProfileGeneratorInECI(aPointingProfileGeneratorInECI)
 {
 }
 
@@ -321,27 +254,30 @@ Profile Profile::Undefined()
     return {};
 }
 
-Profile Profile::InertialPointing(const ostk::astrodynamics::Trajectory& aTrajectory, const Quaternion& aQuaternion)
+Profile Profile::ConstantInertialPointing(const Trajectory& aTrajectory, const Quaternion& aQuaternion)
 {
     return {TransformModel::InertialPointing(aTrajectory, aQuaternion)};
 }
 
-Profile Profile::LocalOrbitalFramePointing(
+Profile Profile::ConstantLocalOrbitalFramePointing(
     const trajectory::Orbit& anOrbit, const trajectory::Orbit::FrameType& anOrbitalFrameType
 )
 {
     return {TransformModel::LocalOrbitalFramePointing(anOrbit, anOrbitalFrameType)};
 }
 
-Profile Profile::CustomPointing(
+Profile Profile::AlignedAndConstrainedPointing(
     const trajectory::Orbit& anOrbit,
-    const Shared<const Target>& anAlignmentTargetSPtr,
-    const Shared<const Target>& aClockingTargetSPtr,
-    const Angle& anAngularOffset
+    const Shared<const PointingTarget>& anAlignmentPointingTargetSPtr,
+    const Shared<const PointingTarget>& aClockingPointingTargetSPtr,
+    const Angle& anAngularClockingOffset
 )
 {
-    const auto orientationGenerator = Profile::AlignAndConstrain(
-        anAlignmentTargetSPtr, aClockingTargetSPtr, anOrbit.accessCelestialObject(), anAngularOffset
+    const auto orientationGenerator = Profile::AlignAndConstrainGenerator(
+        anOrbit.accessCelestialObject(),
+        anAlignmentPointingTargetSPtr,
+        aClockingPointingTargetSPtr,
+        anAngularClockingOffset
     );
 
     return Profile::CustomPointing(anOrbit, orientationGenerator);
@@ -371,33 +307,23 @@ Profile Profile::CustomPointing(
     return Profile(TransformModel(DynamicProvider(dynamicProviderGenerator), DEFAULT_PROFILE_FRAME));
 }
 
-std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
-    const Shared<const Target>& anAlignmentTargetSPtr,
-    const Shared<const Target>& aClockingTargetSPtr,
-    const Angle& anAngularOffset
-)
-{
-    const Shared<const Celestial> celestialSPtr = std::make_shared<Earth>(Earth::Default());
-    return Profile::AlignAndConstrain(anAlignmentTargetSPtr, aClockingTargetSPtr, celestialSPtr, anAngularOffset);
-}
-
-std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
-    const Shared<const Target>& anAlignmentTargetSPtr,
-    const Shared<const Target>& aClockingTargetSPtr,
+std::function<Quaternion(const State&)> Profile::AlignAndConstrainGenerator(
     const Shared<const Celestial>& aCelestialSPtr,
-    const Angle& anAngularOffset
+    const Shared<const PointingTarget>& anAlignmentPointingTargetSPtr,
+    const Shared<const PointingTarget>& aClockingPointingTargetSPtr,
+    const Angle& anAngularClockingOffset
 )
 {
-    if ((anAlignmentTargetSPtr->type == aClockingTargetSPtr->type) &&
-        (anAlignmentTargetSPtr->type != TargetType::TargetPosition) &&
-        (anAlignmentTargetSPtr->type != TargetType::TargetVelocity))
+    if ((anAlignmentPointingTargetSPtr->type == aClockingPointingTargetSPtr->type) &&
+        (anAlignmentPointingTargetSPtr->type != PointingTarget::Type::TrajectoryPosition) &&
+        (anAlignmentPointingTargetSPtr->type != PointingTarget::Type::TrajectoryVelocity))
     {
         throw ostk::core::error::RuntimeError("Alignment and clocking target cannot be the same.");
     }
 
     {
-        const Vector3d& bodyFrameAlignment = anAlignmentTargetSPtr->direction;
-        const Vector3d& bodyFrameClocking = aClockingTargetSPtr->direction;
+        const Vector3d& bodyFrameAlignment = anAlignmentPointingTargetSPtr->directionInBodyFrame;
+        const Vector3d& bodyFrameClocking = aClockingPointingTargetSPtr->directionInBodyFrame;
         const Real cosTheta = bodyFrameAlignment.normalized().dot(bodyFrameClocking.normalized());
         if (std::abs(cosTheta) >= 1.0 - Real::Epsilon())
         {
@@ -405,10 +331,10 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
         }
     }
 
-    if (std::set<TargetType>({anAlignmentTargetSPtr->type, aClockingTargetSPtr->type}) ==
-        std::set<TargetType>({
-            TargetType::GeocentricNadir,
-            TargetType::GeodeticNadir,
+    if (std::set<PointingTarget::Type>({anAlignmentPointingTargetSPtr->type, aClockingPointingTargetSPtr->type}) ==
+        std::set<PointingTarget::Type>({
+            PointingTarget::Type::GeocentricNadir,
+            PointingTarget::Type::GeodeticNadir,
         }))
     {
         throw ostk::core::error::RuntimeError(
@@ -418,77 +344,83 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
 
     const Shared<const Frame> celestialFrameSPtr = aCelestialSPtr->accessFrame();
 
-    const auto targetVectorGenerator = [aCelestialSPtr, celestialFrameSPtr](const Shared<const Target>& aTargetSPtr
+    const auto targetVectorGenerator = [aCelestialSPtr,
+                                        celestialFrameSPtr](const Shared<const PointingTarget>& aPointingTargetSPtr
                                        ) -> std::function<Vector3d(const State&)>
     {
-        switch (aTargetSPtr->type)
+        switch (aPointingTargetSPtr->type)
         {
-            case TargetType::GeocentricNadir:
+            case PointingTarget::Type::GeocentricNadir:
                 return Profile::ComputeGeocentricNadirDirectionVector;
-            case TargetType::GeodeticNadir:
+            case PointingTarget::Type::GeodeticNadir:
                 return [aCelestialSPtr](const State& aState) -> Vector3d
                 {
                     return Profile::ComputeGeodeticNadirDirectionVector(aState, aCelestialSPtr);
                 };
-            case TargetType::TargetPosition:
-            {
-                const Shared<const TrajectoryTarget> targetPositionSPtr =
-                    std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
-                return [targetPositionSPtr](const State& aState) -> Vector3d
+            case PointingTarget::Type::VelocityECI:
+                return Profile::ComputeVelocityDirectionVector_ECI;
+            case PointingTarget::Type::VelocityECEF:
+                return [celestialFrameSPtr](const State& aState) -> Vector3d
                 {
-                    return Profile::ComputeTargetDirectionVector(aState, targetPositionSPtr->trajectory);
+                    return Profile::ComputeVelocityDirectionVector_ECEF(aState, celestialFrameSPtr);
                 };
-            }
-            case TargetType::TargetVelocity:
-            {
-                const Shared<const TrajectoryTarget> targetVelocitySPtr =
-                    std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
-                return [targetVelocitySPtr](const State& aState) -> Vector3d
-                {
-                    return Profile::ComputeTargetVelocityVector(aState, targetVelocitySPtr->trajectory);
-                };
-            }
-            case TargetType::TargetSlidingGroundVelocity:
-            {
-                const Shared<const TrajectoryTarget> targetVelocitySPtr =
-                    std::static_pointer_cast<const TrajectoryTarget>(aTargetSPtr);
-                return [targetVelocitySPtr, celestialFrameSPtr](const State& aState) -> Vector3d
-                {
-                    return Profile::ComputeTargetSlidingGroundVelocityVector(
-                        aState, targetVelocitySPtr->trajectory, celestialFrameSPtr
-                    );
-                };
-            }
-            case TargetType::Sun:
+            case PointingTarget::Type::OrbitalMomentum:
+                return Profile::ComputeOrbitalMomentumDirectionVector;
+            case PointingTarget::Type::Sun:
                 return [](const State& aState)
                 {
                     return Profile::ComputeCelestialDirectionVector(aState, Sun::Default());
                 };
-            case TargetType::Moon:
+            case PointingTarget::Type::Moon:
                 return [](const State& aState)
                 {
                     return Profile::ComputeCelestialDirectionVector(aState, Moon::Default());
                 };
-            case TargetType::VelocityECI:
-                return Profile::ComputeVelocityDirectionVector_ECI;
-            case TargetType::OrbitalMomentum:
-                return Profile::ComputeOrbitalMomentumDirectionVector;
-            case TargetType::OrientationProfile:
+            case PointingTarget::Type::TrajectoryPosition:
             {
-                const Shared<const OrientationProfileTarget> orientationProfileTargetSPtr =
-                    std::static_pointer_cast<const OrientationProfileTarget>(aTargetSPtr);
-                return [orientationProfileTargetSPtr](const State& aState) -> Vector3d
+                const Shared<const TrajectoryPointingTarget> trajectoryPointingTargetSPtr =
+                    std::static_pointer_cast<const TrajectoryPointingTarget>(aPointingTargetSPtr);
+                return [trajectoryPointingTargetSPtr](const State& aState) -> Vector3d
                 {
-                    return orientationProfileTargetSPtr->getAlignmentVectorAt(aState.accessInstant());
+                    return Profile::ComputeTargetDirectionVector(aState, trajectoryPointingTargetSPtr->trajectory);
                 };
             }
-            case TargetType::Custom:
+            case PointingTarget::Type::TrajectoryVelocity:
             {
-                const Shared<const CustomTarget> customTargetSPtr =
-                    std::static_pointer_cast<const CustomTarget>(aTargetSPtr);
-                return [customTargetSPtr](const State& aState) -> Vector3d
+                const Shared<const TrajectoryPointingTarget> trajectoryPointingTargetSPtr =
+                    std::static_pointer_cast<const TrajectoryPointingTarget>(aPointingTargetSPtr);
+                return [trajectoryPointingTargetSPtr](const State& aState) -> Vector3d
                 {
-                    return customTargetSPtr->orientationGenerator(aState);
+                    return Profile::ComputeTargetVelocityVector(aState, trajectoryPointingTargetSPtr->trajectory);
+                };
+            }
+            case PointingTarget::Type::TrajectorySlidingGroundVelocity:
+            {
+                const Shared<const TrajectoryPointingTarget> trajectoryPointingTargetSPtr =
+                    std::static_pointer_cast<const TrajectoryPointingTarget>(aPointingTargetSPtr);
+                return [trajectoryPointingTargetSPtr, celestialFrameSPtr](const State& aState) -> Vector3d
+                {
+                    return Profile::ComputeTargetSlidingGroundVelocityVector(
+                        aState, trajectoryPointingTargetSPtr->trajectory, celestialFrameSPtr
+                    );
+                };
+            }
+            case PointingTarget::Type::Tabulated:
+            {
+                const Shared<const TabulatedPointingTarget> tabulatedPointingTargetSPtr =
+                    std::static_pointer_cast<const TabulatedPointingTarget>(aPointingTargetSPtr);
+                return [tabulatedPointingTargetSPtr](const State& aState) -> Vector3d
+                {
+                    return tabulatedPointingTargetSPtr->interpolatePointingVectorAt(aState.accessInstant());
+                };
+            }
+            case PointingTarget::Type::Generator:
+            {
+                const Shared<const PointingTargetGenerator> pointingTargetGeneratorSPtr =
+                    std::static_pointer_cast<const PointingTargetGenerator>(aPointingTargetSPtr);
+                return [pointingTargetGeneratorSPtr](const State& aState) -> Vector3d
+                {
+                    return pointingTargetGeneratorSPtr->pointingProfileGeneratorInECI(aState);
                 };
             }
             default:
@@ -496,13 +428,13 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
         }
     };
 
-    const Vector3d bodyFrameAlignment = anAlignmentTargetSPtr->direction;
+    const Vector3d bodyFrameAlignment = anAlignmentPointingTargetSPtr->directionInBodyFrame;
     const Vector3d bodyFrameClocking =
-        Profile::ComputeClockingVector(bodyFrameAlignment, aClockingTargetSPtr->direction);
-    const auto inertialFrameAlignmentGenerator = targetVectorGenerator(anAlignmentTargetSPtr);
-    const auto inertialFrameClockingGenerator = targetVectorGenerator(aClockingTargetSPtr);
+        Profile::ComputeClockingVector(bodyFrameAlignment, aClockingPointingTargetSPtr->directionInBodyFrame);
+    const auto inertialFrameAlignmentGenerator = targetVectorGenerator(anAlignmentPointingTargetSPtr);
+    const auto inertialFrameClockingGenerator = targetVectorGenerator(aClockingPointingTargetSPtr);
 
-    return [anAngularOffset,
+    return [anAngularClockingOffset,
             inertialFrameAlignmentGenerator,
             inertialFrameClockingGenerator,
             bodyFrameAlignment,
@@ -513,7 +445,7 @@ std::function<Quaternion(const State&)> Profile::AlignAndConstrain(
             Profile::ComputeClockingVector(inertialFrameAlignment, inertialFrameClockingGenerator(aState));
 
         // Apply angular offset rotation around the alignment axis to the clocking target using Rodrigues' formula
-        const Real thetaOffsetRad = anAngularOffset.inRadians();
+        const Real thetaOffsetRad = anAngularClockingOffset.inRadians();
         const Vector3d inertialFrameClockingRotated =
             (inertialFrameClocking * std::cos(thetaOffsetRad) +
              (inertialFrameAlignment.cross(inertialFrameClocking)) * std::sin(thetaOffsetRad) +
@@ -629,6 +561,19 @@ Vector3d Profile::ComputeVelocityDirectionVector_ECI(const State& aState)
     return aState.inFrame(DEFAULT_PROFILE_FRAME).getVelocity().accessCoordinates().normalized();
 }
 
+Vector3d Profile::ComputeVelocityDirectionVector_ECEF(
+    const State& aState, const Shared<const Frame>& aCelestialFrameSPtr
+)
+{
+    const Instant& instant = aState.accessInstant();
+
+    const Vector3d velocityCoordinates_ECEF = aState.inFrame(aCelestialFrameSPtr).getVelocity().accessCoordinates();
+
+    const Transform celestialFrame_GCRF_transform = aCelestialFrameSPtr->getTransformTo(DEFAULT_PROFILE_FRAME, instant);
+
+    return celestialFrame_GCRF_transform.applyToVector(velocityCoordinates_ECEF).normalized();
+}
+
 Vector3d Profile::ComputeOrbitalMomentumDirectionVector(const State& aState)
 {
     const State state = aState.inFrame(DEFAULT_PROFILE_FRAME);
@@ -641,23 +586,6 @@ Vector3d Profile::ComputeOrbitalMomentumDirectionVector(const State& aState)
 Vector3d Profile::ComputeClockingVector(const Vector3d& anAlignmentVector, const Vector3d& aDesiredClockingVector)
 {
     return (anAlignmentVector.cross(aDesiredClockingVector)).cross(anAlignmentVector).normalized();
-}
-
-Vector3d Profile::AxisToDirection(const Axis& anAxis, const bool& isAntiDirection)
-{
-    const Real sign = isAntiDirection ? -1.0 : 1.0;
-
-    switch (anAxis)
-    {
-        case Axis::X:
-            return Vector3d(sign, 0.0, 0.0);
-        case Axis::Y:
-            return Vector3d(0.0, sign, 0.0);
-        case Axis::Z:
-            return Vector3d(0.0, 0.0, sign);
-        default:
-            throw ostk::core::error::runtime::Wrong("Axis");
-    }
 }
 
 }  // namespace flight

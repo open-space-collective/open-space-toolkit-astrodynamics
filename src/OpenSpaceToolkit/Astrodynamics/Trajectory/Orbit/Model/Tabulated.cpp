@@ -18,18 +18,9 @@ namespace model
 
 Tabulated::Tabulated(
     const Array<State>& aStateArray,
-    const Integer& anInitialRevolutionNumber,
-    const Interpolator::Type& anInterpolationType
-)
-    : Tabulated(aStateArray, anInitialRevolutionNumber, anInterpolationType, Frame::GCRF())
-{
-}
-
-Tabulated::Tabulated(
-    const Array<State>& aStateArray,
-    const Integer& anInitialRevolutionNumber,
     const Interpolator::Type& anInterpolationType,
-    const Shared<const Frame>& aFrameSPtr
+    const Shared<const Frame>& aFrameSPtr,
+    const Integer& anInitialRevolutionNumber
 )
     : trajectory::orbit::Model(),
       trajectory::model::Tabulated(aStateArray, anInterpolationType, aFrameSPtr),
@@ -39,18 +30,9 @@ Tabulated::Tabulated(
 
 Tabulated::Tabulated(
     const Array<State>& aStateArray,
-    const Integer& anInitialRevolutionNumber,
-    const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap
-)
-    : Tabulated(aStateArray, anInitialRevolutionNumber, anInterpolationTypeMap, Frame::GCRF())
-{
-}
-
-Tabulated::Tabulated(
-    const Array<State>& aStateArray,
-    const Integer& anInitialRevolutionNumber,
     const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap,
-    const Shared<const Frame>& aFrameSPtr
+    const Shared<const Frame>& aFrameSPtr,
+    const Integer& anInitialRevolutionNumber
 )
     : trajectory::orbit::Model(),
       trajectory::model::Tabulated(aStateArray, anInterpolationTypeMap, aFrameSPtr),
@@ -114,17 +96,12 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
     trajectory::model::Tabulated::print(anOutputStream, displayDecorator);
 }
 
-Tabulated Tabulated::Default(const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber)
-{
-    return Tabulated(aStateArray, anInitialRevolutionNumber, trajectory::model::Tabulated::DefaultInterpolationTypes());
-}
-
 Tabulated Tabulated::Default(
-    const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber, const Shared<const Frame>& aFrameSPtr
+    const Array<State>& aStateArray, const Shared<const Frame>& aFrameSPtr, const Integer& anInitialRevolutionNumber
 )
 {
     return Tabulated(
-        aStateArray, anInitialRevolutionNumber, trajectory::model::Tabulated::DefaultInterpolationTypes(), aFrameSPtr
+        aStateArray, trajectory::model::Tabulated::DefaultInterpolationTypes(), aFrameSPtr, anInitialRevolutionNumber
     );
 }
 

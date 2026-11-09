@@ -61,13 +61,15 @@ class NumericalSolver : public MathNumericalSolver
     /// @param aRelativeTolerance A number indicating the relative integration tolerance
     /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
     /// @param aRootSolver A root solver to be used to solve the event condition
+    /// @param aStateLogger A function called with each observed state, when logging is enabled. Defaults to none.
     NumericalSolver(
         const NumericalSolver::LogType& aLogType,
         const NumericalSolver::StepperType& aStepperType,
         const Real& aTimeStep,
         const Real& aRelativeTolerance,
         const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver = RootSolver::Default()
+        const RootSolver& aRootSolver = RootSolver::Default(),
+        const std::function<void(const State&)>& aStateLogger = nullptr
     );
 
     /// @brief Access observed states
@@ -122,27 +124,45 @@ class NumericalSolver : public MathNumericalSolver
 
     /// @brief Perform numerical integration from a start time to an end time.
     ///
+    /// @details The observed states are cleared before the integration, unless they are to be appended: the integration
+    /// is then a continuation of the previous one. The observed states beyond the initial state (in the direction of
+    /// the integration) are discarded, the initial state is observed unless it already is the last observed state, and
+    /// the states observed by this integration are appended.
+    ///
     /// @param aState Initial state for integration.
     /// @param anInstant Time to integrate to.
     /// @param aSystemOfEquations System of equations to integrate.
+    /// @param appendObservedStates (optional) If true, append to the observed states, otherwise clear them. Defaults
+    /// to false.
     /// @return Final state after integration.
     State integrateTime(
-        const State& aState, const Instant& anInstant, const SystemOfEquationsWrapper& aSystemOfEquations
+        const State& aState,
+        const Instant& anInstant,
+        const SystemOfEquationsWrapper& aSystemOfEquations,
+        const bool& appendObservedStates = false
     );
 
     /// @brief Perform numerical integration from a start time until either a condition or an end time
     /// is reached.
     ///
+    /// @details The observed states are cleared before the integration, unless they are to be appended: the integration
+    /// is then a continuation of the previous one. The observed states beyond the initial state (in the direction of
+    /// the integration) are discarded, the initial state is observed unless it already is the last observed state, and
+    /// the states observed by this integration are appended.
+    ///
     /// @param aState Initial state for integration.
     /// @param anInstant Maximum time to integrate to.
     /// @param aSystemOfEquations System of equations to integrate.
     /// @param anEventCondition Condition to be checked.
+    /// @param appendObservedStates (optional) If true, append to the observed states, otherwise clear them. Defaults
+    /// to false.
     /// @return Structure containing the final state and condition-related information.
     ConditionSolution integrateTime(
         const State& aState,
         const Instant& anInstant,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const EventCondition& anEventCondition
+        const EventCondition& anEventCondition,
+        const bool& appendObservedStates = false
     );
 
     /// @brief Construct an undefined numerical solver.
@@ -176,39 +196,6 @@ class NumericalSolver : public MathNumericalSolver
     ///
     /// @return A fixed step size numerical solver.
     static NumericalSolver FixedStepSize(const NumericalSolver::StepperType& aStepperType, const Real& aTimeStep);
-
-    /// @brief Default conditional
-    ///
-    /// @code{.cpp}
-    ///     NumericalSolver solver = NumericalSolver::DefaultConditional();
-    /// @endcode
-    ///
-    /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
-    /// @return A default conditional numerical solver.
-    [[deprecated(
-        "Use NumericalSolver::Default() instead. All solvers now support conditional solving. This method will be "
-        "removed in a future version."
-    )]]
-    static NumericalSolver DefaultConditional(const std::function<void(const State&)>& stateLogger = nullptr);
-
-    /// @brief Create a conditional numerical solver.
-    ///
-    /// @param aTimeStep The initial time step (in seconds) to use.
-    /// @param aRelativeTolerance The relative tolerance to use.
-    /// @param anAbsoluteTolerance The absolute tolerance to use.
-    /// @param stateLogger A function that takes a `State` object and logs. Defaults to `nullptr`.
-    ///
-    /// @return A conditional numerical solver.
-    [[deprecated(
-        "Use NumericalSolver constructor instead. All solvers now support conditional solving. This method will be "
-        "removed in a future version."
-    )]]
-    static NumericalSolver Conditional(
-        const Real& aTimeStep,
-        const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance,
-        const std::function<void(const State&)>& stateLogger = nullptr
-    );
 
     /// Delete undesired methods from parent
     Array<MathNumericalSolver::Solution> integrateTime(
@@ -247,32 +234,19 @@ class NumericalSolver : public MathNumericalSolver
     std::function<void(const State&)> stateLogger_;
     Real maxStepSize_ = Real::Undefined();
 
-    /// @brief Constructor
-    ///
-    /// @param aLogType An enum indicating the amount of verbosity wanted to be logged during
-    ///                  numerical integration
-    /// @param aStepperType An enum indicating the type of numerical stepper used to perform
-    ///                  integration
-    /// @param aTimeStep A number indicating the initial guess time step (in seconds) the numerical solver will
-    ///                  take
-    /// @param aRelativeTolerance A number indicating the relative integration tolerance
-    /// @param anAbsoluteTolerance A number indicating the absolute integration tolerance
-    /// @param aRootSolver A root solver to be used to solve the event condition
-    /// @param stateLogger A function that takes a `State` object and logs
-    NumericalSolver(
-        const NumericalSolver::LogType& aLogType,
-        const NumericalSolver::StepperType& aStepperType,
-        const Real& aTimeStep,
-        const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance,
-        const RootSolver& aRootSolver,
-        const std::function<void(const State&)>& stateLogger
-    );
-
     /// @brief Observe a state, storing it's coordinates in the observedStates_ array
     ///
     /// @param aState The state to observe
     void observeState(const State& aState);
+
+    /// @brief Resume the observed states from a state, to continue a previous integration.
+    ///
+    /// @details Discards the observed states beyond the state (in the direction of the integration), and observes the
+    /// state unless it already is the last observed state.
+    ///
+    /// @param aState The initial state of the integration
+    /// @param anInstant The instant the integration goes to
+    void resumeObservedStates(const State& aState, const Instant& anInstant);
 
     /// @brief Integrate with controlled stepper using the unified dense-output refinement.
     ///
@@ -280,12 +254,14 @@ class NumericalSolver : public MathNumericalSolver
     /// @param anInstant The instant to integrate to
     /// @param aSystemOfEquations The system of equations to integrate
     /// @param anEventCondition The event condition to check
+    /// @param appendObservedStates True to append to the observed states, false to clear them
     /// @return The condition solution
     ConditionSolution integrateTimeWithControlledStepper(
         const State& aState,
         const Instant& anInstant,
         const SystemOfEquationsWrapper& aSystemOfEquations,
-        const EventCondition& anEventCondition
+        const EventCondition& anEventCondition,
+        const bool& appendObservedStates
     );
 
     /// @brief Templated implementation of conditional integration. Defined out-of-line in
@@ -297,6 +273,7 @@ class NumericalSolver : public MathNumericalSolver
     /// @param aSystemOfEquations System of equations to integrate.
     /// @param anEventCondition Condition to detect.
     /// @param aSignedTimeStep Signed initial step size (negative for backward integration).
+    /// @param appendObservedStates True to append to the observed states, false to clear them.
     template <typename Stepper>
     ConditionSolution integrateTimeWithStepperImpl_(
         Stepper& aStepper,
@@ -304,7 +281,8 @@ class NumericalSolver : public MathNumericalSolver
         const Instant& anInstant,
         const SystemOfEquationsWrapper& aSystemOfEquations,
         const EventCondition& anEventCondition,
-        double aSignedTimeStep
+        double aSignedTimeStep,
+        const bool& appendObservedStates
     );
 };
 

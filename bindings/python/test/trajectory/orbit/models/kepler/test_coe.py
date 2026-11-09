@@ -341,3 +341,58 @@ class TestCOE:
         assert coe is not None
         assert isinstance(coe, COE)
         assert coe.is_defined()
+
+
+class TestCOEFrame:
+    def test_local_time_of_nodes_frame(self):
+        from ostk.physics.coordinate import Frame
+        from ostk.physics.time import DateTime, Scale
+
+        instant = Instant.date_time(DateTime(2026, 1, 1, 0, 0, 0), Scale.UTC)
+        raan = Angle.degrees(100.0)
+
+        for compute in (
+            COE.compute_ltan,
+            COE.compute_ltdn,
+            COE.compute_mean_ltan,
+            COE.compute_mean_ltdn,
+        ):
+            assert compute(raan, instant) is not None
+            assert compute(raan, instant, frame=Frame.CIRF()) is not None
+
+    def test_raan_from_ltan_frame(self, earth: Celestial):
+        from ostk.physics.coordinate import Frame
+        from ostk.physics.time import DateTime, Scale
+
+        epoch = Instant.date_time(DateTime(2026, 1, 1, 0, 0, 0), Scale.UTC)
+
+        raan = COE.compute_raan_from_ltan(
+            Time(10, 30, 0), epoch, earth, frame=Frame.CIRF()
+        )
+
+        assert raan is not None
+        assert isinstance(raan, Angle)
+
+    def test_sun_and_geo_synchronous_frame(self, earth: Celestial):
+        from ostk.physics.coordinate import Frame
+        from ostk.physics.time import DateTime, Scale
+
+        epoch = Instant.date_time(DateTime(2026, 1, 1, 0, 0, 0), Scale.UTC)
+
+        sso = COE.sun_synchronous(
+            Length.kilometers(6878.0),
+            Time(10, 30, 0),
+            epoch,
+            earth,
+            frame=Frame.CIRF(),
+        )
+
+        assert sso is not None
+        assert isinstance(sso, COE)
+
+        geo = COE.geo_synchronous(
+            epoch, Angle.degrees(0.01), Angle.degrees(30.0), earth, frame=Frame.CIRF()
+        )
+
+        assert geo is not None
+        assert isinstance(geo, COE)

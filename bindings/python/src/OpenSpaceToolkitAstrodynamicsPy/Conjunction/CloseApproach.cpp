@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <pybind11/stl.h>
+
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp>
 
 #include <OpenSpaceToolkitAstrodynamicsPy/Conjunction/CloseApproach/Generator.cpp>
@@ -13,22 +15,66 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
 
     using ostk::physics::coordinate::Frame;
     using ostk::physics::time::Instant;
+    using ostk::physics::unit::Derived;
     using ostk::physics::unit::Length;
 
     using ostk::astrodynamics::conjunction::CloseApproach;
     using ostk::astrodynamics::trajectory::LocalOrbitalFrameFactory;
     using ostk::astrodynamics::trajectory::State;
 
-    class_<CloseApproach>(
+    class_<CloseApproach> closeApproachClass(
         aModule,
         "CloseApproach",
         R"doc(
             Close approach between two objects.
 
             This class represents a close approach event between two objects, providing access to the states of both
-            objects at the time of closest approach, the miss distance, and the relative state.
+            objects at the time of closest approach, the miss distance, the relative state, and the relative speed.
+            The covariances of both objects, if any, are carried by their respective states.
+        )doc"
+    );
+
+    class_<CloseApproach::RotatedEncounterFrameParameters>(
+        closeApproachClass,
+        "RotatedEncounterFrameParameters",
+        R"doc(
+            Miss distance and combined position uncertainty in the rotated encounter frame.
+
+            The rotated encounter frame is the encounter frame rotated about its z-axis, so that its x-axis and y-axis
+            are along the principal axes of the combined position covariance projected onto the encounter plane (see
+            compute_rotated_encounter_frame_parameters).
         )doc"
     )
+
+        .def_readonly(
+            "rotated_encounter_frame",
+            &CloseApproach::RotatedEncounterFrameParameters::rotatedEncounterFrameSPtr,
+            "Frame: The rotated encounter frame (child of the encounter frame)."
+        )
+        .def_readonly(
+            "x_m",
+            &CloseApproach::RotatedEncounterFrameParameters::xM,
+            "Length: The miss distance component along the x-axis (absolute value)."
+        )
+        .def_readonly(
+            "y_m",
+            &CloseApproach::RotatedEncounterFrameParameters::yM,
+            "Length: The miss distance component along the y-axis (absolute value)."
+        )
+        .def_readonly(
+            "sigma_x",
+            &CloseApproach::RotatedEncounterFrameParameters::sigmaX,
+            "Length: The combined position standard deviation along the x-axis."
+        )
+        .def_readonly(
+            "sigma_y",
+            &CloseApproach::RotatedEncounterFrameParameters::sigmaY,
+            "Length: The combined position standard deviation along the y-axis."
+        )
+
+        ;
+
+    closeApproachClass
 
         .def(
             init<const State&, const State&>(),
@@ -43,32 +89,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
             arg("object_2_state")
         )
 
-        .def(
-            self == self,
-            R"doc(
-                Equal to operator.
-
-                Args:
-                    other (CloseApproach): Another close approach.
-
-                Returns:
-                    bool: True if close approaches are equal.
-            )doc"
-        )
-
-        .def(
-            self != self,
-            R"doc(
-                Not equal to operator.
-
-                Args:
-                    other (CloseApproach): Another close approach.
-
-                Returns:
-                    bool: True if close approaches are not equal.
-            )doc"
-        )
-
         .def("__str__", &(shiftToString<CloseApproach>))
         .def("__repr__", &(shiftToString<CloseApproach>))
 
@@ -80,6 +100,17 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
 
                 Returns:
                     bool: True if close approach is defined, False otherwise.
+            )doc"
+        )
+
+        .def(
+            "get_instant",
+            &CloseApproach::getInstant,
+            R"doc(
+                Get the instant of the close approach.
+
+                Returns:
+                    Instant: The instant of closest approach.
             )doc"
         )
 
@@ -106,21 +137,54 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
-            "get_instant",
-            &CloseApproach::getInstant,
+            "scale",
+            &CloseApproach::scale,
             R"doc(
-                Get the instant of the close approach.
+                Return a new Close Approach with the covariances of Object 1 and Object 2 scaled by the given factors.
+
+                A covariance is only scaled if its scale factor is provided and the corresponding state has a
+                covariance attached; otherwise the corresponding state is left unchanged.
+
+                Args:
+                    scale_factor_1 (float | None, optional): The scale factor for Object 1 covariance. Defaults to None.
+                    scale_factor_2 (float | None, optional): The scale factor for Object 2 covariance. Defaults to None.
 
                 Returns:
-                    Instant: The instant of closest approach.
+                    CloseApproach: A new Close Approach with scaled covariances.
+            )doc",
+            arg("scale_factor_1") = none(),
+            arg("scale_factor_2") = none()
+        )
+
+        .def(
+            "swap",
+            &CloseApproach::swap,
+            R"doc(
+                Return a new Close Approach with Object 1 and Object 2 swapped.
+
+                The states and covariances of Object 1 and Object 2 are exchanged.
+
+                Returns:
+                    CloseApproach: A new Close Approach with Object 1 and Object 2 swapped.
             )doc"
         )
 
         .def(
-            "get_miss_distance",
-            &CloseApproach::getMissDistance,
+            "compute_relative_state",
+            &CloseApproach::computeRelativeState,
             R"doc(
-                Get the miss distance.
+                Compute the relative state (Object 2 relative to Object 1).
+
+                Returns:
+                    State: The relative state.
+            )doc"
+        )
+
+        .def(
+            "compute_miss_distance",
+            &CloseApproach::computeMissDistance,
+            R"doc(
+                Compute the miss distance.
 
                 Returns:
                     Length: The miss distance between the two objects.
@@ -128,13 +192,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
         )
 
         .def(
-            "get_relative_state",
-            &CloseApproach::getRelativeState,
+            "compute_relative_speed",
+            &CloseApproach::computeRelativeSpeed,
             R"doc(
-                Get the relative state (Object 2 relative to Object 1).
+                Compute the relative speed (i.e. the magnitude of the relative velocity).
 
                 Returns:
-                    State: The relative state.
+                    Derived: The relative speed in meters per second.
             )doc"
         )
 
@@ -166,6 +230,68 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_CloseApproach(pybind11::
                     tuple[Length, Length, Length]: The miss distance components (radial, in-track, cross-track or similar depending on the factory).
             )doc",
             arg("local_orbital_frame_factory")
+        )
+
+        .def(
+            "compute_encounter_frame",
+            &CloseApproach::computeEncounterFrame,
+            R"doc(
+                Compute the "default" convention of the encounter frame centered on Object 1.
+
+                The encounter frame is a local orbital frame centered on Object 1:
+                - z-axis: Normalized relative velocity (Object 2 velocity - Object 1 velocity)
+                - y-axis: Normalized cross product of the z-axis and the relative position (Object 2 position - Object 1 position)
+                - x-axis: Completes the right-handed coordinate system
+
+                Args:
+                    frame (Frame, optional): The inertial (or quasi-inertial) frame in which relative position and velocity are computed. Defaults to GCRF.
+
+                Returns:
+                    Frame: The encounter frame.
+            )doc",
+            arg_v("frame", Frame::GCRF(), "GCRF")
+        )
+
+        .def(
+            "compute_rotated_encounter_frame_parameters",
+            &CloseApproach::computeRotatedEncounterFrameParameters,
+            R"doc(
+                Compute the miss distance and combined position uncertainty in the rotated encounter frame.
+
+                The rotated encounter frame is the encounter frame rotated about its z-axis, so that its x-axis and
+                y-axis are along the principal axes of the combined position covariance projected onto the encounter
+                plane:
+                - If x_along_major_principal_axis is True, the x-axis is along the major principal axis and the y-axis
+                along the minor principal axis.
+                - If x_along_major_principal_axis is False, the x-axis is along the minor principal axis and the y-axis
+                along the major principal axis.
+
+                Args:
+                    encounter_frame (Frame): An encounter frame, whose x-y plane is the encounter plane (see
+                        compute_encounter_frame).
+                    x_along_major_principal_axis (bool, optional): Whether to align the x-axis along the major
+                        principal axis (and the y-axis along the minor principal axis), or along the minor principal
+                        axis (and the y-axis along the major principal axis). Defaults to True.
+
+                Returns:
+                    CloseApproach.RotatedEncounterFrameParameters: The rotated encounter frame parameters.
+
+                Raises:
+                    RuntimeError: If the close approach or the encounter frame is undefined, or if a state has no
+                        position covariance.
+
+                Examples:
+                    >>> parameters = close_approach.compute_rotated_encounter_frame_parameters(
+                    ...     encounter_frame=close_approach.compute_encounter_frame()
+                    ... )
+                    >>> parameters.x_m, parameters.y_m, parameters.sigma_x, parameters.sigma_y
+                    >>> parameters = close_approach.compute_rotated_encounter_frame_parameters(
+                    ...     encounter_frame=close_approach.compute_encounter_frame(),
+                    ...     x_along_major_principal_axis=False,
+                    ... )
+            )doc",
+            arg("encounter_frame"),
+            arg("x_along_major_principal_axis") = true
         )
 
         .def_static(

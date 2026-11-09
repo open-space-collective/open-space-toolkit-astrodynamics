@@ -43,13 +43,12 @@ using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocit
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr)
-    : ThirdBodyGravity(aCelestialObjectSPtr, String::Format("Third Body Gravity [{}]", aCelestialObjectSPtr->getName()))
-{
-}
-
-ThirdBodyGravity::ThirdBodyGravity(const Shared<const Celestial>& aCelestialObjectSPtr, const String& aName)
-    : Dynamics(aName),
+ThirdBodyGravity::ThirdBodyGravity(
+    const Shared<const Celestial>& aCelestialObjectSPtr, const std::optional<String>& aName
+)
+    : Dynamics(
+          aName.has_value() ? aName.value() : String::Format("Third Body Gravity [{}]", aCelestialObjectSPtr->getName())
+      ),
       celestialObjectSPtr_(aCelestialObjectSPtr),
       usesPointMassGravitationalModel_(false)
 {
