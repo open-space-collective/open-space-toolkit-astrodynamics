@@ -100,7 +100,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver : public :
     {
         for (size_t i = 0; i < instants.size(); i++)
         {
-            const NumericalSolver::StateVector propagatedStateVector = aSolutionArray[i].accessCoordinates();
+            const NumericalSolver::StateVector propagatedStateVector = aSolutionArray[i].getCoordinates();
 
             EXPECT_GT(
                 aTolerance,
@@ -136,6 +136,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Getters)
 
     {
         EXPECT_TRUE(defaultRKD5_.getObservedStates().isEmpty());
+        EXPECT_EQ(&defaultRKD5_.getObservedStates(), &defaultRKD5_.getObservedStates());
+        EXPECT_THROW(NumericalSolver::Undefined().getObservedStates(), ostk::core::error::runtime::Undefined);
     }
 
     {
@@ -158,22 +160,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Getters)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Accessors)
-{
-    {
-        EXPECT_NO_THROW(defaultRKD5_.accessObservedStates());
-    }
-
-    {
-        EXPECT_THROW(NumericalSolver::Undefined().accessObservedStates(), ostk::core::error::runtime::Undefined);
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime)
 {
     const Array<Instant> endInstants = {
-        defaultState_.accessInstant() + defaultDuration_,
-        defaultState_.accessInstant() - defaultDuration_,
+        defaultState_.getInstant() + defaultDuration_,
+        defaultState_.getInstant() - defaultDuration_,
     };
 
     EXPECT_TRUE(defaultRK54_.getObservedStates().isEmpty());
@@ -188,18 +179,18 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
         EXPECT_GT(
             2e-8,
-            std::abs(propagatedState.accessCoordinates()[0] - std::sin((endInstant - defaultStartInstant_).inSeconds()))
+            std::abs(propagatedState.getCoordinates()[0] - std::sin((endInstant - defaultStartInstant_).inSeconds()))
         );
         EXPECT_GT(
             2e-8,
-            std::abs(propagatedState.accessCoordinates()[1] - std::cos((endInstant - defaultStartInstant_).inSeconds()))
+            std::abs(propagatedState.getCoordinates()[1] - std::cos((endInstant - defaultStartInstant_).inSeconds()))
         );
     }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_StateLogger)
 {
-    const Instant endInstant = defaultState_.accessInstant() + defaultDuration_;
+    const Instant endInstant = defaultState_.getInstant() + defaultDuration_;
 
     // Logger called for each observed state when logging is enabled
     {
@@ -261,7 +252,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     {
         for (Size i = 1; i < aStateArray.getSize(); ++i)
         {
-            EXPECT_LT(aStateArray[i - 1].accessInstant(), aStateArray[i].accessInstant()) << "state index " << i;
+            EXPECT_LT(aStateArray[i - 1].getInstant(), aStateArray[i].getInstant()) << "state index " << i;
         }
     };
 
@@ -272,8 +263,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         const State middleState = numericalSolver.integrateTime(defaultState_, middleInstant, systemOfEquations_);
         numericalSolver.integrateTime(middleState, endInstant, systemOfEquations_);
 
-        EXPECT_EQ(numericalSolver.getObservedStates().accessFirst().accessInstant(), middleInstant);
-        EXPECT_EQ(numericalSolver.getObservedStates().accessLast().accessInstant(), endInstant);
+        EXPECT_EQ(numericalSolver.getObservedStates().accessFirst().getInstant(), middleInstant);
+        EXPECT_EQ(numericalSolver.getObservedStates().accessLast().getInstant(), endInstant);
     }
 
     // Without an event condition: the second integration continues the observed states of the first one
@@ -283,16 +274,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         const State middleState = numericalSolver.integrateTime(defaultState_, middleInstant, systemOfEquations_);
         const Array<State> firstObservedStates = numericalSolver.getObservedStates();
 
-        EXPECT_EQ(firstObservedStates.accessFirst().accessInstant(), defaultStartInstant_);
-        EXPECT_EQ(firstObservedStates.accessLast().accessInstant(), middleInstant);
+        EXPECT_EQ(firstObservedStates.accessFirst().getInstant(), defaultStartInstant_);
+        EXPECT_EQ(firstObservedStates.accessLast().getInstant(), middleInstant);
 
         const State endState = numericalSolver.integrateTime(middleState, endInstant, systemOfEquations_, true);
 
         const Array<State> observedStates = numericalSolver.getObservedStates();
 
         EXPECT_GT(observedStates.getSize(), firstObservedStates.getSize());
-        EXPECT_EQ(observedStates.accessFirst().accessInstant(), defaultStartInstant_);
-        EXPECT_EQ(observedStates.accessLast().accessInstant(), endInstant);
+        EXPECT_EQ(observedStates.accessFirst().getInstant(), defaultStartInstant_);
+        EXPECT_EQ(observedStates.accessLast().getInstant(), endInstant);
         EXPECT_EQ(observedStates.accessLast(), endState);
         expectStrictlyIncreasingInstants(observedStates);
 
@@ -319,7 +310,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
         const Array<State> observedStates = numericalSolver.getObservedStates();
 
-        EXPECT_EQ(observedStates.accessFirst().accessInstant(), defaultStartInstant_);
+        EXPECT_EQ(observedStates.accessFirst().getInstant(), defaultStartInstant_);
         EXPECT_EQ(observedStates.accessLast(), shorterEndState);
         EXPECT_LT(observedStates.getSize(), firstObservedStates.getSize());
         expectStrictlyIncreasingInstants(observedStates);
@@ -327,7 +318,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         unsigned int middleStateCount = 0;
         for (const State &observedState : observedStates)
         {
-            middleStateCount += observedState.accessInstant() == middleInstant ? 1 : 0;
+            middleStateCount += observedState.getInstant() == middleInstant ? 1 : 0;
         }
 
         EXPECT_EQ(middleStateCount, 1);
@@ -346,12 +337,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
         const Array<State> observedStates = numericalSolver.getObservedStates();
 
-        EXPECT_EQ(observedStates.accessFirst().accessInstant(), defaultStartInstant_);
-        EXPECT_EQ(observedStates.accessLast().accessInstant(), defaultStartInstant_ - Duration::Seconds(6.0));
+        EXPECT_EQ(observedStates.accessFirst().getInstant(), defaultStartInstant_);
+        EXPECT_EQ(observedStates.accessLast().getInstant(), defaultStartInstant_ - Duration::Seconds(6.0));
 
         for (Size i = 1; i < observedStates.getSize(); ++i)
         {
-            EXPECT_GT(observedStates[i - 1].accessInstant(), observedStates[i].accessInstant()) << "state index " << i;
+            EXPECT_GT(observedStates[i - 1].getInstant(), observedStates[i].getInstant()) << "state index " << i;
         }
     }
 
@@ -369,8 +360,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         const Array<State> firstObservedStates = numericalSolver.getObservedStates();
 
         EXPECT_FALSE(firstSolution.conditionIsSatisfied);
-        EXPECT_EQ(firstObservedStates.accessFirst().accessInstant(), defaultStartInstant_);
-        EXPECT_EQ(firstObservedStates.accessLast().accessInstant(), middleInstant);
+        EXPECT_EQ(firstObservedStates.accessFirst().getInstant(), defaultStartInstant_);
+        EXPECT_EQ(firstObservedStates.accessLast().getInstant(), middleInstant);
 
         const NumericalSolver::ConditionSolution secondSolution =
             numericalSolver.integrateTime(firstSolution.state, endInstant, systemOfEquations_, eventCondition, true);
@@ -379,7 +370,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
         EXPECT_TRUE(secondSolution.conditionIsSatisfied);
         EXPECT_GT(observedStates.getSize(), firstObservedStates.getSize());
-        EXPECT_EQ(observedStates.accessFirst().accessInstant(), defaultStartInstant_);
+        EXPECT_EQ(observedStates.accessFirst().getInstant(), defaultStartInstant_);
         EXPECT_EQ(observedStates.accessLast(), secondSolution.state);
         expectStrictlyIncreasingInstants(observedStates);
 
@@ -442,16 +433,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 {
     const Array<Array<Instant>> instantsArray = {
         {
-            defaultState_.accessInstant() + Duration::Seconds(1.0),
-            defaultState_.accessInstant() + Duration::Seconds(4.0),
-            defaultState_.accessInstant() + Duration::Seconds(7.0),
-            defaultState_.accessInstant() + Duration::Seconds(10.0),
+            defaultState_.getInstant() + Duration::Seconds(1.0),
+            defaultState_.getInstant() + Duration::Seconds(4.0),
+            defaultState_.getInstant() + Duration::Seconds(7.0),
+            defaultState_.getInstant() + Duration::Seconds(10.0),
         },
         {
-            defaultState_.accessInstant() + Duration::Seconds(-1.0),
-            defaultState_.accessInstant() + Duration::Seconds(-4.0),
-            defaultState_.accessInstant() + Duration::Seconds(-7.0),
-            defaultState_.accessInstant() + Duration::Seconds(-10.0),
+            defaultState_.getInstant() + Duration::Seconds(-1.0),
+            defaultState_.getInstant() + Duration::Seconds(-4.0),
+            defaultState_.getInstant() + Duration::Seconds(-7.0),
+            defaultState_.getInstant() + Duration::Seconds(-10.0),
         },
     };
 
@@ -476,9 +467,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     {
         NumericalSolver::ConditionSolution solution = defaultRKD5_.integrateTime(
             state,
-            state.accessInstant(),
+            state.getInstant(),
             systemOfEquations_,
-            InstantCondition(RealCondition::Criterion::AnyCrossing, state.accessInstant() + Duration::Seconds(60.0))
+            InstantCondition(RealCondition::Criterion::AnyCrossing, state.getInstant() + Duration::Seconds(60.0))
         );
 
         EXPECT_EQ(state, solution.state);
@@ -493,7 +484,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             state,
             defaultStartInstant_ + defaultDuration_,
             systemOfEquations_,
-            InstantCondition(RealCondition::Criterion::StrictlyPositive, state.accessInstant() - Duration::Seconds(1.0))
+            InstantCondition(RealCondition::Criterion::StrictlyPositive, state.getInstant() - Duration::Seconds(1.0))
         );
 
         EXPECT_EQ(conditionSolution.state, state);
@@ -537,7 +528,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 );
                 const State finalState = conditionSolution.state;
 
-                EXPECT_LT((finalState.accessInstant() - endInstant).inSeconds(), 1e-12);
+                EXPECT_LT((finalState.getInstant() - endInstant).inSeconds(), 1e-12);
                 EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
                 EXPECT_EQ(conditionSolution.iterationCount, 0);
                 EXPECT_FALSE(defaultRKD5_.getObservedStates().isEmpty());
@@ -550,12 +541,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
             const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, condition);
 
-            const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.accessCoordinates();
-            const double propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+            const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.getCoordinates();
+            const double propagatedTime = (conditionSolution.state.getInstant() - defaultStartInstant_).inSeconds();
 
             // Ensure that integration terminates at condition if condition is met
 
-            EXPECT_LT((conditionSolution.state.accessInstant() - targetInstant).inSeconds(), 1e-6);
+            EXPECT_LT((conditionSolution.state.getInstant() - targetInstant).inSeconds(), 1e-6);
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
             EXPECT_EQ(conditionSolution.state, defaultRKD5_.getObservedStates().accessLast());
@@ -598,8 +589,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 state, defaultStartInstant_ + Duration::Seconds(maximumPropagationTime), systemOfEquations_, condition
             );
 
-            const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.accessCoordinates();
-            const double propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+            const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.getCoordinates();
+            const double propagatedTime = (conditionSolution.state.getInstant() - defaultStartInstant_).inSeconds();
 
             const bool expectedConditionIsSatisfied = std::get<3>(testCase);
 
@@ -665,15 +656,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
                 criterion,
                 [](const State &aState) -> double
                 {
-                    return aState.accessCoordinates()[0];
+                    return aState.getCoordinates()[0];
                 },
                 target
             );
             const NumericalSolver::ConditionSolution conditionSolution =
                 defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, condition);
 
-            const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.accessCoordinates();
-            const double propagatedTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
+            const NumericalSolver::StateVector propagatedStateVector = conditionSolution.state.getCoordinates();
+            const double propagatedTime = (conditionSolution.state.getInstant() - defaultStartInstant_).inSeconds();
 
             const double expectedPropagatedTime = std::get<3>(testCase);
             const bool expectedConditionIsSatisfied = std::get<4>(testCase);
@@ -740,7 +731,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
         defaultRKD5_.integrateTime(state, endInstant, systemOfEquations_, logicalCondition);
 
     EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-    EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-6);
+    EXPECT_LT(std::abs((conditionSolution.state.getInstant() - targetInstant).inSeconds()), 1e-6);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_Refinement)
@@ -765,7 +756,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
     // Dense-output refinement should be very accurate.
     EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
     EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
-    EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-6);
+    EXPECT_LT(std::abs((conditionSolution.state.getInstant() - targetInstant).inSeconds()), 1e-6);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_BracketReintegration)
@@ -796,8 +787,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
         ASSERT_TRUE(conditionSolution.conditionIsSatisfied);
 
-        const double solutionTime = (conditionSolution.state.accessInstant() - defaultStartInstant_).inSeconds();
-        const NumericalSolver::StateVector solutionStateVector = conditionSolution.state.accessCoordinates();
+        const double solutionTime = (conditionSolution.state.getInstant() - defaultStartInstant_).inSeconds();
+        const NumericalSolver::StateVector solutionStateVector = conditionSolution.state.getCoordinates();
 
         EXPECT_NEAR(std::sin(solutionTime), solutionStateVector[0], 3.0e-9) << "target " << targetTime;
         EXPECT_NEAR(std::cos(solutionTime), solutionStateVector[1], 3.0e-9) << "target " << targetTime;
@@ -855,7 +846,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver_StepperCo
 
         EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
         EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
-        EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-3);
+        EXPECT_LT(std::abs((conditionSolution.state.getInstant() - targetInstant).inSeconds()), 1e-3);
 
         // Sanity: observed states are non-empty and last entry matches the solution state.
         EXPECT_FALSE(solver.getObservedStates().isEmpty());
@@ -896,7 +887,7 @@ TEST_P(
             solver.integrateTime(state, endInstant, systemOfEquations_, condition);
 
         EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-        EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - endInstant).inSeconds()), 1e-9);
+        EXPECT_LT(std::abs((conditionSolution.state.getInstant() - endInstant).inSeconds()), 1e-9);
 
         const Array<State> observed = solver.getObservedStates();
         ASSERT_GE(observed.getSize(), 2u);
@@ -904,7 +895,7 @@ TEST_P(
         // Strict monotonicity in the integration direction.
         for (size_t i = 1; i < observed.getSize(); ++i)
         {
-            const double dt = (observed[i].accessInstant() - observed[i - 1].accessInstant()).inSeconds();
+            const double dt = (observed[i].getInstant() - observed[i - 1].getInstant()).inSeconds();
             if (durationSeconds > 0.0)
             {
                 EXPECT_GT(dt, 0.0) << "Forward integration produced non-monotonic observed states at index " << i;
@@ -942,7 +933,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Integrat
 
     EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
     EXPECT_TRUE(conditionSolution.rootSolverHasConverged);
-    EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - targetInstant).inSeconds()), 1e-6);
+    EXPECT_LT(std::abs((conditionSolution.state.getInstant() - targetInstant).inSeconds()), 1e-6);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, IntegrateTime_Conditions_ABM_Rejected)

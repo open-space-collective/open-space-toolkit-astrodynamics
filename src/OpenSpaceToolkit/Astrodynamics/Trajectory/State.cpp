@@ -199,7 +199,7 @@ bool State::operator==(const State& aState) const
         return false;
     }
 
-    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
         if (!aState.coordinatesBrokerSPtr_->hasSubset(subset))
         {
@@ -244,15 +244,11 @@ State State::operator+(const State& aState) const
 
     VectorXd addedCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Index i = 0;
-    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
         Size subsetSize = subset->getSize();
         addedCoordinates.segment(i, subsetSize) = subset->add(
-            this->instant_,
-            this->coordinates_,
-            aState.accessCoordinates(),
-            this->frameSPtr_,
-            this->coordinatesBrokerSPtr_
+            this->instant_, this->coordinates_, aState.getCoordinates(), this->frameSPtr_, this->coordinatesBrokerSPtr_
         );
         i += subsetSize;
     }
@@ -289,15 +285,11 @@ State State::operator-(const State& aState) const
 
     VectorXd subtractedCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Index i = 0;
-    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
         Size subsetSize = subset->getSize();
         subtractedCoordinates.segment(i, subsetSize) = subset->subtract(
-            this->instant_,
-            this->coordinates_,
-            aState.accessCoordinates(),
-            this->frameSPtr_,
-            this->coordinatesBrokerSPtr_
+            this->instant_, this->coordinates_, aState.getCoordinates(), this->frameSPtr_, this->coordinatesBrokerSPtr_
         );
         i += subsetSize;
     }
@@ -323,7 +315,7 @@ bool State::isDefined() const
            this->frameSPtr_->isDefined() && (this->coordinatesBrokerSPtr_ != nullptr);
 }
 
-const Instant& State::accessInstant() const
+const Instant& State::getInstant() const
 {
     if (!this->isDefined())
     {
@@ -333,7 +325,7 @@ const Instant& State::accessInstant() const
     return this->instant_;
 }
 
-const Shared<const Frame> State::accessFrame() const
+const Shared<const Frame>& State::getFrame() const
 {
     if (!this->isDefined())
     {
@@ -343,7 +335,7 @@ const Shared<const Frame> State::accessFrame() const
     return this->frameSPtr_;
 }
 
-const VectorXd& State::accessCoordinates() const
+const VectorXd& State::getCoordinates() const&
 {
     if (!this->isDefined())
     {
@@ -353,7 +345,12 @@ const VectorXd& State::accessCoordinates() const
     return this->coordinates_;
 }
 
-const Shared<const CoordinateBroker>& State::accessCoordinateBroker() const
+VectorXd State::getCoordinates() &&
+{
+    return this->getCoordinates();
+}
+
+const Shared<const CoordinateBroker>& State::getCoordinateBroker() const
 {
     if (!this->isDefined())
     {
@@ -371,16 +368,6 @@ Size State::getSize() const
     }
 
     return this->coordinates_.size();
-}
-
-Instant State::getInstant() const
-{
-    return this->accessInstant();
-}
-
-Shared<const Frame> State::getFrame() const
-{
-    return this->accessFrame();
 }
 
 const std::optional<Covariance>& State::getCovariance() const
@@ -435,12 +422,7 @@ Vector3d State::getAngularVelocity() const
     return this->extractCoordinate(AngularVelocity::Default());
 }
 
-VectorXd State::getCoordinates() const
-{
-    return this->accessCoordinates();
-}
-
-const Array<Shared<const CoordinateSubset>> State::getCoordinateSubsets() const
+const Array<Shared<const CoordinateSubset>>& State::getCoordinateSubsets() const&
 {
     if (!this->isDefined())
     {
@@ -448,6 +430,11 @@ const Array<Shared<const CoordinateSubset>> State::getCoordinateSubsets() const
     }
 
     return this->coordinatesBrokerSPtr_->getSubsets();
+}
+
+Array<Shared<const CoordinateSubset>> State::getCoordinateSubsets() &&
+{
+    return this->getCoordinateSubsets();
 }
 
 bool State::hasSubset(const Shared<const CoordinateSubset>& aSubsetSPtr) const
@@ -467,12 +454,12 @@ bool State::hasCovariance() const
 
 VectorXd State::extractCoordinate(const Shared<const CoordinateSubset>& aSubsetSPtr) const
 {
-    return this->coordinatesBrokerSPtr_->extractCoordinate(this->accessCoordinates(), aSubsetSPtr);
+    return this->coordinatesBrokerSPtr_->extractCoordinate(this->getCoordinates(), aSubsetSPtr);
 }
 
 VectorXd State::extractCoordinates(const Array<Shared<const CoordinateSubset>>& aCoordinateSubsetsArray) const
 {
-    return this->coordinatesBrokerSPtr_->extractCoordinates(this->accessCoordinates(), aCoordinateSubsetsArray);
+    return this->coordinatesBrokerSPtr_->extractCoordinates(this->getCoordinates(), aCoordinateSubsetsArray);
 }
 
 State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
@@ -494,7 +481,7 @@ State State::inFrame(const Shared<const Frame>& aFrameSPtr) const
 
     VectorXd inFrameCoordinates = VectorXd(this->coordinatesBrokerSPtr_->getNumberOfCoordinates());
     Index i = 0;
-    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
         const VectorXd subsetInFrame = subset->inFrame(
             this->instant_, this->coordinates_, this->frameSPtr_, aFrameSPtr, this->coordinatesBrokerSPtr_
@@ -549,7 +536,7 @@ Covariance::MahalanobisDistanceAnalysis State::computeMahalanobisDistanceAnalysi
         const State stateInCovarianceFrame = aState.inFrame(covarianceFrameSPtr);
 
         return {
-            stateInCovarianceFrame.accessInstant(),
+            stateInCovarianceFrame.getInstant(),
             stateInCovarianceFrame.extractCoordinates(aCoordinateSubsetsArray),
             covarianceFrameSPtr,
             aCoordinateSubsetsArray,
@@ -559,7 +546,7 @@ Covariance::MahalanobisDistanceAnalysis State::computeMahalanobisDistanceAnalysi
     const State residualState = reduceInCovarianceFrame(anotherState) - reduceInCovarianceFrame(*this);
 
     return covariance.reduce(aCoordinateSubsetsArray)
-        .computeMahalanobisDistanceAnalysis(residualState.accessCoordinates());
+        .computeMahalanobisDistanceAnalysis(residualState.getCoordinates());
 }
 
 void State::print(std::ostream& anOutputStream, bool displayDecorator) const

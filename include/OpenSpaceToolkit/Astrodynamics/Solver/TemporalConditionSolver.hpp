@@ -69,7 +69,7 @@ class TemporalConditionSolver
     /// @endcode
     ///
     /// @return Time step.
-    Duration getTimeStep() const;
+    const Duration& getTimeStep() const;
 
     /// @brief Get the tolerance.
     ///
@@ -79,7 +79,7 @@ class TemporalConditionSolver
     /// @endcode
     ///
     /// @return Tolerance.
-    Duration getTolerance() const;
+    const Duration& getTolerance() const;
 
     /// @brief Get the maximum iteration count.
     ///

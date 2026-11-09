@@ -111,7 +111,7 @@ bool Kepler::isDefined() const
            frameSPtr_->isDefined();
 }
 
-COE Kepler::getClassicalOrbitalElements() const
+const COE& Kepler::getClassicalOrbitalElements() const
 {
     if (!this->isDefined())
     {
@@ -141,7 +141,7 @@ int Kepler::getRevolutionNumberAtEpoch() const
     return 1;
 }
 
-Derived Kepler::getGravitationalParameter() const
+const Derived& Kepler::getGravitationalParameter() const
 {
     if (!this->isDefined())
     {
@@ -151,7 +151,7 @@ Derived Kepler::getGravitationalParameter() const
     return gravitationalParameter_;
 }
 
-Length Kepler::getEquatorialRadius() const
+const Length& Kepler::getEquatorialRadius() const
 {
     if (!this->isDefined())
     {

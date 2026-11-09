@@ -146,19 +146,19 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Fetch internal cached state array
     ///
     /// @code{.cpp}
-    ///              Array<State> stateArray = propagated.accessCachedStateArray();
+    ///              Array<State> stateArray = propagated.getCachedStateArray();
     /// @endcode
     /// @return Array<State>&
-    const Array<State>& accessCachedStateArray() const;
+    const Array<State>& getCachedStateArray() const;
 
-    /// @brief Access propagator
+    /// @brief Get propagator
     ///
     /// @code{.cpp}
-    ///              Propagator propagator = propagated.accessPropagator();
+    ///              Propagator propagator = propagated.getPropagator();
     /// @endcode
     ///
     /// @return Propagator
-    const Propagator& accessPropagator() const;
+    const Propagator& getPropagator() const;
 
     /// @brief Set internal cached state array manually
     ///

@@ -38,17 +38,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State_CoordinateBroker(py
         .def(self != self)
 
         .def(
-            "access_subsets",
-            &CoordinateBroker::accessSubsets,
-            R"doc(
-                Access the list of coordinate subsets.
-
-                Returns:
-                    list[CoordinateSubset]: The list of coordinate subsets.
-
-            )doc"
-        )
-        .def(
             "get_number_of_coordinates",
             &CoordinateBroker::getNumberOfCoordinates,
             R"doc(

@@ -140,7 +140,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Transform, Calculate
 
         EXPECT_EQ(state.getInstant(), instant);
 
-        EXPECT_TRUE(state.accessFrame() == Frame::GCRF());
+        EXPECT_TRUE(state.getFrame() == Frame::GCRF());
     }
 }
 

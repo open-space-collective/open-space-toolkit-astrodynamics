@@ -111,60 +111,60 @@ class TLESolver
         const bool anEstimateBStar = true
     );
 
-    /// @brief Access solver
+    /// @brief Get solver
     ///
     /// @return Least squares solver
-    const LeastSquaresSolver& accessSolver() const;
+    const LeastSquaresSolver& getSolver() const;
 
-    /// @brief Access satellite number
+    /// @brief Get satellite number
     ///
     /// @return Satellite number
-    const int& accessSatelliteNumber() const;
+    int getSatelliteNumber() const;
 
-    /// @brief Access international designator
+    /// @brief Get international designator
     ///
     /// @return International designator
-    const String& accessInternationalDesignator() const;
+    const String& getInternationalDesignator() const;
 
-    /// @brief Access revolution number
+    /// @brief Get revolution number
     ///
     /// @return Revolution number
-    const int& accessRevolutionNumber() const;
+    int getRevolutionNumber() const;
 
-    /// @brief Access whether to also estimate B*
+    /// @brief Get whether to also estimate B*
     ///
     /// @return Whether to also estiamte B*
-    const bool& accessEstimateBStar() const;
+    bool getEstimateBStar() const;
 
-    /// @brief Access default B* value
+    /// @brief Get default B* value
     ///
     /// @return Default B* value
-    const double& accessDefaultBStar() const;
+    double getDefaultBStar() const;
 
-    /// @brief Access first derivative of mean motion divided by 2
+    /// @brief Get first derivative of mean motion divided by 2
     ///
     /// @return First derivative of mean motion divided by 2
-    const double& accessFirstDerivativeMeanMotionDividedBy2() const;
+    double getFirstDerivativeMeanMotionDividedBy2() const;
 
-    /// @brief Access second derivative of mean motion divided by 6
+    /// @brief Get second derivative of mean motion divided by 6
     ///
     /// @return Second derivative of mean motion divided by 6
-    const double& accessSecondDerivativeMeanMotionDividedBy6() const;
+    double getSecondDerivativeMeanMotionDividedBy6() const;
 
-    /// @brief Access ephemeris type
+    /// @brief Get ephemeris type
     ///
     /// @return Ephemeris type
-    const int& accessEphemerisType() const;
+    int getEphemerisType() const;
 
-    /// @brief Access element set number
+    /// @brief Get element set number
     ///
     /// @return Element set number
-    const int& accessElementSetNumber() const;
+    int getElementSetNumber() const;
 
-    /// @brief Access TLE state builder
+    /// @brief Get TLE state builder
     ///
     /// @return TLE state builder
-    const StateBuilder& accessTLEStateBuilder() const;
+    const StateBuilder& getTLEStateBuilder() const;
 
     /// @brief Estimate TLE from observations
     ///

@@ -143,17 +143,7 @@ NumericalSolver::NumericalSolver(
 {
 }
 
-const Array<State>& NumericalSolver::accessObservedStates() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("NumericalSolver");
-    }
-
-    return observedStates_;
-}
-
-RootSolver NumericalSolver::getRootSolver() const
+const RootSolver& NumericalSolver::getRootSolver() const
 {
     if (!this->isDefined())
     {
@@ -163,9 +153,14 @@ RootSolver NumericalSolver::getRootSolver() const
     return rootSolver_;
 }
 
-Array<State> NumericalSolver::getObservedStates() const
+const Array<State>& NumericalSolver::getObservedStates() const
 {
-    return accessObservedStates();
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("NumericalSolver");
+    }
+
+    return observedStates_;
 }
 
 std::optional<double> NumericalSolver::getMaxStepSize() const
@@ -193,12 +188,12 @@ Array<State> NumericalSolver::integrateTime(
     const Array<ostk::core::type::Real> durationArray = anInstantArray.map<ostk::core::type::Real>(
         [&aState](const Instant& anInstant) -> ostk::core::type::Real
         {
-            return (anInstant - aState.accessInstant()).inSeconds();
+            return (anInstant - aState.getInstant()).inSeconds();
         }
     );
 
     const Array<NumericalSolver::Solution> solutions =
-        MathNumericalSolver::integrateDuration(aState.accessCoordinates(), durationArray, aSystemOfEquations);
+        MathNumericalSolver::integrateDuration(aState.getCoordinates(), durationArray, aSystemOfEquations);
 
     Array<State> states;
     states.reserve(solutions.getSize());
@@ -208,8 +203,8 @@ Array<State> NumericalSolver::integrateTime(
         const State state = {
             anInstantArray[i],
             solution.first,
-            aState.accessFrame(),
-            aState.accessCoordinateBroker(),
+            aState.getFrame(),
+            aState.getCoordinateBroker(),
         };
         states.add(state);
     }
@@ -236,7 +231,7 @@ State NumericalSolver::integrateTime(
     const StateBuilder stateBuilder = {aState};
 
     const NumericalSolver::Solution solution = MathNumericalSolver::integrateDuration(
-        aState.accessCoordinates(), (anEndTime - aState.accessInstant()).inSeconds(), aSystemOfEquations
+        aState.getCoordinates(), (anEndTime - aState.getInstant()).inSeconds(), aSystemOfEquations
     );
 
     bool isInitialState = true;
@@ -251,7 +246,7 @@ State NumericalSolver::integrateTime(
 
         isInitialState = false;
 
-        observeState(stateBuilder.build(aState.accessInstant() + Duration::Seconds(state.second), state.first));
+        observeState(stateBuilder.build(aState.getInstant() + Duration::Seconds(state.second), state.first));
     }
 
     return stateBuilder.build(anEndTime, solution.first);
@@ -289,7 +284,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         observedStates_ = {aState};
     }
 
-    const double aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
+    const double aDurationInSeconds = (anInstant - aState.getInstant()).inSeconds();
 
     // Check trivial cases
     if ((aDurationInSeconds == 0.0))
@@ -374,17 +369,17 @@ void NumericalSolver::observeState(const State& aState)
 
 void NumericalSolver::resumeObservedStates(const State& aState, const Instant& anInstant)
 {
-    const Instant& startInstant = aState.accessInstant();
+    const Instant& startInstant = aState.getInstant();
     const bool isForward = anInstant >= startInstant;
 
     // Discard the states beyond the initial state, e.g. an event state found past the end of a previous integration
-    while (!observedStates_.isEmpty() && (isForward ? observedStates_.accessLast().accessInstant() > startInstant
-                                                    : observedStates_.accessLast().accessInstant() < startInstant))
+    while (!observedStates_.isEmpty() && (isForward ? observedStates_.accessLast().getInstant() > startInstant
+                                                    : observedStates_.accessLast().getInstant() < startInstant))
     {
         observedStates_.pop_back();
     }
 
-    if (observedStates_.isEmpty() || observedStates_.accessLast().accessInstant() != startInstant)
+    if (observedStates_.isEmpty() || observedStates_.accessLast().getInstant() != startInstant)
     {
         this->observeState(aState);
     }
@@ -472,11 +467,11 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
 
     const StateBuilder stateBuilder = {aState};
 
-    const double endTime = (anInstant - aState.accessInstant()).inSeconds();
+    const double endTime = (anInstant - aState.getInstant()).inSeconds();
 
     const auto createState = [&stateBuilder, &aState](const VectorXd& aStateVector, const double& aTime) -> State
     {
-        return stateBuilder.build(aState.accessInstant() + Duration::Seconds(aTime), aStateVector);
+        return stateBuilder.build(aState.getInstant() + Duration::Seconds(aTime), aStateVector);
     };
 
     const auto checkTimeLimit = [aSignedTimeStep, endTime](double aTime) -> bool
@@ -484,8 +479,8 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         return aSignedTimeStep > 0.0 ? aTime < endTime : aTime > endTime;
     };
 
-    NumericalSolver::StateVector currentStateVector = aState.accessCoordinates();
-    NumericalSolver::StateVector previousStateVector = aState.accessCoordinates();
+    NumericalSolver::StateVector currentStateVector = aState.getCoordinates();
+    NumericalSolver::StateVector previousStateVector = aState.getCoordinates();
 
     double previousTime = 0.0;
     double currentTime = 0.0;
@@ -549,7 +544,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
         // the trim integration above can produce a state at the exact same instant as the
         // last observed entry (e.g. when currentTime already coincided with endTime within
         // tolerance), and emitting a duplicate would silently regress monotonicity downstream.
-        if (observedStates_.isEmpty() || finalState.accessInstant() != observedStates_.accessLast().accessInstant())
+        if (observedStates_.isEmpty() || finalState.getInstant() != observedStates_.accessLast().getInstant())
         {
             observeState(finalState);
         }
@@ -658,7 +653,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     {
         const State solutionState = createState(currentStateVector, currentTime);
 
-        if (solutionState.accessInstant() != aState.accessInstant())
+        if (solutionState.getInstant() != aState.getInstant())
         {
             observeState(solutionState);
         }
@@ -680,7 +675,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     const State solutionState = createState(stateVectorAtSolutionTime, solutionTime);
 
     // If the solution state is not the same as the initial state, add it to the observed states
-    if (solutionState.accessInstant() != aState.accessInstant())
+    if (solutionState.getInstant() != aState.getInstant())
     {
         observeState(solutionState);
     }
@@ -701,7 +696,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
     const bool& appendObservedStates
 )
 {
-    const double aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
+    const double aDurationInSeconds = (anInstant - aState.getInstant()).inSeconds();
     const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
 
     auto dispatch = [&](auto&& aStepper) -> NumericalSolver::ConditionSolution

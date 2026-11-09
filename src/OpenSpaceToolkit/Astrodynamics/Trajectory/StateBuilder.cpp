@@ -31,8 +31,8 @@ StateBuilder::StateBuilder(
 }
 
 StateBuilder::StateBuilder(const State& aState)
-    : frameSPtr_(aState.accessFrame()),
-      coordinatesBrokerSPtr_(aState.accessCoordinateBroker())
+    : frameSPtr_(aState.getFrame()),
+      coordinatesBrokerSPtr_(aState.getCoordinateBroker())
 {
 }
 
@@ -142,7 +142,7 @@ const State StateBuilder::reduce(const State& aState) const
 
     for (const auto& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
-        if (!aState.accessCoordinateBroker()->hasSubset(subset))
+        if (!aState.getCoordinateBroker()->hasSubset(subset))
         {
             throw ostk::core::error::RuntimeError("Missing CoordinateSubset: [{}]", subset->getName());
         }
@@ -152,7 +152,7 @@ const State StateBuilder::reduce(const State& aState) const
         nextIndex += subsetCoordinates.size();
     }
 
-    return State(aState.accessInstant(), coordinates, aState.accessFrame(), this->coordinatesBrokerSPtr_)
+    return State(aState.getInstant(), coordinates, aState.getFrame(), this->coordinatesBrokerSPtr_)
         .inFrame(this->frameSPtr_);
 }
 
@@ -185,14 +185,14 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
         bool subsetDetected = false;
         VectorXd subsetCoordinates;
 
-        if (aState.accessCoordinateBroker()->hasSubset(subset))
+        if (aState.getCoordinateBroker()->hasSubset(subset))
         {
             subsetDetected = true;
             nonDefaultSubsetDetections++;
             subsetCoordinates = stateInBrokerFrame.extractCoordinate(subset);
         }
 
-        if (!subsetDetected && defaultState.accessCoordinateBroker()->hasSubset(subset))
+        if (!subsetDetected && defaultState.getCoordinateBroker()->hasSubset(subset))
         {
             subsetDetected = true;
             subsetCoordinates = defaultStateInBrokerFrame.extractCoordinate(subset);
@@ -207,25 +207,15 @@ const State StateBuilder::expand(const State& aState, const State& defaultState)
         nextIndex += subsetCoordinates.size();
     }
 
-    if (Size(nonDefaultSubsetDetections) != aState.accessCoordinateBroker()->getNumberOfSubsets())
+    if (Size(nonDefaultSubsetDetections) != aState.getCoordinateBroker()->getNumberOfSubsets())
     {
         throw ostk::core::error::RuntimeError("The operation is not an expansion");
     }
 
-    return this->build(aState.accessInstant(), coordinates);
+    return this->build(aState.getInstant(), coordinates);
 }
 
-const Shared<const Frame> StateBuilder::accessFrame() const
-{
-    if (!this->isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("StateBuilder");
-    }
-
-    return this->frameSPtr_;
-}
-
-const Shared<const CoordinateBroker>& StateBuilder::accessCoordinateBroker() const
+const Shared<const CoordinateBroker>& StateBuilder::getCoordinateBroker() const
 {
     if (!this->isDefined())
     {
@@ -235,12 +225,17 @@ const Shared<const CoordinateBroker>& StateBuilder::accessCoordinateBroker() con
     return this->coordinatesBrokerSPtr_;
 }
 
-Shared<const Frame> StateBuilder::getFrame() const
+const Shared<const Frame>& StateBuilder::getFrame() const
 {
-    return this->accessFrame();
+    if (!this->isDefined())
+    {
+        throw ostk::core::error::runtime::Undefined("StateBuilder");
+    }
+
+    return this->frameSPtr_;
 }
 
-const Array<Shared<const CoordinateSubset>> StateBuilder::getCoordinateSubsets() const
+const Array<Shared<const CoordinateSubset>>& StateBuilder::getCoordinateSubsets() const
 {
     if (!this->isDefined())
     {

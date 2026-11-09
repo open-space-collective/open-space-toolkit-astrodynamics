@@ -90,7 +90,7 @@ class Dynamics
     /// @brief Get name
     ///
     /// @return Name of Dynamics
-    String getName() const;
+    const String& getName() const;
 
     /// @brief Print dynamics
     ///

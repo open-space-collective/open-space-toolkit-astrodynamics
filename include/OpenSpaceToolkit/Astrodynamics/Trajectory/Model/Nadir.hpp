@@ -61,7 +61,7 @@ class Nadir : public virtual Model
     /// @endcode
     ///
     /// @return The orbit of the nadir model
-    Orbit getOrbit() const;
+    const Orbit& getOrbit() const;
 
     /// @brief Get the step size of the nadir model
     ///
@@ -71,7 +71,7 @@ class Nadir : public virtual Model
     /// @endcode
     ///
     /// @return The step size of the nadir model
-    Duration getStepSize() const;
+    const Duration& getStepSize() const;
 
     /// @brief Equality operator
     ///

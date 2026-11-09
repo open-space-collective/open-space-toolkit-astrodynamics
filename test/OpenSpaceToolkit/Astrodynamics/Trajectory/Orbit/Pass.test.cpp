@@ -817,58 +817,58 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInterval)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtAscendingNode)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtAscendingNode)
 {
     {
-        EXPECT_THROW(Pass::Undefined().accessInstantAtAscendingNode(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().getInstantAtAscendingNode(), ostk::core::error::runtime::Undefined);
     }
 
     {
-        EXPECT_EQ(defaultPass_.accessInstantAtAscendingNode(), defaultInstantAtAscendingNode_);
+        EXPECT_EQ(defaultPass_.getInstantAtAscendingNode(), defaultInstantAtAscendingNode_);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtNorthPoint)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtNorthPoint)
 {
     {
-        EXPECT_THROW(Pass::Undefined().accessInstantAtNorthPoint(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().getInstantAtNorthPoint(), ostk::core::error::runtime::Undefined);
     }
 
     {
-        EXPECT_EQ(defaultPass_.accessInstantAtNorthPoint(), defaultInstantAtNorthPoint_);
+        EXPECT_EQ(defaultPass_.getInstantAtNorthPoint(), defaultInstantAtNorthPoint_);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtDescendingNode)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtDescendingNode)
 {
     {
-        EXPECT_THROW(Pass::Undefined().accessInstantAtDescendingNode(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().getInstantAtDescendingNode(), ostk::core::error::runtime::Undefined);
     }
 
     {
-        EXPECT_EQ(defaultPass_.accessInstantAtDescendingNode(), defaultInstantAtDescendingNode_);
+        EXPECT_EQ(defaultPass_.getInstantAtDescendingNode(), defaultInstantAtDescendingNode_);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtSouthPoint)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtSouthPoint)
 {
     {
-        EXPECT_THROW(Pass::Undefined().accessInstantAtSouthPoint(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().getInstantAtSouthPoint(), ostk::core::error::runtime::Undefined);
     }
 
     {
-        EXPECT_EQ(defaultPass_.accessInstantAtSouthPoint(), defaultInstantAtSouthPoint_);
+        EXPECT_EQ(defaultPass_.getInstantAtSouthPoint(), defaultInstantAtSouthPoint_);
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, AccessInstantAtPassBreak)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Pass, GetInstantAtPassBreak)
 {
     {
-        EXPECT_THROW(Pass::Undefined().accessInstantAtPassBreak(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(Pass::Undefined().getInstantAtPassBreak(), ostk::core::error::runtime::Undefined);
     }
 
     {
-        EXPECT_EQ(defaultPass_.accessInstantAtPassBreak(), defaultInstantAtPassBreak_);
+        EXPECT_EQ(defaultPass_.getInstantAtPassBreak(), defaultInstantAtPassBreak_);
     }
 }
 

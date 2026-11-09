@@ -217,14 +217,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, CopyCon
     {
         Propagator propagator(defaultPropagator_);
 
-        EXPECT_EQ(*propagator.accessCoordinateBroker(), *defaultPropagator_.accessCoordinateBroker());
+        EXPECT_EQ(*propagator.getCoordinateBroker(), *defaultPropagator_.getCoordinateBroker());
 
         propagator.setDynamics({std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(
             Earth::AtmosphericOnly(std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential))
         ))});
 
         // Ensure that a deep copy has occured and the original propagator and its memvar shared pointers are untouched
-        EXPECT_NE(*propagator.accessCoordinateBroker(), *defaultPropagator_.accessCoordinateBroker());
+        EXPECT_NE(*propagator.getCoordinateBroker(), *defaultPropagator_.getCoordinateBroker());
     }
 }
 
@@ -233,14 +233,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, CopyAss
     {
         Propagator propagator = defaultPropagator_;
 
-        EXPECT_EQ(*propagator.accessCoordinateBroker(), *defaultPropagator_.accessCoordinateBroker());
+        EXPECT_EQ(*propagator.getCoordinateBroker(), *defaultPropagator_.getCoordinateBroker());
 
         propagator.setDynamics({std::make_shared<AtmosphericDrag>(std::make_shared<Celestial>(
             Earth::AtmosphericOnly(std::make_shared<EarthAtmosphericModel>(EarthAtmosphericModel::Type::Exponential))
         ))});
 
         // Ensure that a deep copy has occured and the original propagator and its memvar shared pointers are untouched
-        EXPECT_NE(*propagator.accessCoordinateBroker(), *defaultPropagator_.accessCoordinateBroker());
+        EXPECT_NE(*propagator.getCoordinateBroker(), *defaultPropagator_.getCoordinateBroker());
     }
 }
 
@@ -327,28 +327,28 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Print)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessCoordinateBroker)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, GetCoordinateBroker)
 {
     {
-        Shared<CoordinateBroker> brokerSPtr = defaultPropagator_.accessCoordinateBroker();
+        Shared<CoordinateBroker> brokerSPtr = defaultPropagator_.getCoordinateBroker();
         EXPECT_TRUE(brokerSPtr != nullptr);
         EXPECT_EQ(brokerSPtr->getNumberOfCoordinates(), 6);
         EXPECT_EQ(brokerSPtr->getNumberOfSubsets(), 2);
     }
 
     {
-        EXPECT_ANY_THROW(Propagator::Undefined().accessCoordinateBroker());
+        EXPECT_ANY_THROW(Propagator::Undefined().getCoordinateBroker());
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, AccessNumericalSolver)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, GetNumericalSolver)
 {
     {
-        EXPECT_EQ(defaultPropagator_.accessNumericalSolver(), defaultNumericalSolver_);
+        EXPECT_EQ(defaultPropagator_.getNumericalSolver(), defaultNumericalSolver_);
     }
 
     {
-        EXPECT_ANY_THROW(Propagator::Undefined().accessNumericalSolver());
+        EXPECT_ANY_THROW(Propagator::Undefined().getNumericalSolver());
     }
 }
 
@@ -450,7 +450,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
 
         EXPECT_EQ(outputStateGCRF.getInstant(), outputStateGCRF2.getInstant());
         EXPECT_EQ(outputStateGCRF.getFrame(), outputStateGCRF2.getFrame());
-        EXPECT_EQ(outputStateGCRF.accessCoordinateBroker(), outputStateGCRF2.accessCoordinateBroker());
+        EXPECT_EQ(outputStateGCRF.getCoordinateBroker(), outputStateGCRF2.getCoordinateBroker());
 
         // Get the coordinates from the two states
         const VectorXd coordinates1 = outputStateGCRF.getCoordinates();
@@ -509,9 +509,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         };
 
         // Setup relevant instants
-        const Instant beforeManeuverInstant = defaultManeuverStates_[0].accessInstant() - Duration::Seconds(60.0);
+        const Instant beforeManeuverInstant = defaultManeuverStates_[0].getInstant() - Duration::Seconds(60.0);
         const Instant afterManeuverInstant =
-            defaultManeuverStates_[defaultManeuverStates_.getSize() - 1].accessInstant() + Duration::Seconds(60.0);
+            defaultManeuverStates_[defaultManeuverStates_.getSize() - 1].getInstant() + Duration::Seconds(60.0);
 
         const State stateBeforeManeuver = {
             beforeManeuverInstant,
@@ -551,7 +551,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
     const Instant endInstant = Instant::DateTime(DateTime(2018, 1, 2, 1, 0, 0), Scale::UTC);
     const InstantCondition condition = {
         InstantCondition::Criterion::StrictlyPositive,
-        state.accessInstant() + Duration::Seconds(60.0),
+        state.getInstant() + Duration::Seconds(60.0),
     };
 
     const Propagator propagator = {defaultRKD5_, defaultDynamics_};
@@ -563,12 +563,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         const State endState = conditionSolution.state;
 
         EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-        EXPECT_TRUE(endState.accessInstant() < endInstant);
-        EXPECT_LT((endState.accessInstant() - condition.getInstant()).inSeconds(), 1e-7);
+        EXPECT_TRUE(endState.getInstant() < endInstant);
+        EXPECT_LT((endState.getInstant() - condition.getInstant()).inSeconds(), 1e-7);
 
         const InstantCondition failureCondition = {
             InstantCondition::Criterion::StrictlyPositive,
-            state.accessInstant() + Duration::Seconds(7000.0),
+            state.getInstant() + Duration::Seconds(7000.0),
         };
 
         EXPECT_FALSE(propagator.calculateStateToCondition(state, endInstant, failureCondition).conditionIsSatisfied);
@@ -591,7 +591,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         const State outputStateGCRF2 = outputStateITRF.inFrame(Frame::GCRF());
 
         EXPECT_EQ(outputStateGCRF.getFrame(), outputStateGCRF2.getFrame());
-        EXPECT_EQ(outputStateGCRF.accessCoordinateBroker(), outputStateGCRF2.accessCoordinateBroker());
+        EXPECT_EQ(outputStateGCRF.getCoordinateBroker(), outputStateGCRF2.getCoordinateBroker());
 
         // Get the coordinates from the two states
         const VectorXd coordinates1 = outputStateGCRF.getCoordinates();
@@ -650,9 +650,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
         };
 
         // Setup instants and condition
-        const Instant beforeManeuverInstant = defaultManeuverStates_[0].accessInstant() - Duration::Seconds(60.0);
+        const Instant beforeManeuverInstant = defaultManeuverStates_[0].getInstant() - Duration::Seconds(60.0);
         const Instant afterManeuverInstant =
-            defaultManeuverStates_[defaultManeuverStates_.getSize() - 1].accessInstant() + Duration::Seconds(60.0);
+            defaultManeuverStates_[defaultManeuverStates_.getSize() - 1].getInstant() + Duration::Seconds(60.0);
 
         const InstantCondition afterManeuverCondition = {
             InstantCondition::Criterion::StrictlyPositive,
@@ -877,7 +877,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Calcula
 
             EXPECT_EQ(outputStatesGCRF[i].getInstant(), outputStateGCRF2.getInstant());
             EXPECT_EQ(outputStatesGCRF[i].getFrame(), outputStateGCRF2.getFrame());
-            EXPECT_EQ(outputStatesGCRF[i].accessCoordinateBroker(), outputStateGCRF2.accessCoordinateBroker());
+            EXPECT_EQ(outputStatesGCRF[i].getCoordinateBroker(), outputStateGCRF2.getCoordinateBroker());
 
             // Get the coordinates from the two states
             const VectorXd coordinates1 = outputStatesGCRF[i].getCoordinates();
@@ -1246,7 +1246,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
             const State coastState = propagator.calculateStateAt(initialState, endInstant);
             const State maneuverState = propagator.calculateStateAt(initialState, endInstant, {maneuver});
 
-            EXPECT_EQ(maneuverState.accessInstant(), endInstant);
+            EXPECT_EQ(maneuverState.getInstant(), endInstant);
             EXPECT_NEAR(massOf(maneuverState), initialMass - maneuverDeltaMass, 1e-9);
 
             const Vector3d deltaVelocity = maneuverState.extractCoordinate(CartesianVelocity::Default()) -
@@ -1277,7 +1277,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
             ASSERT_EQ(states.getSize(), instants.getSize());
             for (Size i = 0; i < states.getSize(); ++i)
             {
-                EXPECT_EQ(states[i].accessInstant(), instants[i]);
+                EXPECT_EQ(states[i].getInstant(), instants[i]);
                 EXPECT_NEAR(massOf(states[i]), expectedMasses[i], 1e-9) << "instant index " << i;
             }
         }
@@ -1301,7 +1301,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
             ASSERT_EQ(states.getSize(), instants.getSize());
             for (Size i = 0; i < states.getSize(); ++i)
             {
-                EXPECT_EQ(states[i].accessInstant(), instants[i]);
+                EXPECT_EQ(states[i].getInstant(), instants[i]);
                 EXPECT_NEAR(massOf(states[i]), expectedMasses[i], 1e-9) << "instant index " << i;
             }
 
@@ -1336,7 +1336,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
             );
 
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-            EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - condition.getInstant()).inSeconds()), 1e-3);
+            EXPECT_LT(std::abs((conditionSolution.state.getInstant() - condition.getInstant()).inSeconds()), 1e-3);
             EXPECT_NEAR(massOf(conditionSolution.state), initialMass - maneuverDeltaMass, 1e-9);
         }
 
@@ -1353,7 +1353,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
             );
 
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-            EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - condition.getInstant()).inSeconds()), 1e-3);
+            EXPECT_LT(std::abs((conditionSolution.state.getInstant() - condition.getInstant()).inSeconds()), 1e-3);
             EXPECT_NEAR(massOf(conditionSolution.state), initialMass - 0.5 * maneuverDeltaMass, 1e-5);
         }
 
@@ -1377,7 +1377,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
                 );
 
                 EXPECT_FALSE(conditionSolution.conditionIsSatisfied);
-                EXPECT_NEAR((conditionSolution.state.accessInstant() - endInstant).inSeconds(), 0.0, 1e-6);
+                EXPECT_NEAR((conditionSolution.state.getInstant() - endInstant).inSeconds(), 0.0, 1e-6);
                 EXPECT_NEAR(
                     massOf(conditionSolution.state),
                     initialMass + massFlowRate * (endInstant - maneuverStartInstant).inSeconds(),
@@ -1401,8 +1401,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
 
             EXPECT_TRUE(solutionBeforeManeuver.conditionIsSatisfied);
             EXPECT_LT(
-                std::abs(
-                    (solutionBeforeManeuver.state.accessInstant() - conditionBeforeManeuver.getInstant()).inSeconds()
+                std::abs((solutionBeforeManeuver.state.getInstant() - conditionBeforeManeuver.getInstant()).inSeconds()
                 ),
                 1e-3
             );
@@ -1418,8 +1417,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
 
             EXPECT_TRUE(solutionInManeuver.conditionIsSatisfied);
             EXPECT_LT(
-                std::abs((solutionInManeuver.state.accessInstant() - conditionInManeuver.getInstant()).inSeconds()),
-                1e-3
+                std::abs((solutionInManeuver.state.getInstant() - conditionInManeuver.getInstant()).inSeconds()), 1e-3
             );
             EXPECT_NEAR(massOf(solutionInManeuver.state), initialMass - 0.5 * maneuverDeltaMass, 1e-5);
         }
@@ -1499,8 +1497,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
     {
         ASSERT_GT(anObservedStateArray.getSize(), 2);
 
-        EXPECT_EQ(anObservedStateArray.accessFirst().accessInstant(), aStartInstant);
-        EXPECT_EQ(anObservedStateArray.accessLast().accessInstant(), anEndInstant);
+        EXPECT_EQ(anObservedStateArray.accessFirst().getInstant(), aStartInstant);
+        EXPECT_EQ(anObservedStateArray.accessLast().getInstant(), anEndInstant);
 
         const bool isForward = anEndInstant > aStartInstant;
 
@@ -1509,14 +1507,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
 
         for (Size i = 0; i < anObservedStateArray.getSize(); ++i)
         {
-            const Instant& instant = anObservedStateArray[i].accessInstant();
+            const Instant& instant = anObservedStateArray[i].getInstant();
 
             hasManeuverStart = hasManeuverStart || instant == epoch + Duration::Seconds(31.0);
             hasManeuverEnd = hasManeuverEnd || instant == epoch + Duration::Seconds(33.0);
 
             if (i > 0)
             {
-                const Instant& previousInstant = anObservedStateArray[i - 1].accessInstant();
+                const Instant& previousInstant = anObservedStateArray[i - 1].getInstant();
 
                 EXPECT_TRUE(isForward ? previousInstant < instant : previousInstant > instant) << "state index " << i;
             }
@@ -1545,11 +1543,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
             const Instant endInstant = epoch + Duration::Seconds(100.0);
 
             propagator.calculateStateAt(initialState, endInstant, {maneuver});
-            expectObservedStates(propagator.accessNumericalSolver().accessObservedStates(), epoch, endInstant, true);
+            expectObservedStates(propagator.getNumericalSolver().getObservedStates(), epoch, endInstant, true);
 
             // Without maneuvers, the observed states do not change
             propagator.calculateStateAt(initialState, endInstant);
-            expectObservedStates(propagator.accessNumericalSolver().accessObservedStates(), epoch, endInstant, false);
+            expectObservedStates(propagator.getNumericalSolver().getObservedStates(), epoch, endInstant, false);
         }
 
         // calculateStateAt backwards
@@ -1558,7 +1556,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
 
             propagator.calculateStateAt(initialState, epoch, {maneuver});
             expectObservedStates(
-                propagator.accessNumericalSolver().accessObservedStates(), epoch + Duration::Seconds(100.0), epoch, true
+                propagator.getNumericalSolver().getObservedStates(), epoch + Duration::Seconds(100.0), epoch, true
             );
         }
 
@@ -1574,11 +1572,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
                 initialState, epoch + Duration::Seconds(100.0), condition, {maneuver}
             );
 
-            const Array<State>& observedStates = propagator.accessNumericalSolver().accessObservedStates();
+            const Array<State>& observedStates = propagator.getNumericalSolver().getObservedStates();
 
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-            expectObservedStates(observedStates, epoch, conditionSolution.state.accessInstant(), true);
-            EXPECT_EQ(observedStates.accessLast().accessInstant(), conditionSolution.state.accessInstant());
+            expectObservedStates(observedStates, epoch, conditionSolution.state.getInstant(), true);
+            EXPECT_EQ(observedStates.accessLast().getInstant(), conditionSolution.state.getInstant());
         }
 
         // calculateStateToCondition: the condition is reached in the middle of the maneuver, so the states stop there
@@ -1593,12 +1591,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
                 initialState, epoch + Duration::Seconds(100.0), condition, {maneuver}
             );
 
-            const Array<State>& observedStates = propagator.accessNumericalSolver().accessObservedStates();
+            const Array<State>& observedStates = propagator.getNumericalSolver().getObservedStates();
 
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-            expectObservedStates(observedStates, epoch, conditionSolution.state.accessInstant(), false);
+            expectObservedStates(observedStates, epoch, conditionSolution.state.getInstant(), false);
             EXPECT_EQ(observedStates.accessLast(), conditionSolution.state);
-            EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - condition.getInstant()).inSeconds()), 1e-3);
+            EXPECT_LT(std::abs((conditionSolution.state.getInstant() - condition.getInstant()).inSeconds()), 1e-3);
         }
 
         // calculateStateToCondition: the condition is reached right after the maneuver. A solver that lets its last
@@ -1615,11 +1613,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
                 initialState, epoch + Duration::Seconds(100.0), condition, {maneuver}
             );
 
-            const Array<State>& observedStates = propagator.accessNumericalSolver().accessObservedStates();
+            const Array<State>& observedStates = propagator.getNumericalSolver().getObservedStates();
 
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
-            EXPECT_LT(std::abs((conditionSolution.state.accessInstant() - condition.getInstant()).inSeconds()), 1e-3);
-            expectObservedStates(observedStates, epoch, conditionSolution.state.accessInstant(), true);
+            EXPECT_LT(std::abs((conditionSolution.state.getInstant() - condition.getInstant()).inSeconds()), 1e-3);
+            expectObservedStates(observedStates, epoch, conditionSolution.state.getInstant(), true);
             EXPECT_EQ(observedStates.accessLast(), conditionSolution.state);
         }
 
@@ -1634,11 +1632,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
             const NumericalSolver::ConditionSolution conditionSolution =
                 propagator.calculateStateToCondition(initialState, epoch, condition, {maneuver});
 
-            const Array<State>& observedStates = propagator.accessNumericalSolver().accessObservedStates();
+            const Array<State>& observedStates = propagator.getNumericalSolver().getObservedStates();
 
             EXPECT_TRUE(conditionSolution.conditionIsSatisfied);
             expectObservedStates(
-                observedStates, epoch + Duration::Seconds(100.0), conditionSolution.state.accessInstant(), true
+                observedStates, epoch + Duration::Seconds(100.0), conditionSolution.state.getInstant(), true
             );
         }
     }

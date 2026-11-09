@@ -155,10 +155,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
             )
 
             .def(
-                "access_cached_state_array",
-                &Propagated::accessCachedStateArray,
+                "get_cached_state_array",
+                &Propagated::getCachedStateArray,
                 R"doc(
-                    Access the cached state array of the `Propagated` model.
+                    Get the cached state array of the `Propagated` model.
 
                     Returns:
                         list[State]: The cached state array.
@@ -167,10 +167,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
             )
 
             .def(
-                "access_propagator",
-                &Propagated::accessPropagator,
+                "get_propagator",
+                &Propagated::getPropagator,
                 R"doc(
-                    Access the propagator of the `Propagated` model.
+                    Get the propagator of the `Propagated` model.
 
                     Returns:
                         Propagator: The propagator.

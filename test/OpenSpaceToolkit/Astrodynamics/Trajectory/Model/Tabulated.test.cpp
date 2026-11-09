@@ -112,7 +112,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Constructor)
 
         for (Size i = 0; i < states_.getSize() - 1; ++i)
         {
-            const Instant instant = states_[i].accessInstant() + Duration::Seconds(13.0);
+            const Instant instant = states_[i].getInstant() + Duration::Seconds(13.0);
 
             const VectorXd fromMapCoordinates = tabulatedFromMap.calculateStateAt(instant).getCoordinates();
             const VectorXd fromTypeCoordinates = tabulatedFromType.calculateStateAt(instant).getCoordinates();
@@ -143,7 +143,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Constructor)
         EXPECT_TRUE(tabulatedFromMap != Tabulated(states_, Interpolator::Type::Linear));
 
         const State state =
-            tabulatedFromMap.calculateStateAt(states_.accessFirst().accessInstant() + Duration::Seconds(30.0));
+            tabulatedFromMap.calculateStateAt(states_.accessFirst().getInstant() + Duration::Seconds(30.0));
 
         EXPECT_TRUE(state.isDefined());
         EXPECT_TRUE(state.getCoordinates().allFinite());
@@ -177,7 +177,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, Default)
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
 {
-    const Instant queryInstant = states_.accessFirst().accessInstant() + Duration::Seconds(30.0);
+    const Instant queryInstant = states_.accessFirst().getInstant() + Duration::Seconds(30.0);
 
     // The default output frame is GCRF (backward-compatible behavior).
     {
@@ -202,7 +202,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Model_Tabulated, OutputFrame)
         // Interpolation now happens directly in the output frame: at a tabulated node the ITRF result matches the
         // input state expressed in ITRF (linear interpolation reproduces the nodes exactly).
         const State nodeState = states_[3];
-        EXPECT_TRUE(tabulatedITRF.calculateStateAt(nodeState.accessInstant())
+        EXPECT_TRUE(tabulatedITRF.calculateStateAt(nodeState.getInstant())
                         .getCoordinates()
                         .isApprox(nodeState.inFrame(Frame::ITRF()).getCoordinates(), 1e-8));
 

@@ -64,22 +64,22 @@ OrbitDeterminationSolver::OrbitDeterminationSolver(
     }
 }
 
-const Environment& OrbitDeterminationSolver::accessEnvironment() const
+const Environment& OrbitDeterminationSolver::getEnvironment() const
 {
     return environment_;
 }
 
-const Propagator& OrbitDeterminationSolver::accessPropagator() const
+const Propagator& OrbitDeterminationSolver::getPropagator() const
 {
     return propagator_;
 }
 
-const LeastSquaresSolver& OrbitDeterminationSolver::accessSolver() const
+const LeastSquaresSolver& OrbitDeterminationSolver::getSolver() const
 {
     return solver_;
 }
 
-const Shared<const Frame>& OrbitDeterminationSolver::accessEstimationFrame() const
+const Shared<const Frame>& OrbitDeterminationSolver::getEstimationFrame() const
 {
     return estimationFrameSPtr_;
 }
@@ -109,7 +109,7 @@ OrbitDeterminationSolver::Analysis OrbitDeterminationSolver::estimate(
 
     // Estimation state builder: Contains the subsets to be estimated.
     const StateBuilder estimationStateBuilder(
-        initialGuessStateInEstimationFrame.accessFrame(),
+        initialGuessStateInEstimationFrame.getFrame(),
         anEstimationCoordinateSubsets.isEmpty() ? initialGuessStateInEstimationFrame.getCoordinateSubsets()
                                                 : anEstimationCoordinateSubsets
     );

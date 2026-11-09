@@ -101,7 +101,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis : 
     const OrbitDeterminationSolver::Analysis analysis_ = {estimatedState_, leastSquaresAnalysis_};
 };
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver_Analysis, Getters)
 {
     {
         EXPECT_EQ(analysis_.estimatedState, estimatedState_);
@@ -213,15 +213,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Construct
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Getters)
 {
     {
         const OrbitDeterminationSolver odSolver(environment_, numericalSolver_);
 
-        EXPECT_EQ(odSolver.accessEnvironment().accessCentralCelestialObject()->getName(), "Earth");
-        EXPECT_TRUE(odSolver.accessPropagator().isDefined());
-        EXPECT_NO_THROW(odSolver.accessSolver());
-        EXPECT_EQ(odSolver.accessEstimationFrame()->getName(), "GCRF");
+        EXPECT_EQ(odSolver.getEnvironment().accessCentralCelestialObject()->getName(), "Earth");
+        EXPECT_TRUE(odSolver.getPropagator().isDefined());
+        EXPECT_NO_THROW(odSolver.getSolver());
+        EXPECT_EQ(odSolver.getEstimationFrame()->getName(), "GCRF");
     }
 }
 
@@ -232,7 +232,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
         const OrbitDeterminationSolver::Analysis analysis =
             odSolver_.estimate(observationStates_[0], observationStates_);
 
-        EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
+        EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.getFrame());
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.rmsError, 2.0);
@@ -246,7 +246,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
         const OrbitDeterminationSolver::Analysis analysis =
             odSolver_.estimate(initialGuessState, observationStates_, estimationSubsets);
 
-        EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
+        EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.getFrame());
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(
             analysis.solverAnalysis.rmsError, 18.0
@@ -258,7 +258,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
         const OrbitDeterminationSolver::Analysis analysis =
             odSolver_.estimate(observationStates_[0], observationStates_, {}, initialGuessSigmas_, observationSigmas_);
 
-        EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.accessFrame());
+        EXPECT_EQ(*estimationFrame_, *analysis.estimatedState.getFrame());
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(
             analysis.solverAnalysis.rmsError, 5.0
@@ -284,7 +284,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solver_OrbitDeterminationSolver, Estimate)
         const OrbitDeterminationSolver::Analysis analysis =
             odSolver.estimate(initialGuessStateInGCRF, observationStatesInITRF);
 
-        EXPECT_EQ(*estimationFrame, *analysis.estimatedState.accessFrame());
+        EXPECT_EQ(*estimationFrame, *analysis.estimatedState.getFrame());
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
         EXPECT_LT(analysis.solverAnalysis.rmsError, 2.0);
     }

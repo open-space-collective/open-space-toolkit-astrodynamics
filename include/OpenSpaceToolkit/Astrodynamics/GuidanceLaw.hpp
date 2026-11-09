@@ -59,7 +59,7 @@ class GuidanceLaw : public std::enable_shared_from_this<GuidanceLaw>
     /// @endcode
     ///
     /// @return The name.
-    String getName() const;
+    const String& getName() const;
 
     /// @brief Print guidance law
     ///

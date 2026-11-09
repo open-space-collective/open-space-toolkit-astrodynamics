@@ -79,7 +79,7 @@ Tabulated::Tabulated(
         return;
     }
 
-    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.accessCoordinateBroker();
+    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.getCoordinateBroker();
 
     // Index the requested interpolation types by coordinate subset id. Entries for coordinate subsets that are not
     // present in the states are ignored.
@@ -95,7 +95,7 @@ Tabulated::Tabulated(
     Array<Interpolator::Type> interpolationTypePerCoordinate = Array<Interpolator::Type>::Empty();
     interpolationTypePerCoordinate.reserve(coordinates.cols());
 
-    for (const auto& coordinateSubsetSPtr : coordinatesBroker->accessSubsets())
+    for (const auto& coordinateSubsetSPtr : coordinatesBroker->getSubsets())
     {
         const auto interpolationTypeIt = interpolationTypeBySubsetId.find(coordinateSubsetSPtr->getId());
 
@@ -174,7 +174,7 @@ bool Tabulated::isDefined() const
     return !interpolators_.isEmpty() && firstState_.isDefined() && lastState_.isDefined();
 }
 
-Shared<const Frame> Tabulated::getFrame() const
+const Shared<const Frame>& Tabulated::getFrame() const
 {
     return outputFrameSPtr_;
 }
@@ -186,7 +186,7 @@ Interval Tabulated::getInterval() const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    return Interval::Closed(firstState_.accessInstant(), lastState_.accessInstant());
+    return Interval::Closed(firstState_.getInstant(), lastState_.getInstant());
 }
 
 Interpolator::Type Tabulated::getInterpolationType() const
@@ -200,12 +200,12 @@ Interpolator::Type Tabulated::getInterpolationType() const
     return interpolators_[0]->getInterpolationType();
 }
 
-State Tabulated::getFirstState() const
+const State& Tabulated::getFirstState() const
 {
     return firstState_;
 }
 
-State Tabulated::getLastState() const
+const State& Tabulated::getLastState() const
 {
     return lastState_;
 }
@@ -227,13 +227,13 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
         throw ostk::core::error::runtime::Undefined("Tabulated");
     }
 
-    if (anInstant < firstState_.accessInstant() || anInstant > lastState_.accessInstant())
+    if (anInstant < firstState_.getInstant() || anInstant > lastState_.getInstant())
     {
         throw ostk::core::error::RuntimeError(String::Format(
             "Provided instant [{}] is outside of interpolation range [{}, {}].",
             anInstant.toString(),
-            firstState_.accessInstant().toString(),
-            lastState_.accessInstant().toString()
+            firstState_.getInstant().toString(),
+            lastState_.getInstant().toString()
         ));
     }
 
@@ -241,11 +241,11 @@ State Tabulated::calculateStateAt(const Instant& anInstant) const
 
     for (Index i = 0; i < interpolators_.getSize(); ++i)
     {
-        interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.accessInstant()).inSeconds());
+        interpolatedCoordinates(i) = interpolators_[i]->evaluate((anInstant - firstState_.getInstant()).inSeconds());
     }
 
     // The interpolators are built in the output frame, so the interpolated coordinates are already expressed in it.
-    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.accessCoordinateBroker();
+    const Shared<const CoordinateBroker>& coordinatesBroker = firstState_.getCoordinateBroker();
 
     return State(anInstant, interpolatedCoordinates, outputFrameSPtr_, coordinatesBroker);
 }
@@ -295,7 +295,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << "First state:"
             << (firstState.isDefined() ? String::Format(
                                              "{} - {} - {}",
-                                             firstState.accessInstant().toString(),
+                                             firstState.getInstant().toString(),
                                              firstState.getPosition().toString(),
                                              firstState.getVelocity().toString()
                                          )
@@ -310,7 +310,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
             << "Last state:"
             << (lastState.isDefined() ? String::Format(
                                             "{} - {} - {}",
-                                            lastState.accessInstant().toString(),
+                                            lastState.getInstant().toString(),
                                             lastState.getPosition().toString(),
                                             lastState.getVelocity().toString()
                                         )
@@ -388,9 +388,9 @@ bool Tabulated::computeInterpolationData(
     {
         const State stateInOutputFrame = stateArray[i].inFrame(outputFrameSPtr_);
 
-        aTimestampVector(i) = (stateInOutputFrame.accessInstant() - firstState_.accessInstant()).inSeconds();
+        aTimestampVector(i) = (stateInOutputFrame.getInstant() - firstState_.getInstant()).inSeconds();
 
-        aCoordinateMatrix.row(i) = stateInOutputFrame.accessCoordinates();
+        aCoordinateMatrix.row(i) = stateInOutputFrame.getCoordinates();
     }
 
     return true;

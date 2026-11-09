@@ -78,7 +78,7 @@ class ThirdBodyGravity : public Dynamics
     /// @endcode
     ///
     /// @return A shared pointer to the celestial object.
-    Shared<const Celestial> getCelestial() const;
+    const Shared<const Celestial>& getCelestial() const;
 
     /// @brief Get the coordinate subsets that the instance reads from.
     ///

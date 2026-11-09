@@ -293,7 +293,7 @@ class OpenSpaceToolkit_Astrodynamics_Solver_LeastSquaresSolver : public ::testin
         {
             EXPECT_EQ(covariance.getSize(), 6);
             EXPECT_EQ(covariance.getInstant(), anAnalysis.estimatedState.getInstant());
-            EXPECT_EQ(*covariance.getFrame(), *anAnalysis.estimatedState.accessFrame());
+            EXPECT_EQ(*covariance.getFrame(), *anAnalysis.estimatedState.getFrame());
             EXPECT_EQ(covariance.getCoordinateSubsets(), anAnalysis.estimatedState.getCoordinateSubsets());
             EXPECT_EQ(covariance.getCoordinates(), covariance.getCoordinates().transpose());
         }

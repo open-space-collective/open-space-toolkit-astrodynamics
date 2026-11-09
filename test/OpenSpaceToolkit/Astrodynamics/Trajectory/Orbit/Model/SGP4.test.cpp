@@ -471,7 +471,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, OutputFrame)
         EXPECT_EQ(Frame::TEME(), sgp4_.getOutputFrame());
 
         const State state = sgp4_.calculateStateAt(tle_.getEpoch());
-        EXPECT_EQ(*Frame::TEME(), *state.accessFrame());
+        EXPECT_EQ(*Frame::TEME(), *state.getFrame());
     }
 
     // Constructor with GCRF output frame
@@ -480,7 +480,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4, OutputFrame)
         EXPECT_EQ(Frame::GCRF(), sgp4.getOutputFrame());
 
         const State state = sgp4.calculateStateAt(tle_.getEpoch());
-        EXPECT_EQ(*Frame::GCRF(), *state.accessFrame());
+        EXPECT_EQ(*Frame::GCRF(), *state.getFrame());
     }
 }
 

@@ -62,7 +62,7 @@ class ConstantThrust : public GuidanceLaw
     /// @endcode
     ///
     /// @return Local orbital frame direction
-    LocalOrbitalFrameDirection getLocalThrustDirection() const;
+    const LocalOrbitalFrameDirection& getLocalThrustDirection() const;
 
     /// @brief Compute acceleration
     ///

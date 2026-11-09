@@ -468,9 +468,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, Getters)
     {
         EXPECT_EQ(
             defaultManeuver_.getInterval(),
-            Interval::Closed(
-                defaultStates_[0].accessInstant(), defaultStates_[defaultStates_.getSize() - 1].accessInstant()
-            )
+            Interval::Closed(defaultStates_[0].getInstant(), defaultStates_[defaultStates_.getSize() - 1].getInstant())
         );
     }
 }
@@ -674,13 +672,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
         const Array<Instant> instants = defaultStates_.map<Instant>(
             [](const auto& state)
             {
-                return state.accessInstant();
+                return state.getInstant();
             }
         );
 
-        EXPECT_EQ(tabulatedDynamicsSPtr->accessInstants(), instants);
+        EXPECT_EQ(tabulatedDynamicsSPtr->getInstants(), instants);
 
-        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->accessContributionProfile();
+        const MatrixXd contributionProfile = tabulatedDynamicsSPtr->getContributionProfile();
 
         EXPECT_EQ(contributionProfile.rows(), 4);
         EXPECT_EQ(contributionProfile.cols(), defaultStates_.getSize());
@@ -712,7 +710,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
             CartesianVelocity::Default(), CoordinateSubset::Mass()
         };
         EXPECT_EQ(tabulatedDynamicsSPtr->getWriteCoordinateSubsets(), writeCoordinateSubsets);
-        EXPECT_EQ(tabulatedDynamicsSPtr->accessFrame(), defaultFrameSPtr_);
+        EXPECT_EQ(tabulatedDynamicsSPtr->getFrame(), defaultFrameSPtr_);
     }
 
     {
@@ -1076,13 +1074,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
 
         const Vector3d state0ThrustAccelerationInLof =
             newStates[0]
-                .accessFrame()
-                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[0]), newStates[0].accessInstant())
+                .getFrame()
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[0]), newStates[0].getInstant())
                 .applyToVector(newStates[0].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
         const Vector3d state1ThrustAccelerationInLof =
             newStates[1]
-                .accessFrame()
-                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[1]), newStates[1].accessInstant())
+                .getFrame()
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[1]), newStates[1].getInstant())
                 .applyToVector(newStates[1].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
 
         EXPECT_TRUE(state0ThrustAccelerationInLof.isApprox(0.8 * expectedThrustAccelerationInLof, 1e-12));
@@ -1120,13 +1118,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
 
         const Vector3d state0ThrustAccelerationInLof =
             newStates[0]
-                .accessFrame()
-                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[0]), newStates[0].accessInstant())
+                .getFrame()
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[0]), newStates[0].getInstant())
                 .applyToVector(newStates[0].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
         const Vector3d state1ThrustAccelerationInLof =
             newStates[1]
-                .accessFrame()
-                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[1]), newStates[1].accessInstant())
+                .getFrame()
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[1]), newStates[1].getInstant())
                 .applyToVector(newStates[1].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
 
         EXPECT_TRUE(state0ThrustAccelerationInLof.isApprox(expectedThrustAccelerationInLof, 1e-12));
@@ -1155,8 +1153,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, toConstantLocalOrbitalFra
 
         const Vector3d state0ThrustAccelerationInLof =
             newStates[0]
-                .accessFrame()
-                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[0]), newStates[0].accessInstant())
+                .getFrame()
+                ->getTransformTo(localOrbitalFrameFactory.generateFrame(newStates[0]), newStates[0].getInstant())
                 .applyToVector(newStates[0].extractCoordinate(CartesianAcceleration::ThrustAcceleration()));
 
         EXPECT_TRUE(state0ThrustAccelerationInLof.isApprox(0.8 * expectedThrustAccelerationInLof, 1e-12));

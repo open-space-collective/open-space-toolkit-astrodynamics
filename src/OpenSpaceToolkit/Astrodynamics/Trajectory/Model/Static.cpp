@@ -64,7 +64,7 @@ bool Static::isDefined() const
     return position_.isDefined();
 }
 
-Shared<const Frame> Static::getFrame() const
+const Shared<const Frame>& Static::getFrame() const
 {
     return outputFrameSPtr_;
 }

@@ -39,7 +39,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_BooleanCondition : public ::
     const String defaultName_ = "Test Boolean Condition";
     const std::function<bool(const State&)> defaultEvaluator_ = [](const State& aState) -> double
     {
-        return aState.accessCoordinates()[0] > 0.0;
+        return aState.getCoordinates()[0] > 0.0;
     };
     const bool defaultInverseFlag_ = true;
     const BooleanCondition defaultCondition_ = {

@@ -187,7 +187,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The inclination.
-    Angle getInclination() const;
+    const Angle& getInclination() const;
 
     /// @brief Get the right ascension of the ascending node.
     ///
@@ -196,7 +196,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The right ascension of the ascending node.
-    Angle getRaan() const;
+    const Angle& getRaan() const;
 
     /// @brief Get the eccentricity.
     ///
@@ -214,7 +214,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The argument of periapsis.
-    Angle getAop() const;
+    const Angle& getAop() const;
 
     /// @brief Get the mean anomaly.
     ///
@@ -223,7 +223,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The mean anomaly.
-    Angle getMeanAnomaly() const;
+    const Angle& getMeanAnomaly() const;
 
     /// @brief Get the mean motion.
     ///
@@ -234,7 +234,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The mean motion.
-    Derived getMeanMotion() const;
+    const Derived& getMeanMotion() const;
 
     /// @brief Get the B* drag term.
     ///
@@ -261,7 +261,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The output frame.
-    Shared<const Frame> getOutputFrame() const;
+    const Shared<const Frame>& getOutputFrame() const;
 
     /// @brief Calculate the state at a given instant.
     ///

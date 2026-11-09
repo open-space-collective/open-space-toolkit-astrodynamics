@@ -43,7 +43,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
     accessTargetClass
         .def(
             "get_type",
-            &AccessTarget::accessType,
+            &AccessTarget::getType,
             R"doc(
                 Get the type of the access target.
 
@@ -53,7 +53,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
         )
         .def(
             "get_visibility_criterion",
-            &AccessTarget::accessVisibilityCriterion,
+            &AccessTarget::getVisibilityCriterion,
             R"doc(
                 Get the visibility criterion associated with the access target.
 
@@ -63,7 +63,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
         )
         .def(
             "get_trajectory",
-            &AccessTarget::accessTrajectory,
+            &AccessTarget::getTrajectory,
             R"doc(
                 Get the trajectory associated with the access target.
 

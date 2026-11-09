@@ -30,11 +30,6 @@ class TestCoordinateBroker:
     def test_ne(self, coordinate_broker: CoordinateBroker):
         assert (coordinate_broker != coordinate_broker) == False
 
-    def test_access_subsets(
-        self, coordinate_broker: CoordinateBroker, coordinate_subsets: list
-    ):
-        assert coordinate_broker.access_subsets() == coordinate_subsets
-
     def test_get_number_of_coordinates(self, coordinate_broker: CoordinateBroker):
         assert coordinate_broker.get_number_of_coordinates() == 5
 

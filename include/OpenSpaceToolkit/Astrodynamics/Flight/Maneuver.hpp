@@ -127,7 +127,7 @@ class Maneuver
     /// @endcode
     ///
     /// @return The states
-    Array<State> getStates() const;
+    const Array<State>& getStates() const;
 
     /// @brief Get the interpolation type of the maneuver
     ///

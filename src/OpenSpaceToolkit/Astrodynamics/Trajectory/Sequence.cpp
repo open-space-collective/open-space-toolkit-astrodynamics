@@ -257,22 +257,22 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Sequence& aSequence
     return anOutputStream;
 }
 
-Array<Segment> Sequence::getSegments() const
+const Array<Segment>& Sequence::getSegments() const
 {
     return segments_;
 }
 
-NumericalSolver Sequence::getNumericalSolver() const
+const NumericalSolver& Sequence::getNumericalSolver() const
 {
     return numericalSolver_;
 }
 
-Array<Shared<Dynamics>> Sequence::getDynamics() const
+const Array<Shared<Dynamics>>& Sequence::getDynamics() const
 {
     return dynamics_;
 }
 
-Duration Sequence::getMaximumPropagationDuration() const
+const Duration& Sequence::getMaximumPropagationDuration() const
 {
     return segmentPropagationDurationLimit_;
 }
@@ -327,7 +327,7 @@ Sequence::Solution Sequence::solve(const State& aState, const Size& aRepetitionC
             Segment::Solution segmentSolution =
                 segment.solve(initialState, segmentPropagationDurationLimit_, previousManeuverIntervals);
 
-            const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.accessFrame());
+            const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.getFrame());
 
             for (const auto& maneuver : solutionManeuvers)
             {
@@ -386,7 +386,7 @@ Sequence::Solution Sequence::solveToCondition(
             Segment::Solution segmentSolution =
                 segment.solve(initialState, segmentPropagationDurationLimit, previousManeuverIntervals);
 
-            const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.accessFrame());
+            const Array<Maneuver> solutionManeuvers = segmentSolution.extractManeuvers(aState.getFrame());
 
             for (const auto& maneuver : solutionManeuvers)
             {

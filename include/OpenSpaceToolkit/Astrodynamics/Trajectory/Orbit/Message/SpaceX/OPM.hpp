@@ -156,7 +156,7 @@ class OPM
     /// @endcode
     ///
     /// @return The OPM header.
-    OPM::Header getHeader() const;
+    const OPM::Header& getHeader() const;
 
     /// @brief Get all deployments in the OPM.
     ///
@@ -166,7 +166,7 @@ class OPM
     /// @endcode
     ///
     /// @return An array of OPM deployments.
-    Array<OPM::Deployment> getDeployments() const;
+    const Array<OPM::Deployment>& getDeployments() const;
 
     /// @brief Get the deployment at a given index.
     ///
@@ -177,7 +177,7 @@ class OPM
     ///
     /// @param anIndex A deployment index.
     /// @return The OPM deployment at the given index.
-    OPM::Deployment getDeploymentAt(const Index& anIndex) const;
+    const OPM::Deployment& getDeploymentAt(const Index& anIndex) const;
 
     /// @brief Get the deployment with a given name.
     ///

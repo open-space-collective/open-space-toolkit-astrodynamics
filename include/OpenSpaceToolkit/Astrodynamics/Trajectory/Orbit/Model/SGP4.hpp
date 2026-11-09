@@ -172,7 +172,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The Two-Line Element set.
-    TLE getTle() const;
+    const TLE& getTle() const;
 
     /// @brief Get the array of TLEs associated with this model.
     ///
@@ -182,7 +182,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The array of Two-Line Element sets.
-    Array<TLE> getTles() const;
+    const Array<TLE>& getTles() const;
 
     /// @brief Get the validity intervals associated with the TLEs.
     ///
@@ -192,7 +192,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The array of validity intervals.
-    Array<Interval> getValidityIntervals() const;
+    const Array<Interval>& getValidityIntervals() const;
 
     /// @brief Get the output frame of the SGP4 model.
     ///
@@ -202,7 +202,7 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     /// @endcode
     ///
     /// @return The output frame.
-    Shared<const Frame> getOutputFrame() const;
+    const Shared<const Frame>& getOutputFrame() const;
 
     /// @brief Get the epoch of the SGP4 model.
     ///

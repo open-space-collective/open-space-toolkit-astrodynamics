@@ -76,30 +76,30 @@ class TestTLESolver:
         tle_solver: TLESolver,
     ):
         assert isinstance(tle_solver, TLESolver)
-        assert tle_solver.access_satellite_number() == 25544
-        assert tle_solver.access_international_designator() == "98067A"
-        assert tle_solver.access_revolution_number() == 12345
-        assert tle_solver.access_estimate_b_star() is True
+        assert tle_solver.get_satellite_number() == 25544
+        assert tle_solver.get_international_designator() == "98067A"
+        assert tle_solver.get_revolution_number() == 12345
+        assert tle_solver.get_estimate_b_star() is True
 
     def test_constructor_defaults(self):
         solver = TLESolver()
-        assert solver.access_satellite_number() == 0
-        assert solver.access_international_designator() == "00001A"
-        assert solver.access_revolution_number() == 0
-        assert solver.access_estimate_b_star() is True
+        assert solver.get_satellite_number() == 0
+        assert solver.get_international_designator() == "00001A"
+        assert solver.get_revolution_number() == 0
+        assert solver.get_estimate_b_star() is True
 
-    def test_access_methods(self, tle_solver: TLESolver):
-        assert isinstance(tle_solver.access_solver(), LeastSquaresSolver)
-        assert isinstance(tle_solver.access_default_b_star(), float)
+    def test_get_methods(self, tle_solver: TLESolver):
+        assert isinstance(tle_solver.get_solver(), LeastSquaresSolver)
+        assert isinstance(tle_solver.get_default_b_star(), float)
         assert isinstance(
-            tle_solver.access_first_derivative_mean_motion_divided_by_2(), float
+            tle_solver.get_first_derivative_mean_motion_divided_by_2(), float
         )
         assert isinstance(
-            tle_solver.access_second_derivative_mean_motion_divided_by_6(), float
+            tle_solver.get_second_derivative_mean_motion_divided_by_6(), float
         )
-        assert isinstance(tle_solver.access_ephemeris_type(), int)
-        assert isinstance(tle_solver.access_element_set_number(), int)
-        assert isinstance(tle_solver.access_tle_state_builder(), StateBuilder)
+        assert isinstance(tle_solver.get_ephemeris_type(), int)
+        assert isinstance(tle_solver.get_element_set_number(), int)
+        assert isinstance(tle_solver.get_tle_state_builder(), StateBuilder)
 
     def test_estimate_from_tle(
         self,

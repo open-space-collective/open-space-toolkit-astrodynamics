@@ -504,20 +504,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetDragCoef
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, AccessPropulsionSystem)
-{
-    {
-        EXPECT_EQ(satelliteSystem_.accessPropulsionSystem(), propulsionSystem_);
-    }
-
-    {
-        const SatelliteSystem aSatelliteSystem = {
-            mass_, satelliteGeometry_, satelliteInertiaTensor_, crossSectionalSurfaceArea_, dragCoefficient_
-        };
-        EXPECT_THROW(aSatelliteSystem.accessPropulsionSystem(), ostk::core::error::runtime::Undefined);
-    }
-}
-
 TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetPropulsionSystem)
 {
     {

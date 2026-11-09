@@ -175,7 +175,7 @@ const MatrixXd& Covariance::getCoordinates() const
 
 const Array<Shared<const CoordinateSubset>>& Covariance::getCoordinateSubsets() const
 {
-    return this->coordinatesBrokerSPtr_->accessSubsets();
+    return this->coordinatesBrokerSPtr_->getSubsets();
 }
 
 MatrixXd Covariance::extractCoordinate(const Shared<const CoordinateSubset>& aSubsetSPtr) const
@@ -239,7 +239,7 @@ Covariance Covariance::rotate(const Shared<const Frame>& aFrameSPtr) const
     MatrixXd transformationMatrix = MatrixXd::Identity(size, size);
 
     Index startIndex = 0;
-    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->accessSubsets())
+    for (const Shared<const CoordinateSubset>& subset : this->coordinatesBrokerSPtr_->getSubsets())
     {
         const Size subsetSize = subset->getSize();
 

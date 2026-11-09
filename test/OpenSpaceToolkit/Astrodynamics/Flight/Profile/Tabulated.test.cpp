@@ -199,8 +199,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Getters)
 {
     {
         const Interval interval = tabulated_.getInterval();
-        EXPECT_EQ(interval.getStart(), states_.accessFirst().accessInstant());
-        EXPECT_EQ(interval.getEnd(), states_.accessLast().accessInstant());
+        EXPECT_EQ(interval.getStart(), states_.accessFirst().getInstant());
+        EXPECT_EQ(interval.getEnd(), states_.accessLast().getInstant());
     }
 
     {
@@ -237,7 +237,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
     // state at the start of the interval
     {
         const State expectedState = states_.accessFirst();
-        const Instant instant = expectedState.accessInstant();
+        const Instant instant = expectedState.getInstant();
         const State state = tabulated_.calculateStateAt(instant);
 
         EXPECT_EQ(state.getInstant(), instant);
@@ -258,7 +258,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
     // state at the end of the interval
     {
         const State expectedState = states_.accessLast();
-        const Instant instant = expectedState.accessInstant();
+        const Instant instant = expectedState.getInstant();
         const State state = tabulated_.calculateStateAt(instant);
 
         EXPECT_EQ(state.getInstant(), instant);
@@ -278,7 +278,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Calculate
 
     // state outside the interval
     {
-        const Instant instant = states_.accessLast().accessInstant() + Duration::Seconds(1.0);
+        const Instant instant = states_.accessLast().getInstant() + Duration::Seconds(1.0);
         EXPECT_THROW(tabulated_.calculateStateAt(instant), ostk::core::error::RuntimeError);
     }
 }
@@ -314,19 +314,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Profile_Models_Tabulated, Construct
         const Shared<const Frame> bodyFrame = tabulated_.constructBodyFrame("test");
         EXPECT_EQ(bodyFrame->getName(), "test");
         EXPECT_EQ(
-            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getTranslation(),
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().getInstant()).getTranslation(),
             -states_.accessFirst().getPosition().getCoordinates()
         );
         EXPECT_EQ(
-            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getVelocity(),
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().getInstant()).getVelocity(),
             -states_.accessFirst().getVelocity().getCoordinates()
         );
         EXPECT_EQ(
-            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getOrientation(),
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().getInstant()).getOrientation(),
             states_.accessFirst().getAttitude().normalize()
         );
         EXPECT_EQ(
-            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().accessInstant()).getAngularVelocity(),
+            Frame::GCRF()->getTransformTo(bodyFrame, states_.accessFirst().getInstant()).getAngularVelocity(),
             Vector3d::Zero()
         );
     }

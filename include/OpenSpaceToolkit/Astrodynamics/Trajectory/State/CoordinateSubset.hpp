@@ -76,12 +76,12 @@ class CoordinateSubset
     /// @brief Return the unique identifier of the instance
     ///
     /// @return The unique identifier of the instance
-    String getId() const;
+    const String& getId() const;
 
     /// @brief Return the name of the instance
     ///
     /// @return The name of the instance
-    String getName() const;
+    const String& getName() const;
 
     /// @brief Return the size (i.e. dimension) of the instance
     ///

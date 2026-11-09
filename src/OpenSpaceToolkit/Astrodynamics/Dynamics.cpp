@@ -56,7 +56,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const Dynamics& aDynamics
     return anOutputStream;
 }
 
-String Dynamics::getName() const
+const String& Dynamics::getName() const
 {
     return name_;
 }

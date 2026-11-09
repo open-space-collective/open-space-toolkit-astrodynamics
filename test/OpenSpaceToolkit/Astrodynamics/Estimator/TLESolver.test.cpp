@@ -214,20 +214,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Constructor)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Getters)
 {
     {
-        EXPECT_NO_THROW(tleSolver_.accessSolver());
-        EXPECT_EQ(tleSolver_.accessSatelliteNumber(), 0);
-        EXPECT_EQ(tleSolver_.accessInternationalDesignator(), "00001A");
-        EXPECT_EQ(tleSolver_.accessRevolutionNumber(), 0);
-        EXPECT_EQ(tleSolver_.accessEstimateBStar(), true);
-        EXPECT_EQ(tleSolver_.accessDefaultBStar(), 0.0);
-        EXPECT_EQ(tleSolver_.accessFirstDerivativeMeanMotionDividedBy2(), 0.0);
-        EXPECT_EQ(tleSolver_.accessSecondDerivativeMeanMotionDividedBy6(), 0.0);
-        EXPECT_EQ(tleSolver_.accessEphemerisType(), 0);
-        EXPECT_EQ(tleSolver_.accessElementSetNumber(), 0);
-        EXPECT_NO_THROW(tleSolver_.accessTLEStateBuilder());
+        EXPECT_NO_THROW(tleSolver_.getSolver());
+        EXPECT_EQ(tleSolver_.getSatelliteNumber(), 0);
+        EXPECT_EQ(tleSolver_.getInternationalDesignator(), "00001A");
+        EXPECT_EQ(tleSolver_.getRevolutionNumber(), 0);
+        EXPECT_EQ(tleSolver_.getEstimateBStar(), true);
+        EXPECT_EQ(tleSolver_.getDefaultBStar(), 0.0);
+        EXPECT_EQ(tleSolver_.getFirstDerivativeMeanMotionDividedBy2(), 0.0);
+        EXPECT_EQ(tleSolver_.getSecondDerivativeMeanMotionDividedBy6(), 0.0);
+        EXPECT_EQ(tleSolver_.getEphemerisType(), 0);
+        EXPECT_EQ(tleSolver_.getElementSetNumber(), 0);
+        EXPECT_NO_THROW(tleSolver_.getTLEStateBuilder());
     }
 }
 
@@ -239,14 +239,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_InitialGues
         const TLESolver::Analysis analysis = tleSolver_.estimate(std::make_pair(observations[0], 3.5e-4), observations);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
+        EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.getSolver().getMaxIterationCount());
         EXPECT_LT(analysis.solverAnalysis.rmsError, 510.0);
 
         // Verify re-running with same TLE as initial guess
         const TLESolver::Analysis secondAnalysis = tleSolver_.estimate(analysis.estimatedTLE, observations);
 
         EXPECT_EQ(secondAnalysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(secondAnalysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
+        EXPECT_LT(secondAnalysis.solverAnalysis.iterationCount, tleSolver_.getSolver().getMaxIterationCount());
         EXPECT_LT(secondAnalysis.solverAnalysis.rmsError, 510.0);
     }
 }
@@ -284,7 +284,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithBStar_
             tleSolver_.estimate(std::make_pair(observations[0], testBStar_), observations);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
+        EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.getSolver().getMaxIterationCount());
         EXPECT_LT(analysis.solverAnalysis.rmsError, maximumRmsError);
 
         // Verify estimated TLE accuracy
@@ -349,7 +349,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithoutBSt
         const TLESolver::Analysis analysis = tleSolver_.estimate(observations[0], observations);
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-        EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.accessSolver().getMaxIterationCount());
+        EXPECT_LT(analysis.solverAnalysis.iterationCount, tleSolver_.getSolver().getMaxIterationCount());
         EXPECT_LT(analysis.solverAnalysis.rmsError, maximumRmsError);
 
         // Verify estimated TLE accuracy
@@ -505,7 +505,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDe
     const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 4e-4), observations);
 
     EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.getSolver().getMaxIterationCount());
 
     // Verify the estimated TLE is valid by propagating
     const TLE estimatedTLE = analysis.estimatedTLE;
@@ -516,7 +516,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_SatelliteDe
         const State propagatedState = sgp4.calculateStateAt(observations[i].getInstant());
         const Vector3d positionDelta =
             propagatedState.getPosition().getCoordinates() -
-            observations[i].inFrame(propagatedState.accessFrame()).getPosition().getCoordinates();
+            observations[i].inFrame(propagatedState.getFrame()).getPosition().getCoordinates();
 
         EXPECT_LT(positionDelta.norm(), 5000.0);
     }
@@ -536,7 +536,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Eccentricit
     const TLESolver::Analysis analysis = solver.estimate(std::make_pair(observations[0], 4e-4), observations);
 
     EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.getSolver().getMaxIterationCount());
 
     // Verify the estimated TLE is valid by propagating
     const TLE estimatedTLE = analysis.estimatedTLE;
@@ -547,7 +547,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Eccentricit
         const State propagatedState = sgp4.calculateStateAt(observations[i].getInstant());
         const Vector3d positionDelta =
             propagatedState.getPosition().getCoordinates() -
-            observations[i].inFrame(propagatedState.accessFrame()).getPosition().getCoordinates();
+            observations[i].inFrame(propagatedState.getFrame()).getPosition().getCoordinates();
 
         EXPECT_LT(positionDelta.norm(), 5000.0);
     }
@@ -657,7 +657,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
     ASSERT_NO_THROW(analysis = solver.estimate(observations[0], observations));
 
     EXPECT_EQ(analysis->solverAnalysis.terminationCriteria, "RMS Update Threshold");
-    EXPECT_LT(analysis->solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+    EXPECT_LT(analysis->solverAnalysis.iterationCount, solver.getSolver().getMaxIterationCount());
 
     // The arc is near-circular, which is the whole point of the case.
     EXPECT_LT(analysis->estimatedTLE.getEccentricity(), 1e-4);

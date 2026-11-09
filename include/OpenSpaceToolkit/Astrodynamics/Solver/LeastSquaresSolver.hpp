@@ -155,7 +155,7 @@ class LeastSquaresSolver
     /// @brief Get finite difference solver
     ///
     /// @return Finite difference solver
-    FiniteDifferenceSolver getFiniteDifferenceSolver() const;
+    const FiniteDifferenceSolver& getFiniteDifferenceSolver() const;
 
     /// @brief Get the scale factor generator
     ///
@@ -164,7 +164,7 @@ class LeastSquaresSolver
     /// @endcode
     ///
     /// @return Scale factor generator function
-    ScaleFactorGenerator getScaleFactorGenerator() const;
+    const ScaleFactorGenerator& getScaleFactorGenerator() const;
 
     /// @brief Solve the non-linear least squares problem
     /// Ref: https://www.sciencedirect.com/book/9780126836301/statistical-orbit-determination (Chapter 4, pg 196 for

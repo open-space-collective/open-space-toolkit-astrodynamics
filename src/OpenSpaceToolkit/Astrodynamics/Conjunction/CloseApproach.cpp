@@ -69,7 +69,7 @@ CloseApproach::CloseApproach(const State& anObject1State, const State& anObject2
             CartesianVelocity::Default(),
         };
 
-        stateBuilder_ = StateBuilder(anObject1State.accessFrame(), coordinateSubsets);
+        stateBuilder_ = StateBuilder(anObject1State.getFrame(), coordinateSubsets);
     }
 }
 
@@ -85,7 +85,7 @@ bool CloseApproach::isDefined() const
     return object1State_.isDefined() && object2State_.isDefined() && stateBuilder_.isDefined();
 }
 
-Instant CloseApproach::getInstant() const
+const Instant& CloseApproach::getInstant() const
 {
     if (!this->isDefined())
     {
@@ -95,7 +95,7 @@ Instant CloseApproach::getInstant() const
     return object1State_.getInstant();
 }
 
-State CloseApproach::getObject1State() const
+const State& CloseApproach::getObject1State() const
 {
     if (!this->isDefined())
     {
@@ -105,7 +105,7 @@ State CloseApproach::getObject1State() const
     return object1State_;
 }
 
-State CloseApproach::getObject2State() const
+const State& CloseApproach::getObject2State() const
 {
     if (!this->isDefined())
     {
@@ -154,7 +154,7 @@ State CloseApproach::computeRelativeState() const
     }
 
     const State reducedObject1State = stateBuilder_.reduce(object1State_);
-    const State reducedObject2State = stateBuilder_.reduce(object2State_.inFrame(object1State_.accessFrame()));
+    const State reducedObject2State = stateBuilder_.reduce(object2State_.inFrame(object1State_.getFrame()));
 
     return reducedObject2State - reducedObject1State;
 }
@@ -285,7 +285,7 @@ Shared<const Frame> CloseApproach::computeEncounterFrame(const Shared<const Fram
         Quaternion::RotationMatrix(RotationMatrix::Rows(xAxis, yAxis, zAxis)).toNormalized().rectify();
 
     const Transform transform = {
-        object1StateInFrame.accessInstant(),
+        object1StateInFrame.getInstant(),
         -positionCoordinates,
         -velocityCoordinates,
         transformOrientation,
@@ -295,7 +295,7 @@ Shared<const Frame> CloseApproach::computeEncounterFrame(const Shared<const Fram
 
     const String frameName = String::Format(
         "ENCOUNTER@{}{}{}{}{}{}",
-        object1StateInFrame.accessInstant().toString(),
+        object1StateInFrame.getInstant().toString(),
         positionCoordinates.toString(),
         velocityCoordinates.toString(),
         relativePositionCoordinates.toString(),

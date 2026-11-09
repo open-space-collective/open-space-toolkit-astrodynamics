@@ -189,7 +189,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
     };
 
     const Array<Instant> instants =
-        Interval::Closed(initialState.accessInstant(), initialState.accessInstant() + Duration::Hours(1.5))
+        Interval::Closed(initialState.getInstant(), initialState.getInstant() + Duration::Hours(1.5))
             .generateGrid(Duration::Minutes(1.0));
 
     const PropulsionSystem propulsionSystem = {1e-1, 3000.0};
@@ -212,7 +212,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
     for (Size i = 0; i < statesWithThruster.getSize(); i++)
     {
         const VectorXd contribution = dynamicsWithThruster[dynamicsWithThruster.getSize() - 1]->computeContribution(
-            statesWithThruster[i].accessInstant(), statesWithThruster[i].accessCoordinates(), gcrfSPtr_
+            statesWithThruster[i].getInstant(), statesWithThruster[i].getCoordinates(), gcrfSPtr_
         );
         contributions.row(i) = contribution;
     }

@@ -111,7 +111,7 @@ bool LocalOrbitalFrameFactory::isDefined() const
            (type_ != LocalOrbitalFrameTransformProvider::Type::Undefined);
 }
 
-const Shared<const Frame>& LocalOrbitalFrameFactory::accessParentFrame() const
+const Shared<const Frame>& LocalOrbitalFrameFactory::getParentFrame() const
 {
     if (!this->isDefined())
     {
@@ -197,7 +197,7 @@ LocalOrbitalFrameFactory::LocalOrbitalFrameFactory(
 
 String LocalOrbitalFrameFactory::generateFrameName(const State& aState) const
 {
-    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + aState.accessInstant().toString() +
+    return LocalOrbitalFrameTransformProvider::StringFromType(type_) + "@" + aState.getInstant().toString() +
            aState.getPosition().getCoordinates().toString() + aState.getVelocity().getCoordinates().toString();
 }
 

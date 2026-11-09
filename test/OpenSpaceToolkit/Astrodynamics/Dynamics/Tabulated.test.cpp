@@ -200,7 +200,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Print)
     EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, GetInstantsContributionProfileAndFrame)
 {
     Tabulated tabulated = {
         defaultInstants_,
@@ -210,15 +210,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated, Accessors)
     };
 
     {
-        EXPECT_EQ(tabulated.accessInstants(), defaultInstants_);
+        EXPECT_EQ(tabulated.getInstants(), defaultInstants_);
     }
 
     {
-        EXPECT_EQ(tabulated.accessContributionProfile(), contributionProfile_);
+        EXPECT_EQ(tabulated.getContributionProfile(), contributionProfile_);
     }
 
     {
-        EXPECT_EQ(tabulated.accessFrame(), defaultFrameSPtr_);
+        EXPECT_EQ(tabulated.getFrame(), defaultFrameSPtr_);
     }
 }
 

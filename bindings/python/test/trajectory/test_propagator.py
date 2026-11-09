@@ -286,10 +286,10 @@ class TestPropagator:
     def test_comparators(self, propagator: Propagator):
         assert propagator == propagator
 
-    def test_access_numerical_solver(
+    def test_get_numerical_solver(
         self, propagator: Propagator, numerical_solver: NumericalSolver
     ):
-        assert propagator.access_numerical_solver() == numerical_solver
+        assert propagator.get_numerical_solver() == numerical_solver
 
     def test_get_dynamics(self, propagator: Propagator, dynamics: list):
         assert propagator.get_dynamics() == dynamics
@@ -389,7 +389,7 @@ class TestPropagator:
         propagator.calculate_state_at(state_with_mass, end_instant, [maneuver])
 
         observed_states: list[State] = (
-            propagator.access_numerical_solver().get_observed_states()
+            propagator.get_numerical_solver().get_observed_states()
         )
 
         assert observed_states[0].get_instant() == start_instant

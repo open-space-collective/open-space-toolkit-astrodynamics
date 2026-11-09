@@ -121,7 +121,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Const
                 const Vector3d transformAngularVelocity = {0.0, 0.0, 0.0};
 
                 return {
-                    aState.accessInstant(),
+                    aState.getInstant(),
                     transformPosition,
                     transformVelocity,
                     transformOrientation,
@@ -197,16 +197,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, NotEq
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_LocalOrbitalFrameFactory, Getters)
 {
     {
-        EXPECT_EQ(gcrfSPtr_, LOFFactory_.accessParentFrame());
+        EXPECT_EQ(gcrfSPtr_, LOFFactory_.getParentFrame());
     }
 
     {
         EXPECT_ANY_THROW(
             LocalOrbitalFrameFactory::Construct(LocalOrbitalFrameTransformProvider::Type::Undefined, gcrfSPtr_)
-                .accessParentFrame()
+                .getParentFrame()
         );
     }
 }

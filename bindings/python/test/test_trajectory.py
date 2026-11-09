@@ -81,11 +81,11 @@ class TestTrajectory:
     ):
         assert trajectory.is_defined()
 
-    def test_access_model(
+    def test_get_model(
         self,
         trajectory: Trajectory,
     ):
-        assert trajectory.access_model() is not None
+        assert trajectory.get_model() is not None
 
     def test_get_state_at(
         self,

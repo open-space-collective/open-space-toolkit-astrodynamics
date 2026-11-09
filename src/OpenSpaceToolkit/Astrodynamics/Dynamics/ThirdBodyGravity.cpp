@@ -79,7 +79,7 @@ bool ThirdBodyGravity::isDefined() const
     return celestialObjectSPtr_->isDefined();
 }
 
-Shared<const Celestial> ThirdBodyGravity::getCelestial() const
+const Shared<const Celestial>& ThirdBodyGravity::getCelestial() const
 {
     if (!celestialObjectSPtr_->isDefined())
     {

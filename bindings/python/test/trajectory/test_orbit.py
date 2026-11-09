@@ -59,8 +59,8 @@ class TestOrbit:
         assert state is not None
         assert isinstance(state, State)
 
-    def test_access_celestial_object(self, orbit: Orbit):
-        celestial_object = orbit.access_celestial_object()
+    def test_get_celestial_object(self, orbit: Orbit):
+        celestial_object = orbit.get_celestial_object()
 
         assert celestial_object is not None
         assert isinstance(celestial_object, Celestial)
@@ -234,7 +234,7 @@ class TestOrbit:
 
     def test_compute_passes_with_model(self, orbit: Orbit):
         passes: list[tuple[int, Pass]] = Orbit.compute_passes_with_model(
-            model=orbit.access_kepler_model(),
+            model=orbit.get_kepler_model(),
             start_instant=Instant.date_time(DateTime(2018, 1, 1, 0, 0, 0), Scale.UTC),
             end_instant=Instant.date_time(DateTime(2018, 1, 1, 0, 10, 0), Scale.UTC),
             initial_revolution_number=1,

@@ -76,16 +76,6 @@ class CoordinateBroker
     /// @return True if CoordinateBrokers are not equal
     bool operator!=(const CoordinateBroker& aCoordinateBroker) const;
 
-    /// @brief Access the considered coordinate subsets
-    ///
-    /// @code{.cpp}
-    ///              CoordinateBroker broker = { ... } ;
-    ///              const Array<Shared<const CoordinateSubset>>& subsets = broker.accessSubsets() ;
-    /// @endcode
-    ///
-    /// @return A const reference to the considered coordinate subsets
-    const Array<Shared<const CoordinateSubset>>& accessSubsets() const;
-
     /// @brief Get the total number of coordinates across all subsets
     ///
     /// @code{.cpp}
@@ -114,7 +104,7 @@ class CoordinateBroker
     /// @endcode
     ///
     /// @return The considered coordinate subsets
-    Array<Shared<const CoordinateSubset>> getSubsets() const;
+    const Array<Shared<const CoordinateSubset>>& getSubsets() const;
 
     /// @brief Add a coordinate subset to be considered
     ///

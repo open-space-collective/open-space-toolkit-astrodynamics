@@ -50,7 +50,7 @@ bool OPM::isDefined() const
     return this->header_.generationDate.isDefined() && this->header_.launchDate.isDefined();
 }
 
-OPM::Header OPM::getHeader() const
+const OPM::Header& OPM::getHeader() const
 {
     if (!this->isDefined())
     {
@@ -60,7 +60,7 @@ OPM::Header OPM::getHeader() const
     return this->header_;
 }
 
-Array<OPM::Deployment> OPM::getDeployments() const
+const Array<OPM::Deployment>& OPM::getDeployments() const
 {
     if (!this->isDefined())
     {
@@ -70,7 +70,7 @@ Array<OPM::Deployment> OPM::getDeployments() const
     return this->deployments_;
 }
 
-OPM::Deployment OPM::getDeploymentAt(const Index& anIndex) const
+const OPM::Deployment& OPM::getDeploymentAt(const Index& anIndex) const
 {
     if (!this->isDefined())
     {

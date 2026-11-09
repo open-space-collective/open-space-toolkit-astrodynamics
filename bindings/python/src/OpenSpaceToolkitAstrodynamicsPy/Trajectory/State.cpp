@@ -10,10 +10,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
 {
     using namespace pybind11;
 
+    using ostk::core::container::Array;
     using ostk::core::type::Shared;
 
     using ostk::mathematics::geometry::d3::transformation::rotation::Quaternion;
     using ostk::mathematics::object::Vector3d;
+    using ostk::mathematics::object::VectorXd;
 
     using ostk::physics::coordinate::Frame;
     using ostk::physics::coordinate::Position;
@@ -22,6 +24,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
 
     using ostk::astrodynamics::trajectory::State;
     using ostk::astrodynamics::trajectory::state::CoordinateBroker;
+    using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 
     class_<State>(
         aModule,
@@ -190,7 +193,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         )
         .def(
             "get_coordinates",
-            &State::getCoordinates,
+            [](const State& self) -> VectorXd
+            {
+                return self.getCoordinates();
+            },
             R"doc(
                 Get the coordinates of the state.
 
@@ -200,7 +206,10 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_State(pybind11::module& a
         )
         .def(
             "get_coordinate_subsets",
-            &State::getCoordinateSubsets,
+            [](const State& self) -> Array<Shared<const CoordinateSubset>>
+            {
+                return self.getCoordinateSubsets();
+            },
             R"doc(
                 Get the coordinate subsets associated to the state.
 

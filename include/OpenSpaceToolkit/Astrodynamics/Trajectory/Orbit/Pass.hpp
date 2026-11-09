@@ -112,7 +112,7 @@ class Pass
     /// @brief Gets the revolution number of the pass.
     ///
     /// @return The revolution number of the pass, or std::nullopt if it is unknown.
-    std::optional<int> getRevolutionNumber() const;
+    const std::optional<int>& getRevolutionNumber() const;
 
     /// @brief Gets the duration of the pass.
     ///
@@ -134,30 +134,30 @@ class Pass
     /// @return The interval of the pass.
     Interval getInterval() const;
 
-    /// @brief Accesses the instant at the ascending node of the pass.
+    /// @brief Get the instant at the ascending node of the pass.
     ///
     /// @return The instant at the ascending node of the pass.
-    const Instant& accessInstantAtAscendingNode() const;
+    const Instant& getInstantAtAscendingNode() const;
 
-    /// @brief Accesses the instant at the north point of the pass.
+    /// @brief Get the instant at the north point of the pass.
     ///
     /// @return The instant at the north point of the pass.
-    const Instant& accessInstantAtNorthPoint() const;
+    const Instant& getInstantAtNorthPoint() const;
 
-    /// @brief Accesses the instant at the descending node of the pass.
+    /// @brief Get the instant at the descending node of the pass.
     ///
     /// @return The instant at the descending node of the pass.
-    const Instant& accessInstantAtDescendingNode() const;
+    const Instant& getInstantAtDescendingNode() const;
 
-    /// @brief Accesses the instant at the south point of the pass.
+    /// @brief Get the instant at the south point of the pass.
     ///
     /// @return The instant at the south point of the pass.
-    const Instant& accessInstantAtSouthPoint() const;
+    const Instant& getInstantAtSouthPoint() const;
 
-    /// @brief Accesses the instant at the break of the pass.
+    /// @brief Get the instant at the break of the pass.
     ///
     /// @return The instant at the break of the pass.
-    const Instant& accessInstantAtPassBreak() const;
+    const Instant& getInstantAtPassBreak() const;
 
     /// @brief Print
     ///

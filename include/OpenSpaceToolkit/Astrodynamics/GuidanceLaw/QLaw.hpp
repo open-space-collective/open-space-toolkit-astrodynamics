@@ -96,12 +96,12 @@ class QLaw : public GuidanceLaw
         /// @brief Get control weights.
         ///
         /// @return A 5-dimensional vector of control weights.
-        Vector5d getControlWeights() const;
+        const Vector5d& getControlWeights() const;
 
         /// @brief Get convergence thresholds.
         ///
         /// @return A 5-dimensional vector of convergence thresholds.
-        Vector5d getConvergenceThresholds() const;
+        const Vector5d& getConvergenceThresholds() const;
 
         /// @brief Get minimum periapsis radius.
         ///
@@ -183,7 +183,7 @@ class QLaw : public GuidanceLaw
     /// @brief Get Parameters
     ///
     /// @return Parameters
-    Parameters getParameters() const;
+    const Parameters& getParameters() const;
 
     /// @brief Get target COE
     ///

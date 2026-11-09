@@ -239,8 +239,7 @@ static Segment::Solution SolveAndRecord(benchmark::State& state, const Segment& 
     {
         for (Size i = 1; i < solution.states.getSize(); ++i)
         {
-            const double stepSec =
-                (solution.states[i].accessInstant() - solution.states[i - 1].accessInstant()).inSeconds();
+            const double stepSec = (solution.states[i].getInstant() - solution.states[i - 1].getInstant()).inSeconds();
 
             minStepSec = std::min(minStepSec, stepSec);
             maxStepSec = std::max(maxStepSec, stepSec);

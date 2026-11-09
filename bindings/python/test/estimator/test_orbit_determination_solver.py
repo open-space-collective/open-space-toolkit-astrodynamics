@@ -222,14 +222,14 @@ class TestOrbitDeterminationSolver:
     ):
         assert isinstance(orbit_determination_solver, OrbitDeterminationSolver)
 
-    def test_access_methods(
+    def test_get_methods(
         self,
         orbit_determination_solver: OrbitDeterminationSolver,
     ):
-        assert isinstance(orbit_determination_solver.access_environment(), Environment)
-        assert isinstance(orbit_determination_solver.access_propagator(), Propagator)
-        assert isinstance(orbit_determination_solver.access_solver(), LeastSquaresSolver)
-        assert isinstance(orbit_determination_solver.access_estimation_frame(), Frame)
+        assert isinstance(orbit_determination_solver.get_environment(), Environment)
+        assert isinstance(orbit_determination_solver.get_propagator(), Propagator)
+        assert isinstance(orbit_determination_solver.get_solver(), LeastSquaresSolver)
+        assert isinstance(orbit_determination_solver.get_estimation_frame(), Frame)
 
     def test_estimate(
         self,

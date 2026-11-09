@@ -100,16 +100,6 @@ class SatelliteSystem : public System
     /// @return True if satellite system is defined
     virtual bool isDefined() const override;
 
-    /// @brief Access satellite system's propulsion system
-    ///
-    /// @code{.cpp}
-    ///                  PropulsionSystem propulsionSystem = satelliteSystem.accessPropulsionSystem();
-    /// @endcode
-    ///
-    /// @return PropulsionSystem
-    /// @throw ostk::core::error::runtime::Undefined If the satellite system has no propulsion system
-    const PropulsionSystem& accessPropulsionSystem() const;
-
     /// @brief Get satellite system's inertia tensor
     ///
     /// @code{.cpp}
@@ -117,7 +107,7 @@ class SatelliteSystem : public System
     /// @endcode
     ///
     /// @return Matrix3d
-    Matrix3d getInertiaTensor() const;
+    const Matrix3d& getInertiaTensor() const;
 
     /// @brief Get satellite system's surface area
     ///
@@ -147,7 +137,7 @@ class SatelliteSystem : public System
     ///
     /// @return PropulsionSystem
     /// @throw ostk::core::error::runtime::Undefined If the satellite system has no propulsion system
-    PropulsionSystem getPropulsionSystem() const;
+    const PropulsionSystem& getPropulsionSystem() const;
 
     /// @brief Print satellite system
     ///

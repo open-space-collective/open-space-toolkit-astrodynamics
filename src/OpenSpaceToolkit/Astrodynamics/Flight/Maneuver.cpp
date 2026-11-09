@@ -58,16 +58,16 @@ Maneuver::Maneuver(const Array<State>& aStateArray, const Interpolator::Type& an
         if (k < aStateArray.getSize() - 1)
         {
             const State& nextState = aStateArray[k + 1];
-            if (state.accessInstant() >= nextState.accessInstant())
+            if (state.getInstant() >= nextState.getInstant())
             {
                 throw ostk::core::error::runtime::Wrong(
                     "Unsorted or Duplicate State Array",
                     String::Format(
                         "Index {}: {} > Index {}: {}",
                         k,
-                        state.accessInstant().toString(),
+                        state.getInstant().toString(),
                         k + 1,
-                        nextState.accessInstant().toString()
+                        nextState.getInstant().toString()
                     )
                 );
             }
@@ -118,7 +118,7 @@ Maneuver::Maneuver(const Array<State>& aStateArray, const Interpolator::Type& an
             if (!sanitizedStates.isEmpty())
             {
                 largestInterval =
-                    std::max(largestInterval, state.accessInstant() - sanitizedStates.accessLast().accessInstant());
+                    std::max(largestInterval, state.getInstant() - sanitizedStates.accessLast().getInstant());
             }
             sanitizedStates.add(state);
             continue;
@@ -139,7 +139,7 @@ Maneuver::Maneuver(const Array<State>& aStateArray, const Interpolator::Type& an
             if (!sanitizedStates.isEmpty())
             {
                 largestInterval =
-                    std::max(largestInterval, state.accessInstant() - sanitizedStates.accessLast().accessInstant());
+                    std::max(largestInterval, state.getInstant() - sanitizedStates.accessLast().getInstant());
             }
             sanitizedStates.add(state);
             continue;
@@ -184,7 +184,7 @@ bool Maneuver::isDefined() const
     return true;
 }
 
-Array<State> Maneuver::getStates() const
+const Array<State>& Maneuver::getStates() const
 {
     return states_;
 }
@@ -196,7 +196,7 @@ Interpolator::Type Maneuver::getInterpolationType() const
 
 Interval Maneuver::getInterval() const
 {
-    return Interval::Closed(states_.accessFirst().accessInstant(), states_.accessLast().accessInstant());
+    return Interval::Closed(states_.accessFirst().getInstant(), states_.accessLast().getInstant());
 }
 
 double Maneuver::calculateDeltaV() const
@@ -213,7 +213,7 @@ double Maneuver::calculateDeltaV() const
         const State& currentState = states_[i];
         const State& nextState = states_[i + 1];
 
-        const double timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
+        const double timeStep = (nextState.getInstant() - currentState.getInstant()).inSeconds();
 
         const double currentAccelerationMagnitude =
             currentState.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
@@ -243,7 +243,7 @@ Mass Maneuver::calculateDeltaMass() const
         const double currentMassFlowRate = currentState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
         const double nextMassFlowRate = nextState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
 
-        const double timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
+        const double timeStep = (nextState.getInstant() - currentState.getInstant()).inSeconds();
 
         totalDeltaMass += (-(currentMassFlowRate + nextMassFlowRate) / 2.0) * timeStep;
     }
@@ -269,7 +269,7 @@ double Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) con
         const double currentMassFlowRate = currentState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
         const double nextMassFlowRate = nextState.extractCoordinate(RequiredCoordinateSubsets[3])[0];
 
-        const double timeStep = (nextState.accessInstant() - currentState.accessInstant()).inSeconds();
+        const double timeStep = (nextState.getInstant() - currentState.getInstant()).inSeconds();
 
         currentMass += ((currentMassFlowRate + nextMassFlowRate) / 2.0) * timeStep;
 
@@ -283,8 +283,7 @@ double Maneuver::calculateAverageThrust(const Mass& anInitialSpacecraftMass) con
         weightedThrustSum += currentThrust * timeStep;
     }
 
-    return weightedThrustSum /
-           (states_.accessLast().accessInstant() - states_.accessFirst().accessInstant()).inSeconds();
+    return weightedThrustSum / (states_.accessLast().getInstant() - states_.accessFirst().getInstant()).inSeconds();
 }
 
 double Maneuver::calculateAverageSpecificImpulse(const Mass& anInitialSpacecraftMass) const
@@ -342,7 +341,7 @@ Shared<Tabulated> Maneuver::toTabulatedDynamics(const Shared<const Frame>& aFram
     const Array<Instant> instants = states_.map<Instant>(
         [](const State& aState) -> Instant
         {
-            return aState.accessInstant();
+            return aState.getInstant();
         }
     );
 
@@ -370,7 +369,7 @@ Maneuver::MeanDirectionAndMaximumAngularOffset Maneuver::calculateMeanThrustDire
         const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactory.generateFrame(state);
 
         const Vector3d thrustAcceleration = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr);
-        const Transform transform = state.accessFrame()->getTransformTo(lofFrame, state.accessInstant());
+        const Transform transform = state.getFrame()->getTransformTo(lofFrame, state.getInstant());
         const Vector3d thrustAccelerationInLof = transform.applyToVector(thrustAcceleration);
         thrustAccelerationsInLof.add(thrustAccelerationInLof);
 
@@ -434,9 +433,9 @@ Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
 
     for (const auto& state : states_)
     {
-        const Instant& instant = state.accessInstant();
+        const Instant& instant = state.getInstant();
         const Shared<const Frame>& lofFrame = aLocalOrbitalFrameFactory.generateFrame(state);
-        const Shared<const Frame>& stateFrame = state.accessFrame();
+        const Shared<const Frame>& stateFrame = state.getFrame();
 
         const double originalMagnitude = state.extractCoordinate(DefaultAccelerationCoordinateSubsetSPtr).norm();
         const Vector3d newThrustAccelerationLof = meanDirectionInLof * originalMagnitude;
@@ -445,7 +444,7 @@ Maneuver Maneuver::toConstantLocalOrbitalFrameDirectionManeuver(
 
         const StateBuilder fullStateBuilder = StateBuilder(stateFrame, RequiredCoordinateSubsets);
         const State partialState =
-            State(state.accessInstant(), newThrustAcceleration, stateFrame, {DefaultAccelerationCoordinateSubsetSPtr});
+            State(state.getInstant(), newThrustAcceleration, stateFrame, {DefaultAccelerationCoordinateSubsetSPtr});
         newStates.add(fullStateBuilder.expand(partialState, state));
     }
 
@@ -481,9 +480,9 @@ Maneuver Maneuver::ConstantMassFlowRateProfile(
             aMassFlowRate;
 
         const State maneuverState = {
-            state.accessInstant(),
+            state.getInstant(),
             coordinates,
-            state.accessFrame(),
+            state.getFrame(),
             RequiredCoordinateSubsets,
         };
 

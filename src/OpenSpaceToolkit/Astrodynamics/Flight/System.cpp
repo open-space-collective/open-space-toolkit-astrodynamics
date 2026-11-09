@@ -53,7 +53,7 @@ bool System::isDefined() const
     return mass_.isDefined() && geometry_.isDefined();
 }
 
-Mass System::getMass() const
+const Mass& System::getMass() const
 {
     if (!mass_.isDefined())
     {
@@ -75,7 +75,7 @@ void System::print(std::ostream& anOutputStream, bool displayDecorator) const
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Composite System::getGeometry() const
+const Composite& System::getGeometry() const
 {
     if (!geometry_.isDefined())
     {

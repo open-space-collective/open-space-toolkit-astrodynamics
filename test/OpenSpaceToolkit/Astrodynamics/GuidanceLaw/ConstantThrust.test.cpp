@@ -306,7 +306,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Intrack)
         Vector3d direction = {1.0, 0.0, 0.0};
         EXPECT_TRUE(constantThrust.getLocalThrustDirection().getValue() == direction);
         EXPECT_TRUE(
-            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory().getProviderType() ==
+            constantThrust.getLocalThrustDirection().getLocalOrbitalFrameFactory().getProviderType() ==
             LocalOrbitalFrameTransformProvider::Type::VNC
         );
     }
@@ -316,7 +316,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, Intrack)
         ConstantThrust constantThrust = ConstantThrust::Intrack(false);
         EXPECT_TRUE(constantThrust.getLocalThrustDirection().getValue() == direction);
         EXPECT_TRUE(
-            constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory().getProviderType() ==
+            constantThrust.getLocalThrustDirection().getLocalOrbitalFrameFactory().getProviderType() ==
             LocalOrbitalFrameTransformProvider::Type::VNC
         );
     }
@@ -356,7 +356,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, FromManeuver)
         EXPECT_EQ(
             constantThrust.getLocalThrustDirection().getValue(), meanDirectionAndMaximumAngularOffset.first.getValue()
         );
-        EXPECT_EQ(constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory(), localOrbitalFrameFactory_);
+        EXPECT_EQ(constantThrust.getLocalThrustDirection().getLocalOrbitalFrameFactory(), localOrbitalFrameFactory_);
     }
 
     // Considering a maximum allowed angular offset, but it's not violated
@@ -369,7 +369,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_GuidanceLaw_ConstantThrust, FromManeuver)
         EXPECT_EQ(
             constantThrust.getLocalThrustDirection().getValue(), meanDirectionAndMaximumAngularOffset.first.getValue()
         );
-        EXPECT_EQ(constantThrust.getLocalThrustDirection().accessLocalOrbitalFrameFactory(), localOrbitalFrameFactory_);
+        EXPECT_EQ(constantThrust.getLocalThrustDirection().getLocalOrbitalFrameFactory(), localOrbitalFrameFactory_);
     }
 
     // Considering a maximum allowed angular offset, and it's violated

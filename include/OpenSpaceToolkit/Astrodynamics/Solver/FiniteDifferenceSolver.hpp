@@ -100,7 +100,7 @@ class FiniteDifferenceSolver
     /// @endcode
     ///
     /// @return The step duration.
-    Duration getStepDuration() const;
+    const Duration& getStepDuration() const;
 
     /// @brief Compute the State Transition Matrices (STMs) by perturbing the coordinates
     ///

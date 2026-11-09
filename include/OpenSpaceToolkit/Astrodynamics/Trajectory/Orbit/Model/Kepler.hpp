@@ -147,7 +147,7 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the classical orbital elements.
     ///
     /// @return The classical orbital element set used by this model.
-    COE getClassicalOrbitalElements() const;
+    const COE& getClassicalOrbitalElements() const;
 
     /// @brief Get the epoch of the orbital elements.
     ///
@@ -162,12 +162,12 @@ class Kepler : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get the gravitational parameter of the central body.
     ///
     /// @return The gravitational parameter used in this model.
-    Derived getGravitationalParameter() const;
+    const Derived& getGravitationalParameter() const;
 
     /// @brief Get the equatorial radius of the central body.
     ///
     /// @return The equatorial radius used in this model.
-    Length getEquatorialRadius() const;
+    const Length& getEquatorialRadius() const;
 
     /// @brief Get the J2 zonal harmonic coefficient.
     ///

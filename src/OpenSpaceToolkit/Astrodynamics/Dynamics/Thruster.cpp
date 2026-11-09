@@ -37,16 +37,15 @@ Thruster::Thruster(
       satelliteSystem_(aSatelliteSystem),
       guidanceLaw_(aGuidanceLaw),
       massFlowRateCache_(
-          aSatelliteSystem.isDefined()
-              ? std::optional<double>(aSatelliteSystem.accessPropulsionSystem().getMassFlowRate())
-              : std::nullopt
+          aSatelliteSystem.isDefined() ? std::optional<double>(aSatelliteSystem.getPropulsionSystem().getMassFlowRate())
+                                       : std::nullopt
       )
 {
 }
 
 Thruster::~Thruster() {}
 
-SatelliteSystem Thruster::getSatelliteSystem() const
+const SatelliteSystem& Thruster::getSatelliteSystem() const
 {
     if (!satelliteSystem_.isDefined())
     {
@@ -56,7 +55,7 @@ SatelliteSystem Thruster::getSatelliteSystem() const
     return satelliteSystem_;
 }
 
-Shared<const GuidanceLaw> Thruster::getGuidanceLaw() const
+const Shared<const GuidanceLaw>& Thruster::getGuidanceLaw() const
 {
     return guidanceLaw_;
 }
@@ -96,7 +95,7 @@ VectorXd Thruster::computeContribution(
     }
 
     const double maximumAccelerationMagnitude =
-        satelliteSystem_.accessPropulsionSystem().getAcceleration(Mass::Kilograms(x[6]));
+        satelliteSystem_.getPropulsionSystem().getAcceleration(Mass::Kilograms(x[6]));
 
     const Vector3d acceleration = guidanceLaw_->calculateThrustAccelerationAt(
         anInstant, positionCoordinates, velocityCoordinates, maximumAccelerationMagnitude, aFrameSPtr

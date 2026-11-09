@@ -117,7 +117,7 @@ class Static : public virtual Model
     /// @endcode
     ///
     /// @return The output reference frame.
-    Shared<const Frame> getFrame() const;
+    const Shared<const Frame>& getFrame() const;
 
     /// @brief Calculate the state at a given instant, expressed in the output frame of the model
     ///

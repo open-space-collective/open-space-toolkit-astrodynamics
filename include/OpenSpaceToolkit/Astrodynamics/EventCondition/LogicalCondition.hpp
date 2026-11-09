@@ -78,7 +78,7 @@ class LogicalCondition : public EventCondition
     /// @endcode
     ///
     /// @return An Array of shared pointers to EventCondition instances.
-    Array<Shared<EventCondition>> getEventConditions() const;
+    const Array<Shared<EventCondition>>& getEventConditions() const;
 
     /// @brief Check if the Logical Connective Event Condition is satisfied.
     ///

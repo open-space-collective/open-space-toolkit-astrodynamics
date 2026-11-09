@@ -89,7 +89,7 @@ bool Trajectory::isDefined() const
     return modelUPtr_->isDefined();
 }
 
-const Model& Trajectory::accessModel() const
+const Model& Trajectory::getModel() const
 {
     return *modelUPtr_;
 }

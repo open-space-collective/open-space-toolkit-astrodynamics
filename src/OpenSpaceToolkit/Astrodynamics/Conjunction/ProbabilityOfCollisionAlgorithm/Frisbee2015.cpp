@@ -217,13 +217,13 @@ double Frisbee2015::computeProbabilityOfCollision_(
 
     const CloseApproach degenerateCloseApproach = {
         object1State.withCovariance(Covariance(
-            object1State.accessInstant(),
+            object1State.getInstant(),
             object1PositionCovariance,
             encounterFrameSPtr,
             {Frisbee2015::CartesianPositionSubsetSPtr}
         )),
         object2State.withCovariance(Covariance(
-            object2State.accessInstant(),
+            object2State.getInstant(),
             object2PositionCovariance,
             encounterFrameSPtr,
             {Frisbee2015::CartesianPositionSubsetSPtr}

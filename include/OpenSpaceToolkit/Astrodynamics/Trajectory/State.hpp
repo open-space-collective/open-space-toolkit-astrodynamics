@@ -184,40 +184,35 @@ class State
     /// @return True if the State is defined, false otherwise
     bool isDefined() const;
 
-    /// @brief Accessor for the instant.
+    /// @brief Get the instant associated with the State.
     ///
-    /// @return The instant
-    const Instant& accessInstant() const;
+    /// @return Const reference to the instant
+    const Instant& getInstant() const;
 
-    /// @brief Accessor for the reference frame.
+    /// @brief Get the reference frame associated with the State.
     ///
-    /// @return The reference frame
-    const Shared<const Frame> accessFrame() const;
+    /// @return Const reference to the reference frame
+    const Shared<const Frame>& getFrame() const;
 
-    /// @brief Accessor for the coordinates.
+    /// @brief Get the coordinates of the State.
     ///
-    /// @return The coordinates
-    const VectorXd& accessCoordinates() const;
+    /// @return Const reference to the coordinates
+    const VectorXd& getCoordinates() const&;
 
-    /// @brief Access the coordinate broker associated with the State.
+    /// @brief Get the coordinates of a temporary State.
     ///
-    /// @return The coordinate broker associated to the State
-    const Shared<const CoordinateBroker>& accessCoordinateBroker() const;
+    /// @return The coordinates (copy, so that it does not dangle)
+    VectorXd getCoordinates() &&;
+
+    /// @brief Get the coordinate broker associated with the State.
+    ///
+    /// @return Const reference to the coordinate broker associated to the State
+    const Shared<const CoordinateBroker>& getCoordinateBroker() const;
 
     /// @brief Get the size of the State.
     ///
     /// @return The size of the State
     Size getSize() const;
-
-    /// @brief Get the instant associated with the State.
-    ///
-    /// @return The instant
-    Instant getInstant() const;
-
-    /// @brief Get the reference frame associated with the State.
-    ///
-    /// @return The reference frame
-    Shared<const Frame> getFrame() const;
 
     /// @brief Get the Covariance associated with the State.
     ///
@@ -244,15 +239,15 @@ class State
     /// @return The angular velocity
     Vector3d getAngularVelocity() const;
 
-    /// @brief Get the coordinates of the State.
-    ///
-    /// @return The coordinates
-    VectorXd getCoordinates() const;
-
     /// @brief Get the coordinate subsets of the State.
     ///
-    /// @return The coordinate subsets
-    const Array<Shared<const CoordinateSubset>> getCoordinateSubsets() const;
+    /// @return Const reference to the coordinate subsets
+    const Array<Shared<const CoordinateSubset>>& getCoordinateSubsets() const&;
+
+    /// @brief Get the coordinate subsets of a temporary State.
+    ///
+    /// @return The coordinate subsets (copy, so that they do not dangle)
+    Array<Shared<const CoordinateSubset>> getCoordinateSubsets() &&;
 
     /// @brief Check if the State has a given coordinate subset.
     ///

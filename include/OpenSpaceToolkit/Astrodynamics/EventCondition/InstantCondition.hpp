@@ -46,7 +46,7 @@ class InstantCondition : public RealCondition
     /// @endcode
     ///
     /// @return The target instant.
-    Instant getInstant() const;
+    const Instant& getInstant() const;
 
    private:
     Instant instant_;

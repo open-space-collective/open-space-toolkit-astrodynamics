@@ -99,7 +99,7 @@ class CloseApproach
     /// @endcode
     ///
     /// @return The instant
-    Instant getInstant() const;
+    const Instant& getInstant() const;
 
     /// @brief Get the state of Object 1
     ///
@@ -109,7 +109,7 @@ class CloseApproach
     /// @endcode
     ///
     /// @return The state of Object 1
-    State getObject1State() const;
+    const State& getObject1State() const;
 
     /// @brief Get the state of Object 2
     ///
@@ -119,7 +119,7 @@ class CloseApproach
     /// @endcode
     ///
     /// @return The state of Object 2
-    State getObject2State() const;
+    const State& getObject2State() const;
 
     /// @brief Return a new Close Approach with the covariances of Object 1 and Object 2 scaled by the given
     /// factors.

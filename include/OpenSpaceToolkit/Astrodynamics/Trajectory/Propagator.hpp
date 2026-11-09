@@ -99,15 +99,15 @@ class Propagator
     /// @return True if propagator is defined
     bool isDefined() const;
 
-    /// @brief Access the coordinate broker
+    /// @brief Get the coordinate broker
     ///
     /// @return The coordinate broker
-    const Shared<CoordinateBroker>& accessCoordinateBroker() const;
+    const Shared<CoordinateBroker>& getCoordinateBroker() const;
 
-    /// @brief Access the numerical solver
+    /// @brief Get the numerical solver
     ///
     /// @return The numerical solver
-    const NumericalSolver& accessNumericalSolver() const;
+    const NumericalSolver& getNumericalSolver() const;
 
     /// @brief Get the number of propagated coordinates
     ///

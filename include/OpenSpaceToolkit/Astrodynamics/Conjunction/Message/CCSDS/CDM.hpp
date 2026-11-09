@@ -240,7 +240,7 @@ class CDM
     /// @endcode
     ///
     /// @return The CDM header.
-    CDM::Header getHeader() const;
+    const CDM::Header& getHeader() const;
 
     /// @brief Get the CDM relative metadata.
     ///
@@ -250,7 +250,7 @@ class CDM
     /// @endcode
     ///
     /// @return The CDM relative metadata.
-    CDM::RelativeMetadata getRelativeMetadata() const;
+    const CDM::RelativeMetadata& getRelativeMetadata() const;
 
     /// @brief Get the array of per-object metadata.
     ///
@@ -260,7 +260,7 @@ class CDM
     /// @endcode
     ///
     /// @return An array of per-object metadata.
-    Array<CDM::Metadata> getMetadataArray() const;
+    const Array<CDM::Metadata>& getMetadataArray() const;
 
     /// @brief Get the array of per-object data.
     ///
@@ -270,7 +270,7 @@ class CDM
     /// @endcode
     ///
     /// @return An array of per-object data.
-    Array<CDM::Data> getDataArray() const;
+    const Array<CDM::Data>& getDataArray() const;
 
     /// @brief Get the metadata for a specific object by index.
     ///
@@ -281,7 +281,7 @@ class CDM
     ///
     /// @param anIndex A zero-based object index.
     /// @return The metadata for the object at the given index.
-    CDM::Metadata getObjectMetadataAt(const Index& anIndex) const;
+    const CDM::Metadata& getObjectMetadataAt(const Index& anIndex) const;
 
     /// @brief Get the data for a specific object by index.
     ///
@@ -292,7 +292,7 @@ class CDM
     ///
     /// @param anIndex A zero-based object index.
     /// @return The data for the object at the given index.
-    CDM::Data getObjectDataAt(const Index& anIndex) const;
+    const CDM::Data& getObjectDataAt(const Index& anIndex) const;
 
     // Header getters
 
@@ -304,7 +304,7 @@ class CDM
     /// @endcode
     ///
     /// @return The CCSDS CDM version string.
-    String getCCSDSCDMVersion() const;
+    const String& getCCSDSCDMVersion() const;
 
     /// @brief Get the message creation date.
     ///
@@ -314,7 +314,7 @@ class CDM
     /// @endcode
     ///
     /// @return The message creation date as an Instant.
-    Instant getCreationDate() const;
+    const Instant& getCreationDate() const;
 
     /// @brief Get the message originator identifier.
     ///
@@ -324,7 +324,7 @@ class CDM
     /// @endcode
     ///
     /// @return The originator string.
-    String getOriginator() const;
+    const String& getOriginator() const;
 
     /// @brief Get the optional message recipient identifier.
     ///
@@ -334,7 +334,7 @@ class CDM
     /// @endcode
     ///
     /// @return The message-for string, or an empty string if not set.
-    String getMessageFor() const;
+    const String& getMessageFor() const;
 
     /// @brief Get the unique message identifier.
     ///
@@ -344,7 +344,7 @@ class CDM
     /// @endcode
     ///
     /// @return The message ID string.
-    String getMessageId() const;
+    const String& getMessageId() const;
 
     // Relative Metadata getters
 
@@ -356,7 +356,7 @@ class CDM
     /// @endcode
     ///
     /// @return The TCA as an Instant.
-    Instant getTCA() const;
+    const Instant& getTCA() const;
 
     /// @brief Get the miss distance at TCA.
     ///
@@ -366,7 +366,7 @@ class CDM
     /// @endcode
     ///
     /// @return The miss distance as a Length.
-    Length getMissDistance() const;
+    const Length& getMissDistance() const;
 
     /// @brief Get the relative position at TCA, expressed in the RTN frame.
     ///
@@ -376,7 +376,7 @@ class CDM
     /// @endcode
     ///
     /// @return The relative position at TCA.
-    Position getRelativePosition() const;
+    const Position& getRelativePosition() const;
 
     /// @brief Get the relative velocity at TCA, expressed in the RTN frame.
     ///
@@ -386,7 +386,7 @@ class CDM
     /// @endcode
     ///
     /// @return The relative velocity at TCA.
-    Velocity getRelativeVelocity() const;
+    const Velocity& getRelativeVelocity() const;
 
     /// @brief Get the probability of collision.
     ///
@@ -406,7 +406,7 @@ class CDM
     /// @endcode
     ///
     /// @return The collision probability method string.
-    String getCollisionProbabilityMethod() const;
+    const String& getCollisionProbabilityMethod() const;
 
     // Object Metadata getters. TBI: Create Resident Space Object (RSO) class and add these methods under it
 
@@ -430,7 +430,7 @@ class CDM
     ///
     /// @param anIndex A zero-based object index.
     /// @return The object name string.
-    String getObjectName(const Index& anIndex) const;
+    const String& getObjectName(const Index& anIndex) const;
 
     /// @brief Get the international designator of the object at the given index.
     ///
@@ -441,7 +441,7 @@ class CDM
     ///
     /// @param anIndex A zero-based object index.
     /// @return The international designator string.
-    String getObjectInternationalDesignator(const Index& anIndex) const;
+    const String& getObjectInternationalDesignator(const Index& anIndex) const;
 
     /// @brief Get the object type of the object at the given index.
     ///
@@ -463,7 +463,7 @@ class CDM
     ///
     /// @param anIndex A zero-based object index.
     /// @return The ephemeris name string.
-    String getObjectEphemerisName(const Index& anIndex) const;
+    const String& getObjectEphemerisName(const Index& anIndex) const;
 
     /// @brief Get the covariance method for the object at the given index.
     ///
@@ -474,7 +474,7 @@ class CDM
     ///
     /// @param anIndex A zero-based object index.
     /// @return The covariance method string.
-    String getObjectCovarianceMethod(const Index& anIndex) const;
+    const String& getObjectCovarianceMethod(const Index& anIndex) const;
 
     /// @brief Get the maneuverability status for the object at the given index.
     ///
@@ -485,7 +485,7 @@ class CDM
     ///
     /// @param anIndex A zero-based object index.
     /// @return The maneuverability string.
-    String getObjectManeuverability(const Index& anIndex) const;
+    const String& getObjectManeuverability(const Index& anIndex) const;
 
     /// @brief Get the reference frame for the object at the given index.
     ///
@@ -496,7 +496,7 @@ class CDM
     ///
     /// @param anIndex A zero-based object index.
     /// @return The reference frame string.
-    String getObjectReferenceFrame(const Index& anIndex) const;
+    const String& getObjectReferenceFrame(const Index& anIndex) const;
 
     // Object Data getters. TBI: Create Resident Space Object (RSO) class and add these methods under it
 

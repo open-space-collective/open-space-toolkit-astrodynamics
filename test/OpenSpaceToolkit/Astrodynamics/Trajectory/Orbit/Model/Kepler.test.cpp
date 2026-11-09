@@ -922,7 +922,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
         const Kepler model = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2};
 
         EXPECT_EQ(*model.getFrame(), *Frame::GCRF());
-        EXPECT_EQ(model.calculateStateAt(epoch + Duration::Hours(1.0)).accessFrame(), Frame::GCRF());
+        EXPECT_EQ(model.calculateStateAt(epoch + Duration::Hours(1.0)).getFrame(), Frame::GCRF());
 
         const Kepler modelExplicit = {coe, epoch, *earthSPtr, Kepler::PerturbationType::J2, false, Frame::GCRF()};
 
@@ -957,7 +957,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler, Frame)
         const State stateGCRF = modelGCRF.calculateStateAt(instant);
         const State stateTEME = modelTEME.calculateStateAt(instant);
 
-        EXPECT_EQ(*stateTEME.accessFrame(), *temeSPtr);
+        EXPECT_EQ(*stateTEME.getFrame(), *temeSPtr);
 
         // Same elements, same numbers: only the frame they are interpreted in differs
         EXPECT_TRUE(stateTEME.getPosition().getCoordinates().isNear(stateGCRF.getPosition().getCoordinates(), 1e-6));

@@ -85,11 +85,11 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory(pybind11::module& aModule
         )
 
         .def(
-            "access_model",
-            &Trajectory::accessModel,
+            "get_model",
+            &Trajectory::getModel,
             return_value_policy::reference_internal,
             R"doc(
-                Access the model of the trajectory.
+                Get the model of the trajectory.
 
                 Returns:
                     Model: The model of the trajectory.

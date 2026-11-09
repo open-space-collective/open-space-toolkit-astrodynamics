@@ -182,19 +182,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, Constructor)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, AccessType)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetType)
 {
-    EXPECT_EQ(defaultAccessTarget_.accessType(), AccessTarget::Type::Fixed);
+    EXPECT_EQ(defaultAccessTarget_.getType(), AccessTarget::Type::Fixed);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, AccessVisibilityCriterion)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetVisibilityCriterion)
 {
-    EXPECT_EQ(defaultAccessTarget_.accessVisibilityCriterion(), defaultVisibilityCriterion_);
+    EXPECT_EQ(defaultAccessTarget_.getVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, AccessTrajectory)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetTrajectory)
 {
-    EXPECT_NO_THROW(defaultAccessTarget_.accessTrajectory());
+    EXPECT_NO_THROW(defaultAccessTarget_.getTrajectory());
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, GetPosition)
@@ -243,8 +243,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromLLA)
     const AccessTarget accessTarget =
         AccessTarget::FromLLA(defaultVisibilityCriterion_, defaultLLA_, defaultEarthSPtr_);
 
-    EXPECT_EQ(accessTarget.accessType(), AccessTarget::Type::Fixed);
-    EXPECT_EQ(accessTarget.accessVisibilityCriterion(), defaultVisibilityCriterion_);
+    EXPECT_EQ(accessTarget.getType(), AccessTarget::Type::Fixed);
+    EXPECT_EQ(accessTarget.getVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromPosition)
@@ -252,8 +252,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromPosition)
     const Position position = Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF());
     const AccessTarget accessTarget = AccessTarget::FromPosition(defaultVisibilityCriterion_, position);
 
-    EXPECT_EQ(accessTarget.accessType(), AccessTarget::Type::Fixed);
-    EXPECT_EQ(accessTarget.accessVisibilityCriterion(), defaultVisibilityCriterion_);
+    EXPECT_EQ(accessTarget.getType(), AccessTarget::Type::Fixed);
+    EXPECT_EQ(accessTarget.getVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromTrajectory)
@@ -261,8 +261,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, FromTrajectory)
     const Trajectory trajectory = Trajectory::Position(Position::Meters({0.0, 0.0, 0.0}, Frame::ITRF()));
     const AccessTarget accessTarget = AccessTarget::FromTrajectory(defaultVisibilityCriterion_, trajectory);
 
-    EXPECT_EQ(accessTarget.accessType(), AccessTarget::Type::Trajectory);
-    EXPECT_EQ(accessTarget.accessVisibilityCriterion(), defaultVisibilityCriterion_);
+    EXPECT_EQ(accessTarget.getType(), AccessTarget::Type::Trajectory);
+    EXPECT_EQ(accessTarget.getVisibilityCriterion(), defaultVisibilityCriterion_);
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, IsDefined)
@@ -568,7 +568,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses_2)
     const AccessTarget groundStationTarget =
         AccessTarget::FromLLA(visibilityCriterion, groundStationLla, defaultEarthSPtr_);
 
-    const Trajectory groundTrajectory = groundStationTarget.accessTrajectory();
+    const Trajectory groundTrajectory = groundStationTarget.getTrajectory();
 
     const Orbit satelliteOrbit = generateSatelliteOrbit();
 
@@ -745,7 +745,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, TimeOfClosestApproachIsA
 
     ASSERT_FALSE(accesses.isEmpty());
 
-    const Trajectory targetTrajectory = accessTarget.accessTrajectory();
+    const Trajectory targetTrajectory = accessTarget.getTrajectory();
 
     const auto rangeAt = [&targetTrajectory, &orbit, this](const Instant& anInstant) -> double
     {

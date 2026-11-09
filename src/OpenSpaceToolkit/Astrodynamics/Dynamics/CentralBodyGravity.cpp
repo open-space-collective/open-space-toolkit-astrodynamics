@@ -50,7 +50,7 @@ bool CentralBodyGravity::isDefined() const
     return celestialObjectSPtr_->isDefined();
 }
 
-Shared<const Celestial> CentralBodyGravity::getCelestial() const
+const Shared<const Celestial>& CentralBodyGravity::getCelestial() const
 {
     if (!celestialObjectSPtr_->isDefined())
     {

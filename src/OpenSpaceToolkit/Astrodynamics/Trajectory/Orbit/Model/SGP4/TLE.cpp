@@ -137,17 +137,17 @@ std::ostream& operator<<(std::ostream& anOutputStream, const TLE& aTle)
     return anOutputStream;
 }
 
-std::optional<String> TLE::getSatelliteName() const
+const std::optional<String>& TLE::getSatelliteName() const
 {
     return satelliteName_;
 }
 
-String TLE::getFirstLine() const
+const String& TLE::getFirstLine() const
 {
     return firstLine_;
 }
 
-String TLE::getSecondLine() const
+const String& TLE::getSecondLine() const
 {
     return secondLine_;
 }

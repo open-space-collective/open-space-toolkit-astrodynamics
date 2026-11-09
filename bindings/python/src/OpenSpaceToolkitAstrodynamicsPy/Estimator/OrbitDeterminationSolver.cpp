@@ -88,44 +88,44 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Estimator_OrbitDeterminationSolver(p
             )doc"
         )
         .def(
-            "access_environment",
-            &OrbitDeterminationSolver::accessEnvironment,
+            "get_environment",
+            &OrbitDeterminationSolver::getEnvironment,
             return_value_policy::reference_internal,
             R"doc(
-                Access the environment.
+                Get the environment.
 
                 Returns:
                     Environment: The environment.
             )doc"
         )
         .def(
-            "access_propagator",
-            &OrbitDeterminationSolver::accessPropagator,
+            "get_propagator",
+            &OrbitDeterminationSolver::getPropagator,
             return_value_policy::reference_internal,
             R"doc(
-                Access the propagator.
+                Get the propagator.
 
                 Returns:
                     Propagator: The propagator.
             )doc"
         )
         .def(
-            "access_solver",
-            &OrbitDeterminationSolver::accessSolver,
+            "get_solver",
+            &OrbitDeterminationSolver::getSolver,
             return_value_policy::reference_internal,
             R"doc(
-                Access the solver.
+                Get the solver.
 
                 Returns:
                     LeastSquaresSolver: The Least Squares solver.
             )doc"
         )
         .def(
-            "access_estimation_frame",
-            &OrbitDeterminationSolver::accessEstimationFrame,
+            "get_estimation_frame",
+            &OrbitDeterminationSolver::getEstimationFrame,
             return_value_policy::reference_internal,
             R"doc(
-                Access the estimation frame.
+                Get the estimation frame.
 
                 Returns:
                     Frame: The estimation frame.

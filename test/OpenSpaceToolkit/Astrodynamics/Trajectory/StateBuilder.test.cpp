@@ -234,13 +234,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, AdditionOperator)
 
         EXPECT_FALSE(stateBuilder == expandedStateBuilder);
 
-        const Array<Shared<const CoordinateSubset>> subsets = stateBuilder.accessCoordinateBroker()->accessSubsets();
+        const Array<Shared<const CoordinateSubset>> subsets = stateBuilder.getCoordinateBroker()->getSubsets();
         EXPECT_EQ(2, subsets.size());
         EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
         EXPECT_EQ(CartesianVelocity::Default(), subsets[1]);
 
         const Array<Shared<const CoordinateSubset>> expandedSubsets =
-            expandedStateBuilder.accessCoordinateBroker()->accessSubsets();
+            expandedStateBuilder.getCoordinateBroker()->getSubsets();
         EXPECT_EQ(3, expandedSubsets.size());
         EXPECT_EQ(CartesianPosition::Default(), expandedSubsets[0]);
         EXPECT_EQ(CartesianVelocity::Default(), expandedSubsets[1]);
@@ -268,14 +268,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, SubtractionOperat
 
         EXPECT_FALSE(stateBuilder == contractedStateBuilder);
 
-        const Array<Shared<const CoordinateSubset>> subsets = stateBuilder.accessCoordinateBroker()->accessSubsets();
+        const Array<Shared<const CoordinateSubset>> subsets = stateBuilder.getCoordinateBroker()->getSubsets();
         EXPECT_EQ(3, subsets.size());
         EXPECT_EQ(CartesianPosition::Default(), subsets[0]);
         EXPECT_EQ(CartesianVelocity::Default(), subsets[1]);
         EXPECT_EQ(CoordinateSubset::Mass(), subsets[2]);
 
         const Array<Shared<const CoordinateSubset>> contractedSubsets =
-            contractedStateBuilder.accessCoordinateBroker()->accessSubsets();
+            contractedStateBuilder.getCoordinateBroker()->getSubsets();
         EXPECT_EQ(2, contractedSubsets.size());
         EXPECT_EQ(CartesianPosition::Default(), contractedSubsets[0]);
         EXPECT_EQ(CoordinateSubset::Mass(), contractedSubsets[1]);
@@ -326,13 +326,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Build)
 
         const State state = stateBuilder.build(instant, coordinates);
 
-        EXPECT_EQ(instant, state.accessInstant());
-        EXPECT_EQ(coordinates, state.accessCoordinates());
-        EXPECT_EQ(Frame::GCRF(), state.accessFrame());
-        EXPECT_EQ(posVelBrokerSPtr, state.accessCoordinateBroker());
+        EXPECT_EQ(instant, state.getInstant());
+        EXPECT_EQ(coordinates, state.getCoordinates());
+        EXPECT_EQ(Frame::GCRF(), state.getFrame());
+        EXPECT_EQ(posVelBrokerSPtr, state.getCoordinateBroker());
 
-        EXPECT_EQ(stateBuilder.accessFrame(), state.accessFrame());
-        EXPECT_EQ(stateBuilder.accessCoordinateBroker(), state.accessCoordinateBroker());
+        EXPECT_EQ(stateBuilder.getFrame(), state.getFrame());
+        EXPECT_EQ(stateBuilder.getCoordinateBroker(), state.getCoordinateBroker());
     }
 
     {
@@ -350,11 +350,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Build)
 
         const State state2 = stateBuilder.build(instant2, coordinates2);
 
-        EXPECT_NE(state1.accessInstant(), state2.accessInstant());
-        EXPECT_NE(state1.accessCoordinates(), state2.accessCoordinates());
+        EXPECT_NE(state1.getInstant(), state2.getInstant());
+        EXPECT_NE(state1.getCoordinates(), state2.getCoordinates());
 
-        EXPECT_EQ(state1.accessFrame(), state2.accessFrame());
-        EXPECT_EQ(state1.accessCoordinateBroker(), state2.accessCoordinateBroker());
+        EXPECT_EQ(state1.getFrame(), state2.getFrame());
+        EXPECT_EQ(state1.getCoordinateBroker(), state2.getCoordinateBroker());
     }
 
     {
@@ -392,10 +392,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Reduce)
         expectedAnotherCoordinates << 100.0, 1.0, 2.0, 3.0;
 
         EXPECT_FALSE(aState == anotherState);
-        EXPECT_EQ(aState.accessInstant(), anotherState.accessInstant());
-        EXPECT_EQ(aState.accessFrame(), anotherState.accessFrame());
-        EXPECT_EQ(coordinates, aState.accessCoordinates());
-        EXPECT_EQ(expectedAnotherCoordinates, anotherState.accessCoordinates());
+        EXPECT_EQ(aState.getInstant(), anotherState.getInstant());
+        EXPECT_EQ(aState.getFrame(), anotherState.getFrame());
+        EXPECT_EQ(coordinates, aState.getCoordinates());
+        EXPECT_EQ(expectedAnotherCoordinates, anotherState.getCoordinates());
     }
 
     {
@@ -428,11 +428,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Reduce)
         const State anotherState = stateBuilder.reduce(aState);
 
         EXPECT_FALSE(aState == anotherState);
-        EXPECT_EQ(aState.accessInstant(), anotherState.accessInstant());
-        EXPECT_EQ(stateBuilder.accessFrame(), anotherState.accessFrame());  // Uses StateBuilder's frame
-        EXPECT_EQ(Frame::ITRF(), anotherState.accessFrame());
-        EXPECT_EQ(coordinates, aState.accessCoordinates());
-        EXPECT_EQ(massPosBrokerSPtr->getNumberOfCoordinates(), anotherState.accessCoordinates().size());
+        EXPECT_EQ(aState.getInstant(), anotherState.getInstant());
+        EXPECT_EQ(stateBuilder.getFrame(), anotherState.getFrame());  // Uses StateBuilder's frame
+        EXPECT_EQ(Frame::ITRF(), anotherState.getFrame());
+        EXPECT_EQ(coordinates, aState.getCoordinates());
+        EXPECT_EQ(massPosBrokerSPtr->getNumberOfCoordinates(), anotherState.getCoordinates().size());
     }
 
     {
@@ -468,11 +468,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
 
         EXPECT_FALSE(aState == anotherState);
         EXPECT_FALSE(defaultState == anotherState);
-        EXPECT_EQ(aState.accessInstant(), anotherState.accessInstant());
-        EXPECT_EQ(stateBuilder.accessFrame(), anotherState.accessFrame());
-        EXPECT_EQ(coordinates, aState.accessCoordinates());
-        EXPECT_EQ(defaultCoordinates, defaultState.accessCoordinates());
-        EXPECT_EQ(expectedAnotherCoordinates, anotherState.accessCoordinates());
+        EXPECT_EQ(aState.getInstant(), anotherState.getInstant());
+        EXPECT_EQ(stateBuilder.getFrame(), anotherState.getFrame());
+        EXPECT_EQ(coordinates, aState.getCoordinates());
+        EXPECT_EQ(defaultCoordinates, defaultState.getCoordinates());
+        EXPECT_EQ(expectedAnotherCoordinates, anotherState.getCoordinates());
     }
 
     {
@@ -532,8 +532,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
 
         EXPECT_FALSE(aState == anotherState);
         EXPECT_FALSE(defaultState == anotherState);
-        EXPECT_EQ(aState.accessInstant(), anotherState.accessInstant());
-        EXPECT_EQ(stateBuilder.accessFrame(), anotherState.accessFrame());
+        EXPECT_EQ(aState.getInstant(), anotherState.getInstant());
+        EXPECT_EQ(stateBuilder.getFrame(), anotherState.getFrame());
         EXPECT_EQ(anotherState.getSize(), 7);
     }
 
@@ -554,20 +554,20 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Expand)
     }
 }
 
-TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Accessors)
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, GetCoordinateBroker)
 {
     {
         const StateBuilder stateBuilder = {Frame::GCRF(), posVelBrokerSPtr};
 
-        EXPECT_EQ(Frame::GCRF(), stateBuilder.accessFrame());
-        EXPECT_EQ(posVelBrokerSPtr, stateBuilder.accessCoordinateBroker());
+        EXPECT_EQ(Frame::GCRF(), stateBuilder.getFrame());
+        EXPECT_EQ(posVelBrokerSPtr, stateBuilder.getCoordinateBroker());
     }
 
     {
         const StateBuilder stateBuilder = {Frame::GCRF(), posVelSubsets};
 
-        EXPECT_EQ(Frame::GCRF(), stateBuilder.accessFrame());
-        EXPECT_EQ(posVelSubsets, stateBuilder.accessCoordinateBroker()->getSubsets());
+        EXPECT_EQ(Frame::GCRF(), stateBuilder.getFrame());
+        EXPECT_EQ(posVelSubsets, stateBuilder.getCoordinateBroker()->getSubsets());
     }
 
     {
@@ -577,13 +577,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Accessors)
         const State state = State(instant, coordinates, Frame::GCRF(), posVelBrokerSPtr);
 
         const StateBuilder stateBuilder = {state};
-        EXPECT_EQ(Frame::GCRF(), stateBuilder.accessFrame());
-        EXPECT_EQ(posVelBrokerSPtr, stateBuilder.accessCoordinateBroker());
+        EXPECT_EQ(Frame::GCRF(), stateBuilder.getFrame());
+        EXPECT_EQ(posVelBrokerSPtr, stateBuilder.getCoordinateBroker());
     }
 
     {
-        EXPECT_ANY_THROW(StateBuilder::Undefined().accessFrame());
-        EXPECT_ANY_THROW(StateBuilder::Undefined().accessCoordinateBroker());
+        EXPECT_ANY_THROW(StateBuilder::Undefined().getFrame());
+        EXPECT_ANY_THROW(StateBuilder::Undefined().getCoordinateBroker());
     }
 }
 
@@ -595,6 +595,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_StateBuilder, Getters)
         EXPECT_EQ(stateBuilder.getCoordinateSubsets(), posVelBrokerSPtr->getSubsets());
         EXPECT_EQ(stateBuilder.getSize(), posVelBrokerSPtr->getNumberOfCoordinates());
         EXPECT_EQ(Frame::GCRF(), stateBuilder.getFrame());
+
+        EXPECT_EQ(&stateBuilder.getFrame(), &stateBuilder.getFrame());
+        EXPECT_EQ(&stateBuilder.getCoordinateBroker(), &stateBuilder.getCoordinateBroker());
+        EXPECT_EQ(&stateBuilder.getCoordinateSubsets(), &posVelBrokerSPtr->getSubsets());
     }
 
     {

@@ -51,12 +51,12 @@ TemporalConditionSolver::TemporalConditionSolver(
     }
 }
 
-Duration TemporalConditionSolver::getTimeStep() const
+const Duration& TemporalConditionSolver::getTimeStep() const
 {
     return this->timeStep_;
 }
 
-Duration TemporalConditionSolver::getTolerance() const
+const Duration& TemporalConditionSolver::getTolerance() const
 {
     return this->tolerance_;
 }
