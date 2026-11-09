@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <cmath>
-
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
@@ -26,11 +24,6 @@ Spherical::Spherical(double aRadius)
     : HardBody(),
       radius_(aRadius)
 {
-    if (std::isnan(radius_))
-    {
-        throw ostk::core::error::runtime::Undefined("Radius");
-    }
-
     if (radius_ < 0.0)
     {
         throw ostk::core::error::RuntimeError("Radius must be greater than or equal to 0.");

@@ -119,7 +119,7 @@ class Trajectory
     ///              Trajectory(...).isDefined();
     /// @endcode
     ///
-    /// @return True if trajectory is defined
+    /// @return True if the trajectory model is defined
     bool isDefined() const;
 
     /// @brief Access trajectory model
@@ -162,15 +162,6 @@ class Trajectory
     /// @param displayDecorator If true, display decorator
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Constructs an undefined trajectory
-    ///
-    /// @code{.cpp}
-    ///              Trajectory trajectory = Trajectory::Undefined(); // Undefined
-    /// @endcode
-    ///
-    /// @return Undefined trajectory
-    static Trajectory Undefined();
-
     /// @brief Constructs a trajectory from a given position
     ///
     /// @code{.cpp}
@@ -184,8 +175,6 @@ class Trajectory
 
    private:
     Unique<Model> modelUPtr_;
-
-    Trajectory();
 
     /// @brief Compute states using the provided position generator, and finite differenced velocities, at the provided
     /// instants

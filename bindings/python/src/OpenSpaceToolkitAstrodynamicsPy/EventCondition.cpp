@@ -244,6 +244,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition(pybind11::module& aMo
 
                     Returns:
                        target (EventConditionTarget): The target of the event condition.
+
+                    Raises:
+                        RuntimeError: If the event condition has no target (e.g. an angular range condition).
                 )doc"
             )
 

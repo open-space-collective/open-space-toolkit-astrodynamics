@@ -45,8 +45,8 @@ QLaw::Parameters::Parameters(
     const Size& aKValue,
     const double& aPeriapsisWeight,
     const Length& minimumPeriapsisradius,
-    double anAbsoluteEffectivityThreshold,
-    double aRelativeEffectivityThreshold
+    const std::optional<double>& anAbsoluteEffectivityThreshold,
+    const std::optional<double>& aRelativeEffectivityThreshold
 )
     : m(aMValue),
       n(aNValue),
@@ -84,19 +84,19 @@ QLaw::Parameters::Parameters(
         ++i;
     }
 
-    if (!std::isnan(anAbsoluteEffectivityThreshold))
+    if (anAbsoluteEffectivityThreshold.has_value())
     {
-        if (anAbsoluteEffectivityThreshold < 0.0 || anAbsoluteEffectivityThreshold > 1.0)
+        if (anAbsoluteEffectivityThreshold.value() < 0.0 || anAbsoluteEffectivityThreshold.value() > 1.0)
         {
             throw ostk::core::error::RuntimeError("Absolute effectivity threshold must be within range [0.0, 1.0].");
         }
     }
 
-    if (!std::isnan(aRelativeEffectivityThreshold))
+    if (aRelativeEffectivityThreshold.has_value())
     {
-        if (aRelativeEffectivityThreshold < 0.0 || aRelativeEffectivityThreshold > 1.0)
+        if (aRelativeEffectivityThreshold.value() < 0.0 || aRelativeEffectivityThreshold.value() > 1.0)
         {
-            throw ostk::core::error::RuntimeError("Absolute effectivity threshold must be within range [0.0, 1.0].");
+            throw ostk::core::error::RuntimeError("Relative effectivity threshold must be within range [0.0, 1.0].");
         }
     }
 }
@@ -305,7 +305,7 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
 
     const Vector3d thrustVector = computeThrustVector(aCOEVector, aThrustAcceleration);
 
-    if (!std::isnan(parameters_.relativeEffectivityThreshold) || !std::isnan(parameters_.absoluteEffectivityThreshold))
+    if (parameters_.relativeEffectivityThreshold.has_value() || parameters_.absoluteEffectivityThreshold.has_value())
     {
         double etaRelative = 0.0;
         double etaAbsolute = 0.0;
@@ -314,15 +314,15 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
             QLaw::computeEffectivity_(aCOEVector, thrustVector, aThrustAcceleration, trueAnomalyAngles_);
 
         // If the relative effectivity is below the threshold, do not thrust.
-        if ((!std::isnan(parameters_.relativeEffectivityThreshold)) &&
-            (etaRelative < parameters_.relativeEffectivityThreshold))
+        if (parameters_.relativeEffectivityThreshold.has_value() &&
+            (etaRelative < parameters_.relativeEffectivityThreshold.value()))
         {
             return {0.0, 0.0, 0.0};
         }
 
         // If the absolute effectivity is below the threshold, do not thrust.
-        if ((!std::isnan(parameters_.absoluteEffectivityThreshold)) &&
-            (etaAbsolute < parameters_.absoluteEffectivityThreshold))
+        if (parameters_.absoluteEffectivityThreshold.has_value() &&
+            (etaAbsolute < parameters_.absoluteEffectivityThreshold.value()))
         {
             return {0.0, 0.0, 0.0};
         }

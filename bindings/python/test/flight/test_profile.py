@@ -208,11 +208,9 @@ class TestProfile:
         assert frame_2 is not None
 
     def test_undefined(self):
-        profile: Profile = Profile.undefined()
+        assert not hasattr(Profile, "undefined")
 
-        assert profile is not None
-        assert isinstance(profile, Profile)
-        assert profile.is_defined() is False
+        assert Profile(model=TransformModel.undefined()).is_defined() is False
 
     def test_constant_inertial_pointing(self):
         quaternion: Quaternion = Quaternion([0.0, 0.0, 0.0, 1.0], Quaternion.Format.XYZS)

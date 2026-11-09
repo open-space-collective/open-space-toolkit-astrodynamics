@@ -69,3 +69,15 @@ class TestSatelliteSystemBuilder:
         )
         assert satellite_system.get_drag_coefficient() == drag_coefficient
         assert satellite_system.get_propulsion_system() == propulsion_system
+
+    def test_build_without_optional_parameters(self):
+        satellite_system: SatelliteSystem = SatelliteSystemBuilder().build()
+
+        with pytest.raises(RuntimeError):
+            satellite_system.get_cross_sectional_surface_area()
+
+        with pytest.raises(RuntimeError):
+            satellite_system.get_drag_coefficient()
+
+        with pytest.raises(RuntimeError):
+            satellite_system.get_propulsion_system()

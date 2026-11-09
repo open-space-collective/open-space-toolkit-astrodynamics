@@ -32,22 +32,12 @@ EventCondition::Target::Target(const Length& aLength, const Type& aType)
 
 bool EventCondition::Target::operator==(const EventCondition::Target& aTarget) const
 {
-    if (std::isnan(value) || std::isnan(aTarget.value))
-    {
-        return false;
-    }
-
     return (type == aTarget.type) && (value == aTarget.value);
 }
 
 bool EventCondition::Target::operator!=(const EventCondition::Target& aTarget) const
 {
     return !((*this) == aTarget);
-}
-
-bool EventCondition::Target::isDefined() const
-{
-    return !std::isnan(value);
 }
 
 String EventCondition::Target::StringFromType(const EventCondition::Target::Type& aType)
@@ -77,7 +67,7 @@ EventCondition::EventCondition(
 )
     : name_(aName),
       evaluator_(anEvaluator),
-      target_({aTargetValue, EventCondition::Target::Type::Absolute})
+      target_(EventCondition::Target(aTargetValue, EventCondition::Target::Type::Absolute))
 {
 }
 
@@ -102,7 +92,12 @@ std::function<double(const State&)> EventCondition::getEvaluator() const
 
 EventCondition::Target EventCondition::getTarget() const
 {
-    return target_;
+    if (!target_.has_value())
+    {
+        throw ostk::core::error::runtime::Undefined("Target");
+    }
+
+    return target_.value();
 }
 
 void EventCondition::updateTarget(const State& aState)
@@ -112,9 +107,9 @@ void EventCondition::updateTarget(const State& aState)
         throw ostk::core::error::runtime::Undefined("Evaluator");
     }
 
-    if (target_.type == EventCondition::Target::Type::Relative)
+    if (target_.has_value() && (target_->type == EventCondition::Target::Type::Relative))
     {
-        target_.valueOffset = evaluator_(aState);
+        target_->valueOffset = evaluator_(aState);
     }
 }
 
@@ -123,11 +118,25 @@ void EventCondition::print(std::ostream& anOutputStream, bool displayDecorator) 
     displayDecorator ? ostk::core::utils::Print::Header(anOutputStream, "Event Condition") : void();
 
     ostk::core::utils::Print::Line(anOutputStream) << "Name:" << name_;
-    ostk::core::utils::Print::Line(anOutputStream) << "Target:" << target_.value;
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Target Type:" << EventCondition::Target::StringFromType(target_.type);
+    if (target_.has_value())
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Target:" << target_->value;
+        ostk::core::utils::Print::Line(anOutputStream)
+            << "Target Type:" << EventCondition::Target::StringFromType(target_->type);
+    }
+    else
+    {
+        ostk::core::utils::Print::Line(anOutputStream) << "Target:" << "Undefined";
+    }
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
+}
+
+EventCondition::EventCondition(const String& aName, const std::function<double(const State&)>& anEvaluator)
+    : name_(aName),
+      evaluator_(anEvaluator),
+      target_(std::nullopt)
+{
 }
 
 }  // namespace astrodynamics

@@ -31,7 +31,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Constructor
         const String firstLine = "";
         const String secondLine = "";
 
-        EXPECT_NO_THROW(TLE(firstLine, secondLine));
+        EXPECT_THROW(TLE(firstLine, secondLine), ostk::core::error::runtime::Wrong);
     }
 
     // Alpha-5 satellite number
@@ -79,10 +79,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, EqualToOper
 
         EXPECT_FALSE(TLE(firstLine, secondLine, satelliteName) == TLE(firstLine, secondLine));
     }
-
-    {
-        EXPECT_FALSE(TLE::Undefined() == TLE::Undefined());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, NotEqualToOperator)
@@ -104,10 +100,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, NotEqualToO
         const String secondLine = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
 
         EXPECT_TRUE(TLE(firstLine, secondLine, satelliteName) != TLE(firstLine, secondLine));
-    }
-
-    {
-        EXPECT_TRUE(TLE::Undefined() != TLE::Undefined());
     }
 }
 
@@ -152,10 +144,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatellit
 
         EXPECT_FALSE(tle.getSatelliteName().has_value());
     }
-
-    {
-        EXPECT_FALSE(TLE::Undefined().getSatelliteName().has_value());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatelliteNumber)
@@ -171,10 +159,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetSatellit
         const TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(25544, tle.getSatelliteNumber());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getSatelliteNumber());
     }
 
     // Invalid Alpha-5 character in satellite number field
@@ -259,10 +243,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, GetRawSatel
         EXPECT_EQ("Z9999", tle.getRawSatelliteNumber());
         EXPECT_EQ(339999, tle.getSatelliteNumber());
     }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getRawSatelliteNumber());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getClassification)
@@ -279,10 +259,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getClassifi
 
         EXPECT_EQ("U", tle.getClassification());
     }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getClassification());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getInternationalDesignator)
@@ -298,10 +274,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getInternat
         const TLE tle(firstLine, secondLine);
 
         EXPECT_EQ("98067A", tle.getInternationalDesignator());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getInternationalDesignator());
     }
 }
 
@@ -323,10 +295,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getEpoch)
 
         EXPECT_EQ(Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC), tle.getEpoch());
     }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getEpoch());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanMotionFirstTimeDerivativeDividedByTwo)
@@ -342,10 +310,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanMoti
         const TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(-0.00002182, tle.getMeanMotionFirstTimeDerivativeDividedByTwo());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getMeanMotionFirstTimeDerivativeDividedByTwo());
     }
 }
 
@@ -363,10 +327,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanMoti
 
         EXPECT_EQ(0.0, tle.getMeanMotionSecondTimeDerivativeDividedBySix());
     }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getMeanMotionSecondTimeDerivativeDividedBySix());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getBStarDragTerm)
@@ -382,10 +342,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getBStarDra
         const TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(-0.11606e-4, tle.getBStarDragTerm());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getBStarDragTerm());
     }
 }
 
@@ -403,10 +359,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getEphemeri
 
         EXPECT_EQ(0, tle.getEphemerisType());
     }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getEphemerisType());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getElementSetNumber)
@@ -422,10 +374,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getElementS
         const TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(292, tle.getElementSetNumber());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getElementSetNumber());
     }
 }
 
@@ -452,10 +400,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getFirstLin
 
         EXPECT_EQ(1, tle.getFirstLineChecksum());
     }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getFirstLineChecksum());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getInclination)
@@ -473,10 +417,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getInclinat
         const TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(Angle::Degrees(51.6416), tle.getInclination());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getInclination());
     }
 }
 
@@ -496,10 +436,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getRaan)
 
         EXPECT_EQ(Angle::Degrees(247.4627), tle.getRaan());
     }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getRaan());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getEccentricity)
@@ -515,10 +451,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getEccentri
         const TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(0.0006703, tle.getEccentricity());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getEccentricity());
     }
 }
 
@@ -538,10 +470,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getAop)
 
         EXPECT_EQ(Angle::Degrees(130.5360), tle.getAop());
     }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getAop());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanAnomaly)
@@ -559,10 +487,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanAnom
         const TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(Angle::Degrees(325.0288), tle.getMeanAnomaly());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getMeanAnomaly());
     }
 }
 
@@ -587,10 +511,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getMeanMoti
             tle.getMeanMotion()
         );
     }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getMeanMotion());
-    }
 }
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getRevolutionNumberAtEpoch)
@@ -606,10 +526,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getRevoluti
         const TLE tle(firstLine, secondLine);
 
         EXPECT_EQ(56353, tle.getRevolutionNumberAtEpoch());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getRevolutionNumberAtEpoch());
     }
 }
 
@@ -635,10 +551,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getSecondLi
         const TLE tle {firstLine, secondLine};
 
         EXPECT_EQ(4, tle.getSecondLineChecksum());
-    }
-
-    {
-        EXPECT_ANY_THROW(TLE::Undefined().getSecondLineChecksum());
     }
 }
 
@@ -925,16 +837,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetRevoluti
     }
 }
 
-TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Undefined)
-{
-    using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
-
-    {
-        EXPECT_NO_THROW(TLE::Undefined());
-        EXPECT_FALSE(TLE::Undefined().isDefined());
-    }
-}
-
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, CanParse)
 {
     using ostk::core::filesystem::File;
@@ -1094,8 +996,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Parse)
             "130.5360 325.0288 15.72125391563537"
         );
 
-        EXPECT_TRUE(tle.isDefined());
-
         EXPECT_EQ(25544, tle.getSatelliteNumber());
         EXPECT_EQ("U", tle.getClassification());
         EXPECT_EQ("98067A", tle.getInternationalDesignator());
@@ -1124,8 +1024,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Parse)
             "247.4627 0006703 130.5360 325.0288 15.72125391563537"
         );
 
-        EXPECT_TRUE(tle.isDefined());
-
         EXPECT_EQ(25544, tle.getSatelliteNumber());
         EXPECT_EQ("U", tle.getClassification());
         EXPECT_EQ("98067A", tle.getInternationalDesignator());
@@ -1153,8 +1051,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Parse)
             "ISS (ZARYA)\n1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927\n2 25544  51.6416 "
             "247.4627 0006703 130.5360 325.0288 15.72125391563537\n"
         );
-
-        EXPECT_TRUE(tle.isDefined());
 
         EXPECT_EQ(25544, tle.getSatelliteNumber());
         EXPECT_EQ("U", tle.getClassification());
@@ -1258,8 +1154,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Load)
             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/A.tle"))
         );
 
-        EXPECT_TRUE(tle.isDefined());
-
         EXPECT_EQ(25544, tle.getSatelliteNumber());
         EXPECT_EQ("U", tle.getClassification());
         EXPECT_EQ("98067A", tle.getInternationalDesignator());
@@ -1285,8 +1179,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Load)
         const TLE tle = TLE::Load(
             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/B.tle"))
         );
-
-        EXPECT_TRUE(tle.isDefined());
 
         EXPECT_EQ(25544, tle.getSatelliteNumber());
         EXPECT_EQ("U", tle.getClassification());
@@ -1314,8 +1206,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Load)
         const TLE tle = TLE::Load(
             File::Path(Path::Parse("/app/test/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4/TLE/C.tle"))
         );
-
-        EXPECT_TRUE(tle.isDefined());
 
         EXPECT_EQ(25544, tle.getSatelliteNumber());
         EXPECT_EQ("U", tle.getClassification());

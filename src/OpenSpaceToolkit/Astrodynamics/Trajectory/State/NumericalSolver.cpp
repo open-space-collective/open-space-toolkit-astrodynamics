@@ -92,7 +92,8 @@ namespace
 
 /// @brief Convert a double into the ostk::core::type::Real expected by MathNumericalSolver
 ///
-/// NaN maps to Real::Undefined(), so that an undefined input keeps the base solver undefined.
+/// NaN maps to Real::Undefined(), which is how the base solver (ostk-mathematics, which still takes Real) represents
+/// an undefined solver: NumericalSolver::Undefined() relies on it. This is the only place NaN is interpreted.
 ///
 /// @param [in] aValue A value
 /// @return Real value
@@ -167,7 +168,7 @@ Array<State> NumericalSolver::getObservedStates() const
     return accessObservedStates();
 }
 
-double NumericalSolver::getMaxStepSize() const
+std::optional<double> NumericalSolver::getMaxStepSize() const
 {
     if (!this->isDefined())
     {
@@ -177,7 +178,7 @@ double NumericalSolver::getMaxStepSize() const
     return maxStepSize_;
 }
 
-void NumericalSolver::setMaxStepSize(double aMaxStepSize)
+void NumericalSolver::setMaxStepSize(const std::optional<double>& aMaxStepSize)
 {
     maxStepSize_ = aMaxStepSize;
 }
@@ -494,8 +495,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     bool conditionSatisfied = false;
     bool isInitialState = true;
 
-    const double maxStepSizeDouble =
-        !std::isnan(maxStepSize_) ? static_cast<double>(maxStepSize_) : std::numeric_limits<double>::infinity();
+    const double maxStepSizeDouble = maxStepSize_.value_or(std::numeric_limits<double>::infinity());
     const double stepSignAbs = std::abs(aSignedTimeStep);
 
     while (true)

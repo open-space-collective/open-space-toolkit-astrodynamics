@@ -15,7 +15,7 @@ namespace orbit
 {
 
 Pass::Pass(
-    const Integer& aRevolutionNumber,
+    const std::optional<int>& aRevolutionNumber,
     const Instant& anInstantAtAscendingNode,
     const Instant& anInstantAtNorthPoint,
     const Instant& anInstantAtDescendingNode,
@@ -31,14 +31,14 @@ Pass::Pass(
 {
     if (!anInstantAtNorthPoint.isDefined() && !anInstantAtSouthPoint.isDefined() &&
         !anInstantAtDescendingNode.isDefined() && !anInstantAtAscendingNode.isDefined() &&
-        !anInstantAtPassBreak.isDefined() && !revolutionNumber_.isDefined())
+        !anInstantAtPassBreak.isDefined() && !revolutionNumber_.has_value())
     {
         type_ = Pass::Type::Undefined;
     }
     else if ((!anInstantAtNorthPoint.isDefined() || !anInstantAtSouthPoint.isDefined() ||
               !anInstantAtDescendingNode.isDefined() || !anInstantAtAscendingNode.isDefined() ||
               !anInstantAtPassBreak.isDefined()) &&
-             revolutionNumber_.isDefined())
+             revolutionNumber_.has_value())
     {
         type_ = Pass::Type::Partial;
     }
@@ -90,7 +90,8 @@ bool Pass::operator==(const Pass& aPass) const
         return false;
     }
 
-    bool isEqual = (type_ == aPass.type_) && (revolutionNumber_ == aPass.revolutionNumber_) &&
+    bool isEqual = (type_ == aPass.type_) && revolutionNumber_.has_value() && aPass.revolutionNumber_.has_value() &&
+                   (revolutionNumber_.value() == aPass.revolutionNumber_.value()) &&
                    (instantAtAscendingNode_.isDefined() == aPass.instantAtAscendingNode_.isDefined()) &&
                    (instantAtDescendingNode_.isDefined() == aPass.instantAtDescendingNode_.isDefined()) &&
                    (instantAtNorthPoint_.isDefined() == aPass.instantAtNorthPoint_.isDefined()) &&
@@ -162,7 +163,7 @@ Pass::Type Pass::getType() const
     return type_;
 }
 
-Integer Pass::getRevolutionNumber() const
+std::optional<int> Pass::getRevolutionNumber() const
 {
     if (!this->isDefined())
     {
@@ -320,7 +321,7 @@ void Pass::print(std::ostream& anOutputStream, bool displayDecorator) const
 
     ostk::core::utils::Print::Line(anOutputStream) << "Type:" << Pass::StringFromType(type_);
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Revolution #:" << (revolutionNumber_.isDefined() ? revolutionNumber_.toString() : "Undefined");
+        << "Revolution #:" << (revolutionNumber_.has_value() ? std::to_string(revolutionNumber_.value()) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Duration:" << (duration.isDefined() ? duration.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
@@ -342,7 +343,7 @@ void Pass::print(std::ostream& anOutputStream, bool displayDecorator) const
 Pass Pass::Undefined()
 {
     return {
-        Integer::Undefined(),
+        std::nullopt,
         Instant::Undefined(),
         Instant::Undefined(),
         Instant::Undefined(),
@@ -375,9 +376,6 @@ String Pass::StringFromPhase(const Pass::Phase& aPhase)
 {
     switch (aPhase)
     {
-        case Pass::Phase::Undefined:
-            return "Undefined";
-
         case Pass::Phase::Ascending:
             return "Ascending";
 

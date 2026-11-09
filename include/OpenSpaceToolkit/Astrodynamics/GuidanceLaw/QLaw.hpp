@@ -4,7 +4,7 @@
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__
 
 #include <cmath>
-#include <limits>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 
@@ -78,8 +78,8 @@ class QLaw : public GuidanceLaw
         /// @param aKValue The k periapsis penalty scaling factor.
         /// @param aPeriapsisWeight The periapsis constraint weight.
         /// @param minimumPeriapsisradius The minimum allowed periapsis radius.
-        /// @param absoluteEffectivityThreshold The absolute effectivity threshold.
-        /// @param relativeEffectivityThreshold The relative effectivity threshold.
+        /// @param absoluteEffectivityThreshold The absolute effectivity threshold. If not provided, it is not used.
+        /// @param relativeEffectivityThreshold The relative effectivity threshold. If not provided, it is not used.
         Parameters(
             const Map<COE::Element, Tuple<double, double>>& anElementWeightsMap,
             const Size& aMValue = 3,
@@ -89,8 +89,8 @@ class QLaw : public GuidanceLaw
             const Size& aKValue = 100,
             const double& aPeriapsisWeight = 0.0,
             const Length& minimumPeriapsisradius = Length::Kilometers(6578.0),
-            double absoluteEffectivityThreshold = std::numeric_limits<double>::quiet_NaN(),
-            double relativeEffectivityThreshold = std::numeric_limits<double>::quiet_NaN()
+            const std::optional<double>& absoluteEffectivityThreshold = std::nullopt,
+            const std::optional<double>& relativeEffectivityThreshold = std::nullopt
         );
 
         /// @brief Get control weights.
@@ -114,8 +114,8 @@ class QLaw : public GuidanceLaw
         const double b;
         const double k;
         const double periapsisWeight;
-        const double absoluteEffectivityThreshold;
-        const double relativeEffectivityThreshold;
+        const std::optional<double> absoluteEffectivityThreshold;
+        const std::optional<double> relativeEffectivityThreshold;
 
         friend QLaw;
 

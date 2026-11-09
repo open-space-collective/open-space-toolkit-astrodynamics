@@ -1,9 +1,8 @@
 /// Apache License 2.0
 
-#include <limits>
-
 #include <gmock/gmock.h>
 
+#include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -37,6 +36,11 @@ class TestCondition : public EventCondition
         const EventCondition::Target& aTarget
     )
         : EventCondition(aName, anEvaluator, aTarget)
+    {
+    }
+
+    TestCondition(const String& aName, const std::function<double(const State&)>& anEvaluator)
+        : EventCondition(aName, anEvaluator)
     {
     }
 
@@ -86,10 +90,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, EventConditionTarget_Equal
     }
 
     {
-        const EventCondition::Target target = {
-            std::numeric_limits<double>::quiet_NaN(), EventCondition::Target::Type::Absolute
-        };
-        EXPECT_FALSE(target == target);
+        const EventCondition::Target target = {0.0, EventCondition::Target::Type::Absolute};
+        EXPECT_FALSE(target == EventCondition::Target(0.0, EventCondition::Target::Type::Relative));
+        EXPECT_FALSE(target == EventCondition::Target(1.0, EventCondition::Target::Type::Absolute));
     }
 }
 
@@ -101,25 +104,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, EventConditionTarget_NotEq
     }
 
     {
-        const EventCondition::Target target = {
-            std::numeric_limits<double>::quiet_NaN(), EventCondition::Target::Type::Absolute
-        };
-        EXPECT_TRUE(target != target);
-    }
-}
-
-TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, EventConditionTarget_isDefined)
-{
-    {
         const EventCondition::Target target = {0.0, EventCondition::Target::Type::Absolute};
-        EXPECT_TRUE(target.isDefined());
-    }
-
-    {
-        const EventCondition::Target target = {
-            std::numeric_limits<double>::quiet_NaN(), EventCondition::Target::Type::Absolute
-        };
-        EXPECT_FALSE(target.isDefined());
+        const EventCondition::Target otherTarget = {1.0, EventCondition::Target::Type::Absolute};
+        EXPECT_TRUE(target != otherTarget);
     }
 }
 
@@ -178,6 +165,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition, GetTarget)
 {
     {
         EXPECT_EQ(defaultCondition_.getTarget(), defaultTarget_);
+    }
+
+    {
+        const TestCondition targetlessCondition = {"name", nullptr};
+
+        EXPECT_THROW(targetlessCondition.getTarget(), ostk::core::error::runtime::Undefined);
     }
 }
 

@@ -88,8 +88,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ModifiedEquinoctial
 
 bool ModifiedEquinoctial::isDefined() const
 {
-    return semiLatusRectum_.isDefined() && !std::isnan(eccentricityX_) && !std::isnan(eccentricityY_) &&
-           !std::isnan(nodeX_) && !std::isnan(nodeY_) && trueLongitude_.isDefined();
+    return semiLatusRectum_.isDefined() && trueLongitude_.isDefined();
 }
 
 Length ModifiedEquinoctial::getSemiLatusRectum() const
@@ -267,14 +266,10 @@ void ModifiedEquinoctial::print(std::ostream& anOutputStream, bool displayDecora
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Semi-latus rectum:" << (semiLatusRectum_.isDefined() ? semiLatusRectum_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Eccentricity X:" << (!std::isnan(eccentricityX_) ? utility::DoubleToString(eccentricityX_) : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Eccentricity Y:" << (!std::isnan(eccentricityY_) ? utility::DoubleToString(eccentricityY_) : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Node X:" << (!std::isnan(nodeX_) ? utility::DoubleToString(nodeX_) : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Node Y:" << (!std::isnan(nodeY_) ? utility::DoubleToString(nodeY_) : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity X:" << utility::DoubleToString(eccentricityX_);
+    ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity Y:" << utility::DoubleToString(eccentricityY_);
+    ostk::core::utils::Print::Line(anOutputStream) << "Node X:" << utility::DoubleToString(nodeX_);
+    ostk::core::utils::Print::Line(anOutputStream) << "Node Y:" << utility::DoubleToString(nodeY_);
     ostk::core::utils::Print::Line(anOutputStream)
         << "True Longitude:" << (trueLongitude_.isDefined() ? trueLongitude_.toString() : "Undefined");
 
@@ -283,14 +278,7 @@ void ModifiedEquinoctial::print(std::ostream& anOutputStream, bool displayDecora
 
 ModifiedEquinoctial ModifiedEquinoctial::Undefined()
 {
-    return {
-        Length::Undefined(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        Angle::Undefined()
-    };
+    return {Length::Undefined(), 0.0, 0.0, 0.0, 0.0, Angle::Undefined()};
 }
 
 ModifiedEquinoctial ModifiedEquinoctial::Cartesian(

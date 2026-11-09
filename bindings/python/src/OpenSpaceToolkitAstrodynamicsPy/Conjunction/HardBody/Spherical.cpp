@@ -31,7 +31,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_HardBody_Spherical(pybin
                     radius (float): The radius of the sphere [m].
 
                 Raises:
-                    RuntimeError: If the radius is undefined or negative.
+                    RuntimeError: If the radius is negative.
             )doc",
             arg("radius")
         )

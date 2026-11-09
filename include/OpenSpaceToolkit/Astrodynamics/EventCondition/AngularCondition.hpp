@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -158,7 +160,7 @@ class AngularCondition : public EventCondition
    private:
     Criterion criterion_;
     std::function<bool(double, double, double)> comparator_;
-    Pair<double, double> targetRange_;
+    std::optional<Pair<double, double>> targetRange_;
 
     static bool IsPositiveCrossing(double currentAngle, double previousAngle, double targetAngle);
     static bool IsNegativeCrossing(double currentAngle, double previousAngle, double targetAngle);

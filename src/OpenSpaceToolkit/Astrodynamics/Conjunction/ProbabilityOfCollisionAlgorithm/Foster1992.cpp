@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <limits>
 #include <optional>
 #include <string>
 
@@ -41,7 +40,7 @@ Foster1992::Foster1992(
       frameSPtr_(aFrameSPtr),
       numberOfRadialSteps_(aNumberOfRadialSteps),
       increaseNumberOfRadialStepsIfNeeded_(increaseNumberOfRadialStepsIfNeeded),
-      angularStepSize_(std::numeric_limits<double>::quiet_NaN()),
+      angularStepSize_(0.0),
       angularSliceSines_(Array<double>::Empty()),
       angularSliceCosines_(Array<double>::Empty())
 {
@@ -78,6 +77,7 @@ Foster1992::Foster1992(
     const Size angularSliceCount =
         static_cast<Size>(std::ceil((2.0 * M_PI / anAngularStepSize.inRadians()) * (1.0 - 1e-12)));
 
+    // The requested step size is replaced by the rounded one, which divides a full turn evenly
     angularStepSize_ = 2.0 * M_PI / angularSliceCount;
 
     // Sine and cosine of the angle at the center of each angular slice

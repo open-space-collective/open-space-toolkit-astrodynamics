@@ -1,7 +1,6 @@
 /// Apache License 2.0
 
 #include <cmath>
-#include <limits>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -24,7 +23,7 @@ AngularCondition::AngularCondition(
     : EventCondition(aName, anEvaluator, aTargetAngle.inRadians(0.0, 2.0 * M_PI)),
       criterion_(aCriterion),
       comparator_(GenerateComparator(aCriterion)),
-      targetRange_(std::make_pair(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()))
+      targetRange_(std::nullopt)
 {
 }
 
@@ -37,7 +36,7 @@ AngularCondition::AngularCondition(
     : EventCondition(aName, anEvaluator, aTarget),
       criterion_(aCriterion),
       comparator_(GenerateComparator(aCriterion)),
-      targetRange_(std::make_pair(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()))
+      targetRange_(std::nullopt)
 {
 }
 
@@ -50,22 +49,22 @@ AngularCondition::Criterion AngularCondition::getCriterion() const
 
 Angle AngularCondition::getTargetAngle() const
 {
-    if (std::isnan(target_.value))
+    if (!target_.has_value())
     {
         throw ostk::core::error::runtime::Undefined("Target");
     }
 
-    return Angle::Radians(target_.value);
+    return Angle::Radians(target_->value);
 }
 
 Pair<Angle, Angle> AngularCondition::getTargetRange() const
 {
-    if (std::isnan(targetRange_.first) || std::isnan(targetRange_.second))
+    if (!targetRange_.has_value())
     {
         throw ostk::core::error::runtime::Undefined("Target Range");
     }
 
-    return Pair<Angle, Angle>(Angle::Radians(targetRange_.first), Angle::Radians(targetRange_.second));
+    return Pair<Angle, Angle>(Angle::Radians(targetRange_->first), Angle::Radians(targetRange_->second));
 }
 
 void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -74,7 +73,7 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
 
     EventCondition::print(anOutputStream, false);
     ostk::core::utils::Print::Line(anOutputStream) << "Criterion: " << StringFromCriterion(getCriterion());
-    if (target_.isDefined())
+    if (target_.has_value())
     {
         ostk::core::utils::Print::Line(anOutputStream)
             << "Target:" << String::Format("{} [deg]", getTargetAngle().inDegrees());
@@ -91,7 +90,10 @@ void AngularCondition::print(std::ostream& anOutputStream, bool displayDecorator
 
 bool AngularCondition::isSatisfied(const State& currentState, const State& previousState) const
 {
-    return comparator_(evaluator_(currentState), evaluator_(previousState), (target_.value + target_.valueOffset));
+    // A range condition has no target value: its comparator ignores the target argument.
+    const double target = target_.has_value() ? (target_->value + target_->valueOffset) : 0.0;
+
+    return comparator_(evaluator_(currentState), evaluator_(previousState), target);
 }
 
 AngularCondition* AngularCondition::clone() const
@@ -196,7 +198,7 @@ AngularCondition::AngularCondition(
     const std::function<double(const State&)>& anEvaluator,
     const Pair<Angle, Angle>& aTargetRange
 )
-    : EventCondition(aName, anEvaluator, std::numeric_limits<double>::quiet_NaN()),
+    : EventCondition(aName, anEvaluator),
       criterion_(aCriterion),
       comparator_(
           [lowerBound = aTargetRange.first.inRadians(0.0, 2.0 * M_PI),

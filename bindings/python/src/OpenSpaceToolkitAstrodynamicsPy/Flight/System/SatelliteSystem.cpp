@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind11::module& aModule)
@@ -26,7 +28,13 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
         )
 
             .def(
-                init<const Mass&, const Composite&, const Matrix3d&, double, double, const PropulsionSystem&>(),
+                init<
+                    const Mass&,
+                    const Composite&,
+                    const Matrix3d&,
+                    const std::optional<double>&,
+                    const std::optional<double>&,
+                    const std::optional<PropulsionSystem>&>(),
                 R"doc(
                     Constructor.
 
@@ -34,9 +42,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                         mass (Mass): The mass of the satellite system.
                         satellite_geometry (Composite): The geometry of the satellite system.
                         inertia_tensor (np.ndarray): The inertia tensor of the satellite system.
-                        cross_sectional_surface_area (float): The cross-sectional surface area of the satellite system.
-                        drag_coefficient (float): The drag coefficient of the satellite system.
-                        propulsion_system (PropulsionSystem): The propulsion system of the satellite system.
+                        cross_sectional_surface_area (float | None): The cross-sectional surface area of the satellite system, or None if absent.
+                        drag_coefficient (float | None): The drag coefficient of the satellite system, or None if absent.
+                        propulsion_system (PropulsionSystem | None): The propulsion system of the satellite system, or None if absent.
 
                 )doc",
                 arg("mass"),
@@ -44,7 +52,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                 arg("inertia_tensor"),
                 arg("cross_sectional_surface_area"),
                 arg("drag_coefficient"),
-                arg_v("propulsion_system", PropulsionSystem::Undefined(), "undefined")
+                arg("propulsion_system") = none()
             )
 
             .def(self == self)
@@ -86,6 +94,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                     Returns:
                         float: The cross-sectional surface area of the satellite system.
 
+                    Raises:
+                        RuntimeError: If the satellite system has no cross-sectional surface area.
+
                 )doc"
             )
 
@@ -98,6 +109,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
                     Returns:
                         float: The drag coefficient of the satellite system.
 
+                    Raises:
+                        RuntimeError: If the satellite system has no drag coefficient.
+
                 )doc"
             )
 
@@ -109,6 +123,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystem(pybind
 
                     Returns:
                         PropulsionSystem: The propulsion system of the satellite system.
+
+                    Raises:
+                        RuntimeError: If the satellite system has no propulsion system.
 
                 )doc"
             )

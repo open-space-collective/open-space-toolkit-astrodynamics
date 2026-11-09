@@ -187,7 +187,7 @@ SGP4FullPrecision::SGP4FullPrecision(
     const Angle& aMeanAnomaly,
     const Derived& aMeanMotion,
     double aBStarDragTerm,
-    const Integer& aRevolutionNumberAtEpoch,
+    int aRevolutionNumberAtEpoch,
     const Shared<const Frame>& anOutputFrameSPtr
 )
     : epoch_(anEpoch),
@@ -277,9 +277,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SGP4FullPrecision& 
 
 bool SGP4FullPrecision::isDefined() const
 {
-    return epoch_.isDefined() && inclination_.isDefined() && raan_.isDefined() && !std::isnan(eccentricity_) &&
-           aop_.isDefined() && meanAnomaly_.isDefined() && meanMotion_.isDefined() && !std::isnan(bStarDragTerm_) &&
-           revolutionNumberAtEpoch_.isDefined() && outputFrameSPtr_;
+    return epoch_.isDefined() && inclination_.isDefined() && raan_.isDefined() && aop_.isDefined() &&
+           meanAnomaly_.isDefined() && meanMotion_.isDefined() && outputFrameSPtr_;
 }
 
 Instant SGP4FullPrecision::getEpoch() const
@@ -431,18 +430,14 @@ void SGP4FullPrecision::print(std::ostream& anOutputStream, bool displayDecorato
     ostk::core::utils::Print::Line(anOutputStream)
         << "Inclination:" << (inclination_.isDefined() ? inclination_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream) << "RAAN:" << (raan_.isDefined() ? raan_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Eccentricity:" << (!std::isnan(eccentricity_) ? utility::DoubleToString(eccentricity_) : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity:" << utility::DoubleToString(eccentricity_);
     ostk::core::utils::Print::Line(anOutputStream) << "AoP:" << (aop_.isDefined() ? aop_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Mean anomaly:" << (meanAnomaly_.isDefined() ? meanAnomaly_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Mean motion:" << (meanMotion_.isDefined() ? meanMotion_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "B*:" << (!std::isnan(bStarDragTerm_) ? utility::DoubleToString(bStarDragTerm_) : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Revolution Number:"
-        << (revolutionNumberAtEpoch_.isDefined() ? revolutionNumberAtEpoch_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "B*:" << utility::DoubleToString(bStarDragTerm_);
+    ostk::core::utils::Print::Line(anOutputStream) << "Revolution Number:" << std::to_string(revolutionNumberAtEpoch_);
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
@@ -453,22 +448,16 @@ SGP4FullPrecision SGP4FullPrecision::Undefined()
         Instant::Undefined(),
         Angle::Undefined(),
         Angle::Undefined(),
-        std::numeric_limits<double>::quiet_NaN(),
+        0.0,
         Angle::Undefined(),
         Angle::Undefined(),
         Derived::Undefined(),
-        std::numeric_limits<double>::quiet_NaN(),
-        Integer::Undefined(),
+        0.0,
     };
 }
 
 SGP4FullPrecision SGP4FullPrecision::FromTLE(const TLE& aTLE, const Shared<const Frame>& anOutputFrameSPtr)
 {
-    if (!aTLE.isDefined())
-    {
-        throw ostk::core::error::runtime::Undefined("TLE");
-    }
-
     return {
         aTLE.getEpoch(),
         aTLE.getInclination(),

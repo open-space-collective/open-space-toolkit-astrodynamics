@@ -189,7 +189,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, IsDef
     }
 
     {
-        const Generator generator(Trajectory::Undefined(), Duration::Minutes(20.0), Duration::Seconds(1.0e-6));
+        const Generator generator(
+            Trajectory(Array<ostk::astrodynamics::trajectory::State>::Empty()),
+            Duration::Minutes(20.0),
+            Duration::Seconds(1.0e-6)
+        );
 
         EXPECT_FALSE(generator.isDefined());
     }
@@ -583,7 +587,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator, Compu
         EXPECT_THROW(
             try {
                 generator.computeCloseApproaches(
-                    Trajectory::Undefined(), Interval::Closed(epoch_, epoch_ + Duration::Seconds(10.0))
+                    Trajectory(Array<ostk::astrodynamics::trajectory::State>::Empty()),
+                    Interval::Closed(epoch_, epoch_ + Duration::Seconds(10.0))
                 );
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Other object trajectory} is undefined.", e.getMessage());

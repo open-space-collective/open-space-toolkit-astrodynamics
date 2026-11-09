@@ -342,6 +342,25 @@ class TestCOE:
         assert isinstance(coe, COE)
         assert coe.is_defined()
 
+        earth = Environment.default().access_celestial_object_with_name("Earth")
+
+        assert COE.frozen_orbit(semi_major_axis, earth, eccentricity=None).is_defined()
+        assert COE.frozen_orbit(semi_major_axis, earth, eccentricity=0.0006).is_defined()
+        assert COE.frozen_orbit(
+            semi_major_axis,
+            Earth.EGM2008.equatorial_radius,
+            Earth.EGM2008.J2,
+            Earth.EGM2008.J3,
+            eccentricity=None,
+        ).is_defined()
+        assert COE.frozen_orbit(
+            semi_major_axis,
+            Earth.EGM2008.equatorial_radius,
+            Earth.EGM2008.J2,
+            Earth.EGM2008.J3,
+            eccentricity=0.0006,
+        ).is_defined()
+
 
 class TestCOEFrame:
     def test_local_time_of_nodes_frame(self):

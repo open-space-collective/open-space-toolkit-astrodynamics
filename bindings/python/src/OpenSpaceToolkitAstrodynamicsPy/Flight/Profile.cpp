@@ -366,17 +366,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_Profile(pybind11::module& aMo
         )
 
         .def_static(
-            "undefined",
-            &Profile::Undefined,
-            R"doc(
-                Create an undefined profile.
-
-                Returns:
-                    Profile: The undefined profile.
-            )doc"
-        )
-
-        .def_static(
             "constant_inertial_pointing",
             &Profile::ConstantInertialPointing,
             R"doc(

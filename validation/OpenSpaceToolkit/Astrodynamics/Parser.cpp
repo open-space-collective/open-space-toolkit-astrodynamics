@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Astrodynamics/Parser.hpp>
 
 namespace ostk
@@ -34,7 +36,7 @@ SatelliteSystem Parser::CreateSatelliteSystem(const Dictionary& aDictionary)
         {0.0, 0.0, 0.0}, {Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}}, {1.0, 2.0, 3.0}
     ));
 
-    PropulsionSystem propulsionSystem = PropulsionSystem::Undefined();
+    std::optional<PropulsionSystem> propulsionSystem = std::nullopt;
     if (spacecraft.hasValueForKey("thruster"))
     {
         propulsionSystem = PropulsionSystem(

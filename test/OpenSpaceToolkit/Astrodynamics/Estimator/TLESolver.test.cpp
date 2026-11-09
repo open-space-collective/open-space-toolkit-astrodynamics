@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <cmath>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
@@ -602,37 +603,23 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
             observations.add(truthSGP4.calculateStateAt(epoch + Duration::Minutes(20.0 * i)));
         }
 
-        TLESolver::Analysis analysis = TLESolver::Analysis(
-            TLE::Undefined(),
-            LeastSquaresSolver::Analysis(
-                "",
-                State::Undefined(),
-                Covariance::FromPositionVelocitySigmas(
-                    Instant::J2000(), Vector3d::Ones(), Vector3d::Ones(), Frame::GCRF()
-                ),
-                Covariance::FromPositionVelocitySigmas(
-                    Instant::J2000(), Vector3d::Ones(), Vector3d::Ones(), Frame::GCRF()
-                ),
-                {observations[0]},
-                {LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))}
-            )
-        );
+        std::optional<TLESolver::Analysis> analysis = std::nullopt;
 
         ASSERT_NO_THROW(analysis = solver.estimate(observations[0], observations)) << "eccentricity " << eccentricity;
 
-        EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold")
+        EXPECT_EQ(analysis->solverAnalysis.terminationCriteria, "RMS Update Threshold")
             << "eccentricity " << eccentricity;
 
         // The eccentricity must be recovered to within the TLE's own quantization.
-        EXPECT_NEAR(analysis.estimatedTLE.getEccentricity(), eccentricity, 1e-7) << "eccentricity " << eccentricity;
+        EXPECT_NEAR(analysis->estimatedTLE.getEccentricity(), eccentricity, 1e-7) << "eccentricity " << eccentricity;
 
         // The estimated state carries the epoch the emitted TLE will actually hold, so that
         // serializing it costs nothing more.
-        EXPECT_EQ(analysis.solverAnalysis.estimatedState.getInstant(), analysis.estimatedTLE.getEpoch());
+        EXPECT_EQ(analysis->solverAnalysis.estimatedState.getInstant(), analysis->estimatedTLE.getEpoch());
 
         // The fit must land on the SGP4-representability floor of the arc, which is what the
         // quantized TLE can express -- not merely avoid throwing.
-        const SGP4 estimatedSGP4 = {analysis.estimatedTLE, Frame::GCRF()};
+        const SGP4 estimatedSGP4 = {analysis->estimatedTLE, Frame::GCRF()};
 
         double sumOfSquares = 0.0;
 
@@ -665,29 +652,19 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
 
     const TLESolver solver = {LeastSquaresSolver::Default(), 0, "00001A", 0, false};
 
-    TLESolver::Analysis analysis = TLESolver::Analysis(
-        TLE::Undefined(),
-        LeastSquaresSolver::Analysis(
-            "",
-            State::Undefined(),
-            Covariance::FromPositionVelocitySigmas(Instant::J2000(), Vector3d::Ones(), Vector3d::Ones(), Frame::GCRF()),
-            Covariance::FromPositionVelocitySigmas(Instant::J2000(), Vector3d::Ones(), Vector3d::Ones(), Frame::GCRF()),
-            {observations[0]},
-            {LeastSquaresSolver::Step(1.0, VectorXd::Ones(6))}
-        )
-    );
+    std::optional<TLESolver::Analysis> analysis = std::nullopt;
 
     ASSERT_NO_THROW(analysis = solver.estimate(observations[0], observations));
 
-    EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold");
-    EXPECT_LT(analysis.solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
+    EXPECT_EQ(analysis->solverAnalysis.terminationCriteria, "RMS Update Threshold");
+    EXPECT_LT(analysis->solverAnalysis.iterationCount, solver.accessSolver().getMaxIterationCount());
 
     // The arc is near-circular, which is the whole point of the case.
-    EXPECT_LT(analysis.estimatedTLE.getEccentricity(), 1e-4);
+    EXPECT_LT(analysis->estimatedTLE.getEccentricity(), 1e-4);
 
     // A no-B* SGP4 fit of a 10.4 h GNSS arc bottoms out around 560 m RMS; require the fit to
     // reach that floor rather than merely avoid throwing.
-    const SGP4 sgp4(analysis.estimatedTLE, Frame::GCRF());
+    const SGP4 sgp4(analysis->estimatedTLE, Frame::GCRF());
 
     double sumOfSquares = 0.0;
 

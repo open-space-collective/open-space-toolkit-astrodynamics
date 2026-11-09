@@ -7,7 +7,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
     using namespace pybind11;
 
     using ostk::core::container::Array;
-    using ostk::core::type::Integer;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
@@ -38,7 +37,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
                 const Angle&,
                 const Derived&,
                 double,
-                const Integer&,
+                int,
                 const Shared<const Frame>&>(),
             R"doc(
                 Constructor.
@@ -64,7 +63,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_SGP4Full
             arg("mean_anomaly"),
             arg("mean_motion"),
             arg("b_star_drag_term"),
-            arg_v("revolution_number_at_epoch", Integer(1), "1"),
+            arg("revolution_number_at_epoch") = 1,
             arg_v("output_frame", Frame::TEME(), "Frame.TEME()")
         )
 

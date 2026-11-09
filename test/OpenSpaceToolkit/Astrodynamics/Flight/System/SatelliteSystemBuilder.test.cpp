@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
@@ -77,6 +78,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, Buil
     {
         SatelliteSystemBuilder builder = SatelliteSystemBuilder();
         EXPECT_NO_THROW(builder.build());
+    }
+
+    {
+        // A cross-sectional surface area, drag coefficient and propulsion system that were not set are absent
+        const SatelliteSystem system = SatelliteSystemBuilder().build();
+
+        EXPECT_THROW(system.getCrossSectionalSurfaceArea(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(system.getDragCoefficient(), ostk::core::error::runtime::Undefined);
+        EXPECT_THROW(system.getPropulsionSystem(), ostk::core::error::runtime::Undefined);
     }
 }
 
@@ -156,7 +166,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder, Prin
 
         EXPECT_NO_THROW(builder.print(std::cout, true));
         EXPECT_NO_THROW(builder.print(std::cout, false));
-        EXPECT_FALSE(testing::internal::GetCapturedStdout().empty());
+
+        const std::string output = testing::internal::GetCapturedStdout();
+
+        EXPECT_FALSE(output.empty());
+        EXPECT_NE(output.find("Undefined"), std::string::npos);
     }
 }
 

@@ -114,6 +114,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition, Getters)
             AngularCondition::WithinRange(defaultName_, defaultEvaluator_, defaultTargetRange_);
         EXPECT_TRUE(angularCondition.getTargetRange() == defaultTargetRange_);
         EXPECT_THROW(angularCondition.getTargetAngle(), ostk::core::error::RuntimeError);
+        EXPECT_THROW(angularCondition.getTarget(), ostk::core::error::RuntimeError);
     }
 }
 

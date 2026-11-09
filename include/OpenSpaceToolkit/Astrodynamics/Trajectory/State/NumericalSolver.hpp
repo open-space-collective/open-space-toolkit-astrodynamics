@@ -3,7 +3,7 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
 #define __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
 
-#include <limits>
+#include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 
@@ -102,16 +102,16 @@ class NumericalSolver : public MathNumericalSolver
 
     /// @brief Get the maximum step size
     ///
-    /// @return Maximum step size in seconds, or NaN if not set
-    double getMaxStepSize() const;
+    /// @return Maximum step size in seconds, or std::nullopt if not set
+    std::optional<double> getMaxStepSize() const;
 
     /// @brief Set the maximum step size the integrator is allowed to take during conditional
     ///        integration. Useful for detecting discrete/step-function events (e.g., thrust
     ///        toggles) that can be missed when the adaptive stepper grows its step too large.
     ///
-    /// @param aMaxStepSize Maximum step size in seconds. Use NaN to remove the
+    /// @param aMaxStepSize Maximum step size in seconds. Use std::nullopt to remove the
     ///                     limit.
-    void setMaxStepSize(double aMaxStepSize);
+    void setMaxStepSize(const std::optional<double>& aMaxStepSize);
 
     /// @brief Perform numerical integration for a given array of time instants.
     ///
@@ -233,7 +233,7 @@ class NumericalSolver : public MathNumericalSolver
     RootSolver rootSolver_;
     Array<State> observedStates_;
     std::function<void(const State&)> stateLogger_;
-    double maxStepSize_ = std::numeric_limits<double>::quiet_NaN();
+    std::optional<double> maxStepSize_ = std::nullopt;
 
     /// @brief Observe a state, storing it's coordinates in the observedStates_ array
     ///

@@ -330,7 +330,8 @@ SGP4FullPrecision TLESolver::TLEStateToSGP4FullPrecision(const State& aTLEState)
     };
 }
 
-State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, double aBStar) const
+State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, const std::optional<double>& aBStar)
+    const
 {
     const State cartesianStateTEME = aCartesianState.inFrame(tleStateBuilder_.getFrame());
 
@@ -350,7 +351,12 @@ State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, 
 
     if (estimateBStar_)
     {
-        coordinates.add(aBStar);
+        if (!aBStar.has_value())
+        {
+            throw ostk::core::error::runtime::Undefined("B*");
+        }
+
+        coordinates.add(aBStar.value());
     }
 
     return tleStateBuilder_.build(

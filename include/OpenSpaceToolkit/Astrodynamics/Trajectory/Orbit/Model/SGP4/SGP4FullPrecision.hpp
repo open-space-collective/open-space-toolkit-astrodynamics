@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_SGP4FullPrecision__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -30,7 +29,6 @@ namespace sgp4
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Frame;
@@ -98,7 +96,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
         const Angle& aMeanAnomaly,
         const Derived& aMeanMotion,
         double aBStarDragTerm,
-        const Integer& aRevolutionNumberAtEpoch = 1,
+        int aRevolutionNumberAtEpoch = 1,
         const Shared<const Frame>& anOutputFrameSPtr = Frame::TEME()
     );
 
@@ -336,7 +334,7 @@ class SGP4FullPrecision : public ostk::astrodynamics::trajectory::orbit::Model
     Angle meanAnomaly_;
     Derived meanMotion_;
     double bStarDragTerm_;
-    Integer revolutionNumberAtEpoch_;
+    int revolutionNumberAtEpoch_;
     Shared<const Frame> outputFrameSPtr_;
 
     class Impl;

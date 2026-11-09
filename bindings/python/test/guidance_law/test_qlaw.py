@@ -139,6 +139,23 @@ class TestQLawParameters:
         assert parameters.absolute_effectivity_threshold == 0.2
         assert parameters.relative_effectivity_threshold == 0.3
 
+    def test_effectivity_thresholds_default_to_none(self):
+        parameters = QLaw.Parameters(
+            element_weights={COE.Element.SemiMajorAxis: (1.0, 100.0)},
+        )
+
+        assert parameters.absolute_effectivity_threshold is None
+        assert parameters.relative_effectivity_threshold is None
+
+        parameters = QLaw.Parameters(
+            element_weights={COE.Element.SemiMajorAxis: (1.0, 100.0)},
+            absolute_effectivity_threshold=None,
+            relative_effectivity_threshold=0.5,
+        )
+
+        assert parameters.absolute_effectivity_threshold is None
+        assert parameters.relative_effectivity_threshold == 0.5
+
 
 class TestQLaw:
     def test_constructors(

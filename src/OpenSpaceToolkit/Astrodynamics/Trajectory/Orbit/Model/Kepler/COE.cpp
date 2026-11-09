@@ -117,8 +117,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const COE& aCOE)
 
 bool COE::isDefined() const
 {
-    return semiMajorAxis_.isDefined() && !std::isnan(eccentricity_) && inclination_.isDefined() && raan_.isDefined() &&
-           aop_.isDefined() && anomaly_.isDefined();
+    return semiMajorAxis_.isDefined() && inclination_.isDefined() && raan_.isDefined() && aop_.isDefined() &&
+           anomaly_.isDefined();
 }
 
 Length COE::getSemiMajorAxis() const
@@ -427,8 +427,7 @@ void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
     ostk::core::utils::Print::Line(anOutputStream)
         << "Semi-major axis:"
         << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.inMeters().toString()) : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Eccentricity:" << (!std::isnan(eccentricity_) ? utility::DoubleToString(eccentricity_) : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream) << "Eccentricity:" << utility::DoubleToString(eccentricity_);
     ostk::core::utils::Print::Line(anOutputStream)
         << "Inclination:"
         << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.inDegrees(0.0, 360.0).toString())
@@ -465,7 +464,7 @@ COE COE::Undefined()
 {
     return {
         Length::Undefined(),
-        std::numeric_limits<double>::quiet_NaN(),
+        0.0,
         Angle::Undefined(),
         Angle::Undefined(),
         Angle::Undefined(),
@@ -687,7 +686,7 @@ COE COE::FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyTy
 COE COE::FrozenOrbit(
     const Length& aSemiMajorAxis,
     const Shared<const Celestial>& aCelestialObjectSPtr,
-    double anEccentricity,
+    const std::optional<double>& anEccentricity,
     const Angle& anInclination,
     const Angle& aRaan,
     const Angle& anAop,
@@ -713,7 +712,7 @@ COE COE::FrozenOrbit(
     const Length& anEquatorialRadius,
     double aJ2,
     double aJ3,
-    double anEccentricity,
+    const std::optional<double>& anEccentricity,
     const Angle& anInclination,
     const Angle& aRaan,
     const Angle& anAop,
@@ -728,11 +727,11 @@ COE COE::FrozenOrbit(
     {
         throw ostk::core::error::runtime::Undefined("Equatorial Radius");
     }
-    if (std::isnan(aJ2) || std::abs(aJ2) < 1e-15)
+    if (std::abs(aJ2) < 1e-15)
     {
         throw ostk::core::error::runtime::Undefined("J2");
     }
-    if (std::isnan(aJ3) || std::abs(aJ3) < 1e-15)
+    if (std::abs(aJ3) < 1e-15)
     {
         throw ostk::core::error::runtime::Undefined("J3");
     }
@@ -744,7 +743,7 @@ COE COE::FrozenOrbit(
     {
         throw ostk::core::error::runtime::Undefined("True anomaly");
     }
-    if (!std::isnan(anEccentricity) && anInclination.isDefined())
+    if (anEccentricity.has_value() && anInclination.isDefined())
     {
         throw ostk::core::error::RuntimeError("Cannot define both eccentricity and inclination");
     }
@@ -784,34 +783,36 @@ COE COE::FrozenOrbit(
     // If AoP matches a critical value
     if (isCritical(aop, criticalAops))
     {
-        Angle inclination = Angle::Undefined();
-        double eccentricity = std::numeric_limits<double>::quiet_NaN();
-
         // If ecc not defined, use the given inclination or default to critical inclination, and calculate ecc
-        if (std::isnan(anEccentricity))
+        if (!anEccentricity.has_value())
         {
-            inclination = anInclination.isDefined() ? anInclination : criticalInclinations[0];
-            eccentricity = eccentricityFromInclination(inclination);
+            const Angle inclination = anInclination.isDefined() ? anInclination : criticalInclinations[0];
+
+            return {
+                aSemiMajorAxis,
+                eccentricityFromInclination(inclination),
+                inclination,
+                aRaan,
+                aop,
+                aTrueAnomaly,
+            };
         }
+
         // If ecc defined, use it to calculate inc
-        else
+
+        // If the eccentricity is larger than this value, the approximation isn't valid
+        if (anEccentricity.value() > eccCoefficient)
         {
-            // If the eccentricity is larger than this value, the approximation isn't valid
-            if (anEccentricity > eccCoefficient)
-            {
-                throw ostk::core::error::RuntimeError(
-                    "Provided eccentricity [" + utility::DoubleToString(anEccentricity) + "] cannot be greater than " +
-                    utility::DoubleToString(eccCoefficient)
-                );
-            }
-            inclination = inclinationFromEccentricity(anEccentricity);
-            eccentricity = anEccentricity;
+            throw ostk::core::error::RuntimeError(
+                "Provided eccentricity [" + utility::DoubleToString(anEccentricity.value()) +
+                "] cannot be greater than " + utility::DoubleToString(eccCoefficient)
+            );
         }
 
         return {
             aSemiMajorAxis,
-            eccentricity,
-            inclination,
+            anEccentricity.value(),
+            inclinationFromEccentricity(anEccentricity.value()),
             aRaan,
             aop,
             aTrueAnomaly,
@@ -844,15 +845,10 @@ Angle COE::EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, double anE
         throw ostk::core::error::runtime::Undefined("True anomaly");
     }
 
-    if (std::isnan(anEccentricity))
-    {
-        throw ostk::core::error::runtime::Undefined("Eccentricity");
-    }
-
     const double trueAnomaly_rad = aTrueAnomaly.inRadians();
 
-    double eccentricAnomaly_rad = std::numeric_limits<double>::quiet_NaN();
-    double m = std::numeric_limits<double>::quiet_NaN();
+    double eccentricAnomaly_rad = 0.0;
+    double m = 0.0;
 
     if (std::abs(anEccentricity) < Tolerance)  // Circular trajectory
     {
@@ -927,11 +923,6 @@ Angle COE::TrueAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, doub
         throw ostk::core::error::runtime::Undefined("Eccentric anomaly");
     }
 
-    if (std::isnan(anEccentricity))
-    {
-        throw ostk::core::error::runtime::Undefined("Eccentricity");
-    }
-
     const double eccentricAnomaly_rad = anEccentricAnomaly.inRadians();
     const double trueAnomaly_rad = 2.0 * std::atan2(
                                              (std::sqrt(1.0 + anEccentricity) * std::sin(eccentricAnomaly_rad / 2.0)),
@@ -948,11 +939,6 @@ Angle COE::MeanAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, doub
         throw ostk::core::error::runtime::Undefined("Eccentric anomaly");
     }
 
-    if (std::isnan(anEccentricity))
-    {
-        throw ostk::core::error::runtime::Undefined("Eccentricity");
-    }
-
     const double eccentricAnomaly_rad = anEccentricAnomaly.inRadians();
     const double meanAnomaly_rad = eccentricAnomaly_rad - anEccentricity * std::sin(eccentricAnomaly_rad);
 
@@ -964,16 +950,6 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(const Angle& aMeanAnomaly, double anE
     if (!aMeanAnomaly.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Mean anomaly");
-    }
-
-    if (std::isnan(anEccentricity))
-    {
-        throw ostk::core::error::runtime::Undefined("Eccentricity");
-    }
-
-    if (std::isnan(aTolerance))
-    {
-        throw ostk::core::error::runtime::Undefined("Tolerance");
     }
 
     // https://en.wikipedia.org/wiki/Kepler%27s_equation
@@ -1014,9 +990,8 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(const Angle& aMeanAnomaly, double anE
     const double M = aMeanAnomaly.inRadians();
     const double Mnorm = std::fmod(M, 2.0 * M_PI);
 
-    double E = std::numeric_limits<double>::quiet_NaN();
-
     double E0 = keplerstart3(eccentricity, Mnorm);
+    double E = E0;
     double dE = tolerance + 1.0;
     Size count = 0;
 
@@ -1223,11 +1198,6 @@ Angle COE::ComputeSunSynchronousInclination(
     if (!aSemiMajorAxis.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Semi-major axis");
-    }
-
-    if (std::isnan(anEccentricity))
-    {
-        throw ostk::core::error::runtime::Undefined("Eccentricity");
     }
 
     if ((aCelestialObjectSPtr == nullptr) || (!aCelestialObjectSPtr->isDefined()))
@@ -1532,11 +1502,6 @@ COE COE::Equatorial(const Length& aSemiMajorAxis, double anEccentricity, const A
     if (!aSemiMajorAxis.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Semi-major axis");
-    }
-
-    if (std::isnan(anEccentricity))
-    {
-        throw ostk::core::error::runtime::Undefined("Eccentricity");
     }
 
     if (!aTrueAnomaly.isDefined())

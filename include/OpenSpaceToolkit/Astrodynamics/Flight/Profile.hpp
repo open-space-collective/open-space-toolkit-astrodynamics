@@ -313,15 +313,6 @@ class Profile
     /// @param displayDecorator If true, display decorator
     virtual void print(std::ostream& anOutputStream, bool displayDecorator = true) const;
 
-    /// @brief Constructs an undefined flight profile
-    ///
-    /// @code{.cpp}
-    ///              Profile profile = Profile::Undefined(); // Undefined
-    /// @endcode
-    ///
-    /// @return Undefined profile
-    static Profile Undefined();
-
     /// @brief Constructs a flight profile with constant inertial pointing
     ///
     /// @param aTrajectory A trajectory
@@ -439,8 +430,6 @@ class Profile
 
    private:
     Unique<Model> modelUPtr_;
-
-    Profile();
 
     static Vector3d ComputeGeocentricNadirDirectionVector(const State& aState);
 

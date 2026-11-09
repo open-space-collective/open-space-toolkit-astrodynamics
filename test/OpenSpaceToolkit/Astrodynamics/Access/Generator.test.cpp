@@ -142,7 +142,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_AccessTarget, Constructor)
 
             {
                 EXPECT_THROW(
-                    AccessTarget::FromTrajectory(defaultVisibilityCriterion_, Trajectory::Undefined()),
+                    AccessTarget::FromTrajectory(defaultVisibilityCriterion_, Trajectory(Array<State>::Empty())),
                     ostk::core::error::runtime::Undefined
                 );
             }
@@ -414,7 +414,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, GetConditionFunction)
     }
 
     {
-        EXPECT_ANY_THROW(defaultGenerator_.getConditionFunction(accessTarget, Trajectory::Undefined()));
+        EXPECT_ANY_THROW(defaultGenerator_.getConditionFunction(accessTarget, Trajectory(Array<State>::Empty())));
     }
 }
 
@@ -913,7 +913,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             EXPECT_THROW(defaultGenerator_.computeAccesses(interval, {}, orbit), ostk::core::error::runtime::Undefined);
 
             EXPECT_THROW(
-                defaultGenerator_.computeAccesses(interval, {accessTarget}, Trajectory::Undefined()),
+                defaultGenerator_.computeAccesses(interval, {accessTarget}, Trajectory(Array<State>::Empty())),
                 ostk::core::error::runtime::Undefined
             );
 
@@ -937,7 +937,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Access_Generator, ComputeAccesses)
             );
 
             EXPECT_THROW(
-                defaultGenerator_.computeAccesses(interval, accessTarget, Trajectory::Undefined()),
+                defaultGenerator_.computeAccesses(interval, accessTarget, Trajectory(Array<State>::Empty())),
                 ostk::core::error::runtime::Undefined
             );
 

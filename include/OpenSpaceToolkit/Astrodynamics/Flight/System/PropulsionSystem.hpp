@@ -49,11 +49,6 @@ class PropulsionSystem
     /// @return A reference to output stream
     friend std::ostream& operator<<(std::ostream& anOutputStream, const PropulsionSystem& aPropulsionSystem);
 
-    /// @brief Check if propulsion system is defined
-    ///
-    /// @return True if propulsion system is defined
-    bool isDefined() const;
-
     /// @brief Print propulsion system
     ///
     /// @param anOutputStream An output stream
@@ -96,15 +91,6 @@ class PropulsionSystem
     ///
     /// @return double
     double getAcceleration(const Mass& aMass) const;
-
-    /// @brief Undefined propulsion system
-    ///
-    /// @code{.cpp}
-    ///              PropulsionSystem propulsionSystem = PropulsionSystem::Undefined();
-    /// @endcode
-    ///
-    /// @return An undefined propulsion system
-    static PropulsionSystem Undefined();
 
     /// @brief Default propulsion system
     ///

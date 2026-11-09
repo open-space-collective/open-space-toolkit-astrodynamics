@@ -190,7 +190,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
     const Mass propellantMass_ = Mass(15.0, Mass::Unit::Kilogram);
     const Mass satelliteWetMass_ =
         Mass(satelliteDryMass_.inKilograms() + propellantMass_.inKilograms(), Mass::Unit::Kilogram);
-    PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
+    PropulsionSystem propulsionSystem_ = PropulsionSystem::Default();
     Composite satelliteGeometry_ = Composite::Undefined();
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
     Shared<Celestial> earthSpherical_ = nullptr;

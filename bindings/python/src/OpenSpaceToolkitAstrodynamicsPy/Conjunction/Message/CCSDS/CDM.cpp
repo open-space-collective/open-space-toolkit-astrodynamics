@@ -1,7 +1,5 @@
 /// Apache License 2.0
 
-#include <limits>
-
 #include <OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind11::module& aModule)
@@ -9,7 +7,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
     using namespace pybind11;
 
     using ostk::core::container::Array;
-    using ostk::core::type::Integer;
     using ostk::core::type::String;
 
     using ostk::mathematics::object::MatrixXd;
@@ -266,7 +263,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 Get the collision probability.
 
                 Returns:
-                    Probability: The collision probability.
+                    float | None: The collision probability, or None if the CDM does not provide one.
 
             )doc"
         )
@@ -451,12 +448,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 const Instant&,
                 const String&,
                 const String&,
-                double,
-                double,
-                double,
+                const std::optional<double>&,
+                const std::optional<double>&,
+                const std::optional<double>&,
                 const Instant&,
                 const Instant&,
-                double,
+                const std::optional<double>&,
                 const String&>(),
             R"doc(
                 Constructor.
@@ -471,12 +468,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                     end_screen_period (Instant): The end screen period.
                     screen_volume_frame (str): The screen volume frame.
                     screen_volume_shape (str): The screen volume shape.
-                    screen_volume_x (float): The screen volume x.
-                    screen_volume_y (float): The screen volume y.
-                    screen_volume_z (float): The screen volume z.
+                    screen_volume_x (float | None): The screen volume x. None if not provided.
+                    screen_volume_y (float | None): The screen volume y. None if not provided.
+                    screen_volume_z (float | None): The screen volume z. None if not provided.
                     screen_entry_time (Instant): The screen entry time.
                     screen_exit_time (Instant): The screen exit time.
-                    collision_probability (Probability): The collision probability.
+                    collision_probability (float | None): The collision probability. None if not provided.
                     collision_probability_method (str): The collision probability method.
 
             )doc",
@@ -490,12 +487,12 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             arg("end_screen_period"),
             arg_v("screen_volume_frame", String::Empty(), "String.empty()"),
             arg_v("screen_volume_shape", String::Empty(), "String.empty()"),
-            arg_v("screen_volume_x", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
-            arg_v("screen_volume_y", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
-            arg_v("screen_volume_z", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
+            arg("screen_volume_x") = none(),
+            arg("screen_volume_y") = none(),
+            arg("screen_volume_z") = none(),
             arg("screen_entry_time"),
             arg("screen_exit_time"),
-            arg("collision_probability"),
+            arg("collision_probability") = none(),
             arg("collision_probability_method")
         )
 
@@ -566,21 +563,21 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             "screen_volume_x",
             &CDM::RelativeMetadata::screenVolumeX,
             R"doc(
-                The screen volume x.
+                The screen volume x, or None if not provided.
             )doc"
         )
         .def_readonly(
             "screen_volume_y",
             &CDM::RelativeMetadata::screenVolumeY,
             R"doc(
-                The screen volume y.
+                The screen volume y, or None if not provided.
             )doc"
         )
         .def_readonly(
             "screen_volume_z",
             &CDM::RelativeMetadata::screenVolumeZ,
             R"doc(
-                The screen volume z.
+                The screen volume z, or None if not provided.
             )doc"
         )
         .def_readonly(
@@ -601,7 +598,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             "collision_probability",
             &CDM::RelativeMetadata::collisionProbability,
             R"doc(
-                The collision probability.
+                The collision probability, or None if not provided.
             )doc"
         )
         .def_readonly(
@@ -876,20 +873,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 const Instant&,
                 const Duration&,
                 const Duration&,
-                const Integer&,
-                const Integer&,
-                const Integer&,
-                const Integer&,
-                double,
-                double,
-                double,
-                double,
-                double,
+                const std::optional<int>&,
+                const std::optional<int>&,
+                const std::optional<int>&,
+                const std::optional<int>&,
+                const std::optional<double>&,
+                const std::optional<double>&,
+                const std::optional<double>&,
+                const std::optional<double>&,
+                const std::optional<double>&,
                 const Mass&,
-                double,
-                double,
-                double,
-                double,
+                const std::optional<double>&,
+                const std::optional<double>&,
+                const std::optional<double>&,
+                const std::optional<double>&,
                 const State&,
                 const MatrixXd&>(),
             R"doc(
@@ -900,20 +897,20 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
                 time_last_observation_end (Instant): The time of the last observation end.
                 recommended_od_span (Duration): The recommended OD span.
                 actual_od_span (Duration): The actual OD span.
-                observations_available (int): The number of observations available.
-                observations_used (int): The number of observations used.
-                tracks_available (int): The number of tracks available.
-                tracks_used (int): The number of tracks used.
-                residuals_accepted (float): The residuals accepted.
-                weighted_rms (float): The weighted RMS.
-                area_pc (float): The area PC.
-                area_drag (float): The area drag.
-                area_srp (float): The area SRP.
+                observations_available (int | None): The number of observations available. None if unknown.
+                observations_used (int | None): The number of observations used. None if unknown.
+                tracks_available (int | None): The number of tracks available. None if unknown.
+                tracks_used (int | None): The number of tracks used. None if unknown.
+                residuals_accepted (float | None): The residuals accepted. None if unknown.
+                weighted_rms (float | None): The weighted RMS. None if unknown.
+                area_pc (float | None): The area PC. None if unknown.
+                area_drag (float | None): The area drag. None if unknown.
+                area_srp (float | None): The area SRP. None if unknown.
                 mass (Mass): The mass.
-                cd_area_over_mass (float): The CD area over mass.
-                cr_area_over_mass (float): The CR area over mass.
-                thrust_acceleration (float): The thrust acceleration.
-                sedr (float): The SEDR.
+                cd_area_over_mass (float | None): The CD area over mass. None if unknown.
+                cr_area_over_mass (float | None): The CR area over mass. None if unknown.
+                thrust_acceleration (float | None): The thrust acceleration. None if unknown.
+                sedr (float | None): The SEDR. None if unknown.
                 state (State): The state.
                 covariance_matrix (MatrixXd): The covariance matrix.
 
@@ -972,63 +969,63 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             "observations_available",
             &CDM::Data::obsAvailable,
             R"doc(
-                The number of observations available.
+                The number of observations available, or None if unknown.
             )doc"
         )
         .def_readonly(
             "observations_used",
             &CDM::Data::obsUsed,
             R"doc(
-                The number of observations used.
+                The number of observations used, or None if unknown.
             )doc"
         )
         .def_readonly(
             "tracks_available",
             &CDM::Data::tracksAvailable,
             R"doc(
-                The number of tracks available.
+                The number of tracks available, or None if unknown.
             )doc"
         )
         .def_readonly(
             "tracks_used",
             &CDM::Data::tracksUsed,
             R"doc(
-                The number of tracks used.
+                The number of tracks used, or None if unknown.
             )doc"
         )
         .def_readonly(
             "residuals_accepted",
             &CDM::Data::residualsAccepted,
             R"doc(
-                The residuals accepted.
+                The residuals accepted, or None if unknown.
             )doc"
         )
         .def_readonly(
             "weighted_rms",
             &CDM::Data::weightedRMS,
             R"doc(
-                The weighted RMS.
+                The weighted RMS, or None if unknown.
             )doc"
         )
         .def_readonly(
             "area_pc",
             &CDM::Data::areaPC,
             R"doc(
-                The area PC.
+                The area PC, or None if unknown.
             )doc"
         )
         .def_readonly(
             "area_drag",
             &CDM::Data::areaDrag,
             R"doc(
-                The area drag.
+                The area drag, or None if unknown.
             )doc"
         )
         .def_readonly(
             "area_srp",
             &CDM::Data::areaSRP,
             R"doc(
-                The area SRP.
+                The area SRP, or None if unknown.
             )doc"
         )
         .def_readonly(
@@ -1042,28 +1039,28 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Conjunction_Message_CCSDS_CDM(pybind
             "cd_area_over_mass",
             &CDM::Data::cdAreaOverMass,
             R"doc(
-                The CD area over mass.
+                The CD area over mass, or None if unknown.
             )doc"
         )
         .def_readonly(
             "cr_area_over_mass",
             &CDM::Data::crAreaOverMass,
             R"doc(
-                The CR area over mass.
+                The CR area over mass, or None if unknown.
             )doc"
         )
         .def_readonly(
             "thrust_acceleration",
             &CDM::Data::thrustAcceleration,
             R"doc(
-                The thrust acceleration.
+                The thrust acceleration, or None if unknown.
             )doc"
         )
         .def_readonly(
             "sedr",
             &CDM::Data::SEDR,
             R"doc(
-                The SEDR.
+                The SEDR, or None if unknown.
             )doc"
         )
         .def_readonly(

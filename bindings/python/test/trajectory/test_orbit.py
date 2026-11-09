@@ -81,6 +81,9 @@ class TestOrbit:
     def test_get_orbital_frame(self, orbit: Orbit, frame_type: Orbit.FrameType):
         assert orbit.get_orbital_frame(frame_type) is not None
 
+    def test_frame_type_has_no_undefined(self):
+        assert not hasattr(Orbit.FrameType, "Undefined")
+
     def test_get_revolution_number_at(self, orbit: Orbit):
         assert (
             orbit.get_revolution_number_at(
@@ -221,6 +224,9 @@ class TestOrbit:
         assert orbit is not None
         assert isinstance(orbit, Orbit)
         assert orbit.is_defined()
+
+        assert Orbit.frozen(epoch, altitude, earth, eccentricity=None).is_defined()
+        assert Orbit.frozen(epoch, altitude, earth, eccentricity=0.0006).is_defined()
 
     def test_compute_passes(self, states: list[State]):
         passes: list[tuple[int, Pass]] = Orbit.compute_passes(states, 1)

@@ -92,6 +92,9 @@ class TestAngularCondition:
         with pytest.raises(RuntimeError):
             within_range_condition.get_target_angle()
 
+        with pytest.raises(RuntimeError):
+            within_range_condition.get_target()
+
     def test_get_target_range(
         self,
         event_condition: AngularCondition,

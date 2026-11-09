@@ -105,7 +105,9 @@ class TestTrajectory:
         )
 
     def test_trajectory_undefined(self):
-        trajectory: Trajectory = Trajectory.undefined()
+        assert not hasattr(Trajectory, "undefined")
+
+        trajectory: Trajectory = Trajectory([])
 
         assert trajectory is not None
         assert isinstance(trajectory, Trajectory)

@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_EventCondition__
 #define __OpenSpaceToolkit_Astrodynamics_EventCondition__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
@@ -69,11 +71,6 @@ class EventCondition
         /// @return True if targets are not equal
         bool operator!=(const Target& aTarget) const;
 
-        /// @brief Check if target is defined
-        ///
-        /// @return True if target is defined
-        bool isDefined() const;
-
         /// @brief Get string representation of a target type
         ///
         /// @param aType A target type
@@ -137,6 +134,8 @@ class EventCondition
 
     /// @brief Get the target
     ///
+    /// @throw ostk::core::error::runtime::Undefined If the Event Condition has no target
+    ///
     /// @return Target
     Target getTarget() const;
 
@@ -167,9 +166,15 @@ class EventCondition
     virtual bool isSatisfied(const State& currentState, const State& previousState) const = 0;
 
    protected:
+    /// @brief Constructor for an Event Condition that has no target (e.g. a range condition)
+    ///
+    /// @param aName A string representing the name of the Event Condition
+    /// @param anEvaluator A function evaluating a state
+    EventCondition(const String& aName, const std::function<double(const State&)>& anEvaluator);
+
     String name_;
     std::function<double(const State&)> evaluator_;
-    Target target_;
+    std::optional<Target> target_;
 };
 
 }  // namespace astrodynamics

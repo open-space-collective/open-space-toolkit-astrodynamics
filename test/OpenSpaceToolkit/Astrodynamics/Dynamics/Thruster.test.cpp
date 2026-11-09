@@ -1,8 +1,11 @@
 /// Apache License 2.0
 
+#include <optional>
+
 #include <gmock/gmock.h>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
+#include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -65,6 +68,26 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster : public ::testing::Test
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, Constructor)
 {
     EXPECT_NO_THROW(Thruster thruster(defaultSatelliteSystem_, defaultGuidanceLaw_, defaultName_));
+
+    {
+        EXPECT_NO_THROW(Thruster(SatelliteSystem::Undefined(), defaultGuidanceLaw_, defaultName_));
+    }
+
+    {
+        const SatelliteSystem satelliteSystemWithoutPropulsion = {
+            defaultSatelliteSystem_.getMass(),
+            defaultSatelliteSystem_.getGeometry(),
+            defaultSatelliteSystem_.getInertiaTensor(),
+            defaultSatelliteSystem_.getCrossSectionalSurfaceArea(),
+            defaultSatelliteSystem_.getDragCoefficient(),
+            std::nullopt
+        };
+
+        EXPECT_THROW(
+            Thruster(satelliteSystemWithoutPropulsion, defaultGuidanceLaw_, defaultName_),
+            ostk::core::error::runtime::Undefined
+        );
+    }
 }
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster, StreamOperator)

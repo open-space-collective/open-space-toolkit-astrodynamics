@@ -102,7 +102,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Flight_System_SatelliteSystemBuilder
                 "with_cross_sectional_surface_area",
                 &SatelliteSystemBuilder::withCrossSectionalSurfaceArea,
                 R"doc(
-                    Set the dry mass.
+                    Set the cross-sectional surface area.
 
                     Args:
                         cross_sectional_surface_area (float): The cross-sectional surface area.

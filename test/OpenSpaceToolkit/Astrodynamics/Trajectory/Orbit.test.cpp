@@ -563,7 +563,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePasses)
 
             EXPECT_TRUE(pass.isDefined());
 
-            EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
+            EXPECT_EQ(pass.getRevolutionNumber().value(), referenceRow[0].accessInteger());
             EXPECT_LT(std::fabs((referencePassStartInstant - pass.accessInstantAtAscendingNode()).inSeconds()), 1e-6);
             EXPECT_LT(std::fabs((referencePassEndInstant - pass.accessInstantAtPassBreak()).inSeconds()), 1e-6);
             EXPECT_LT(
@@ -781,7 +781,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, ComputePassesWithModel)
 
                 EXPECT_TRUE(pass.isDefined());
 
-                EXPECT_EQ(pass.getRevolutionNumber(), referenceRow[0].accessInteger());
+                EXPECT_EQ(pass.getRevolutionNumber().value(), referenceRow[0].accessInteger());
                 EXPECT_LT(
                     std::fabs((referencePassStartInstant - pass.accessInstantAtAscendingNode()).inSeconds()), 1e-6
                 );
@@ -1545,6 +1545,20 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Print)
     }
 }
 
+TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, StringFromFrameType)
+{
+    {
+        EXPECT_EQ("NED", Orbit::StringFromFrameType(Orbit::FrameType::NED));
+        EXPECT_EQ("LVLH", Orbit::StringFromFrameType(Orbit::FrameType::LVLH));
+        EXPECT_EQ("VVLH", Orbit::StringFromFrameType(Orbit::FrameType::VVLH));
+        EXPECT_EQ("LVLHGD", Orbit::StringFromFrameType(Orbit::FrameType::LVLHGD));
+        EXPECT_EQ("LVLHGDGT", Orbit::StringFromFrameType(Orbit::FrameType::LVLHGDGT));
+        EXPECT_EQ("QSW", Orbit::StringFromFrameType(Orbit::FrameType::QSW));
+        EXPECT_EQ("TNW", Orbit::StringFromFrameType(Orbit::FrameType::TNW));
+        EXPECT_EQ("VNC", Orbit::StringFromFrameType(Orbit::FrameType::VNC));
+    }
+}
+
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Undefined)
 {
     {
@@ -2174,13 +2188,25 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit, Frozen)
                 epoch,
                 altitude,
                 Environment::Default().accessCelestialObjectWithName("Earth"),
-                std::numeric_limits<double>::quiet_NaN(),
+                std::nullopt,
                 Angle::Degrees(60.0)
             );
 
             EXPECT_TRUE(orbit.isDefined());
             EXPECT_EQ(
                 orbit.accessModel().as<Kepler>().getClassicalOrbitalElements().getInclination(), Angle::Degrees(60.0)
+            );
+        }
+
+        // Provide target eccentricity
+        {
+            const Orbit orbit = Orbit::Frozen(
+                epoch, altitude, Environment::Default().accessCelestialObjectWithName("Earth"), 6.5941377e-4
+            );
+
+            EXPECT_TRUE(orbit.isDefined());
+            EXPECT_NEAR(
+                orbit.accessModel().as<Kepler>().getClassicalOrbitalElements().getEccentricity(), 6.5941377e-4, 1e-12
             );
         }
     }

@@ -139,9 +139,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Getters)
     }
 
     {
-        // Defined solver: no throw, returns the configured (initially Undefined) max step size
+        // Defined solver: no throw, returns the configured max step size (initially not set)
         EXPECT_NO_THROW(defaultRKD5_.getMaxStepSize());
-        EXPECT_TRUE(std::isnan(defaultRKD5_.getMaxStepSize()));
+        EXPECT_FALSE(defaultRKD5_.getMaxStepSize().has_value());
 
         // Undefined solver: throws like the other getters
         EXPECT_THROW(NumericalSolver::Undefined().getMaxStepSize(), ostk::core::error::runtime::Undefined);
@@ -149,7 +149,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_State_NumericalSolver, Getters)
         // Round-trip via setter
         NumericalSolver solver = defaultRKD5_;
         solver.setMaxStepSize(10.0);
-        EXPECT_EQ(solver.getMaxStepSize(), 10.0);
+        ASSERT_TRUE(solver.getMaxStepSize().has_value());
+        EXPECT_EQ(solver.getMaxStepSize().value(), 10.0);
+
+        // Removing the limit
+        solver.setMaxStepSize(std::nullopt);
+        EXPECT_FALSE(solver.getMaxStepSize().has_value());
     }
 }
 

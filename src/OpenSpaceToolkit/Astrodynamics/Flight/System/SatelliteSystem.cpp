@@ -1,8 +1,5 @@
 /// Apache License 2.0
 
-#include <cmath>
-#include <limits>
-
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -22,9 +19,9 @@ SatelliteSystem::SatelliteSystem(
     const Mass& aDryMass,
     const Composite& aSatelliteGeometry,
     const Matrix3d& anInertiaTensor,
-    double aCrossSectionalSurfaceArea,
-    double aDragCoefficient,
-    const PropulsionSystem& aPropulsionSystem
+    const std::optional<double>& aCrossSectionalSurfaceArea,
+    const std::optional<double>& aDragCoefficient,
+    const std::optional<PropulsionSystem>& aPropulsionSystem
 )
     : System(aDryMass, aSatelliteGeometry),
       inertiaTensor_(anInertiaTensor),
@@ -68,8 +65,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const SatelliteSystem& aS
 
 bool SatelliteSystem::isDefined() const
 {
-    return System::isDefined() && inertiaTensor_.isDefined() && !std::isnan(crossSectionalSurfaceArea_) &&
-           !std::isnan(dragCoefficient_) && propulsionSystem_.isDefined();
+    return System::isDefined() && inertiaTensor_.isDefined();
 }
 
 void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -80,27 +76,28 @@ void SatelliteSystem::print(std::ostream& anOutputStream, bool displayDecorator)
 
     ostk::core::utils::Print::Line(anOutputStream)
         << "Inertia Tensor:" << (inertiaTensor_.isDefined() ? inertiaTensor_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream
-    ) << "Cross Sectional Surface Area:"
-      << (!std::isnan(crossSectionalSurfaceArea_) ? utility::DoubleToString(crossSectionalSurfaceArea_) : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream)
+        << "Cross Sectional Surface Area:"
+        << (crossSectionalSurfaceArea_.has_value() ? utility::DoubleToString(crossSectionalSurfaceArea_.value())
+                                                   : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Drag Coefficient:"
-        << (!std::isnan(dragCoefficient_) ? utility::DoubleToString(dragCoefficient_) : "Undefined");
+        << (dragCoefficient_.has_value() ? utility::DoubleToString(dragCoefficient_.value()) : "Undefined");
 
     ostk::core::utils::Print::Separator(anOutputStream, "PropulsionSystem");
-    propulsionSystem_.isDefined() ? propulsionSystem_.print(anOutputStream, false) : void();
+    propulsionSystem_.has_value() ? propulsionSystem_.value().print(anOutputStream, false) : void();
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
 const PropulsionSystem& SatelliteSystem::accessPropulsionSystem() const
 {
-    if (!propulsionSystem_.isDefined())
+    if (!propulsionSystem_.has_value())
     {
         throw ostk::core::error::runtime::Undefined("Propulsion System");
     }
 
-    return this->propulsionSystem_;
+    return propulsionSystem_.value();
 }
 
 Matrix3d SatelliteSystem::getInertiaTensor() const
@@ -115,22 +112,22 @@ Matrix3d SatelliteSystem::getInertiaTensor() const
 
 double SatelliteSystem::getCrossSectionalSurfaceArea() const
 {
-    if (std::isnan(crossSectionalSurfaceArea_))
+    if (!crossSectionalSurfaceArea_.has_value())
     {
         throw ostk::core::error::runtime::Undefined("Cross-Sectional Surface Area");
     }
 
-    return crossSectionalSurfaceArea_;
+    return crossSectionalSurfaceArea_.value();
 }
 
 double SatelliteSystem::getDragCoefficient() const
 {
-    if (std::isnan(dragCoefficient_))
+    if (!dragCoefficient_.has_value())
     {
         throw ostk::core::error::runtime::Undefined("Drag Coefficient");
     }
 
-    return dragCoefficient_;
+    return dragCoefficient_.value();
 }
 
 PropulsionSystem SatelliteSystem::getPropulsionSystem() const
@@ -144,9 +141,9 @@ SatelliteSystem SatelliteSystem::Undefined()
         Mass::Undefined(),
         Composite::Undefined(),
         Matrix3d::Undefined(),
-        std::numeric_limits<double>::quiet_NaN(),
-        std::numeric_limits<double>::quiet_NaN(),
-        PropulsionSystem::Undefined(),
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
     };
 }
 

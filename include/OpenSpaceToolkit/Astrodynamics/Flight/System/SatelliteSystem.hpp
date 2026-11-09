@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
@@ -44,8 +46,8 @@ class SatelliteSystem : public System
     ///                  Mass mass = { ... };
     ///                  Composite composite ( ... );
     ///                  Matrix3d intertiaTensor ( ... );
-    ///                  double crossSectionalSurfaceArea = 0.8;
-    ///                  double dragCoefficient = 2.2;
+    ///                  std::optional<double> crossSectionalSurfaceArea = 0.8;
+    ///                  std::optional<double> dragCoefficient = 2.2;
     ///                  PropulsionSystem propulsionSystem = { ... };
     ///                  System system = { mass, composite, intertiaTensor, crossSectionalSurfaceArea,
     ///                  dragCoefficient, propulsionSystem };
@@ -54,16 +56,16 @@ class SatelliteSystem : public System
     /// @param aDryMass A dry mass (without propellant)
     /// @param aCompositeGeometry A composite geometry
     /// @param anInertiaTensor An inertia tensor
-    /// @param aCrossSectionalSurfaceArea A cross sectional surface area
-    /// @param aDragCoefficient A drag coefficient
-    /// @param aPropulsionSystem A propulsion system (optional)
+    /// @param aCrossSectionalSurfaceArea A cross sectional surface area, or std::nullopt if absent
+    /// @param aDragCoefficient A drag coefficient, or std::nullopt if absent
+    /// @param aPropulsionSystem A propulsion system, or std::nullopt if absent
     SatelliteSystem(
         const Mass& aDryMass,
         const Composite& aSatelliteGeometry,
         const Matrix3d& anInertiaTensor,
-        double aCrossSectionalSurfaceArea,
-        double aDragCoefficient,
-        const PropulsionSystem& aPropulsionSystem = PropulsionSystem::Undefined()
+        const std::optional<double>& aCrossSectionalSurfaceArea,
+        const std::optional<double>& aDragCoefficient,
+        const std::optional<PropulsionSystem>& aPropulsionSystem = std::nullopt
     );
 
     /// @brief Destructor
@@ -105,6 +107,7 @@ class SatelliteSystem : public System
     /// @endcode
     ///
     /// @return PropulsionSystem
+    /// @throw ostk::core::error::runtime::Undefined If the satellite system has no propulsion system
     const PropulsionSystem& accessPropulsionSystem() const;
 
     /// @brief Get satellite system's inertia tensor
@@ -123,6 +126,7 @@ class SatelliteSystem : public System
     /// @endcode
     ///
     /// @return double
+    /// @throw ostk::core::error::runtime::Undefined If the satellite system has no cross-sectional surface area
     double getCrossSectionalSurfaceArea() const;
 
     /// @brief Get satellite system's drag coefficient
@@ -132,6 +136,7 @@ class SatelliteSystem : public System
     /// @endcode
     ///
     /// @return double
+    /// @throw ostk::core::error::runtime::Undefined If the satellite system has no drag coefficient
     double getDragCoefficient() const;
 
     /// @brief Get satellite system's propulsion system
@@ -141,6 +146,7 @@ class SatelliteSystem : public System
     /// @endcode
     ///
     /// @return PropulsionSystem
+    /// @throw ostk::core::error::runtime::Undefined If the satellite system has no propulsion system
     PropulsionSystem getPropulsionSystem() const;
 
     /// @brief Print satellite system
@@ -169,9 +175,9 @@ class SatelliteSystem : public System
 
    private:
     Matrix3d inertiaTensor_;
-    double crossSectionalSurfaceArea_;
-    double dragCoefficient_;
-    PropulsionSystem propulsionSystem_;
+    std::optional<double> crossSectionalSurfaceArea_;
+    std::optional<double> dragCoefficient_;
+    std::optional<PropulsionSystem> propulsionSystem_;
 };
 
 }  // namespace system

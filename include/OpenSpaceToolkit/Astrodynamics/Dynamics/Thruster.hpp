@@ -3,6 +3,8 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster__
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster__
 
+#include <optional>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
@@ -40,6 +42,7 @@ class Thruster : public Dynamics
     /// @param aSatelliteSystem A satellite system
     /// @param aGuidanceLaw A guidance law
     /// @param aName A name
+    /// @throw ostk::core::error::runtime::Undefined If a defined satellite system has no propulsion system
     Thruster(
         const SatelliteSystem& aSatelliteSystem,
         const Shared<const GuidanceLaw>& aGuidanceLaw,
@@ -106,7 +109,7 @@ class Thruster : public Dynamics
    private:
     const SatelliteSystem satelliteSystem_;
     const Shared<const GuidanceLaw> guidanceLaw_;
-    const double massFlowRateCache_;
+    const std::optional<double> massFlowRateCache_;  ///< Mass flow rate [kg/s], absent if the satellite is undefined
 };
 
 }  // namespace dynamics

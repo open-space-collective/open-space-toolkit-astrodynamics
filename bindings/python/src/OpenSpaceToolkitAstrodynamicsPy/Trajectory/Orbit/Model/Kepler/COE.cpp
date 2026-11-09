@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <limits>
+#include <optional>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
@@ -427,7 +428,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             overload_cast<
                 const Length&,
                 const Shared<const Celestial>&,
-                double,
+                const std::optional<double>&,
                 const Angle&,
                 const Angle&,
                 const Angle&,
@@ -457,7 +458,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                 Args:
                     semi_major_axis (Length): The semi-major axis.
                     celestial_object (Celestial): The celestial object.
-                    eccentricity (float): The eccentricity.
+                    eccentricity (float | None, optional): The eccentricity. Defaults to None.
                     inclination (Angle): The inclination.
                     raan (Angle): The right ascension of the ascending node.
                     aop (Angle): The argument of periapsis.
@@ -468,7 +469,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("semi_major_axis"),
             arg("celestial_object"),
-            arg_v("eccentricity", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
+            arg("eccentricity") = none(),
             arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
             arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
             arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
@@ -482,7 +483,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                 const Length&,
                 double,
                 double,
-                double,
+                const std::optional<double>&,
                 const Angle&,
                 const Angle&,
                 const Angle&,
@@ -514,7 +515,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
                     equatorial_radius (Length): The equatorial radius.
                     j2 (float): The second zonal harmonic coefficient.
                     j3 (float): The third zonal harmonic coefficient.
-                    eccentricity (float): The eccentricity.
+                    eccentricity (float | None, optional): The eccentricity. Defaults to None.
                     inclination (Angle): The inclination.
                     raan (Angle): The right ascension of the ascending node.
                     aop (Angle): The argument of periapsis.
@@ -527,7 +528,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("equatorial_radius"),
             arg("j2"),
             arg("j3"),
-            arg_v("eccentricity", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
+            arg("eccentricity") = none(),
             arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
             arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
             arg_v("aop", Angle::Undefined(), "Angle.undefined()"),

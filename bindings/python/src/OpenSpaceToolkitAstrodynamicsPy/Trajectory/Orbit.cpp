@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <limits>
+#include <optional>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
@@ -49,7 +50,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
             )doc"
         )
 
-            .value("Undefined", Orbit::FrameType::Undefined, "Undefined")
             .value("NED", Orbit::FrameType::NED, "North-East-Down")
             .value("LVLH", Orbit::FrameType::LVLH, "Local Vertical-Local Horizontal")
             .value("LVLHGD", Orbit::FrameType::LVLHGD, "Local Vertical-Local Horizontal GeoDetic")
@@ -400,7 +400,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                 arg("epoch"),
                 arg("altitude"),
                 arg("celestial_object"),
-                arg_v("eccentricity", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
+                arg("eccentricity") = none(),
                 arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
                 arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
                 arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
@@ -431,7 +431,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit(pybind11::module& a
                         epoch (Instant): The epoch.
                         altitude (Length): The altitude (wrt. equatorial radius).
                         celestial_object (Celestial): The celestial object.
-                        eccentricity (float): The eccentricity.
+                        eccentricity (float | None, optional): The eccentricity. Defaults to None.
                         inclination (Angle): The inclination.
                         raan (Angle): The right ascension of the ascending node.
                         aop (Angle): The argument of periapsis.

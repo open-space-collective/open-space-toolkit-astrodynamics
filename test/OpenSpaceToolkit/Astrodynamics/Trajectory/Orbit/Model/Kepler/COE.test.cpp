@@ -963,8 +963,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
     // Provide inclination
     // @ref: https://www.mathworks.com/matlabcentral/fileexchange/39119-frozen-orbit-design?s_tid=FX_rc3_behav
     {
-        const COE coe =
-            COE::FrozenOrbit(semiMajorAxis, re, j2, j3, std::numeric_limits<double>::quiet_NaN(), Angle::Degrees(45.0));
+        const COE coe = COE::FrozenOrbit(semiMajorAxis, re, j2, j3, std::nullopt, Angle::Degrees(45.0));
 
         EXPECT_NEAR(coe.getEccentricity(), 6.594e-4, 1e-6);
         EXPECT_NEAR(coe.getAop().inDegrees(), 90.0, 1e-10);
@@ -987,7 +986,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
             re,
             j2,
             j3,
-            std::numeric_limits<double>::quiet_NaN(),
+            std::nullopt,
             Angle::Undefined(),
             Angle::Degrees(45.0),
             Angle::Degrees(45.0),
@@ -1001,14 +1000,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
     {
         const Angle non_critical_aop = Angle::Degrees(80.0);
         const COE coe = COE::FrozenOrbit(
-            semiMajorAxis,
-            re,
-            j2,
-            j3,
-            std::numeric_limits<double>::quiet_NaN(),
-            Angle::Degrees(63.43490001),
-            Angle::Degrees(0.0),
-            non_critical_aop
+            semiMajorAxis, re, j2, j3, std::nullopt, Angle::Degrees(63.43490001), Angle::Degrees(0.0), non_critical_aop
         );
 
         EXPECT_NEAR(coe.getAop().inDegrees(), non_critical_aop.inDegrees(), 1e-10);
@@ -1038,26 +1030,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
             // No J2 provided
             {
                 {
-                    EXPECT_THROW(
-                        COE::FrozenOrbit(semiMajorAxis, re, std::numeric_limits<double>::quiet_NaN(), j3),
-                        ostk::core::error::runtime::Undefined
-                    );
-                }
-
-                {
                     EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, 0.0, j3), ostk::core::error::runtime::Undefined);
                 }
             }
 
             // No J3 provided
             {
-                {
-                    EXPECT_THROW(
-                        COE::FrozenOrbit(semiMajorAxis, re, j2, std::numeric_limits<double>::quiet_NaN()),
-                        ostk::core::error::runtime::Undefined
-                    );
-                }
-
                 {
                     EXPECT_THROW(COE::FrozenOrbit(semiMajorAxis, re, j2, 0.0), ostk::core::error::runtime::Undefined);
                 }
@@ -1066,15 +1044,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
             // No RAAN provided
             {
                 EXPECT_THROW(
-                    COE::FrozenOrbit(
-                        semiMajorAxis,
-                        re,
-                        j2,
-                        j3,
-                        std::numeric_limits<double>::quiet_NaN(),
-                        Angle::Undefined(),
-                        Angle::Undefined()
-                    ),
+                    COE::FrozenOrbit(semiMajorAxis, re, j2, j3, std::nullopt, Angle::Undefined(), Angle::Undefined()),
                     ostk::core::error::runtime::Undefined
                 );
             }
@@ -1087,7 +1057,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
                         re,
                         j2,
                         j3,
-                        std::numeric_limits<double>::quiet_NaN(),
+                        std::nullopt,
                         Angle::Undefined(),
                         Angle::Degrees(0.0),
                         Angle::Undefined(),
@@ -1133,7 +1103,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
                     re,
                     j2,
                     j3,
-                    std::numeric_limits<double>::quiet_NaN(),
+                    std::nullopt,
                     Angle::Degrees(45.0),
                     Angle::Degrees(0.0),
                     Angle::Degrees(45.0)
@@ -1218,18 +1188,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
         EXPECT_THROW(
             COE::SunSynchronous(
                 Length::Kilometers(500.0), Time::Parse("12:00:00"), Instant::J2000(), nullptr, 0.0, Angle::Zero()
-            ),
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            COE::SunSynchronous(
-                Length::Kilometers(500.0),
-                Time::Parse("12:00:00"),
-                Instant::J2000(),
-                Environment::Default().accessCelestialObjectWithName("Earth"),
-                std::numeric_limits<double>::quiet_NaN(),
-                Angle::Zero()
             ),
             ostk::core::error::runtime::Undefined
         );
@@ -1365,15 +1323,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
         EXPECT_THROW(
             COE::ComputeSunSynchronousInclination(
                 Length::Undefined(), 0.0, Environment::Default().accessCelestialObjectWithName("Earth")
-            ),
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
-            COE::ComputeSunSynchronousInclination(
-                Length::Kilometers(6971.0),
-                std::numeric_limits<double>::quiet_NaN(),
-                Environment::Default().accessCelestialObjectWithName("Earth")
             ),
             ostk::core::error::runtime::Undefined
         );
@@ -1568,11 +1517,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Equator
         EXPECT_THROW(COE::Equatorial(Length::Undefined(), 0.1, Angle::Zero()), ostk::core::error::runtime::Undefined);
 
         EXPECT_THROW(
-            COE::Equatorial(Length::Kilometers(7000.0), std::numeric_limits<double>::quiet_NaN(), Angle::Zero()),
-            ostk::core::error::runtime::Undefined
-        );
-
-        EXPECT_THROW(
             COE::Equatorial(Length::Kilometers(7000.0), 0.1, Angle::Undefined()), ostk::core::error::runtime::Undefined
         );
 
@@ -1688,12 +1632,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Eccentr
         const double tolerance = 1e-5;
 
         EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(Angle::Undefined(), eccentricity, tolerance));
-        EXPECT_ANY_THROW(
-            COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, std::numeric_limits<double>::quiet_NaN(), tolerance)
-        );
-        EXPECT_ANY_THROW(
-            COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, std::numeric_limits<double>::quiet_NaN())
-        );
     }
 }
 

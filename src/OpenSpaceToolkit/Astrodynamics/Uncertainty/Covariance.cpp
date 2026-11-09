@@ -297,11 +297,7 @@ Covariance Covariance::reduce(const Array<Shared<const CoordinateSubset>>& aCoor
 
 Covariance Covariance::scale(double aScalar) const
 {
-    if (std::isnan(aScalar))
-    {
-        throw ostk::core::error::runtime::Undefined("Scalar");
-    }
-
+    // Also rejects NaN
     if (!(aScalar > 0.0))
     {
         throw ostk::core::error::runtime::Wrong("Scalar");

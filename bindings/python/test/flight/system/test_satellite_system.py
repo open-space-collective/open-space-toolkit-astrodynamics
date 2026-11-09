@@ -81,3 +81,50 @@ class TestSatelliteSystem:
         assert satellite_system.get_cross_sectional_surface_area() == surface_area
         assert satellite_system.get_drag_coefficient() == drag_coefficient
         assert satellite_system.get_propulsion_system() == propulsion_system
+
+    def test_absent_cross_sectional_surface_area_drag_coefficient_and_propulsion_system(
+        self,
+        satellite_system_default_inputs,
+    ):
+        (
+            mass,
+            satellite_geometry,
+            inertia_tensor,
+            _,
+            _,
+            _,
+        ) = satellite_system_default_inputs
+
+        satellite_system = SatelliteSystem(
+            mass,
+            satellite_geometry,
+            inertia_tensor,
+            None,
+            None,
+        )
+
+        assert isinstance(satellite_system, SatelliteSystem)
+
+        with pytest.raises(RuntimeError):
+            satellite_system.get_cross_sectional_surface_area()
+
+        with pytest.raises(RuntimeError):
+            satellite_system.get_drag_coefficient()
+
+        with pytest.raises(RuntimeError):
+            satellite_system.get_propulsion_system()
+
+        satellite_system = SatelliteSystem(
+            mass,
+            satellite_geometry,
+            inertia_tensor,
+            0.8,
+            2.2,
+            propulsion_system=None,
+        )
+
+        assert satellite_system.get_cross_sectional_surface_area() == 0.8
+        assert satellite_system.get_drag_coefficient() == 2.2
+
+        with pytest.raises(RuntimeError):
+            satellite_system.get_propulsion_system()
