@@ -16,7 +16,6 @@ namespace astrodynamics
 namespace eclipse
 {
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Position;
@@ -105,7 +104,7 @@ Array<Eclipse> Generator::generate(
         const State state = aTrajectory.getStateAt(anInstant);
         const Position position = state.getPosition();
 
-        const Real shadowFactor =
+        const double shadowFactor =
             montenbruckGillShadowFunction(anInstant, position, *occultedCelestialObject, *occultingCelestialObject);
 
         return shadowFactor < 1.0;
@@ -122,7 +121,7 @@ Array<Eclipse> Generator::generate(
         const State state = aTrajectory.getStateAt(anInstant);
         const Position position = state.getPosition();
 
-        const Real shadowFactor =
+        const double shadowFactor =
             montenbruckGillShadowFunction(anInstant, position, *occultedCelestialObject, *occultingCelestialObject);
 
         return shadowFactor == 0.0;

@@ -8,8 +8,6 @@
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -72,8 +70,6 @@ using CntrObject = ostk::core::container::Object;
 using ostk::core::container::Dictionary;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -178,10 +174,10 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation, ValidationTestRunner)
              coordinateSubsetIndex++)
         {
             const Quantity quantity = quantityComparisons[coordinateSubsetIndex].quantity;
-            const Real tolerance = quantityComparisons[coordinateSubsetIndex].tolerance;
+            const double tolerance = quantityComparisons[coordinateSubsetIndex].tolerance;
 
             const Size maxIndex = CrossValidator::FindMaxDeltaIndex(allDeltasWithTool, coordinateSubsetIndex);
-            const Real maxDelta = allDeltasWithTool[maxIndex][coordinateSubsetIndex];
+            const double maxDelta = allDeltasWithTool[maxIndex][coordinateSubsetIndex];
 
             // Assert tolerance
             EXPECT_LT(maxDelta, tolerance) << String::Format(

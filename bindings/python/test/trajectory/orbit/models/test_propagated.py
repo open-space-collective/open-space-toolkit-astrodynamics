@@ -7,7 +7,6 @@ from ostk.astrodynamics.dynamics import CentralBodyGravity, PositionDerivative
 from ostk.astrodynamics.trajectory import Orbit, Propagator, State
 from ostk.astrodynamics.trajectory.orbit.model import Propagated, Tabulated
 from ostk.astrodynamics.trajectory.state import NumericalSolver
-from ostk.core.type import Integer
 from ostk.physics.coordinate import Frame, Position, Velocity
 from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.time import DateTime, Duration, Instant, Scale
@@ -192,11 +191,11 @@ class TestPropagated:
 
         revolution_number = propagated.calculate_revolution_number_at(instant)
         assert revolution_number is not None
-        assert isinstance(revolution_number, Integer)
+        assert isinstance(revolution_number, int)
 
         revolution_number_orbit = orbit.get_revolution_number_at(instant)
         assert revolution_number_orbit is not None
-        assert isinstance(revolution_number_orbit, Integer)
+        assert isinstance(revolution_number_orbit, int)
 
     def test_access_cached_state_array(
         self,

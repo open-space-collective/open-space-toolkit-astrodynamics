@@ -3,7 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Spherical__
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Spherical__
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Frame.hpp>
@@ -20,7 +19,6 @@ namespace conjunction
 namespace hardbody
 {
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Frame;
@@ -44,7 +42,7 @@ class Spherical : public HardBody
     /// @endcode
     ///
     /// @param aRadius The radius of the sphere [m]
-    Spherical(const Real& aRadius);
+    Spherical(double aRadius);
 
     /// @brief Destructor
     virtual ~Spherical() override = default;
@@ -52,7 +50,7 @@ class Spherical : public HardBody
     /// @brief Get the radius of the sphere
     ///
     /// @return The radius of the sphere [m]
-    Real getRadius() const;
+    double getRadius() const;
 
     /// @brief Calculate the cross section of the sphere at a given state
     ///
@@ -65,7 +63,7 @@ class Spherical : public HardBody
         const override;
 
    private:
-    Real radius_;
+    double radius_;
 };
 
 }  // namespace hardbody

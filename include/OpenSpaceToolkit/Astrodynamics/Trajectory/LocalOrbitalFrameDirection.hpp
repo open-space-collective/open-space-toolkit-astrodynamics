@@ -14,7 +14,6 @@ namespace astrodynamics
 namespace trajectory
 {
 
-using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 

@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics.hpp>
@@ -107,7 +106,7 @@ class Thruster : public Dynamics
    private:
     const SatelliteSystem satelliteSystem_;
     const Shared<const GuidanceLaw> guidanceLaw_;
-    const Real massFlowRateCache_;
+    const double massFlowRateCache_;
 };
 
 }  // namespace dynamics

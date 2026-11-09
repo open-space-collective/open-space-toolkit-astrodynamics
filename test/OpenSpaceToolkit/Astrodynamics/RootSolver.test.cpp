@@ -6,7 +6,6 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Real;
 using ostk::core::type::Size;
 
 using ostk::astrodynamics::RootSolver;
@@ -15,7 +14,7 @@ class OpenSpaceToolkit_Astrodynamics_RootSolver : public ::testing::Test
 {
    protected:
     const Size defaultMaxIterations_ = 100u;
-    const Real defaultTolerance_ = 1e-12;
+    const double defaultTolerance_ = 1e-12;
     const RootSolver defaultRootSolver_ = RootSolver(defaultMaxIterations_, defaultTolerance_);
 };
 

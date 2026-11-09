@@ -5,8 +5,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -27,8 +25,6 @@ namespace validation
 
 using ostk::core::container::Array;
 using ostk::core::container::Table;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -66,7 +62,7 @@ enum class Tool
 struct QuantityComparison  // TBI add logic to check for empty or non-matching length arrays
 {
     Quantity quantity;
-    Real tolerance;
+    double tolerance;
 };
 
 struct ToolComparison  // TBI add logic to check for empty or non-matching length arrays

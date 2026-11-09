@@ -7,7 +7,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
     using namespace pybind11;
 
     using ostk::core::container::Array;
-    using ostk::core::type::Integer;
     using ostk::core::type::Shared;
 
     using ostk::physics::time::Instant;
@@ -32,7 +31,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
         propagated_class
 
             .def(
-                init<const Propagator&, const State&, const Integer&>(),
+                init<const Propagator&, const State&, int>(),
                 R"doc(
                     Constructor.
 
@@ -48,7 +47,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(py
             )
 
             .def(
-                init<const Propagator&, const Array<State>&, const Integer&>(),
+                init<const Propagator&, const Array<State>&, int>(),
                 R"doc(
                     Constructor.
 

@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
 
@@ -20,11 +22,11 @@ using ostk::core::container::Array;
 
 using ostk::mathematics::geometry::d2::object::Point;
 
-Spherical::Spherical(const Real& aRadius)
+Spherical::Spherical(double aRadius)
     : HardBody(),
       radius_(aRadius)
 {
-    if (!radius_.isDefined())
+    if (std::isnan(radius_))
     {
         throw ostk::core::error::runtime::Undefined("Radius");
     }
@@ -35,7 +37,7 @@ Spherical::Spherical(const Real& aRadius)
     }
 }
 
-Real Spherical::getRadius() const
+double Spherical::getRadius() const
 {
     return radius_;
 }

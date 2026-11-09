@@ -8,7 +8,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Matrix.hpp>
@@ -31,7 +30,6 @@ namespace solver
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Size;
 using ostk::core::type::String;
 
@@ -70,7 +68,7 @@ class LeastSquaresSolver
         ///
         /// @param aRmsError RMS error for this step.
         /// @param anXHat State correction vector for this step.
-        Step(const Real& aRmsError, const VectorXd& anXHat);
+        Step(double aRmsError, const VectorXd& anXHat);
 
         /// @brief Stream step
         friend std::ostream& operator<<(std::ostream& anOutputStream, const Step& aStep);
@@ -78,8 +76,8 @@ class LeastSquaresSolver
         /// @brief Print step
         void print(std::ostream& anOutputStream) const;
 
-        Real rmsError;  ///< RMS error for this step.
-        VectorXd xHat;  ///< State correction vector for this step.
+        double rmsError;  ///< RMS error for this step.
+        VectorXd xHat;    ///< State correction vector for this step.
     };
 
     /// @brief Analysis results from the least squares solver.
@@ -112,7 +110,7 @@ class LeastSquaresSolver
         /// @brief computeResidualStates
         Array<State> computeResidualStates(const Array<State>& anObservationStateArray) const;
 
-        Real rmsError;                           ///< RMS error of the solution.
+        double rmsError;                         ///< RMS error of the solution.
         Size observationCount;                   ///< Number of observations used.
         Size iterationCount;                     ///< Number of iterations performed.
         String terminationCriteria;              ///< Description of why the solver terminated.
@@ -139,7 +137,7 @@ class LeastSquaresSolver
     /// ensures that the jacobian is well-conditioned. Defaults to LeastSquaresSolver::NoScaling()
     LeastSquaresSolver(
         const Size& aMaxIterationCount,
-        const Real& aRmsUpdateThreshold,
+        double aRmsUpdateThreshold,
         const FiniteDifferenceSolver& aFiniteDifferenceSolver = DEFAULT_FINITE_DIFFERENCE_SOLVER,
         const ScaleFactorGenerator& aScaleFactorGenerator = DEFAULT_SCALE_FACTOR_GENERATOR
     );
@@ -152,7 +150,7 @@ class LeastSquaresSolver
     /// @brief Get RMS update threshold
     ///
     /// @return RMS update threshold
-    Real getRmsUpdateThreshold() const;
+    double getRmsUpdateThreshold() const;
 
     /// @brief Get finite difference solver
     ///
@@ -224,7 +222,7 @@ class LeastSquaresSolver
 
    private:
     Size maxIterationCount_;
-    Real rmsUpdateThreshold_;
+    double rmsUpdateThreshold_;
     FiniteDifferenceSolver finiteDifferenceSolver_;
     ScaleFactorGenerator scaleFactorGenerator_;
 

@@ -20,7 +20,7 @@ Tabulated::Tabulated(
     const Array<State>& aStateArray,
     const Interpolator::Type& anInterpolationType,
     const Shared<const Frame>& aFrameSPtr,
-    const Integer& anInitialRevolutionNumber
+    int anInitialRevolutionNumber
 )
     : trajectory::orbit::Model(),
       trajectory::model::Tabulated(aStateArray, anInterpolationType, aFrameSPtr),
@@ -32,7 +32,7 @@ Tabulated::Tabulated(
     const Array<State>& aStateArray,
     const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap,
     const Shared<const Frame>& aFrameSPtr,
-    const Integer& anInitialRevolutionNumber
+    int anInitialRevolutionNumber
 )
     : trajectory::orbit::Model(),
       trajectory::model::Tabulated(aStateArray, anInterpolationTypeMap, aFrameSPtr),
@@ -63,7 +63,7 @@ bool Tabulated::operator!=(const Tabulated& aTabulatedModel) const
 
 bool Tabulated::isDefined() const
 {
-    return trajectory::model::Tabulated::isDefined() && initialRevolutionNumber_.isDefined();
+    return trajectory::model::Tabulated::isDefined();
 }
 
 Instant Tabulated::getEpoch() const
@@ -76,7 +76,7 @@ Instant Tabulated::getEpoch() const
     return this->getInterval().accessStart();
 }
 
-Integer Tabulated::getRevolutionNumberAtEpoch() const
+int Tabulated::getRevolutionNumberAtEpoch() const
 {
     if (!this->isDefined())
     {
@@ -97,7 +97,7 @@ void Tabulated::print(std::ostream& anOutputStream, bool displayDecorator) const
 }
 
 Tabulated Tabulated::Default(
-    const Array<State>& aStateArray, const Shared<const Frame>& aFrameSPtr, const Integer& anInitialRevolutionNumber
+    const Array<State>& aStateArray, const Shared<const Frame>& aFrameSPtr, int anInitialRevolutionNumber
 )
 {
     return Tabulated(

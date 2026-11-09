@@ -2,7 +2,6 @@
 
 #include <gmock/gmock.h>
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -13,7 +12,6 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -35,7 +33,7 @@ class MockGuidanceLaw : public GuidanceLaw
     MOCK_METHOD(
         Vector3d,
         calculateThrustAccelerationAt,
-        (const Instant&, const Vector3d&, const Vector3d&, const Real&, const Shared<const Frame>&),
+        (const Instant&, const Vector3d&, const Vector3d&, double, const Shared<const Frame>&),
         (const, override)
     );
 };

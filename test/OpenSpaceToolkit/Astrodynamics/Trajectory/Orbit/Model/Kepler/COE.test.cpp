@@ -1,6 +1,8 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -21,7 +23,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -65,7 +66,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE : public 
     }
 
     const Length defaultSemiMajorAxis_ = Length::Kilometers(7000.0);
-    const Real defaultEccentricity_ = 0.1;
+    const double defaultEccentricity_ = 0.1;
     const Angle defaultInclination_ = Angle::Degrees(10.0);
     const Angle defaultRaan_ = Angle::Degrees(20.0);
     const Angle defaultAop_ = Angle::Degrees(30.0);
@@ -561,7 +562,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetCart
 {
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(0.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -575,12 +576,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetCart
         const Position& position = cartesianState.first;
         const Velocity& velocity = cartesianState.second;
 
-        EXPECT_TRUE(position.getCoordinates().isNear(Vector3d(7000000.0, 0.0, 0.0), Real::Epsilon()))
+        EXPECT_TRUE(position.getCoordinates().isNear(Vector3d(7000000.0, 0.0, 0.0), 1e-15))
             << position.getCoordinates();
         EXPECT_EQ(Position::Unit::Meter, position.getUnit());
         EXPECT_EQ(Frame::GCRF(), position.accessFrame());
 
-        EXPECT_TRUE(velocity.getCoordinates().isNear(Vector3d(0.0, 7546.0532872678359, 0.0), Real::Epsilon()))
+        EXPECT_TRUE(velocity.getCoordinates().isNear(Vector3d(0.0, 7546.0532872678359, 0.0), 1e-15))
             << velocity.getCoordinates();
         EXPECT_EQ(Velocity::Unit::MeterPerSecond, velocity.getUnit());
         EXPECT_EQ(Frame::GCRF(), velocity.accessFrame());
@@ -588,7 +589,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetCart
 
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.05;
+        const double eccentricity = 0.05;
         const Angle inclination = Angle::Degrees(45.0);
         const Angle raan = Angle::Degrees(10.0);
         const Angle aop = Angle::Degrees(20.0);
@@ -605,8 +606,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetCart
         const Vector3d referencePosition = {3607105.091490086168, 4317224.055878742598, 3625268.495929836296};
         const Vector3d referenceVelocity = {-6467.082890311416, 2601.669219824156, 3685.141177179613};
 
-        const Real positionTolerance = 1e-8;
-        const Real velocityTolerance = 1e-12;
+        const double positionTolerance = 1e-8;
+        const double velocityTolerance = 1e-12;
 
         EXPECT_TRUE(position.getCoordinates().isNear(referencePosition, positionTolerance)) << String::Format(
             "{} - {} = {} [m]",
@@ -673,8 +674,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, ComputeMeanMotion)
 {
     {
-        const Real semiMajorAxis_m = defaultSemiMajorAxis_.inMeters();
-        const Real mu = Earth::EGM2008.gravitationalParameter_.in(Derived::Unit::MeterCubedPerSecondSquared());
+        const double semiMajorAxis_m = defaultSemiMajorAxis_.inMeters();
+        const double mu = Earth::EGM2008.gravitationalParameter_.in(Derived::Unit::MeterCubedPerSecondSquared());
 
         EXPECT_DOUBLE_EQ(
             std::sqrt(mu / (semiMajorAxis_m * semiMajorAxis_m * semiMajorAxis_m)),
@@ -694,7 +695,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
 {
     {
         EXPECT_DOUBLE_EQ(
-            Real::TwoPi() /
+            2.0 * M_PI /
                 COE::ComputeMeanMotion(defaultSemiMajorAxis_.inMeters(), Earth::EGM2008.gravitationalParameter_),
             COE::ComputeOrbitalPeriod(defaultSemiMajorAxis_.inMeters(), Earth::EGM2008.gravitationalParameter_)
         );
@@ -745,13 +746,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
     const auto earthSPtr = Environment::Default().accessCelestialObjectWithName("Earth");
 
     const Length semiMajorAxis = Length::Kilometers(590.0 + 6378.137);
-    const Real eccentricity = 0.001;
+    const double eccentricity = 0.001;
     const Angle inclination = Angle::Degrees(97.0);
 
-    const Real expectedRate = 0.0010840210523878169;
+    const double expectedRate = 0.0010840210523878169;
 
     {
-        const Real rate = COE::ComputeArgumentOfLatitudeAngularRate(
+        const double rate = COE::ComputeArgumentOfLatitudeAngularRate(
             semiMajorAxis.inMeters(),
             eccentricity,
             inclination.inRadians(),
@@ -770,7 +771,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetArgu
 
     const Derived gravitationalParameter = earthSPtr->getGravitationalParameter();
     const Length equatorialRadius = earthSPtr->getEquatorialRadius();
-    const Real j2 = earthSPtr->getJ2();
+    const double j2 = earthSPtr->getJ2();
 
     const COE coe = {
         Length::Kilometers(590.0 + 6378.137),
@@ -781,7 +782,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GetArgu
         Angle::Zero(),
     };
 
-    const Real expectedRate = 0.0010840210523878169;
+    const double expectedRate = 0.0010840210523878169;
 
     {
         const Derived rate = coe.getArgumentOfLatitudeAngularRate(gravitationalParameter, equatorialRadius, j2);
@@ -835,7 +836,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesi
 {
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.0;
+        const double eccentricity = 0.0;
         const Angle inclination = Angle::Degrees(0.0);
         const Angle raan = Angle::Degrees(0.0);
         const Angle aop = Angle::Degrees(0.0);
@@ -849,13 +850,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesi
         const COE coe = COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_);
 
         EXPECT_TRUE(coe.getSemiMajorAxis().inMeters().isNear(referenceCoe.getSemiMajorAxis().inMeters(), 1e-6));
-        EXPECT_TRUE(coe.getEccentricity().isNear(referenceCoe.getEccentricity(), Real::Epsilon()));
-        EXPECT_TRUE(coe.getInclination().inDegrees().isNear(referenceCoe.getInclination().inDegrees(), Real::Epsilon())
-        );
-        EXPECT_TRUE(coe.getRaan().inDegrees().isNear(referenceCoe.getRaan().inDegrees(), Real::Epsilon()));
-        EXPECT_TRUE(coe.getAop().inDegrees().isNear(referenceCoe.getAop().inDegrees(), Real::Epsilon()));
-        EXPECT_TRUE(coe.getTrueAnomaly().inDegrees().isNear(referenceCoe.getTrueAnomaly().inDegrees(), Real::Epsilon())
-        );
+        EXPECT_TRUE(std::abs(coe.getEccentricity() - referenceCoe.getEccentricity()) <= 1e-15);
+        EXPECT_TRUE(coe.getInclination().inDegrees().isNear(referenceCoe.getInclination().inDegrees(), 1e-15));
+        EXPECT_TRUE(coe.getRaan().inDegrees().isNear(referenceCoe.getRaan().inDegrees(), 1e-15));
+        EXPECT_TRUE(coe.getAop().inDegrees().isNear(referenceCoe.getAop().inDegrees(), 1e-15));
+        EXPECT_TRUE(coe.getTrueAnomaly().inDegrees().isNear(referenceCoe.getTrueAnomaly().inDegrees(), 1e-15));
     }
 
     // test edge case where true anomly is nan without std::clamp
@@ -870,17 +869,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesi
             const COE coe = COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_);
 
             EXPECT_NEAR(coe.getSemiMajorAxis().inMeters(), 7087442.844884155, 1e-6);
-            EXPECT_NEAR(coe.getEccentricity(), 0.010880490113017855, Real::Epsilon());
-            EXPECT_NEAR(coe.getInclination().inRadians(), 0.0008726646260034904, Real::Epsilon());
-            EXPECT_NEAR(coe.getRaan().inRadians(), 6.283185307179586, Real::Epsilon());
-            EXPECT_NEAR(coe.getAop().inRadians(), 0.06816523492423941, Real::Epsilon());
-            EXPECT_NEAR(coe.getTrueAnomaly().inRadians(), 0.0, Real::Epsilon());
+            EXPECT_NEAR(coe.getEccentricity(), 0.010880490113017855, 1e-15);
+            EXPECT_NEAR(coe.getInclination().inRadians(), 0.0008726646260034904, 1e-15);
+            EXPECT_NEAR(coe.getRaan().inRadians(), 6.283185307179586, 1e-15);
+            EXPECT_NEAR(coe.getAop().inRadians(), 0.06816523492423941, 1e-15);
+            EXPECT_NEAR(coe.getTrueAnomaly().inRadians(), 0.0, 1e-15);
         }
 
         // Circular, inclined
         {
             const Length semiMajorAxis = Length::Kilometers(7000.0);
-            const Real eccentricity = 0.0;
+            const double eccentricity = 0.0;
             const Angle inclination = Angle::Degrees(97.0);
             const Angle raan = Angle::Degrees(0.0);
             const Angle aop = Angle::Degrees(0.0);
@@ -894,15 +893,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Cartesi
             const COE coe = COE::Cartesian(cartesianState, Earth::EGM2008.gravitationalParameter_);
 
             EXPECT_TRUE(coe.getSemiMajorAxis().inMeters().isNear(referenceCoe.getSemiMajorAxis().inMeters(), 1e-6));
-            EXPECT_TRUE(coe.getEccentricity().isNear(referenceCoe.getEccentricity(), Real::Epsilon()));
-            EXPECT_TRUE(
-                coe.getInclination().inDegrees().isNear(referenceCoe.getInclination().inDegrees(), Real::Epsilon())
-            );
-            EXPECT_TRUE(coe.getRaan().inDegrees().isNear(referenceCoe.getRaan().inDegrees(), Real::Epsilon()));
-            EXPECT_TRUE(coe.getAop().inDegrees().isNear(referenceCoe.getAop().inDegrees(), Real::Epsilon()));
-            EXPECT_TRUE(
-                coe.getTrueAnomaly().inDegrees().isNear(referenceCoe.getTrueAnomaly().inDegrees(), Real::Epsilon())
-            );
+            EXPECT_TRUE(std::abs(coe.getEccentricity() - referenceCoe.getEccentricity()) <= 1e-15);
+            EXPECT_TRUE(coe.getInclination().inDegrees().isNear(referenceCoe.getInclination().inDegrees(), 1e-15));
+            EXPECT_TRUE(coe.getRaan().inDegrees().isNear(referenceCoe.getRaan().inDegrees(), 1e-15));
+            EXPECT_TRUE(coe.getAop().inDegrees().isNear(referenceCoe.getAop().inDegrees(), 1e-15));
+            EXPECT_TRUE(coe.getTrueAnomaly().inDegrees().isNear(referenceCoe.getTrueAnomaly().inDegrees(), 1e-15));
         }
     }
 
@@ -950,8 +945,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
     const Length semiMajorAxis = Length::Kilometers(8000);
 
     const Length re = Earth::EGM2008.equatorialRadius_;
-    const Real j2 = Earth::EGM2008.J2_;
-    const Real j3 = Earth::EGM2008.J3_;
+    const double j2 = Earth::EGM2008.J2_;
+    const double j3 = Earth::EGM2008.J3_;
 
     // Only provide SMA
     {
@@ -968,7 +963,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
     // Provide inclination
     // @ref: https://www.mathworks.com/matlabcentral/fileexchange/39119-frozen-orbit-design?s_tid=FX_rc3_behav
     {
-        const COE coe = COE::FrozenOrbit(semiMajorAxis, re, j2, j3, Real::Undefined(), Angle::Degrees(45.0));
+        const COE coe =
+            COE::FrozenOrbit(semiMajorAxis, re, j2, j3, std::numeric_limits<double>::quiet_NaN(), Angle::Degrees(45.0));
 
         EXPECT_NEAR(coe.getEccentricity(), 6.594e-4, 1e-6);
         EXPECT_NEAR(coe.getAop().inDegrees(), 90.0, 1e-10);
@@ -991,7 +987,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
             re,
             j2,
             j3,
-            Real::Undefined(),
+            std::numeric_limits<double>::quiet_NaN(),
             Angle::Undefined(),
             Angle::Degrees(45.0),
             Angle::Degrees(45.0),
@@ -1009,7 +1005,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
             re,
             j2,
             j3,
-            Real::Undefined(),
+            std::numeric_limits<double>::quiet_NaN(),
             Angle::Degrees(63.43490001),
             Angle::Degrees(0.0),
             non_critical_aop
@@ -1043,7 +1039,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
             {
                 {
                     EXPECT_THROW(
-                        COE::FrozenOrbit(semiMajorAxis, re, Real::Undefined(), j3),
+                        COE::FrozenOrbit(semiMajorAxis, re, std::numeric_limits<double>::quiet_NaN(), j3),
                         ostk::core::error::runtime::Undefined
                     );
                 }
@@ -1057,7 +1053,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
             {
                 {
                     EXPECT_THROW(
-                        COE::FrozenOrbit(semiMajorAxis, re, j2, Real::Undefined()),
+                        COE::FrozenOrbit(semiMajorAxis, re, j2, std::numeric_limits<double>::quiet_NaN()),
                         ostk::core::error::runtime::Undefined
                     );
                 }
@@ -1071,7 +1067,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
             {
                 EXPECT_THROW(
                     COE::FrozenOrbit(
-                        semiMajorAxis, re, j2, j3, Real::Undefined(), Angle::Undefined(), Angle::Undefined()
+                        semiMajorAxis,
+                        re,
+                        j2,
+                        j3,
+                        std::numeric_limits<double>::quiet_NaN(),
+                        Angle::Undefined(),
+                        Angle::Undefined()
                     ),
                     ostk::core::error::runtime::Undefined
                 );
@@ -1085,7 +1087,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
                         re,
                         j2,
                         j3,
-                        Real::Undefined(),
+                        std::numeric_limits<double>::quiet_NaN(),
                         Angle::Undefined(),
                         Angle::Degrees(0.0),
                         Angle::Undefined(),
@@ -1131,7 +1133,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, FrozenO
                     re,
                     j2,
                     j3,
-                    Real::Undefined(),
+                    std::numeric_limits<double>::quiet_NaN(),
                     Angle::Degrees(45.0),
                     Angle::Degrees(0.0),
                     Angle::Degrees(45.0)
@@ -1153,8 +1155,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
         const Time localTimeAtDescendingNode = Time::Parse("12:00:00");
 
         // Convert descending node time to ascending node time (add 12 hours)
-        const Real ltdnHours = localTimeAtDescendingNode.getTotalFloatingHours();
-        const Real ltanHours = std::fmod(ltdnHours + 12.0, 24.0);
+        const double ltdnHours = localTimeAtDescendingNode.getTotalFloatingHours();
+        const double ltanHours = std::fmod(ltdnHours + 12.0, 24.0);
         const Time localTimeAtAscendingNode = Time::Hours(ltanHours);
         const Angle argumentOfLatitude = Angle::Degrees(50.0);
 
@@ -1226,7 +1228,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, SunSync
                 Time::Parse("12:00:00"),
                 Instant::J2000(),
                 Environment::Default().accessCelestialObjectWithName("Earth"),
-                Real::Undefined(),
+                std::numeric_limits<double>::quiet_NaN(),
                 Angle::Zero()
             ),
             ostk::core::error::runtime::Undefined
@@ -1259,7 +1261,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, GeoSync
 
         EXPECT_TRUE(coe.isDefined());
         EXPECT_NEAR(coe.getInclination().inDegrees(), inclination.inDegrees(), 1e-10);
-        EXPECT_NEAR(coe.getEccentricity(), Real::Epsilon(), 1e-10);
+        EXPECT_NEAR(coe.getEccentricity(), 1e-15, 1e-10);
         EXPECT_NEAR(coe.getAop().inDegrees(), 0.0, 1e-10);
         EXPECT_NEAR(coe.getTrueAnomaly().inDegrees(), 0.0, 1e-10);
         // Geosynchronous altitude is approximately 35786 km
@@ -1350,7 +1352,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
     {
         const Environment environment = Environment::Default();
         const Length semiMajorAxis = Length::Meters(7130982.0);
-        const Real eccentricity = 0.001111;
+        const double eccentricity = 0.001111;
 
         const Angle inclination = COE::ComputeSunSynchronousInclination(
             semiMajorAxis, eccentricity, environment.accessCelestialObjectWithName("Earth")
@@ -1370,7 +1372,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Compute
         EXPECT_THROW(
             COE::ComputeSunSynchronousInclination(
                 Length::Kilometers(6971.0),
-                Real::Undefined(),
+                std::numeric_limits<double>::quiet_NaN(),
                 Environment::Default().accessCelestialObjectWithName("Earth")
             ),
             ostk::core::error::runtime::Undefined
@@ -1519,7 +1521,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Equator
 {
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
+        const double eccentricity = 0.1;
         const Angle trueAnomaly = Angle::Degrees(45.0);
 
         const COE coe = COE::Equatorial(semiMajorAxis, eccentricity, trueAnomaly);
@@ -1535,7 +1537,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Equator
 
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
+        const double eccentricity = 0.1;
 
         const COE coe = COE::Equatorial(semiMajorAxis, eccentricity);
 
@@ -1566,7 +1568,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Equator
         EXPECT_THROW(COE::Equatorial(Length::Undefined(), 0.1, Angle::Zero()), ostk::core::error::runtime::Undefined);
 
         EXPECT_THROW(
-            COE::Equatorial(Length::Kilometers(7000.0), Real::Undefined(), Angle::Zero()),
+            COE::Equatorial(Length::Kilometers(7000.0), std::numeric_limits<double>::quiet_NaN(), Angle::Zero()),
             ostk::core::error::runtime::Undefined
         );
 
@@ -1662,8 +1664,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Eccentr
 {
     {
         const Angle meanAnomaly = Angle::Degrees(0.0);
-        const Real eccentricity = 0.0;
-        const Real tolerance = 1e-5;
+        const double eccentricity = 0.0;
+        const double tolerance = 1e-5;
 
         const Angle eccentricAnomaly = COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, tolerance);
 
@@ -1672,8 +1674,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Eccentr
 
     {
         const Angle meanAnomaly = Angle::Radians(0.99262603391585447);
-        const Real eccentricity = 0.05;
-        const Real tolerance = 1e-8;
+        const double eccentricity = 0.05;
+        const double tolerance = 1e-8;
 
         const Angle eccentricAnomaly = COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, tolerance);
 
@@ -1682,12 +1684,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, Eccentr
 
     {
         const Angle meanAnomaly = Angle::Degrees(0.0);
-        const Real eccentricity = 0.0;
-        const Real tolerance = 1e-5;
+        const double eccentricity = 0.0;
+        const double tolerance = 1e-5;
 
         EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(Angle::Undefined(), eccentricity, tolerance));
-        EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, Real::Undefined(), tolerance));
-        EXPECT_ANY_THROW(COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, Real::Undefined()));
+        EXPECT_ANY_THROW(
+            COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, std::numeric_limits<double>::quiet_NaN(), tolerance)
+        );
+        EXPECT_ANY_THROW(
+            COE::EccentricAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, std::numeric_limits<double>::quiet_NaN())
+        );
     }
 }
 
@@ -1695,8 +1701,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, TrueAno
 {
     {
         const Angle meanAnomaly = Angle::Radians(5.08731632317414);
-        const Real eccentricity = 0.001288522395593299;
-        const Real tolerance = 1e-15;
+        const double eccentricity = 0.001288522395593299;
+        const double tolerance = 1e-15;
 
         const Angle trueAnomaly = COE::TrueAnomalyFromMeanAnomaly(meanAnomaly, eccentricity, tolerance);
 
@@ -1761,14 +1767,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, LocalTi
     const Instant instant = Instant::DateTime(DateTime::Parse("2026-01-01T00:00:00"), Scale::UTC);
     const Angle raan = Angle::Degrees(100.0);
 
-    const auto computeSunRightAscension = [&instant](const Shared<const Frame>& aFrameSPtr) -> Real
+    const auto computeSunRightAscension = [&instant](const Shared<const Frame>& aFrameSPtr) -> double
     {
         const Vector3d sun = Sun::Default().getPositionIn(aFrameSPtr, instant).getCoordinates();
 
         return std::atan2(sun.y(), sun.x());
     };
 
-    const auto toLocalTimeHours = [&raan](const Real& aSunAngle) -> Real
+    const auto toLocalTimeHours = [&raan](double aSunAngle) -> double
     {
         return std::fmod((std::fmod(raan.inRadians() - aSunAngle, 2.0 * M_PI) * 12.0 / M_PI) + 12.0, 24.0);
     };
@@ -1797,7 +1803,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, LocalTi
     {
         const Shared<const Frame> cirfSPtr = Frame::CIRF();
 
-        const Real expectedLTAN = toLocalTimeHours(computeSunRightAscension(cirfSPtr));
+        const double expectedLTAN = toLocalTimeHours(computeSunRightAscension(cirfSPtr));
 
         EXPECT_NEAR(
             COE::ComputeLTAN(raan, instant, Sun::Default(), cirfSPtr).getTotalFloatingHours(), expectedLTAN, 1e-9
@@ -1808,16 +1814,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_COE, LocalTi
             1e-9
         );
 
-        const Real gcrfLTAN = COE::ComputeLTAN(raan, instant).getTotalFloatingHours();
-        const Real cirfLTAN = COE::ComputeLTAN(raan, instant, Sun::Default(), cirfSPtr).getTotalFloatingHours();
+        const double gcrfLTAN = COE::ComputeLTAN(raan, instant).getTotalFloatingHours();
+        const double cirfLTAN = COE::ComputeLTAN(raan, instant, Sun::Default(), cirfSPtr).getTotalFloatingHours();
 
         // The frames are not equivalent: precession since J2000 shifts the Sun right ascension by several tens of
         // seconds of time
         EXPECT_GT(std::abs(gcrfLTAN - cirfLTAN), 5.0 / 3600.0);
         EXPECT_LT(std::abs(gcrfLTAN - cirfLTAN), 0.1);
 
-        const Real gcrfMeanLTAN = COE::ComputeMeanLTAN(raan, instant).getTotalFloatingHours();
-        const Real cirfMeanLTAN = COE::ComputeMeanLTAN(raan, instant, Sun::Default(), cirfSPtr).getTotalFloatingHours();
+        const double gcrfMeanLTAN = COE::ComputeMeanLTAN(raan, instant).getTotalFloatingHours();
+        const double cirfMeanLTAN =
+            COE::ComputeMeanLTAN(raan, instant, Sun::Default(), cirfSPtr).getTotalFloatingHours();
 
         EXPECT_NEAR(cirfMeanLTAN - gcrfMeanLTAN, cirfLTAN - gcrfLTAN, 1e-9);
     }

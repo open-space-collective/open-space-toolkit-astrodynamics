@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -10,14 +12,14 @@ namespace ostk
 namespace astrodynamics
 {
 
-EventCondition::Target::Target(const Real& aValue, const Type& aType)
+EventCondition::Target::Target(double aValue, const Type& aType)
     : value(aValue),
       type(aType)
 {
 }
 
 EventCondition::Target::Target(const Angle& anAngle, const Type& aType)
-    : value(anAngle.inRadians(0.0, Real::TwoPi())),
+    : value(anAngle.inRadians(0.0, 2.0 * M_PI)),
       type(aType)
 {
 }
@@ -30,7 +32,7 @@ EventCondition::Target::Target(const Length& aLength, const Type& aType)
 
 bool EventCondition::Target::operator==(const EventCondition::Target& aTarget) const
 {
-    if (!value.isDefined() || !aTarget.value.isDefined())
+    if (std::isnan(value) || std::isnan(aTarget.value))
     {
         return false;
     }
@@ -45,7 +47,7 @@ bool EventCondition::Target::operator!=(const EventCondition::Target& aTarget) c
 
 bool EventCondition::Target::isDefined() const
 {
-    return value.isDefined();
+    return !std::isnan(value);
 }
 
 String EventCondition::Target::StringFromType(const EventCondition::Target::Type& aType)
@@ -62,7 +64,7 @@ String EventCondition::Target::StringFromType(const EventCondition::Target::Type
 }
 
 EventCondition::EventCondition(
-    const String& aName, const std::function<Real(const State&)>& anEvaluator, const EventCondition::Target& aTarget
+    const String& aName, const std::function<double(const State&)>& anEvaluator, const EventCondition::Target& aTarget
 )
     : name_(aName),
       evaluator_(anEvaluator),
@@ -71,7 +73,7 @@ EventCondition::EventCondition(
 }
 
 EventCondition::EventCondition(
-    const String& aName, const std::function<Real(const State&)>& anEvaluator, const Real& aTargetValue
+    const String& aName, const std::function<double(const State&)>& anEvaluator, double aTargetValue
 )
     : name_(aName),
       evaluator_(anEvaluator),
@@ -93,7 +95,7 @@ String EventCondition::getName() const
     return name_;
 }
 
-std::function<Real(const State&)> EventCondition::getEvaluator() const
+std::function<double(const State&)> EventCondition::getEvaluator() const
 {
     return evaluator_;
 }

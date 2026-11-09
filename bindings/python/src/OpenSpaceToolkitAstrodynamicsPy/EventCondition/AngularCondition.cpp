@@ -6,7 +6,6 @@
 
 using namespace pybind11;
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -52,7 +51,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                 init<
                     const String&,
                     const AngularCondition::Criterion&,
-                    std::function<Real(const State&)>,
+                    std::function<double(const State&)>,
                     const Angle&>(),
                 R"doc(
                     Constructor.
@@ -74,7 +73,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_AngularCondition(pybi
                 init<
                     const String&,
                     const AngularCondition::Criterion&,
-                    std::function<Real(const State&)>,
+                    std::function<double(const State&)>,
                     const EventCondition::Target&>(),
                 R"doc(
                     Constructor.

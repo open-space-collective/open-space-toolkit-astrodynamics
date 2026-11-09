@@ -1,8 +1,9 @@
 /// Apache License 2.0
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -23,7 +24,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::object::Vector3d;
@@ -84,7 +84,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody_Spherical, Constructo
 
     {
         EXPECT_THROW(
-            try { Spherical(Real::Undefined()); } catch (const ostk::core::error::runtime::Undefined& e) {
+            try {
+                Spherical(std::numeric_limits<double>::quiet_NaN());
+            } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_EQ("{Radius} is undefined.", e.getMessage());
                 throw;
             },

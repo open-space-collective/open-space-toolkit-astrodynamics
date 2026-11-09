@@ -1,7 +1,8 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
@@ -17,7 +18,6 @@
 
 using ostk::core::container::Tuple;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 
 using ostk::mathematics::object::Vector3d;
 using ostk::mathematics::object::Vector6d;
@@ -38,7 +38,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
 {
     {
         const Length semiMajorAxis = Length::Kilometers(7000.0);
-        const Real eccentricity = 0.1;
+        const double eccentricity = 0.1;
         const Angle inclination = Angle::Degrees(10.0);
         const Angle raan = Angle::Degrees(20.0);
         const Angle aop = Angle::Degrees(30.0);
@@ -67,10 +67,10 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
 
         EXPECT_NEAR(6964438.543901746, blmloe.getSemiMajorAxis().inMeters(), 1e-2);
         EXPECT_NEAR(0.000473008790410975, blmloe.getEccentricity(), 1e-5);
-        EXPECT_NEAR(1.7064996261909862, blmloe.getInclination().inRadians(0.0, Real::TwoPi()), 1e-5);
-        EXPECT_NEAR(0.3385940722800471, blmloe.getRaan().inRadians(0.0, Real::TwoPi()), 1e-5);
-        EXPECT_NEAR(3.028029950209483, blmloe.getAop().inRadians(0.0, Real::TwoPi()), 1e-5);
-        EXPECT_NEAR(3.2572466384121426, blmloe.getMeanAnomaly().inRadians(0.0, Real::TwoPi()), 1e-5);
+        EXPECT_NEAR(1.7064996261909862, blmloe.getInclination().inRadians(0.0, 2.0 * M_PI), 1e-5);
+        EXPECT_NEAR(0.3385940722800471, blmloe.getRaan().inRadians(0.0, 2.0 * M_PI), 1e-5);
+        EXPECT_NEAR(3.028029950209483, blmloe.getAop().inRadians(0.0, 2.0 * M_PI), 1e-5);
+        EXPECT_NEAR(3.2572466384121426, blmloe.getMeanAnomaly().inRadians(0.0, 2.0 * M_PI), 1e-5);
     }
 }
 
@@ -264,7 +264,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_BrouwerLyddane
 {
     {
         const Length semiMajorAxis = Length::Kilometers(6973.743586220524);
-        const Real eccentricity = 5.773317909427908e-05;
+        const double eccentricity = 5.773317909427908e-05;
         const Angle inclination = Angle::Degrees(97.81289794819898);
         const Angle raan = Angle::Degrees(19.06529412789695);
         const Angle aop = Angle::Degrees(87.4425150450563);

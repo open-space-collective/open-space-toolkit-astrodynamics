@@ -5,7 +5,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
@@ -32,7 +31,6 @@ namespace model
 
 using ostk::core::container::Array;
 using ostk::core::container::Map;
-using ostk::core::type::Integer;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::curvefitting::Interpolator;
@@ -69,7 +67,7 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
         const Array<State>& aStateArray,
         const Interpolator::Type& anInterpolationType = DEFAULT_TABULATED_TRAJECTORY_INTERPOLATION_TYPE,
         const Shared<const Frame>& aFrameSPtr = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME,
-        const Integer& anInitialRevolutionNumber = DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER
+        int anInitialRevolutionNumber = DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER
     );
 
     /// @brief Construct a tabulated orbit model with per-coordinate-subset interpolation types.
@@ -97,7 +95,7 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
         const Array<State>& aStateArray,
         const Map<Shared<const CoordinateSubset>, Interpolator::Type>& anInterpolationTypeMap,
         const Shared<const Frame>& aFrameSPtr = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME,
-        const Integer& anInitialRevolutionNumber = DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER
+        int anInitialRevolutionNumber = DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER
     );
 
     /// @brief Clone this tabulated orbit model.
@@ -130,7 +128,7 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     /// @brief Get the revolution number at epoch.
     ///
     /// @return The revolution number at epoch.
-    virtual Integer getRevolutionNumberAtEpoch() const override;
+    virtual int getRevolutionNumberAtEpoch() const override;
 
     /// @brief Calculate the state at a given instant by interpolating the tabulated states.
     ///
@@ -167,7 +165,7 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     static Tabulated Default(
         const Array<State>& aStateArray,
         const Shared<const Frame>& aFrameSPtr = DEFAULT_TABULATED_TRAJECTORY_OUTPUT_FRAME,
-        const Integer& anInitialRevolutionNumber = DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER
+        int anInitialRevolutionNumber = DEFAULT_TABULATED_ORBIT_INITIAL_REVOLUTION_NUMBER
     );
 
    protected:
@@ -176,7 +174,7 @@ class Tabulated : public virtual trajectory::orbit::Model, public trajectory::mo
     virtual bool operator!=(const trajectory::Model& aModel) const override;
 
    private:
-    Integer initialRevolutionNumber_;
+    int initialRevolutionNumber_;
 };
 
 }  // namespace model

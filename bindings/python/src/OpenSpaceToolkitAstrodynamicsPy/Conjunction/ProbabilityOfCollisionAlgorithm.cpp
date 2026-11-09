@@ -11,7 +11,6 @@
 using namespace pybind11;
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -43,14 +42,14 @@ class PyProbabilityOfCollisionAlgorithm : public ProbabilityOfCollisionAlgorithm
         );
     }
 
-    Real computeProbabilityOfCollision(
+    double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
     ) const override
     {
         PYBIND11_OVERRIDE_PURE_NAME(
-            Real,
+            double,
             ProbabilityOfCollisionAlgorithm,
             "compute_probability_of_collision",
             computeProbabilityOfCollision,

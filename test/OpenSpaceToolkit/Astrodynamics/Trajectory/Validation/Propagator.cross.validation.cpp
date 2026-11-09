@@ -1,12 +1,11 @@
 /// Apache License 2.0
 
+#include <cmath>
 #include <numeric>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -65,8 +64,6 @@ using ostk::core::container::Tuple;
 using ostk::core::filesystem::Directory;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -538,18 +535,18 @@ class OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster : publi
                                                                                bool,
                                                                                LocalOrbitalFrameFactory,
                                                                                Vector3d,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real,
-                                                                               Real>>
+                                                                               double,
+                                                                               double,
+                                                                               double,
+                                                                               double,
+                                                                               double,
+                                                                               double,
+                                                                               double,
+                                                                               double,
+                                                                               double,
+                                                                               double,
+                                                                               double,
+                                                                               double>>
 {
    protected:
     void SetUp() override
@@ -621,18 +618,18 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
     const bool param_withAtmosphere = std::get<1>(parameters);
     LocalOrbitalFrameFactory param_localOrbitalFrameFactory = std::get<2>(parameters);
     const Vector3d param_localOrbitalFrameThrustVector = std::get<3>(parameters);
-    const Real param_satelliteDryMassReal = std::get<4>(parameters);
-    const Real param_thrustReal = std::get<5>(parameters);
-    const Real param_specificImpulseReal = std::get<6>(parameters);
-    const Real param_crossSectionReal = std::get<7>(parameters);
-    const Real param_dragCoeffReal = std::get<8>(parameters);
-    const Real param_positionErrorGCRFTolerance = std::get<9>(parameters);
-    const Real param_velocityErrorGCRFTolerance = std::get<10>(parameters);
-    const Real param_accelerationErrorGCRFTolerance = std::get<11>(parameters);
-    const Real param_massErrorTolerance = std::get<12>(parameters);
-    const Real param_positionErrorLOFTolerance = std::get<13>(parameters);
-    const Real param_velocityErrorLOFTolerance = std::get<14>(parameters);
-    const Real param_accelerationErrorLOFTolerance = std::get<15>(parameters);
+    const double param_satelliteDryMassReal = std::get<4>(parameters);
+    const double param_thrustReal = std::get<5>(parameters);
+    const double param_specificImpulseReal = std::get<6>(parameters);
+    const double param_crossSectionReal = std::get<7>(parameters);
+    const double param_dragCoeffReal = std::get<8>(parameters);
+    const double param_positionErrorGCRFTolerance = std::get<9>(parameters);
+    const double param_velocityErrorGCRFTolerance = std::get<10>(parameters);
+    const double param_accelerationErrorGCRFTolerance = std::get<11>(parameters);
+    const double param_massErrorTolerance = std::get<12>(parameters);
+    const double param_positionErrorLOFTolerance = std::get<13>(parameters);
+    const double param_velocityErrorLOFTolerance = std::get<14>(parameters);
+    const double param_accelerationErrorLOFTolerance = std::get<15>(parameters);
 
     // Initialize reference data arrays
     Array<Instant> instantArray = Array<Instant>::Empty();
@@ -779,7 +776,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_CrossValidation_Thruster, Force
         const VectorXd positionVelocityCoordinates = propagatedStateArray_Tabulated[i].extractCoordinates(
             {Maneuver::RequiredCoordinateSubsets[0], Maneuver::RequiredCoordinateSubsets[1]}
         );
-        const Real massFlowRate = thrusterContributionsGCRF(i, 3);
+        const double massFlowRate = thrusterContributionsGCRF(i, 3);
 
         VectorXd coordinates(10);
         coordinates << positionVelocityCoordinates, accelerationCoordinates, massFlowRate;

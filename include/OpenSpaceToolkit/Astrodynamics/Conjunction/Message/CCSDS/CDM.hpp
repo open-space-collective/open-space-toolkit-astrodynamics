@@ -3,13 +3,14 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM__
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_Message_CCSDS_CDM__
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Dictionary.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
 #include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -43,7 +44,6 @@ using ostk::core::container::Map;
 using ostk::core::filesystem::File;
 using ostk::core::type::Index;
 using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -111,13 +111,13 @@ class CDM
         Instant endScreenPeriod = Instant::Undefined();    // UTC
         String screenVolumeFrame = String::Empty();
         String screenVolumeShape = String::Empty();
-        Real screenVolumeX = Real::Undefined();  // TBI: Make it a vector?
-        Real screenVolumeY = Real::Undefined();
-        Real screenVolumeZ = Real::Undefined();
+        double screenVolumeX = std::numeric_limits<double>::quiet_NaN();  // TBI: Make it a vector?
+        double screenVolumeY = std::numeric_limits<double>::quiet_NaN();
+        double screenVolumeZ = std::numeric_limits<double>::quiet_NaN();
         Instant screenEntryTime = Instant::Undefined();  // UTC
         Instant screenExitTime = Instant::Undefined();   // UTC
 
-        Real collisionProbability = Real::Undefined();
+        double collisionProbability = std::numeric_limits<double>::quiet_NaN();
         String collisionProbabilityMethod = String::Empty();
     };
 
@@ -126,7 +126,7 @@ class CDM
     {
         String comment = String::Empty();
         String object;
-        Integer objectDesignator;
+        int objectDesignator;
         String catalogName;
         String objectName;
         String internationalDesignator;
@@ -171,20 +171,20 @@ class CDM
         Integer obsUsed = Integer::Undefined();
         Integer tracksAvailable = Integer::Undefined();
         Integer tracksUsed = Integer::Undefined();
-        Real residualsAccepted = Real::Undefined();
-        Real weightedRMS = Real::Undefined();
+        double residualsAccepted = std::numeric_limits<double>::quiet_NaN();
+        double weightedRMS = std::numeric_limits<double>::quiet_NaN();
 
         // Additional Parameters
 
         // String              additionParametersComment;
-        Real areaPC = Real::Undefined();  // Area, add Unit
-        Real areaDrag = Real::Undefined();
-        Real areaSRP = Real::Undefined();
+        double areaPC = std::numeric_limits<double>::quiet_NaN();  // Area, add Unit
+        double areaDrag = std::numeric_limits<double>::quiet_NaN();
+        double areaSRP = std::numeric_limits<double>::quiet_NaN();
         Mass mass = Mass::Undefined();
-        Real cdAreaOverMass = Real::Undefined();
-        Real crAreaOverMass = Real::Undefined();
-        Real thrustAcceleration = Real::Undefined();  // Acceleration, add Unit
-        Real SEDR = Real::Undefined();
+        double cdAreaOverMass = std::numeric_limits<double>::quiet_NaN();
+        double crAreaOverMass = std::numeric_limits<double>::quiet_NaN();
+        double thrustAcceleration = std::numeric_limits<double>::quiet_NaN();  // Acceleration, add Unit
+        double SEDR = std::numeric_limits<double>::quiet_NaN();
 
         // State Vector
 
@@ -394,11 +394,11 @@ class CDM
     ///
     /// @code{.cpp}
     ///     CDM cdm = CDM::Load(File::Path(Path::Parse("path/to/cdm.txt"))) ;
-    ///     Real collisionProbability = cdm.getCollisionProbability() ;
+    ///     double collisionProbability = cdm.getCollisionProbability() ;
     /// @endcode
     ///
-    /// @return The collision probability as a Real.
-    Real getCollisionProbability() const;
+    /// @return The collision probability as a double.
+    double getCollisionProbability() const;
 
     /// @brief Get the method used to compute the collision probability.
     ///
@@ -416,12 +416,12 @@ class CDM
     ///
     /// @code{.cpp}
     ///     CDM cdm = CDM::Load(File::Path(Path::Parse("path/to/cdm.txt"))) ;
-    ///     Integer designator = cdm.getObjectDesignator(0) ;
+    ///     int designator = cdm.getObjectDesignator(0) ;
     /// @endcode
     ///
     /// @param anIndex A zero-based object index.
-    /// @return The object designator as an Integer.
-    Integer getObjectDesignator(const Index& anIndex) const;
+    /// @return The object designator as an int.
+    int getObjectDesignator(const Index& anIndex) const;
 
     /// @brief Get the name of the object at the given index.
     ///

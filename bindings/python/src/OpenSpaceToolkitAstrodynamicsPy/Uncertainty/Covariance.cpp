@@ -10,7 +10,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Uncertainty_Covariance(pybind11::mod
     using namespace pybind11;
 
     using ostk::core::container::Array;
-    using ostk::core::type::Real;
     using ostk::core::type::Shared;
 
     using ostk::mathematics::object::MatrixXd;

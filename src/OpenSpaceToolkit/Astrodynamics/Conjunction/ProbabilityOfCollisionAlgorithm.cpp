@@ -64,16 +64,16 @@ ProbabilityOfCollisionAlgorithm::Analysis ProbabilityOfCollisionAlgorithm::Compu
         );
     }
 
-    const Real probabilityOfCollision = aProbabilityOfCollisionAlgorithmSPtr->computeProbabilityOfCollision(
+    const double probabilityOfCollision = aProbabilityOfCollisionAlgorithmSPtr->computeProbabilityOfCollision(
         aCloseApproach, aHardBody1SPtr, aHardBody2SPtr
     );
 
     // Compute the probability of collision with scaled covariance(s)
-    const auto computeScaledProbabilityOfCollision = [&](const double& aScalingFactor) -> Real
+    const auto computeScaledProbabilityOfCollision = [&](const double& aScalingFactor) -> double
     {
         const CloseApproach scaledCloseApproach = aCloseApproach.scale(
-            scaleObject1Covariance ? std::optional<Real>(aScalingFactor) : std::nullopt,
-            scaleObject2Covariance ? std::optional<Real>(aScalingFactor) : std::nullopt
+            scaleObject1Covariance ? std::optional<double>(aScalingFactor) : std::nullopt,
+            scaleObject2Covariance ? std::optional<double>(aScalingFactor) : std::nullopt
         );
 
         return aProbabilityOfCollisionAlgorithmSPtr->computeProbabilityOfCollision(

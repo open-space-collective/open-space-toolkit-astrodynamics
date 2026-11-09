@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_CloseApproach_Generator__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -25,7 +24,6 @@ namespace closeapproach
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 
 using ostk::physics::time::Duration;
 using ostk::physics::time::Instant;
@@ -160,7 +158,7 @@ class Generator
     /// @param aState1 The first state
     /// @param aState2 The second state
     /// @return The relative distance time derivative (in m/s)
-    static Real ComputeRelativeDistanceDerivative_(const State& aState1, const State& aState2);
+    static double ComputeRelativeDistanceDerivative_(const State& aState1, const State& aState2);
 };
 
 }  // namespace closeapproach

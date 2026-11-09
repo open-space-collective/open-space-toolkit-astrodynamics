@@ -4,8 +4,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -50,8 +48,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -199,9 +195,9 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation_Data_Succes
     const Instant endInstant = std::get<1>(parameters);
     const Duration step = std::get<2>(parameters);
 
-    const Real mass = satelliteDryMass_.inKilograms();
-    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
-    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
+    const double mass = satelliteDryMass_.inKilograms();
+    const double surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
+    const double dragCoefficient = satelliteSystem_.getDragCoefficient();
 
     VectorXd initialStateVector(9);
     initialStateVector << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, mass, surfaceArea,
@@ -281,9 +277,9 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Validation_NRLMSIS00Validation_Data_Failur
     Instant endInstant = std::get<1>(parameters);
     Duration step = std::get<2>(parameters);
 
-    const Real mass = satelliteDryMass_.inKilograms();
-    const Real surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
-    const Real dragCoefficient = satelliteSystem_.getDragCoefficient();
+    const double mass = satelliteDryMass_.inKilograms();
+    const double surfaceArea = satelliteSystem_.getCrossSectionalSurfaceArea();
+    const double dragCoefficient = satelliteSystem_.getDragCoefficient();
 
     VectorXd initialStateVector(9);
     initialStateVector << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, mass, surfaceArea,

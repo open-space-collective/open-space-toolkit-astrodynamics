@@ -2,7 +2,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -32,7 +31,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -69,7 +67,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
     State stateGenerator(
         const Instant& anInstant,
         const Vector3d& anAcceleration = {0.0, 0.0, 0.0},
-        const Real& aMassFlowRate = -0.5e-5,
+        double aMassFlowRate = -0.5e-5,
         const Vector3d& aPosition = {0.0, 0.0, 0.0},
         const Vector3d& aVelocity = {0.0, 0.0, 0.0},
         const Shared<const Frame>& aFrame = Frame::GCRF()
@@ -85,7 +83,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_Maneuver : public ::testing::Test
     const Shared<const Frame> defaultFrameSPtr_ = Frame::GCRF();
     const Shared<const Frame> secondFrameSPtr_ = Frame::ITRF();
 
-    const Real defaultConstantMassFlowRate_ = -0.5e-5;
+    const double defaultConstantMassFlowRate_ = -0.5e-5;
 
     const Array<State> defaultStates_ = {
         stateGenerator(Instant::J2000(), {1e-1, 0.0, 0.0}, -1.0e-5),
@@ -498,7 +496,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, CalculateScalarQuantities
     };
 
     // Constant and non-constant mass flow rates chosen to produce the same dM as equally spaced 0.1 kg/s profiles
-    const Real constantMassFlowRate = -1.0e-1;
+    const double constantMassFlowRate = -1.0e-1;
 
     const Maneuver evenlySpacedManeuverWithConstantMassFlowRate =
         Maneuver::ConstantMassFlowRateProfile(evenlySpacedStates, constantMassFlowRate);
@@ -695,8 +693,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_Maneuver, ToTabulatedDynamics)
                                          .data());
             }
         );
-        const Array<Real> massFlowRateProfile = defaultStates_.map<Real>(
-            [](const State& aState) -> Real
+        const Array<double> massFlowRateProfile = defaultStates_.map<double>(
+            [](const State& aState) -> double
             {
                 return aState.extractCoordinate(CoordinateSubset::MassFlowRate())[0];
             }

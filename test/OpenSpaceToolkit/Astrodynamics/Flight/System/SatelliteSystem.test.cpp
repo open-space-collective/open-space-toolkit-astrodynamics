@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -15,8 +16,6 @@
 
 #include <Global.test.hpp>
 
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::mathematics::geometry::d3::object::Composite;
@@ -46,7 +45,7 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
         satelliteGeometry_ = Composite(satelliteCuboid);
@@ -75,8 +74,8 @@ class OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem : public ::te
 
     Mass mass_ = Mass::Undefined();
     Matrix3d satelliteInertiaTensor_ = Matrix3d::Identity();
-    Real crossSectionalSurfaceArea_ = Real::Undefined();
-    Real dragCoefficient_ = Real::Undefined();
+    double crossSectionalSurfaceArea_ = std::numeric_limits<double>::quiet_NaN();
+    double dragCoefficient_ = std::numeric_limits<double>::quiet_NaN();
     PropulsionSystem propulsionSystem_ = PropulsionSystem::Undefined();
     Composite satelliteGeometry_ = Composite::Undefined();
     SatelliteSystem satelliteSystem_ = SatelliteSystem::Undefined();
@@ -136,7 +135,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, EqualToOper
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
         const Composite anotherSatelliteGeometry(Cuboid(center, axes, extent));
         EXPECT_FALSE(
             satelliteSystem_ == SatelliteSystem(
@@ -239,7 +238,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, NotEqualToO
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
         const Composite anotherSatelliteGeometry(Cuboid(center, axes, extent));
         EXPECT_TRUE(
             satelliteSystem_ != SatelliteSystem(
@@ -350,7 +349,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, IsDefined)
                          mass_,
                          satelliteGeometry_,
                          satelliteInertiaTensor_,
-                         Real::Undefined(),
+                         std::numeric_limits<double>::quiet_NaN(),
                          dragCoefficient_,
                          propulsionSystem_
         )
@@ -361,7 +360,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, IsDefined)
                          satelliteGeometry_,
                          satelliteInertiaTensor_,
                          crossSectionalSurfaceArea_,
-                         Real::Undefined(),
+                         std::numeric_limits<double>::quiet_NaN(),
                          propulsionSystem_
         )
                          .isDefined());
@@ -421,7 +420,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetGeometry
         const std::array<Vector3d, 3> axes = {
             Vector3d {1.0, 0.0, 0.0}, Vector3d {0.0, 1.0, 0.0}, Vector3d {0.0, 0.0, 1.0}
         };
-        const std::array<Real, 3> extent = {1.0, 2.0, 3.0};
+        const std::array<ostk::core::type::Real, 3> extent = {1.0, 2.0, 3.0};
 
         const Cuboid satelliteCuboid = {center, axes, extent};
         const Composite satelliteGeometry(satelliteCuboid);
@@ -440,8 +439,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetInertiaT
             Mass::Undefined(),
             Composite::Undefined(),
             satelliteInertiaTensor_,
-            Real::Undefined(),
-            Real::Undefined(),
+            std::numeric_limits<double>::quiet_NaN(),
+            std::numeric_limits<double>::quiet_NaN(),
             PropulsionSystem::Undefined()
         };
         EXPECT_EQ(satelliteSystem_.getInertiaTensor(), satelliteInertiaTensor_);
@@ -468,7 +467,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetCrossSec
             Composite::Undefined(),
             Matrix3d::Undefined(),
             crossSectionalSurfaceArea_,
-            Real::Undefined(),
+            std::numeric_limits<double>::quiet_NaN(),
             PropulsionSystem::Undefined()
         };
         EXPECT_EQ(satelliteSystem_.getCrossSectionalSurfaceArea(), crossSectionalSurfaceArea_);
@@ -476,7 +475,12 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetCrossSec
 
     {
         const SatelliteSystem aSatelliteSystem = {
-            mass_, satelliteGeometry_, satelliteInertiaTensor_, Real::Undefined(), dragCoefficient_, propulsionSystem_
+            mass_,
+            satelliteGeometry_,
+            satelliteInertiaTensor_,
+            std::numeric_limits<double>::quiet_NaN(),
+            dragCoefficient_,
+            propulsionSystem_
         };
         EXPECT_ANY_THROW(aSatelliteSystem.getCrossSectionalSurfaceArea());
     }
@@ -489,7 +493,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetDragCoef
             Mass::Undefined(),
             Composite::Undefined(),
             Matrix3d::Undefined(),
-            Real::Undefined(),
+            std::numeric_limits<double>::quiet_NaN(),
             dragCoefficient_,
             PropulsionSystem::Undefined()
         };
@@ -502,7 +506,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetDragCoef
             satelliteGeometry_,
             satelliteInertiaTensor_,
             crossSectionalSurfaceArea_,
-            Real::Undefined(),
+            std::numeric_limits<double>::quiet_NaN(),
             propulsionSystem_
         };
         EXPECT_ANY_THROW(aSatelliteSystem.getDragCoefficient());
@@ -516,8 +520,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystem, GetPropulsi
             Mass::Undefined(),
             Composite::Undefined(),
             Matrix3d::Undefined(),
-            Real::Undefined(),
-            Real::Undefined(),
+            std::numeric_limits<double>::quiet_NaN(),
+            std::numeric_limits<double>::quiet_NaN(),
             propulsionSystem_
         };
         EXPECT_EQ(satelliteSystem_.getPropulsionSystem(), propulsionSystem_);

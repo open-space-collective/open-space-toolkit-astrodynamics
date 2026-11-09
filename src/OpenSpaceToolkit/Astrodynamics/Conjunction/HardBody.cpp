@@ -17,13 +17,13 @@ namespace conjunction
 
 using ostk::mathematics::geometry::d2::object::Polygon;
 
-HardBody::CrossSection::CrossSection(const Array<Point>& aConvexHull, const Real& aRadius)
+HardBody::CrossSection::CrossSection(const Array<Point>& aConvexHull, double aRadius)
     : convexHull_(aConvexHull),
       radius_(aRadius)
 {
 }
 
-Real HardBody::CrossSection::getEnclosingRadius() const
+double HardBody::CrossSection::getEnclosingRadius() const
 {
     if (convexHull_.isEmpty())
     {
@@ -32,11 +32,12 @@ Real HardBody::CrossSection::getEnclosingRadius() const
 
     // The distance to the origin is convex, so its maximum over the convex hull is reached at a vertex. The
     // dilation then moves the farthest point outwards by the radius.
-    Real maximumVertexDistance = 0.0;
+    double maximumVertexDistance = 0.0;
 
     for (const Point& vertex : convexHull_)
     {
-        maximumVertexDistance = std::max(maximumVertexDistance, vertex.distanceTo(Point::Origin()));
+        maximumVertexDistance =
+            std::max(maximumVertexDistance, static_cast<double>(vertex.distanceTo(Point::Origin())));
     }
 
     return maximumVertexDistance + radius_;
@@ -67,7 +68,7 @@ HardBody::CrossSection HardBody::CrossSection::combine(
         }
     }
 
-    const Real radius = aCrossSection.radius_ + anotherCrossSection.radius_;
+    const double radius = aCrossSection.radius_ + anotherCrossSection.radius_;
 
     // A polygon requires at least 3 points: fewer distinct points already form a point or a segment
     if (vertexSums.getSize() < 3)

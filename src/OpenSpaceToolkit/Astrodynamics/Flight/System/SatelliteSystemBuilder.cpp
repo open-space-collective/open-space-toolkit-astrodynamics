@@ -1,9 +1,13 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -18,8 +22,8 @@ SatelliteSystemBuilder::SatelliteSystemBuilder()
     : dryMass_(Mass::Undefined()),
       geometry_(Composite::Undefined()),
       inertiaTensor_(Matrix3d::Undefined()),
-      crossSectionalSurfaceArea_(Real::Undefined()),
-      dragCoefficient_(Real::Undefined()),
+      crossSectionalSurfaceArea_(std::numeric_limits<double>::quiet_NaN()),
+      dragCoefficient_(std::numeric_limits<double>::quiet_NaN()),
       propulsionSystem_(PropulsionSystem::Undefined())
 {
 }
@@ -56,13 +60,13 @@ SatelliteSystemBuilder& SatelliteSystemBuilder::withInertiaTensor(const Matrix3d
     return *this;
 }
 
-SatelliteSystemBuilder& SatelliteSystemBuilder::withCrossSectionalSurfaceArea(const Real& aCrossSectionalSurfaceArea)
+SatelliteSystemBuilder& SatelliteSystemBuilder::withCrossSectionalSurfaceArea(double aCrossSectionalSurfaceArea)
 {
     crossSectionalSurfaceArea_ = aCrossSectionalSurfaceArea;
     return *this;
 }
 
-SatelliteSystemBuilder& SatelliteSystemBuilder::withDragCoefficient(const Real& aDragCoefficient)
+SatelliteSystemBuilder& SatelliteSystemBuilder::withDragCoefficient(double aDragCoefficient)
 {
     dragCoefficient_ = aDragCoefficient;
     return *this;
@@ -96,11 +100,12 @@ void SatelliteSystemBuilder::print(std::ostream& anOutputStream, bool displayDec
     geometry_.isDefined() ? geometry_.print(anOutputStream, false) : void();
     ostk::core::utils::Print::Line(anOutputStream)
         << "Inertia Tensor:" << (inertiaTensor_.isDefined() ? inertiaTensor_.toString() : "Undefined");
+    ostk::core::utils::Print::Line(anOutputStream
+    ) << "Cross Sectional Surface Area:"
+      << (!std::isnan(crossSectionalSurfaceArea_) ? utility::DoubleToString(crossSectionalSurfaceArea_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Cross Sectional Surface Area:"
-        << (crossSectionalSurfaceArea_.isDefined() ? crossSectionalSurfaceArea_.toString() : "Undefined");
-    ostk::core::utils::Print::Line(anOutputStream)
-        << "Drag Coefficient:" << (dragCoefficient_.isDefined() ? dragCoefficient_.toString() : "Undefined");
+        << "Drag Coefficient:"
+        << (!std::isnan(dragCoefficient_) ? utility::DoubleToString(dragCoefficient_) : "Undefined");
     ostk::core::utils::Print::Separator(anOutputStream, "PropulsionSystem");
     propulsionSystem_.isDefined() ? propulsionSystem_.print(anOutputStream, false) : void();
 

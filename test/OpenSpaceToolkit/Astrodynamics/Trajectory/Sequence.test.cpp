@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 
@@ -31,7 +33,6 @@ using ostk::core::container::Array;
 using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -98,7 +99,7 @@ class CustomGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
         const Instant& anInstant,
         [[maybe_unused]] const ostk::mathematics::object::Vector3d& aPositionCoordinates,
         [[maybe_unused]] const ostk::mathematics::object::Vector3d& aVelocityCoordinates,
-        [[maybe_unused]] const Real& aThrustAcceleration,
+        [[maybe_unused]] double aThrustAcceleration,
         [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
     ) const override
     {
@@ -776,8 +777,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve)
         {
             EXPECT_TRUE(segmentSolution.states.getSize() > 0);
 
-            const Real targetAngle = defaultCondition_->getEvaluator()(segmentSolution.states.accessLast());
-            EXPECT_NEAR(targetAngle, defaultCondition_->getTargetAngle().inRadians(0.0, Real::TwoPi()), 1e-6);
+            const double targetAngle = defaultCondition_->getEvaluator()(segmentSolution.states.accessLast());
+            EXPECT_NEAR(targetAngle, defaultCondition_->getTargetAngle().inRadians(0.0, 2.0 * M_PI), 1e-6);
 
             statesSize += segmentSolution.states.getSize() - 1;
         }
@@ -919,9 +920,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Sequence, Solve_2)
         propulsionSystem,
     };
 
-    const Real mass = satelliteSystem.getMass().inKilograms();
-    const Real surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
-    const Real dragCoefficient = satelliteSystem.getDragCoefficient();
+    const double mass = satelliteSystem.getMass().inKilograms();
+    const double surfaceArea = satelliteSystem.getCrossSectionalSurfaceArea();
+    const double dragCoefficient = satelliteSystem.getDragCoefficient();
 
     const Array<Shared<Dynamics>> dynamics = {
         std::make_shared<PositionDerivative>(),

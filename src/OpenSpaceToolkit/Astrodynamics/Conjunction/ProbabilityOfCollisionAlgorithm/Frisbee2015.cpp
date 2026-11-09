@@ -12,6 +12,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -89,22 +90,23 @@ Array<String> Frisbee2015::identifyUnsatisfiedAssumptions(const CloseApproach& a
         unsatisfiedAssumptions.add("No object has position uncertainty");
     }
 
-    const Real relativeSpeedMetersPerSecond = aCloseApproach.computeRelativeSpeed().in(Derived::Unit::MeterPerSecond());
-    const Real relativeSpeedThresholdMetersPerSecond = relativeSpeedThreshold_.in(Derived::Unit::MeterPerSecond());
+    const double relativeSpeedMetersPerSecond =
+        aCloseApproach.computeRelativeSpeed().in(Derived::Unit::MeterPerSecond());
+    const double relativeSpeedThresholdMetersPerSecond = relativeSpeedThreshold_.in(Derived::Unit::MeterPerSecond());
 
     if (relativeSpeedMetersPerSecond < relativeSpeedThresholdMetersPerSecond)
     {
         unsatisfiedAssumptions.add(String::Format(
             "Relative speed [{} m/s] is below the threshold [{} m/s]",
-            relativeSpeedMetersPerSecond.toString(),
-            relativeSpeedThresholdMetersPerSecond.toString()
+            utility::DoubleToString(relativeSpeedMetersPerSecond),
+            utility::DoubleToString(relativeSpeedThresholdMetersPerSecond)
         ));
     }
 
     return unsatisfiedAssumptions;
 }
 
-Real Frisbee2015::computeProbabilityOfCollision(
+double Frisbee2015::computeProbabilityOfCollision(
     const CloseApproach& aCloseApproach,
     const Shared<const HardBody>& aHardBody1SPtr,
     const Shared<const HardBody>& aHardBody2SPtr
@@ -145,14 +147,14 @@ Real Frisbee2015::computeProbabilityOfCollision(
     }
 
     // Both covariances are present: use the worst case
-    const Real probabilityOfCollision1 =
+    const double probabilityOfCollision1 =
         this->computeProbabilityOfCollision_(aCloseApproach, aHardBody1SPtr, aHardBody2SPtr);
-    const Real probabilityOfCollision2 =
+    const double probabilityOfCollision2 =
         this->computeProbabilityOfCollision_(aCloseApproach.swap(), aHardBody2SPtr, aHardBody1SPtr);
     return std::max(probabilityOfCollision1, probabilityOfCollision2);
 }
 
-Real Frisbee2015::computeProbabilityOfCollision_(
+double Frisbee2015::computeProbabilityOfCollision_(
     const CloseApproach& aCloseApproach,
     const Shared<const HardBody>& aHardBody1SPtr,
     const Shared<const HardBody>& aHardBody2SPtr
@@ -176,11 +178,11 @@ Real Frisbee2015::computeProbabilityOfCollision_(
     const Vector2d urel = rel.normalized();
 
     // Equation 7: sigma level of the collision plane miss with respect to the asset covariance
-    const Real kaSquared = rel.dot(covAC.ldlt().solve(rel));
+    const double kaSquared = rel.dot(covAC.ldlt().solve(rel));
 
     // Equation 6: critical debris variance along the collision plane miss. If KA <= 1, VC would not be positive
     // semi-definite: the maximum is then obtained with the asset covariance only.
-    const Real vC = (kaSquared > 1.0) ? (rel.squaredNorm() * (kaSquared - 1.0) / kaSquared) : Real(0.0);
+    const double vC = (kaSquared > 1.0) ? (rel.squaredNorm() * (kaSquared - 1.0) / kaSquared) : 0.0;
 
     // Equation 3: degenerate debris covariance along the collision plane miss (with Vr = VC)
     const MatrixXd covDC = vC * urel * urel.transpose();
@@ -197,10 +199,10 @@ Real Frisbee2015::computeProbabilityOfCollision_(
             aHardBody2SPtr->calculateCrossSectionAt(object2State, encounterFrameSPtr)
         );
 
-        const Real rHBSquared = std::pow(combinedCrossSection.getEnclosingRadius(), 2);
+        const double rHBSquared = std::pow(combinedCrossSection.getEnclosingRadius(), 2);
 
         // Equation 5: approximate maximum probability of collision
-        const Real mahalanobisSquared = rel.dot(covTC.ldlt().solve(rel));
+        const double mahalanobisSquared = rel.dot(covTC.ldlt().solve(rel));
         return (rHBSquared * std::exp(-0.5 * mahalanobisSquared)) / (2.0 * std::sqrt(covTC.determinant()));
     }
 

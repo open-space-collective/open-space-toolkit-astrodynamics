@@ -3,14 +3,13 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit__
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit__
 
+#include <limits>
 #include <mutex>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
 
@@ -38,8 +37,6 @@ using ostk::core::container::Map;
 using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
 using ostk::core::type::Index;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Unique;
 
@@ -98,7 +95,7 @@ class Orbit : public Trajectory
     /// @param aCelestialObjectSPtr A shared pointer to a central celestial body.
     Orbit(
         const Array<State>& aStateArray,
-        const Integer& anInitialRevolutionNumber,
+        int anInitialRevolutionNumber,
         const Shared<const Celestial>& aCelestialObjectSPtr
     );
 
@@ -142,12 +139,12 @@ class Orbit : public Trajectory
     ///
     /// @code{.cpp}
     ///     Orbit orbit = { ... } ;
-    ///     Integer revNumber = orbit.getRevolutionNumberAt(anInstant) ;
+    ///     int revNumber = orbit.getRevolutionNumberAt(anInstant) ;
     /// @endcode
     ///
     /// @param anInstant Instant to get the revolution number at.
     /// @return Revolution number at the given instant.
-    Integer getRevolutionNumberAt(const Instant& anInstant) const;
+    int getRevolutionNumberAt(const Instant& anInstant) const;
 
     /// @brief Get the pass at a given instant.
     ///
@@ -170,9 +167,8 @@ class Orbit : public Trajectory
     /// @param aRevolutionNumber Revolution number to get the pass for.
     /// @param aStepDuration Step duration to use. Defaults to Duration::Minutes(10.0).
     /// @return Pass with the given revolution number.
-    Pass getPassWithRevolutionNumber(
-        const Integer& aRevolutionNumber, const Duration& aStepDuration = Duration::Minutes(10.0)
-    ) const;
+    Pass getPassWithRevolutionNumber(int aRevolutionNumber, const Duration& aStepDuration = Duration::Minutes(10.0))
+        const;
 
     /// @brief Get all passes within a given interval.
     ///
@@ -336,7 +332,7 @@ class Orbit : public Trajectory
         const Instant& anEpoch,
         const Length& anAltitude,
         const Shared<const Celestial>& aCelestialObjectSPtr,
-        const Real& anEccentricity = Real::Undefined(),
+        double anEccentricity = std::numeric_limits<double>::quiet_NaN(),
         const Angle& anInclination = Angle::Undefined(),
         const Angle& aRaan = Angle::Degrees(0.0),
         const Angle& anAop = Angle::Undefined(),
@@ -354,9 +350,7 @@ class Orbit : public Trajectory
     /// @param aStateArray Array of states
     /// @param anInitialRevolutionNumber Initial revolution number
     /// @return Array of Pair of Index + Passes
-    static Array<Pair<Index, Pass>> ComputePasses(
-        const Array<State>& aStateArray, const Integer& anInitialRevolutionNumber
-    );
+    static Array<Pair<Index, Pass>> ComputePasses(const Array<State>& aStateArray, int anInitialRevolutionNumber);
 
     /// @brief Compute passes for a given model and interval.
     /// Note: An Interval object is not used, as the start and end Instant can be forward or backward intervals.
@@ -370,7 +364,7 @@ class Orbit : public Trajectory
         const orbit::Model& aModel,
         const Instant& aStartInstant,
         const Instant& anEndInstant,
-        const Integer& anInitialRevolutionNumber
+        int anInitialRevolutionNumber
     );
 
    private:
@@ -379,7 +373,7 @@ class Orbit : public Trajectory
     Shared<const Celestial> celestialObjectSPtr_;
 
     mutable std::mutex mutex_;
-    mutable Map<Integer, Pass> passMap_;
+    mutable Map<int, Pass> passMap_;
 
     String generateFrameName(const Orbit::FrameType& aFrameType) const;
 

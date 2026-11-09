@@ -6,8 +6,6 @@
 #include <optional>
 
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -28,8 +26,6 @@ namespace sgp4
 {
 
 using ostk::core::filesystem::File;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::physics::time::Instant;
@@ -148,7 +144,7 @@ class TLE
     ///        content of the TLE, use getRawSatelliteNumber() instead.
     ///
     /// @return Satellite number
-    Integer getSatelliteNumber() const;
+    int getSatelliteNumber() const;
 
     /// @brief Get satellite number field as it appears in the TLE
     ///
@@ -176,33 +172,33 @@ class TLE
     /// @brief Get first time derivative of the mean motion divided by two
     ///
     /// @return First time derivative of the mean motion divided by two
-    Real getMeanMotionFirstTimeDerivativeDividedByTwo() const;
+    double getMeanMotionFirstTimeDerivativeDividedByTwo() const;
 
     /// @brief Get second time derivative of mean motion divided by six
     ///
     /// @return Second time derivative of mean motion divided by six
-    Real getMeanMotionSecondTimeDerivativeDividedBySix() const;
+    double getMeanMotionSecondTimeDerivativeDividedBySix() const;
 
     /// @brief Get B* drag term
     ///
     /// @return B* drag term
     /// @ref                https://en.wikipedia.org/wiki/BSTAR
-    Real getBStarDragTerm() const;
+    double getBStarDragTerm() const;
 
     /// @brief Get ephemeris type (0)
     ///
     /// @return Ephemeris type
-    Integer getEphemerisType() const;
+    int getEphemerisType() const;
 
     /// @brief Get element set number (incremented when a new TLE is generated for this object)
     ///
     /// @return Element set number
-    Integer getElementSetNumber() const;
+    int getElementSetNumber() const;
 
     /// @brief Get checksum of first line
     ///
     /// @return Checksum of first line
-    Integer getFirstLineChecksum() const;
+    int getFirstLineChecksum() const;
 
     /// @brief Get inclination
     ///
@@ -217,7 +213,7 @@ class TLE
     /// @brief Get eccentricity
     ///
     /// @return Eccentricity
-    Real getEccentricity() const;
+    double getEccentricity() const;
 
     /// @brief Get Argument of Perigee [AOP]
     ///
@@ -237,12 +233,12 @@ class TLE
     /// @brief Get revolution number at epoch
     ///
     /// @return Revolution number at epoch
-    Integer getRevolutionNumberAtEpoch() const;
+    int getRevolutionNumberAtEpoch() const;
 
     /// @brief Get checksum of second line
     ///
     /// @return Checksum of second line
-    Integer getSecondLineChecksum() const;
+    int getSecondLineChecksum() const;
 
     /// @brief Print the TLE to an output stream.
     ///
@@ -254,7 +250,7 @@ class TLE
     ///
     /// @param aSatelliteNumber a Satellite Number
     /// @return void
-    void setSatelliteNumber(const Integer& aSatelliteNumber);
+    void setSatelliteNumber(int aSatelliteNumber);
 
     /// @brief Set new epoch in the existing TLE
     ///
@@ -266,7 +262,7 @@ class TLE
     ///
     /// @param aRevolutionNumberAtEpoch a Revolution Number at Epoch
     /// @return void
-    void setRevolutionNumberAtEpoch(const Integer& aRevolutionNumberAtEpoch);
+    void setRevolutionNumberAtEpoch(int aRevolutionNumberAtEpoch);
 
     /// @brief Constructs an undefined TLE
     ///
@@ -368,22 +364,22 @@ class TLE
     /// @return TLE
     static TLE Construct(
         const std::optional<String>& aSatelliteName,
-        const Integer& aSatelliteNumber,
+        int aSatelliteNumber,
         const String& aClassification,
         const String& anInternationalDesignator,
         const Instant& anEpoch,
-        const Real& aMeanMotionFirstTimeDerivativeDividedByTwo,
-        const Real& aMeanMotionSecondTimeDerivativeDividedBySix,
-        const Real& aBStarDragTerm,
-        const Integer& anEphemerisType,
-        const Integer& anElementSetNumber,
+        double aMeanMotionFirstTimeDerivativeDividedByTwo,
+        double aMeanMotionSecondTimeDerivativeDividedBySix,
+        double aBStarDragTerm,
+        int anEphemerisType,
+        int anElementSetNumber,
         const Angle& anInclination,
         const Angle& aRaan,
-        const Real& anEccentricity,
+        double anEccentricity,
         const Angle& anAop,
         const Angle& aMeanAnomaly,
         const Derived& aMeanMotion,
-        const Integer& aRevolutionNumberAtEpoch
+        int aRevolutionNumberAtEpoch
     );
 
     /// @brief Construct a TLE from its components
@@ -428,34 +424,34 @@ class TLE
     /// @param aRevolutionNumberAtEpoch A revolution number at epoch
     /// @return TLE
     static TLE Construct(
-        const Integer& aSatelliteNumber,
+        int aSatelliteNumber,
         const String& aClassification,
         const String& anInternationalDesignator,
         const Instant& anEpoch,
-        const Real& aMeanMotionFirstTimeDerivativeDividedByTwo,
-        const Real& aMeanMotionSecondTimeDerivativeDividedBySix,
-        const Real& aBStarDragTerm,
-        const Integer& anEphemerisType,
-        const Integer& anElementSetNumber,
+        double aMeanMotionFirstTimeDerivativeDividedByTwo,
+        double aMeanMotionSecondTimeDerivativeDividedBySix,
+        double aBStarDragTerm,
+        int anEphemerisType,
+        int anElementSetNumber,
         const Angle& anInclination,
         const Angle& aRaan,
-        const Real& anEccentricity,
+        double anEccentricity,
         const Angle& anAop,
         const Angle& aMeanAnomaly,
         const Derived& aMeanMotion,
-        const Integer& aRevolutionNumberAtEpoch
+        int aRevolutionNumberAtEpoch
     );
 
     /// @brief Generate checksum for the given TLE line
     ///
     /// @code{.cpp}
-    ///     Integer checksum = TLE::GenerateChecksum("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0
+    ///     int checksum = TLE::GenerateChecksum("1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0
     ///     2927");
     /// @endcode
     ///
     /// @param aLine A TLE line
     /// @return Checksum
-    static Integer GenerateChecksum(const String& aLine);
+    static int GenerateChecksum(const String& aLine);
 
    private:
     std::optional<String> satelliteName_;
@@ -463,11 +459,11 @@ class TLE
     String secondLine_;
 
     /// @brief Maximum TLE satellite number (Alpha-5 encoding limit)
-    static const Integer MaximumSatelliteNumber;
+    static const int MaximumSatelliteNumber;
 
-    static Real ParseReal(const String& aString, bool isDecimalPointAssumed);
-    static String SatelliteNumberToAlpha5(const Integer& aSatelliteNumber);
-    static Integer Alpha5ToSatelliteNumber(const String& aField);
+    static double ParseReal(const String& aString, bool isDecimalPointAssumed);
+    static String SatelliteNumberToAlpha5(int aSatelliteNumber);
+    static int Alpha5ToSatelliteNumber(const String& aField);
 };
 
 }  // namespace sgp4

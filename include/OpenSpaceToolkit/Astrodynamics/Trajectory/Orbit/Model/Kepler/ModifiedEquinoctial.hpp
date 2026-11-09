@@ -2,7 +2,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Kepler_ModifiedEquinoctial__
 
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -32,7 +31,6 @@ namespace kepler
 {
 
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -84,10 +82,10 @@ class ModifiedEquinoctial
     /// @param [in] trueLongitude True longitude.
     ModifiedEquinoctial(
         const Length& semiLatusRectum,
-        const Real& eccentricityX,
-        const Real& eccentricityY,
-        const Real& nodeX,
-        const Real& nodeY,
+        double eccentricityX,
+        double eccentricityY,
+        double nodeX,
+        double nodeY,
         const Angle& trueLongitude
     );
 
@@ -123,22 +121,22 @@ class ModifiedEquinoctial
     /// @brief Get x-component of eccentricity vector
     ///
     /// @return X-component of eccentricity vector
-    Real getEccentricityX() const;
+    double getEccentricityX() const;
 
     /// @brief Get y-component of eccentricity vector
     ///
     /// @return Y-component of eccentricity vector
-    Real getEccentricityY() const;
+    double getEccentricityY() const;
 
     /// @brief Get x-component of node vector
     ///
     /// @return X-component of node vector
-    Real getNodeX() const;
+    double getNodeX() const;
 
     /// @brief Get y-component of node vector
     ///
     /// @return Y-component of node vector
-    Real getNodeY() const;
+    double getNodeY() const;
 
     /// @brief Get true longitude
     ///
@@ -224,10 +222,10 @@ class ModifiedEquinoctial
 
    private:
     Length semiLatusRectum_;  ///< Semi-latus rectum
-    Real eccentricityX_;      ///< X-component of eccentricity vector
-    Real eccentricityY_;      ///< Y-component of eccentricity vector
-    Real nodeX_;              ///< X-component of node vector
-    Real nodeY_;              ///< Y-component of node vector
+    double eccentricityX_;    ///< X-component of eccentricity vector
+    double eccentricityY_;    ///< Y-component of eccentricity vector
+    double nodeX_;            ///< X-component of node vector
+    double nodeY_;            ///< Y-component of node vector
     Angle trueLongitude_;     ///< True longitude
 };
 

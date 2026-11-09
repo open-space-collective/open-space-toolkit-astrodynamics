@@ -1,5 +1,8 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
@@ -26,7 +29,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Tuple;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
@@ -93,7 +95,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
     }
 
    protected:
-    Tuple<QLaw, Vector6d, Real> getQLawFullTargeting(const QLaw::GradientStrategy& aGradientStrategy) const
+    Tuple<QLaw, Vector6d, double> getQLawFullTargeting(const QLaw::GradientStrategy& aGradientStrategy) const
     {
         const Vector6d currentCOEVector = {
             24505900,
@@ -103,7 +105,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
             0.08726646259971647,
             0.0,
         };
-        const Real thrustAcceleration = 2.0 / 2000.0;
+        const double thrustAcceleration = 2.0 / 2000.0;
 
         const COE targetCOE = {
             Length::Meters(26500.0e3),
@@ -167,7 +169,7 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw : public
 
     const Derived gravitationalParameter_ = Derived(398600.49 * 1e9, Derived::Unit::MeterCubedPerSecondSquared());
 
-    const Real thrustAcceleration_ = 1.0 / 300.0;
+    const double thrustAcceleration_ = 1.0 / 300.0;
 
     const QLaw::GradientStrategy gradientStrategy_ = QLaw::GradientStrategy::FiniteDifference;
 
@@ -316,8 +318,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Constr
     EXPECT_EQ(ungatedParameters.k, originalParameters.k);
     EXPECT_EQ(ungatedParameters.periapsisWeight, originalParameters.periapsisWeight);
     EXPECT_EQ(ungatedParameters.getMinimumPeriapsisRadius(), originalParameters.getMinimumPeriapsisRadius());
-    EXPECT_EQ(ungatedParameters.absoluteEffectivityThreshold, Real(0.0));
-    EXPECT_EQ(ungatedParameters.relativeEffectivityThreshold, Real(0.0));
+    EXPECT_EQ(ungatedParameters.absoluteEffectivityThreshold, 0.0);
+    EXPECT_EQ(ungatedParameters.relativeEffectivityThreshold, 0.0);
 
     const Vector5d controlWeights = ungatedParameters.getControlWeights();
     const Vector5d convergenceThresholds = ungatedParameters.getConvergenceThresholds();
@@ -334,10 +336,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Constr
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ComputeOrbitalElementsMaximalChange)
 {
     {
-        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
+        const Tuple<QLaw, Vector6d, double> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
         const QLaw qlaw = std::get<0>(parameters);
         const Vector6d currentCOEVector = std::get<1>(parameters);
-        const Real thrustAcceleration = std::get<2>(parameters);
+        const double thrustAcceleration = std::get<2>(parameters);
 
         const Vector5d orbitalElements_xx =
             qlaw.computeOrbitalElementsMaximalChange(currentCOEVector.segment(0, 5), thrustAcceleration);
@@ -360,14 +362,14 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ComputeQ)
 {
     {
-        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
+        const Tuple<QLaw, Vector6d, double> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
         const QLaw qlaw = std::get<0>(parameters);
         const Vector6d currentCOEVector = std::get<1>(parameters);
-        const Real thrustAcceleration = std::get<2>(parameters);
+        const double thrustAcceleration = std::get<2>(parameters);
 
-        const Real Q = qlaw.computeQ(currentCOEVector.segment(0, 5), thrustAcceleration);
+        const double Q = qlaw.computeQ(currentCOEVector.segment(0, 5), thrustAcceleration);
 
-        const Real expectedQ = 11918884993553.0;
+        const double expectedQ = 11918884993553.0;
 
         EXPECT_LT(std::abs(Q - expectedQ), 50.0);
     }
@@ -376,7 +378,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Compute_dOE_dF)
 {
     {
-        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
+        const Tuple<QLaw, Vector6d, double> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
         const QLaw qlaw = std::get<0>(parameters);
         const Vector6d currentCOEVector = std::get<1>(parameters);
 
@@ -403,10 +405,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, ComputeThrustDirection)
 {
     {
-        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
+        const Tuple<QLaw, Vector6d, double> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
         const QLaw qlaw = std::get<0>(parameters);
         const Vector6d currentCOEVector = std::get<1>(parameters);
-        const Real thrustAcceleration = std::get<2>(parameters);
+        const double thrustAcceleration = std::get<2>(parameters);
 
         const Vector3d thrustDirection = qlaw.computeThrustDirection(currentCOEVector, thrustAcceleration);
 
@@ -419,10 +421,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
     }
 
     {
-        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting(QLaw::GradientStrategy::Analytical);
+        const Tuple<QLaw, Vector6d, double> parameters = getQLawFullTargeting(QLaw::GradientStrategy::Analytical);
         const QLaw qlaw = std::get<0>(parameters);
         const Vector6d currentCOEVector = std::get<1>(parameters);
-        const Real thrustAcceleration = std::get<2>(parameters);
+        const double thrustAcceleration = std::get<2>(parameters);
 
         const Vector3d thrustDirection = qlaw.computeThrustDirection(currentCOEVector, thrustAcceleration);
 
@@ -445,7 +447,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
             Angle::Degrees(0.0),
         };
         const Vector6d currentCOEVector = coe.getSIVector(COE::AnomalyType::True);
-        const Real thrustAcceleration = 0.1;
+        const double thrustAcceleration = 0.1;
         const QLaw qlaw = {
             coe,
             gravitationalParameter_,
@@ -491,7 +493,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
         };
 
         const Vector6d currentCOEVector = currentCOE.getSIVector(COE::AnomalyType::True);
-        const Real thrustAcceleration = 0.1;
+        const double thrustAcceleration = 0.1;
         const QLaw qlaw = {
             targetCOE_,
             gravitationalParameter_,
@@ -538,7 +540,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
         };
 
         const Vector6d currentCOEVector = currentCOE.getSIVector(COE::AnomalyType::True);
-        const Real thrustAcceleration = 0.1;
+        const double thrustAcceleration = 0.1;
         const QLaw qlaw = {
             targetCOE_,
             gravitationalParameter_,
@@ -557,7 +559,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
                 100,
                 1.0,
                 Length::Kilometers(6578.0),
-                Real::Undefined(),
+                std::numeric_limits<double>::quiet_NaN(),
                 0.8,
             },
             QLaw::COEDomain::Osculating,
@@ -578,10 +580,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
 TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Compute_dQ_dOE)
 {
     {
-        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
+        const Tuple<QLaw, Vector6d, double> parameters = getQLawFullTargeting(QLaw::GradientStrategy::FiniteDifference);
         const QLaw qlaw = std::get<0>(parameters);
         const Vector6d currentCOEVector = std::get<1>(parameters);
-        const Real thrustAcceleration = std::get<2>(parameters);
+        const double thrustAcceleration = std::get<2>(parameters);
 
         const Vector5d dQ_dOE = qlaw.compute_dQ_dOE(currentCOEVector.segment(0, 5), thrustAcceleration);
 
@@ -602,10 +604,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Comput
     }
 
     {
-        const Tuple<QLaw, Vector6d, Real> parameters = getQLawFullTargeting(QLaw::GradientStrategy::Analytical);
+        const Tuple<QLaw, Vector6d, double> parameters = getQLawFullTargeting(QLaw::GradientStrategy::Analytical);
         const QLaw qlaw = std::get<0>(parameters);
         const Vector6d currentCOEVector = std::get<1>(parameters);
-        const Real thrustAcceleration = std::get<2>(parameters);
+        const double thrustAcceleration = std::get<2>(parameters);
 
         const Vector5d dQ_dOE = qlaw.compute_dQ_dOE(currentCOEVector.segment(0, 5), thrustAcceleration);
 
@@ -735,7 +737,7 @@ TEST_F(
     const Vector3d position = {1364745.6311035044, 6081608.288764103, -3009739.0476152804};
     const Vector3d velocity = {368.80982226000657, -3421.284241386021, -6759.820581456799};
 
-    const Real thrustAcceleration = 0.0161 / 193.3655889361863;
+    const double thrustAcceleration = 0.0161 / 193.3655889361863;
 
     // Benign, representative current COE 5-vector (excludes true anomaly). Moderate inclination /
     // eccentricity, so the only previously-singular term was the SMA scaling.
@@ -837,13 +839,13 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw_Effectiv
         100,
         1.0,
         Length::Kilometers(6578.0),
-        Real::Undefined(),
-        Real::Undefined(),
+        std::numeric_limits<double>::quiet_NaN(),
+        std::numeric_limits<double>::quiet_NaN(),
     };
 
     const Derived gravitationalParameter_ = Derived(398600.49 * 1e9, Derived::Unit::MeterCubedPerSecondSquared());
 
-    const Real thrustAcceleration_ = 1.0 / 300.0;
+    const double thrustAcceleration_ = 1.0 / 300.0;
 
     State initialState_ = State::Undefined();
 };
@@ -1017,7 +1019,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_Thruster_GuidanceLaw_QLaw, Calcul
     const State stateCIRF = {instant, cartesianStateCIRF.first, cartesianStateCIRF.second};
     const State stateGCRF = stateCIRF.inFrame(Frame::GCRF());
 
-    const Real thrustAcceleration = 2.0 / 2000.0;
+    const double thrustAcceleration = 2.0 / 2000.0;
 
     const Vector3d accelerationCIRF = qlawCIRF.calculateThrustAccelerationAt(
         instant,

@@ -5,8 +5,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -35,8 +33,6 @@ namespace model
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -222,11 +218,11 @@ class SGP4 : public ostk::astrodynamics::trajectory::orbit::Model
     ///
     /// @code{.cpp}
     ///     SGP4 sgp4 = SGP4(tle);
-    ///     Integer revolutionNumber = sgp4.getRevolutionNumberAtEpoch();
+    ///     int revolutionNumber = sgp4.getRevolutionNumberAtEpoch();
     /// @endcode
     ///
     /// @return The revolution number at epoch.
-    virtual Integer getRevolutionNumberAtEpoch() const override;
+    virtual int getRevolutionNumberAtEpoch() const override;
 
     /// @brief Calculate the state at a given instant.
     ///

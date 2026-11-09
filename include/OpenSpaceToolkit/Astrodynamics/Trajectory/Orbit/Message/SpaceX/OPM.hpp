@@ -7,8 +7,6 @@
 #include <OpenSpaceToolkit/Core/Container/Dictionary.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
@@ -37,8 +35,6 @@ namespace container = ostk::core::container;
 using ostk::core::container::Array;
 using ostk::core::filesystem::File;
 using ostk::core::type::Index;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::String;
 
 using ostk::physics::coordinate::Position;
@@ -94,7 +90,7 @@ class OPM
     struct Deployment
     {
         String name;
-        Integer sequenceNumber;
+        int sequenceNumber;
         Duration missionTime;
         Instant date;
         Position position;
@@ -105,7 +101,7 @@ class OPM
         Angle meanArgumentOfPerigee;
         Angle meanLongitudeAscendingNode;
         Angle meanMeanAnomaly;
-        Real ballisticCoefficient;  // [kg/m2]
+        double ballisticCoefficient;  // [kg/m2]
 
         /// @brief Convert deployment to a trajectory state.
         ///

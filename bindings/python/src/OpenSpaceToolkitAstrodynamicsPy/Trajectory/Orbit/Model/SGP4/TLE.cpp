@@ -6,8 +6,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
 {
     using namespace pybind11;
 
-    using ostk::core::type::Integer;
-    using ostk::core::type::Real;
     using ostk::core::type::String;
 
     using ostk::physics::time::Instant;
@@ -418,22 +416,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
             "construct",
             overload_cast<
                 const std::optional<String>&,
-                const Integer&,
+                int,
                 const String&,
                 const String&,
                 const Instant&,
-                const Real&,
-                const Real&,
-                const Real&,
-                const Integer&,
-                const Integer&,
+                double,
+                double,
+                double,
+                int,
+                int,
                 const Angle&,
                 const Angle&,
-                const Real&,
+                double,
                 const Angle&,
                 const Angle&,
                 const Derived&,
-                const Integer&>(&TLE::Construct),
+                int>(&TLE::Construct),
             arg("satellite_name"),
             arg("satellite_number"),
             arg("classification"),
@@ -481,22 +479,22 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_SGP4_TLE(pybi
         .def_static(
             "construct",
             overload_cast<
-                const Integer&,
+                int,
                 const String&,
                 const String&,
                 const Instant&,
-                const Real&,
-                const Real&,
-                const Real&,
-                const Integer&,
-                const Integer&,
+                double,
+                double,
+                double,
+                int,
+                int,
                 const Angle&,
                 const Angle&,
-                const Real&,
+                double,
                 const Angle&,
                 const Angle&,
                 const Derived&,
-                const Integer&>(&TLE::Construct),
+                int>(&TLE::Construct),
             arg("satellite_number"),
             arg("classification"),
             arg("international_designator"),

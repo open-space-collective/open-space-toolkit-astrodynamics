@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp>
 
 using namespace pybind11;
@@ -117,7 +119,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 Absolute effectivity threshold.
 
                 Type:
-                    Real
+                    float
             )doc"
         )
         .def_readonly(
@@ -127,7 +129,7 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 Relative effectivity threshold.
 
                 Type:
-                    Real
+                    float
             )doc"
         )
 
@@ -141,8 +143,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                 const Size&,
                 const double&,
                 const Length&,
-                const Real&,
-                const Real&>(),
+                double,
+                double>(),
             R"doc(
                 Constructor.
 
@@ -155,8 +157,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
                     k (int): Penalty parameter for periapsis. Default to 100.
                     periapsis_weight (float): Periapsis weight. Default to 0.0.
                     minimum_periapsis_radius (Length): Minimum periapsis radius. Default to 6578.0 km.
-                    absolute_effectivity_threshold (Real): Absolute effectivity threshold. Default to undefined (not used).
-                    relative_effectivity_threshold (Real): Relative effectivity threshold. Default to undefined (not used).
+                    absolute_effectivity_threshold (float): Absolute effectivity threshold. Default to undefined (not used).
+                    relative_effectivity_threshold (float): Relative effectivity threshold. Default to undefined (not used).
 
             )doc",
             arg("element_weights"),
@@ -167,8 +169,8 @@ void OpenSpaceToolkitAstrodynamicsPy_GuidanceLaw_QLaw(pybind11::module& aModule)
             arg("k") = 100,
             arg("periapsis_weight") = 0.0,
             arg_v("minimum_periapsis_radius", Length::Kilometers(6578.0), "Length.kilometers(6578.0)"),
-            arg_v("absolute_effectivity_threshold", Real::Undefined(), "Real.undefined()"),
-            arg_v("relative_effectivity_threshold", Real::Undefined(), "Real.undefined()")
+            arg_v("absolute_effectivity_threshold", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
+            arg_v("relative_effectivity_threshold", std::numeric_limits<double>::quiet_NaN(), "float('nan')")
         )
 
         .def(

@@ -4,8 +4,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -58,8 +56,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::filesystem::Directory;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -245,7 +241,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
         const VectorXd positionVelocityCoordinates = statesWithTabulated[i].extractCoordinates(
             {Maneuver::RequiredCoordinateSubsets[0], Maneuver::RequiredCoordinateSubsets[1]}
         );
-        const Real massFlowRate = contributions(i, 3);
+        const double massFlowRate = contributions(i, 3);
 
         VectorXd maneuverCoordinates(10);
         maneuverCoordinates << positionVelocityCoordinates, accelerationCoordinates, massFlowRate;
@@ -268,15 +264,15 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Validation_SelfValidation, ForceModel_Tabu
     {
         const VectorXd positionWithThruster = statesWithThruster[i].extractCoordinate(CartesianPosition::Default());
         const VectorXd velocityWithThruster = statesWithThruster[i].extractCoordinate(CartesianVelocity::Default());
-        const Real massWithThruster = statesWithThruster[i].extractCoordinate(CoordinateSubset::Mass())(0);
+        const double massWithThruster = statesWithThruster[i].extractCoordinate(CoordinateSubset::Mass())(0);
 
         const VectorXd positionWithTabulated = statesWithTabulated[i].extractCoordinate(CartesianPosition::Default());
         const VectorXd velocityWithTabulated = statesWithTabulated[i].extractCoordinate(CartesianVelocity::Default());
-        const Real massWithTabulated = statesWithTabulated[i].extractCoordinate(CoordinateSubset::Mass())(0);
+        const double massWithTabulated = statesWithTabulated[i].extractCoordinate(CoordinateSubset::Mass())(0);
 
         const VectorXd positionWithManeuver = statesWithManeuver[i].extractCoordinate(CartesianPosition::Default());
         const VectorXd velocityWithManeuver = statesWithManeuver[i].extractCoordinate(CartesianVelocity::Default());
-        const Real massWithManeuver = statesWithManeuver[i].extractCoordinate(CoordinateSubset::Mass())(0);
+        const double massWithManeuver = statesWithManeuver[i].extractCoordinate(CoordinateSubset::Mass())(0);
 
         // Assert state errors
         ASSERT_GT(5.e-4, (positionWithThruster - positionWithTabulated).norm());

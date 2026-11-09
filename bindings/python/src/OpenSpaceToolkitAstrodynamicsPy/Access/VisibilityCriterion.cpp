@@ -101,9 +101,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
         )
         .def(
             "is_satisfied",
-            overload_cast<const Real&, const Real&, const Real&>(
-                &VisibilityCriterion::AERInterval::isSatisfied, const_
-            ),
+            overload_cast<double, double, double>(&VisibilityCriterion::AERInterval::isSatisfied, const_),
             arg("azimuth"),
             arg("elevation"),
             arg("range"),
@@ -128,7 +126,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
         )doc"
     )
         .def(
-            init<const Map<Real, Real>&, const Interval<Real>&>(),
+            init<const Map<double, double>&, const Interval<Real>&>(),
             arg("azimuth_elevation_mask"),
             arg("range_interval"),
             R"doc(
@@ -173,7 +171,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
         )
         .def(
             "is_satisfied",
-            overload_cast<const Real&, const Real&, const Real&>(&VisibilityCriterion::AERMask::isSatisfied, const_),
+            overload_cast<double, double, double>(&VisibilityCriterion::AERMask::isSatisfied, const_),
             arg("azimuth"),
             arg("elevation"),
             arg("range"),
@@ -254,7 +252,7 @@ void OpenSpaceToolkitAstrodynamicsPy_Access_VisibilityCriterion(pybind11::module
         )
         .def(
             "is_satisfied",
-            overload_cast<const Real&>(&VisibilityCriterion::ElevationInterval::isSatisfied, const_),
+            overload_cast<double>(&VisibilityCriterion::ElevationInterval::isSatisfied, const_),
             arg("elevation"),
             R"doc(
                 Checks if the given elevation angle satisfies the criterion.

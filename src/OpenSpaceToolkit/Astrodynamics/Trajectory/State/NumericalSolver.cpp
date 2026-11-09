@@ -1,6 +1,8 @@
 /// Apache License 2.0
 
 #include <algorithm>
+#include <cmath>
+#include <limits>
 
 #include <boost/numeric/odeint.hpp>
 #include <boost/numeric/odeint/algebra/vector_space_algebra.hpp>
@@ -85,6 +87,22 @@ using ostk::astrodynamics::trajectory::StateBuilder;
 
 using stepper_type_4 = runge_kutta4<NumericalSolver::StateVector>;
 
+namespace
+{
+
+/// @brief Convert a double into the ostk::core::type::Real expected by MathNumericalSolver
+///
+/// NaN maps to Real::Undefined(), so that an undefined input keeps the base solver undefined.
+///
+/// @param [in] aValue A value
+/// @return Real value
+ostk::core::type::Real ToMathNumericalSolverReal(double aValue)
+{
+    return std::isnan(aValue) ? ostk::core::type::Real::Undefined() : ostk::core::type::Real(aValue);
+}
+
+}  // namespace
+
 template <size_t Order>
 auto make_controlled_adam_bashforth_moulton(double abs_tol, double rel_tol)
 {
@@ -105,13 +123,19 @@ auto make_controlled_adam_bashforth_moulton(double abs_tol, double rel_tol)
 NumericalSolver::NumericalSolver(
     const NumericalSolver::LogType& aLogType,
     const NumericalSolver::StepperType& aStepperType,
-    const Real& aTimeStep,
-    const Real& aRelativeTolerance,
-    const Real& anAbsoluteTolerance,
+    double aTimeStep,
+    double aRelativeTolerance,
+    double anAbsoluteTolerance,
     const RootSolver& aRootSolver,
     const std::function<void(const State&)>& aStateLogger
 )
-    : MathNumericalSolver(aLogType, aStepperType, aTimeStep, aRelativeTolerance, anAbsoluteTolerance),
+    : MathNumericalSolver(
+          aLogType,
+          aStepperType,
+          ToMathNumericalSolverReal(aTimeStep),
+          ToMathNumericalSolverReal(aRelativeTolerance),
+          ToMathNumericalSolverReal(anAbsoluteTolerance)
+      ),
       rootSolver_(aRootSolver),
       observedStates_(),
       stateLogger_(aStateLogger)
@@ -143,7 +167,7 @@ Array<State> NumericalSolver::getObservedStates() const
     return accessObservedStates();
 }
 
-Real NumericalSolver::getMaxStepSize() const
+double NumericalSolver::getMaxStepSize() const
 {
     if (!this->isDefined())
     {
@@ -153,7 +177,7 @@ Real NumericalSolver::getMaxStepSize() const
     return maxStepSize_;
 }
 
-void NumericalSolver::setMaxStepSize(const Real& aMaxStepSize)
+void NumericalSolver::setMaxStepSize(double aMaxStepSize)
 {
     maxStepSize_ = aMaxStepSize;
 }
@@ -164,8 +188,9 @@ Array<State> NumericalSolver::integrateTime(
     const NumericalSolver::SystemOfEquationsWrapper& aSystemOfEquations
 )
 {
-    const Array<Real> durationArray = anInstantArray.map<Real>(
-        [&aState](const Instant& anInstant) -> Real
+    // MathNumericalSolver::integrateDuration takes an Array<Real>
+    const Array<ostk::core::type::Real> durationArray = anInstantArray.map<ostk::core::type::Real>(
+        [&aState](const Instant& anInstant) -> ostk::core::type::Real
         {
             return (anInstant - aState.accessInstant()).inSeconds();
         }
@@ -263,10 +288,10 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTime(
         observedStates_ = {aState};
     }
 
-    const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
+    const double aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
 
     // Check trivial cases
-    if (aDurationInSeconds.isZero())
+    if ((aDurationInSeconds == 0.0))
     {
         return {
             aState,
@@ -297,9 +322,9 @@ NumericalSolver NumericalSolver::Undefined()
     return {
         LogType::NoLog,
         StepperType::RungeKuttaCashKarp54,
-        Real::Undefined(),
-        Real::Undefined(),
-        Real::Undefined(),
+        std::numeric_limits<double>::quiet_NaN(),
+        std::numeric_limits<double>::quiet_NaN(),
+        std::numeric_limits<double>::quiet_NaN(),
         RootSolver::Default(),
         nullptr,
     };
@@ -318,7 +343,7 @@ NumericalSolver NumericalSolver::Default()
     };
 }
 
-NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperType& aStepperType, const Real& aTimeStep)
+NumericalSolver NumericalSolver::FixedStepSize(const NumericalSolver::StepperType& aStepperType, double aTimeStep)
 {
     if (aStepperType != NumericalSolver::StepperType::RungeKutta4)
     {
@@ -470,7 +495,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithStepperImpl
     bool isInitialState = true;
 
     const double maxStepSizeDouble =
-        maxStepSize_.isDefined() ? static_cast<double>(maxStepSize_) : std::numeric_limits<double>::infinity();
+        !std::isnan(maxStepSize_) ? static_cast<double>(maxStepSize_) : std::numeric_limits<double>::infinity();
     const double stepSignAbs = std::abs(aSignedTimeStep);
 
     while (true)
@@ -676,7 +701,7 @@ NumericalSolver::ConditionSolution NumericalSolver::integrateTimeWithControlledS
     const bool& appendObservedStates
 )
 {
-    const Real aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
+    const double aDurationInSeconds = (anInstant - aState.accessInstant()).inSeconds();
     const double signedTimeStep = getSignedTimeStep(aDurationInSeconds);
 
     auto dispatch = [&](auto&& aStepper) -> NumericalSolver::ConditionSolution

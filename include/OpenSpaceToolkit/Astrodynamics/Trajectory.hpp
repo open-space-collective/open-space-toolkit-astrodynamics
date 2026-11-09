@@ -27,7 +27,6 @@ namespace astrodynamics
 
 using ostk::core::container::Array;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 using ostk::core::type::String;
 using ostk::core::type::Unique;
 

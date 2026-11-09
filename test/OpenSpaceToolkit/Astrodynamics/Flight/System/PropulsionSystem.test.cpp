@@ -1,7 +1,7 @@
 /// Apache License 2.0
 
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Gravitational/Earth.hpp>
@@ -10,8 +10,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp>
 
 #include <Global.test.hpp>
-
-using ostk::core::type::Real;
 
 using ostk::physics::unit::Angle;
 using ostk::physics::unit::Derived;
@@ -26,8 +24,8 @@ using ostk::astrodynamics::flight::system::PropulsionSystem;
 class OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem : public ::testing::Test
 {
    protected:
-    const Real thrust_ = 0.01;
-    const Real specificImpulse_ = 100.0;
+    const double thrust_ = 0.01;
+    const double specificImpulse_ = 100.0;
     const PropulsionSystem propulsionSystem_ = PropulsionSystem(thrust_, specificImpulse_);
 };
 
@@ -38,11 +36,11 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Constructo
     }
 
     {
-        EXPECT_NO_THROW(PropulsionSystem(Real::Undefined(), specificImpulse_));
+        EXPECT_NO_THROW(PropulsionSystem(std::numeric_limits<double>::quiet_NaN(), specificImpulse_));
     }
 
     {
-        EXPECT_NO_THROW(PropulsionSystem(thrust_, Real::Undefined()));
+        EXPECT_NO_THROW(PropulsionSystem(thrust_, std::numeric_limits<double>::quiet_NaN()));
     }
 }
 
@@ -122,7 +120,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem, Getters)
     }
 
     {
-        const Real massFlowRate =
+        const double massFlowRate =
             propulsionSystem_.getThrust() / (propulsionSystem_.getSpecificImpulse() * Earth::gravityConstant);
         EXPECT_TRUE(propulsionSystem_.getMassFlowRate() == massFlowRate);
     }

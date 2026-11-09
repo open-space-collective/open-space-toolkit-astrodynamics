@@ -1,5 +1,6 @@
 /// Apache License 2.0
 
+#include <cmath>
 #include <iostream>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -22,7 +23,7 @@ using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 
-static const Real Tolerance = 1e-8;
+static const double Tolerance = 1e-8;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
@@ -31,8 +32,8 @@ Kepler::Kepler(
     const Instant& anEpoch,
     const Derived& aGravitationalParameter,
     const Length& anEquatorialRadius,
-    const Real& aJ2,
-    const Real& aJ4,
+    double aJ2,
+    double aJ4,
     const Kepler::PerturbationType& aPerturbationType,
     const Shared<const Frame>& aFrameSPtr
 )
@@ -130,7 +131,7 @@ Instant Kepler::getEpoch() const
     return epoch_;
 }
 
-Integer Kepler::getRevolutionNumberAtEpoch() const
+int Kepler::getRevolutionNumberAtEpoch() const
 {
     if (!this->isDefined())
     {
@@ -160,7 +161,7 @@ Length Kepler::getEquatorialRadius() const
     return equatorialRadius_;
 }
 
-Real Kepler::getJ2() const
+double Kepler::getJ2() const
 {
     if (!this->isDefined())
     {
@@ -170,7 +171,7 @@ Real Kepler::getJ2() const
     return j2_;
 }
 
-Real Kepler::getJ4() const
+double Kepler::getJ4() const
 {
     if (!this->isDefined())
     {
@@ -234,7 +235,7 @@ State Kepler::calculateStateAt(const Instant& anInstant) const
     return State::Undefined();
 }
 
-Integer Kepler::calculateRevolutionNumberAt(const Instant& anInstant) const
+int Kepler::calculateRevolutionNumberAt(const Instant& anInstant) const
 {
     if (!anInstant.isDefined())
     {
@@ -272,8 +273,6 @@ Integer Kepler::calculateRevolutionNumberAt(const Instant& anInstant) const
         default:
             throw ostk::core::error::runtime::Wrong("Perturbation type", StringFromPerturbationType(perturbationType_));
     }
-
-    return Integer::Undefined();
 }
 
 void Kepler::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -390,24 +389,24 @@ State Kepler::CalculateNoneStateAt(
 
     // Duration from epoch
 
-    const Real durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds();
+    const double durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds();
 
     // Orbital parameters
 
-    const Real semiMajorAxis_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
-    const Real eccentricity = aClassicalOrbitalElementSet.getEccentricity();
-    const Real inclination_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
-    const Real raan_rad = aClassicalOrbitalElementSet.getRaan().inRadians();
-    const Real aop_rad = aClassicalOrbitalElementSet.getAop().inRadians();
+    const double semiMajorAxis_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
+    const double eccentricity = aClassicalOrbitalElementSet.getEccentricity();
+    const double inclination_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
+    const double raan_rad = aClassicalOrbitalElementSet.getRaan().inRadians();
+    const double aop_rad = aClassicalOrbitalElementSet.getAop().inRadians();
 
-    Real trueAnomaly_rad = aClassicalOrbitalElementSet.getTrueAnomaly().inRadians();
+    double trueAnomaly_rad = aClassicalOrbitalElementSet.getTrueAnomaly().inRadians();
 
     // Mean motion
 
-    const Real meanMotion_radSec = aClassicalOrbitalElementSet.getMeanMotion(aGravitationalParameter)
-                                       .in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second));
+    const double meanMotion_radSec = aClassicalOrbitalElementSet.getMeanMotion(aGravitationalParameter)
+                                         .in(Derived::Unit::AngularVelocity(Angle::Unit::Radian, Time::Unit::Second));
 
-    if (eccentricity.abs() < Tolerance)  // Circular orbit
+    if (std::abs(eccentricity) < Tolerance)  // Circular orbit
     {
         trueAnomaly_rad += meanMotion_radSec * durationFromEpoch_s;
     }
@@ -415,7 +414,7 @@ State Kepler::CalculateNoneStateAt(
     {
         // Mean anomaly
 
-        Real meanAnomaly_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians();
+        double meanAnomaly_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians();
 
         meanAnomaly_rad += meanMotion_radSec * durationFromEpoch_s;
         meanAnomaly_rad = std::fmod(meanAnomaly_rad, 2.0 * M_PI);
@@ -449,7 +448,7 @@ State Kepler::CalculateNoneStateAt(
     return state;
 }
 
-Integer Kepler::CalculateNoneRevolutionNumberAt(
+int Kepler::CalculateNoneRevolutionNumberAt(
     const COE& aClassicalOrbitalElementSet,
     const Instant& anEpoch,
     const Derived& aGravitationalParameter,
@@ -471,7 +470,7 @@ State Kepler::CalculateJ2StateAt(
     const Derived& aGravitationalParameter,
     const Instant& anInstant,
     const Length& anEquatorialRadius,
-    const Real& aJ2,
+    double aJ2,
     const Shared<const Frame>& aFrameSPtr
 )
 {
@@ -483,53 +482,53 @@ State Kepler::CalculateJ2StateAt(
 
     // Setup
 
-    const Real equatorialRadius_m = anEquatorialRadius.inMeters();
+    const double equatorialRadius_m = anEquatorialRadius.inMeters();
 
-    const Real gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+    const double gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
     // Duration from epoch
 
-    const Real durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds();
+    const double durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds();
 
     // Orbital parameters at epoch
 
-    const Real semiMajorAxisAtEpoch_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
-    const Real eccentricityAtEpoch = aClassicalOrbitalElementSet.getEccentricity();
-    const Real inclinationAtEpoch_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
-    const Real raanAtEpoch_rad = aClassicalOrbitalElementSet.getRaan().inRadians();
-    const Real aopAtEpoch_rad = aClassicalOrbitalElementSet.getAop().inRadians();
-    const Real meanAnomalyAtEpoch_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians();
+    const double semiMajorAxisAtEpoch_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
+    const double eccentricityAtEpoch = aClassicalOrbitalElementSet.getEccentricity();
+    const double inclinationAtEpoch_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
+    const double raanAtEpoch_rad = aClassicalOrbitalElementSet.getRaan().inRadians();
+    const double aopAtEpoch_rad = aClassicalOrbitalElementSet.getAop().inRadians();
+    const double meanAnomalyAtEpoch_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians();
 
     // Calculation
     // Ref: http://www.s3l.be/usr/files/di/fi/2/Lecture06_AnalyticNumeric_2018-2019_201811142121.pdf
 
-    const Real n = std::sqrt(
+    const double n = std::sqrt(
         gravitationalParameter_SI / (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m)
     );
-    const Real p = semiMajorAxisAtEpoch_m * (1.0 - eccentricityAtEpoch * eccentricityAtEpoch);
+    const double p = semiMajorAxisAtEpoch_m * (1.0 - eccentricityAtEpoch * eccentricityAtEpoch);
 
-    const Real cosInclination = std::cos(inclinationAtEpoch_rad);
-    const Real sinInclination = std::sin(inclinationAtEpoch_rad);
-    const Real sinInclinationSquared = sinInclination * sinInclination;
+    const double cosInclination = std::cos(inclinationAtEpoch_rad);
+    const double sinInclination = std::sin(inclinationAtEpoch_rad);
+    const double sinInclinationSquared = sinInclination * sinInclination;
 
-    const Real expr = (3.0 / 2.0) * aJ2 * std::pow((equatorialRadius_m / p), 2);
+    const double expr = (3.0 / 2.0) * aJ2 * std::pow((equatorialRadius_m / p), 2);
 
-    const Real n_bar = n * (1.0 + expr * std::sqrt(1.0 - eccentricityAtEpoch * eccentricityAtEpoch) *
-                                      (1.0 - (3.0 / 2.0) * sinInclinationSquared));
+    const double n_bar = n * (1.0 + expr * std::sqrt(1.0 - eccentricityAtEpoch * eccentricityAtEpoch) *
+                                        (1.0 - (3.0 / 2.0) * sinInclinationSquared));
 
-    const Real aop_bar_rad =
+    const double aop_bar_rad =
         aopAtEpoch_rad + expr * (2.0 - (5.0 / 2.0) * sinInclinationSquared) * n_bar * durationFromEpoch_s;
-    const Real raan_bar_rad = raanAtEpoch_rad - expr * cosInclination * n_bar * durationFromEpoch_s;
-    const Real meanAnomaly_rad = meanAnomalyAtEpoch_rad + n_bar * durationFromEpoch_s;
+    const double raan_bar_rad = raanAtEpoch_rad - expr * cosInclination * n_bar * durationFromEpoch_s;
+    const double meanAnomaly_rad = meanAnomalyAtEpoch_rad + n_bar * durationFromEpoch_s;
 
     // Orbital parameters at instant
 
-    const Real semiMajorAxis_m = semiMajorAxisAtEpoch_m;
-    const Real eccentricity = eccentricityAtEpoch;
-    const Real inclination_rad = inclinationAtEpoch_rad;
-    const Real raan_rad = raan_bar_rad;
-    const Real aop_rad = aop_bar_rad;
-    const Real trueAnomaly_rad =
+    const double semiMajorAxis_m = semiMajorAxisAtEpoch_m;
+    const double eccentricity = eccentricityAtEpoch;
+    const double inclination_rad = inclinationAtEpoch_rad;
+    const double raan_rad = raan_bar_rad;
+    const double aop_rad = aop_bar_rad;
+    const double trueAnomaly_rad =
         COE::TrueAnomalyFromEccentricAnomaly(
             COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance), eccentricity
         )
@@ -554,22 +553,22 @@ State Kepler::CalculateJ2StateAt(
     return state;
 }
 
-Integer Kepler::CalculateJ2RevolutionNumberAt(
+int Kepler::CalculateJ2RevolutionNumberAt(
     const COE& aClassicalOrbitalElementSet,
     const Instant& anEpoch,
     const Derived& aGravitationalParameter,
     const Instant& anInstant,
     const Length& anEquatorialRadius,
-    const Real& aJ2
+    double aJ2
 )
 {
     using ostk::physics::time::Duration;
 
-    const Real R_m = anEquatorialRadius.inMeters();
+    const double R_m = anEquatorialRadius.inMeters();
 
-    const Real a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
-    const Real e = aClassicalOrbitalElementSet.getEccentricity();
-    const Real i_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
+    const double a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
+    const double e = aClassicalOrbitalElementSet.getEccentricity();
+    const double i_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
 
     // std::cout << "T0 = " << aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).toString() << " ==
     // " << aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds().toString() << " [s]" <<
@@ -589,12 +588,12 @@ Integer Kepler::CalculateJ2RevolutionNumberAt(
     //         near-circular orbits are supported.");
     //     }
 
-    //     const Real w_rad = aClassicalOrbitalElementSet.getAop().inRadians();
+    //     const double w_rad = aClassicalOrbitalElementSet.getAop().inRadians();
 
-    //     const Real sin_i = std::sin(i_rad);
-    //     const Real sin_i_2 = sin_i * sin_i;
+    //     const double sin_i = std::sin(i_rad);
+    //     const double sin_i_2 = sin_i * sin_i;
 
-    //     const Real correctionFactor = 1.0
+    //     const double correctionFactor = 1.0
     //                                 - ((3.0 * aJ2 * (4.0 - 5.0 * sin_i_2)) / (4.0 * std::pow(a_m / R_m, 2) *
     //                                 std::sqrt(1.0 - e * e) * std::pow(1.0 + e * std::cos(w_rad), 2)))
     //                                 - ((3.0 * aJ2 * std::pow(1.0 - e * std::cos(w_rad), 3)) / (2.0 * std::pow(a_m /
@@ -617,16 +616,16 @@ Integer Kepler::CalculateJ2RevolutionNumberAt(
     //     using ostk::physics::unit::Derived;
     //     using ostk::physics::unit::Angle;
 
-    //     const Real a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
-    //     const Real ecc = aClassicalOrbitalElementSet.getEccentricity();
-    //     const Real inc = aClassicalOrbitalElementSet.getInclination().inRadians();
-    //     const Real argper = aClassicalOrbitalElementSet.getAop().inRadians();
+    //     const double a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
+    //     const double ecc = aClassicalOrbitalElementSet.getEccentricity();
+    //     const double inc = aClassicalOrbitalElementSet.getInclination().inRadians();
+    //     const double argper = aClassicalOrbitalElementSet.getAop().inRadians();
 
     //     static const Derived::Unit gravitationalParameterSIUnit = { Length::Unit::Meter, Derived::Order(3),
     //     Mass::Unit::Undefined, Derived::Order::Zero(), Time::Unit::Second, Derived::Order(-2),
     //     Angle::Unit::Undefined, Derived::Order::Zero() };
 
-    //     const Real gravitationalParameter_SI = aGravitationalParameter.in(gravitationalParameterSIUnit);
+    //     const double gravitationalParameter_SI = aGravitationalParameter.in(gravitationalParameterSIUnit);
 
     //     const double sma = a_m;
     //     const double mu = gravitationalParameter_SI;
@@ -666,12 +665,12 @@ Integer Kepler::CalculateJ2RevolutionNumberAt(
 
     //     const double T_0 = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds();
 
-    //     const double n_0 = Real::TwoPi() / T_0;
+    //     const double n_0 = 2.0 * M_PI / T_0;
     //     const double n = n_0 - (3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) * (1.0 - 3.0 * std::cos(i_rad) *
     //     std::cos(i_rad)); const double w_dot = - (3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) * (1.0 - 5.0 *
     //     std::cos(i_rad) * std::cos(i_rad));
 
-    //     const double T = Real::TwoPi() / (n + w_dot);
+    //     const double T = 2.0 * M_PI / (n + w_dot);
 
     //     orbitalPeriod = Duration::Seconds(T);
 
@@ -686,13 +685,13 @@ Integer Kepler::CalculateJ2RevolutionNumberAt(
 
         const double T_0 = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds();
 
-        const double n_0 = Real::TwoPi() / T_0;
+        const double n_0 = 2.0 * M_PI / T_0;
         const double n = n_0 - (3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) / std::pow(1.0 - e * e, 3.0 / 2.0) *
                                    (1.0 - 3.0 * std::cos(i_rad) * std::cos(i_rad));
         const double w_dot = -(3.0 / 4.0) * n_0 * aJ2 * std::pow(R_m / a_m, 2) / std::pow(1.0 - e * e, 2) *
                              (1.0 - 5.0 * std::cos(i_rad) * std::cos(i_rad));
 
-        const double T = Real::TwoPi() / (n + w_dot);
+        const double T = 2.0 * M_PI / (n + w_dot);
 
         orbitalPeriod = Duration::Seconds(T);
 
@@ -712,8 +711,8 @@ State Kepler::CalculateJ4StateAt(
     const Derived& aGravitationalParameter,
     const Instant& anInstant,
     const Length& anEquatorialRadius,
-    const Real& aJ2,
-    const Real& aJ4,
+    double aJ2,
+    double aJ4,
     const Shared<const Frame>& aFrameSPtr
 )
 {
@@ -725,43 +724,43 @@ State Kepler::CalculateJ4StateAt(
 
     // Setup
 
-    const Real equatorialRadius_m = anEquatorialRadius.inMeters();
+    const double equatorialRadius_m = anEquatorialRadius.inMeters();
 
-    const Real gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+    const double gravitationalParameter_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
     // Duration from epoch
 
-    const Real durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds();
+    const double durationFromEpoch_s = Duration::Between(anEpoch, anInstant).inSeconds();
 
     // Orbital parameters at epoch
 
-    const Real semiMajorAxisAtEpoch_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
-    const Real eccentricityAtEpoch = aClassicalOrbitalElementSet.getEccentricity();
-    const Real inclinationAtEpoch_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
-    const Real raanAtEpoch_rad = aClassicalOrbitalElementSet.getRaan().inRadians();
-    const Real aopAtEpoch_rad = aClassicalOrbitalElementSet.getAop().inRadians();
-    const Real meanAnomalyAtEpoch_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians();
+    const double semiMajorAxisAtEpoch_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
+    const double eccentricityAtEpoch = aClassicalOrbitalElementSet.getEccentricity();
+    const double inclinationAtEpoch_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
+    const double raanAtEpoch_rad = aClassicalOrbitalElementSet.getRaan().inRadians();
+    const double aopAtEpoch_rad = aClassicalOrbitalElementSet.getAop().inRadians();
+    const double meanAnomalyAtEpoch_rad = aClassicalOrbitalElementSet.getMeanAnomaly().inRadians();
 
     // Calculation
     // Ref: Vallado, D. A (2013). Fundamentals of Astrodynamics and Applications.
     // Ref: Escobal, P. R (1965). Methods of Orbit Determination.
 
-    const Real n = std::sqrt(
+    const double n = std::sqrt(
         gravitationalParameter_SI / (semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m * semiMajorAxisAtEpoch_m)
     );
-    const Real p = semiMajorAxisAtEpoch_m * (1.0 - eccentricityAtEpoch * eccentricityAtEpoch);
+    const double p = semiMajorAxisAtEpoch_m * (1.0 - eccentricityAtEpoch * eccentricityAtEpoch);
 
-    const Real cosInclination = std::cos(inclinationAtEpoch_rad);
-    const Real sinInclination = std::sin(inclinationAtEpoch_rad);
-    const Real cosInclinationSquared = cosInclination * cosInclination;
-    const Real sinInclinationSquared = sinInclination * sinInclination;
+    const double cosInclination = std::cos(inclinationAtEpoch_rad);
+    const double sinInclination = std::sin(inclinationAtEpoch_rad);
+    const double cosInclinationSquared = cosInclination * cosInclination;
+    const double sinInclinationSquared = sinInclination * sinInclination;
 
-    const Real eccentricityAtEpochSquared = eccentricityAtEpoch * eccentricityAtEpoch;
-    const Real sqrtBeta = std::sqrt(1.0 - eccentricityAtEpochSquared);
+    const double eccentricityAtEpochSquared = eccentricityAtEpoch * eccentricityAtEpoch;
+    const double sqrtBeta = std::sqrt(1.0 - eccentricityAtEpochSquared);
 
-    const Real expr = (3.0 / 2.0) * aJ2 * std::pow((equatorialRadius_m / p), 2);
+    const double expr = (3.0 / 2.0) * aJ2 * std::pow((equatorialRadius_m / p), 2);
 
-    const Real n_bar =
+    const double n_bar =
         n *
         (1.0 + expr * sqrtBeta * ((1.0 - (3.0 / 2.0) * sinInclinationSquared)) +
          3.0 / 128.0 * aJ2 * aJ2 * std::pow(equatorialRadius_m / p, 4) * sqrtBeta *
@@ -771,7 +770,7 @@ State Kepler::CalculateJ4StateAt(
          45.0 / 128.0 * aJ4 * eccentricityAtEpochSquared * std::pow(equatorialRadius_m / p, 4) * sqrtBeta *
              (3.0 - 30.0 * cosInclinationSquared + 35.0 * std::pow(cosInclination, 4)));
 
-    const Real raan_dot =
+    const double raan_dot =
         -n_bar * expr * cosInclination *
             (1.0 +
              expr * ((3.0 / 2.0) + eccentricityAtEpochSquared / 6.0 - 2.0 * sqrtBeta -
@@ -779,7 +778,7 @@ State Kepler::CalculateJ4StateAt(
         35.0 / 8.0 * n * aJ4 * std::pow(equatorialRadius_m / p, 4) * cosInclination *
             (1.0 + (3.0 / 2.0) * eccentricityAtEpochSquared) * (12.0 - 21.0 * sinInclinationSquared) / 14.0;
 
-    const Real aop_dot =
+    const double aop_dot =
         n_bar * expr * (2.0 - (5.0 / 2.0) * sinInclinationSquared) *
             (1.0 + expr * (2.0 + eccentricityAtEpochSquared / 2.0 - 2.0 * sqrtBeta -
                            (43.0 / 24.0 - eccentricityAtEpochSquared / 48.0 - 3.0 * sqrtBeta) * sinInclinationSquared)
@@ -791,18 +790,18 @@ State Kepler::CalculateJ4StateAt(
              eccentricityAtEpochSquared *
                  (27.0 / 14.0 - 189.0 / 28.0 * sinInclinationSquared + 81.0 / 16.0 * std::pow(sinInclination, 4)));
 
-    const Real raan_bar_rad = raanAtEpoch_rad + raan_dot * durationFromEpoch_s;
-    const Real aop_bar_rad = aopAtEpoch_rad + aop_dot * durationFromEpoch_s;
-    const Real meanAnomaly_rad = meanAnomalyAtEpoch_rad + n_bar * durationFromEpoch_s;
+    const double raan_bar_rad = raanAtEpoch_rad + raan_dot * durationFromEpoch_s;
+    const double aop_bar_rad = aopAtEpoch_rad + aop_dot * durationFromEpoch_s;
+    const double meanAnomaly_rad = meanAnomalyAtEpoch_rad + n_bar * durationFromEpoch_s;
 
     // Orbital parameters at instant
 
-    const Real semiMajorAxis_m = semiMajorAxisAtEpoch_m;
-    const Real eccentricity = eccentricityAtEpoch;
-    const Real inclination_rad = inclinationAtEpoch_rad;
-    const Real raan_rad = raan_bar_rad;
-    const Real aop_rad = aop_bar_rad;
-    const Real trueAnomaly_rad =
+    const double semiMajorAxis_m = semiMajorAxisAtEpoch_m;
+    const double eccentricity = eccentricityAtEpoch;
+    const double inclination_rad = inclinationAtEpoch_rad;
+    const double raan_rad = raan_bar_rad;
+    const double aop_rad = aop_bar_rad;
+    const double trueAnomaly_rad =
         COE::TrueAnomalyFromEccentricAnomaly(
             COE::EccentricAnomalyFromMeanAnomaly(Angle::Radians(meanAnomaly_rad), eccentricity, Tolerance), eccentricity
         )
@@ -827,36 +826,36 @@ State Kepler::CalculateJ4StateAt(
     return state;
 }
 
-Integer Kepler::CalculateJ4RevolutionNumberAt(
+int Kepler::CalculateJ4RevolutionNumberAt(
     const COE& aClassicalOrbitalElementSet,
     const Instant& anEpoch,
     const Derived& aGravitationalParameter,
     const Instant& anInstant,
     const Length& anEquatorialRadius,
-    const Real& aJ2,
-    const Real& aJ4
+    double aJ2,
+    double aJ4
 )
 {
     using ostk::physics::time::Duration;
 
-    const Real R_m = anEquatorialRadius.inMeters();
+    const double R_m = anEquatorialRadius.inMeters();
 
-    const Real a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
-    const Real e = aClassicalOrbitalElementSet.getEccentricity();
-    const Real i_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
+    const double a_m = aClassicalOrbitalElementSet.getSemiMajorAxis().inMeters();
+    const double e = aClassicalOrbitalElementSet.getEccentricity();
+    const double i_rad = aClassicalOrbitalElementSet.getInclination().inRadians();
 
-    const Real p = a_m * (1.0 - e * e);
+    const double p = a_m * (1.0 - e * e);
 
     Duration orbitalPeriod = Duration::Undefined();
 
     {
         const double T_0 = aClassicalOrbitalElementSet.getOrbitalPeriod(aGravitationalParameter).inSeconds();
 
-        const double n_0 = Real::TwoPi() / T_0;
+        const double n_0 = 2.0 * M_PI / T_0;
 
-        const Real expr = (3.0 / 2.0) * aJ2 * std::pow((R_m / p), 2);
+        const double expr = (3.0 / 2.0) * aJ2 * std::pow((R_m / p), 2);
 
-        const Real n_bar =
+        const double n_bar =
             n_0 *
             (1.0 + expr * std::sqrt(1.0 - e * e) * ((1.0 - (3.0 / 2.0) * std::pow(std::sin(i_rad), 2))) +
              3.0 / 128.0 * aJ2 * aJ2 * std::pow(R_m / p, 4) * std::sqrt(1.0 - e * e) *
@@ -866,7 +865,7 @@ Integer Kepler::CalculateJ4RevolutionNumberAt(
              45.0 / 128.0 * aJ4 * e * e * std::pow(R_m / p, 4) * std::sqrt(1.0 - e * e) *
                  (3.0 - 30.0 * std::pow(std::cos(i_rad), 2) + 35.0 * std::pow(std::cos(i_rad), 4)));
 
-        const Real w_dot =
+        const double w_dot =
             n_bar * expr * (2.0 - (5.0 / 2.0) * std::pow(std::sin(i_rad), 2)) *
                 (1.0 +
                  expr * (2.0 + e * e / 2.0 - 2.0 * std::sqrt(1.0 - e * e) -
@@ -878,7 +877,7 @@ Integer Kepler::CalculateJ4RevolutionNumberAt(
                      (27.0 / 14.0 - 189.0 / 28.0 * std::pow(std::sin(i_rad), 2) +
                       81.0 / 16.0 * std::pow(std::sin(i_rad), 4)));
 
-        const double T = Real::TwoPi() / (n_bar + w_dot);
+        const double T = 2.0 * M_PI / (n_bar + w_dot);
 
         orbitalPeriod = Duration::Seconds(T);
     }

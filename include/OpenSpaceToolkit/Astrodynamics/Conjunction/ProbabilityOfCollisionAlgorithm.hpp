@@ -6,7 +6,6 @@
 #include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -22,7 +21,6 @@ namespace conjunction
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -95,18 +93,18 @@ class ProbabilityOfCollisionAlgorithm
     /// @brief Probability of collision analysis of a close approach.
     struct Analysis
     {
-        Real probabilityOfCollision;                        ///< The probability of collision.
-        ProbabilityRegion region;                           ///< The probability region.
-        std::optional<Real> maximumProbabilityOfCollision;  ///< The maximum probability of collision (empty in the
-                                                            ///< unknown region).
-        std::optional<Real> maximumProbabilityOfCollisionScalingFactor;  ///< The covariance scaling factor yielding the
-                                                                         ///< maximum probability of collision (empty
-                                                                         ///< in the unknown region).
-        std::optional<Real> maximumProbabilityOfCollisionSigmaScalingFactor;  ///< The sigma scaling factor (i.e. the
-                                                                              ///< square root of the covariance
-                                                                              ///< scaling factor) yielding the maximum
-                                                                              ///< probability of collision (empty in
-                                                                              ///< the unknown region).
+        double probabilityOfCollision;                        ///< The probability of collision.
+        ProbabilityRegion region;                             ///< The probability region.
+        std::optional<double> maximumProbabilityOfCollision;  ///< The maximum probability of collision (empty in the
+                                                              ///< unknown region).
+        std::optional<double> maximumProbabilityOfCollisionScalingFactor;  ///< The covariance scaling factor yielding
+                                                                           ///< the maximum probability of collision
+                                                                           ///< (empty in the unknown region).
+        std::optional<double> maximumProbabilityOfCollisionSigmaScalingFactor;  ///< The sigma scaling factor (i.e. the
+                                                                                ///< square root of the covariance
+                                                                                ///< scaling factor) yielding the
+                                                                                ///< maximum probability of collision
+                                                                                ///< (empty in the unknown region).
     };
 
     /// @brief Destructor
@@ -155,7 +153,7 @@ class ProbabilityOfCollisionAlgorithm
     /// @param aHardBody2SPtr The hard body of Object 2
     ///
     /// @return The probability of collision
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr

@@ -2,7 +2,6 @@
 
 #include <gmock/gmock.h>
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
@@ -21,7 +20,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 using ostk::core::type::Unique;
@@ -45,7 +43,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition : public ::
    protected:
     const AngularCondition::Criterion defaultCriterion_ = AngularCondition::Criterion::PositiveCrossing;
     const String defaultName_ = "Test Angular Condition";
-    const std::function<Real(const State&)> defaultEvaluator_ = [](const State& aState) -> Real
+    const std::function<double(const State&)> defaultEvaluator_ = [](const State& aState) -> double
     {
         return aState.accessCoordinates()[0];
     };
@@ -60,7 +58,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_AngularCondition : public ::
     };
     const StateBuilder defaultStateBuilder_ = StateBuilder(Frame::GCRF(), defaultSubsets_);
 
-    const State generateState(const Real& coordinate)
+    const State generateState(double coordinate)
     {
         VectorXd coordinates(1);
         coordinates << coordinate;

@@ -10,6 +10,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -70,22 +71,23 @@ Array<String> Alfano2005::identifyUnsatisfiedAssumptions(const CloseApproach& aC
         unsatisfiedAssumptions.add("No position uncertainty for Object 2");
     }
 
-    const Real relativeSpeedMetersPerSecond = aCloseApproach.computeRelativeSpeed().in(Derived::Unit::MeterPerSecond());
-    const Real relativeSpeedThresholdMetersPerSecond = relativeSpeedThreshold_.in(Derived::Unit::MeterPerSecond());
+    const double relativeSpeedMetersPerSecond =
+        aCloseApproach.computeRelativeSpeed().in(Derived::Unit::MeterPerSecond());
+    const double relativeSpeedThresholdMetersPerSecond = relativeSpeedThreshold_.in(Derived::Unit::MeterPerSecond());
 
     if (relativeSpeedMetersPerSecond < relativeSpeedThresholdMetersPerSecond)
     {
         unsatisfiedAssumptions.add(String::Format(
             "Relative speed [{} m/s] is below the threshold [{} m/s]",
-            relativeSpeedMetersPerSecond.toString(),
-            relativeSpeedThresholdMetersPerSecond.toString()
+            utility::DoubleToString(relativeSpeedMetersPerSecond),
+            utility::DoubleToString(relativeSpeedThresholdMetersPerSecond)
         ));
     }
 
     return unsatisfiedAssumptions;
 }
 
-Real Alfano2005::computeProbabilityOfCollision(
+double Alfano2005::computeProbabilityOfCollision(
     const CloseApproach& aCloseApproach,
     const Shared<const HardBody>& aHardBody1SPtr,
     const Shared<const HardBody>& aHardBody2SPtr
@@ -119,7 +121,7 @@ Real Alfano2005::computeProbabilityOfCollision(
         aHardBody2SPtr->calculateCrossSectionAt(object2State, rotatedEncounterFrameSPtr)
     );
 
-    const Real combinedHardBodyRadius = combinedCrossSection.getEnclosingRadius();
+    const double combinedHardBodyRadius = combinedCrossSection.getEnclosingRadius();
 
     return Alfano2005::ComputeProbabilityOfCollision(
         rotatedEncounterFrameParameters.xM.inMeters(),
@@ -130,63 +132,55 @@ Real Alfano2005::computeProbabilityOfCollision(
     );
 }
 
-Real Alfano2005::ComputeProbabilityOfCollision(
-    const Real& aMissDistanceX,
-    const Real& aMissDistanceY,
-    const Real& aSigmaX,
-    const Real& aSigmaY,
-    const Real& aCombinedHardBodyRadius
+double Alfano2005::ComputeProbabilityOfCollision(
+    double aMissDistanceX, double aMissDistanceY, double aSigmaX, double aSigmaY, double aCombinedHardBodyRadius
 )
 {
-    const Real& xm = aMissDistanceX;
-    const Real& ym = aMissDistanceY;
-    const Real& sigmaX = aSigmaX;
-    const Real& sigmaY = aSigmaY;
-    const Real& ra = aCombinedHardBodyRadius;
+    double xm = aMissDistanceX;
+    double ym = aMissDistanceY;
+    double sigmaX = aSigmaX;
+    double sigmaY = aSigmaY;
+    double ra = aCombinedHardBodyRadius;
 
     // Compute the number of interval pairs (m) and the integration step (dx), the integral over [-ra, ra] being folded
     // onto [-ra, 0]
     const Size m = Alfano2005::ComputeIntervalPairCount(xm, ym, sigmaX, sigmaY, ra);
-    const Real dx = ra / (2.0 * m);
+    const double dx = ra / (2.0 * m);
 
     // Compute the first term, slightly offset from -ra (zero-length chord)
-    const Real x0 = 0.015 * dx - ra;
-    const Real m0 = 2.0 * Alfano2005::ComputeIntegrand(x0, xm, ym, sigmaX, sigmaY, ra);
+    const double x0 = 0.015 * dx - ra;
+    const double m0 = 2.0 * Alfano2005::ComputeIntegrand(x0, xm, ym, sigmaX, sigmaY, ra);
 
     // Compute the even terms, including the last term at x = 0
-    Real mEvenSum = 0.0;
+    double mEvenSum = 0.0;
     for (Size i = 1; i < m; ++i)
     {
-        const Real x2i = 2.0 * i * dx - ra;
+        const double x2i = 2.0 * i * dx - ra;
         mEvenSum += Alfano2005::ComputeIntegrand(x2i, xm, ym, sigmaX, sigmaY, ra);
     }
 
-    const Real mLast =
+    const double mLast =
         std::exp(-xm * xm / (2.0 * sigmaX * sigmaX)) *
         (std::erf((-ym + ra) / (std::sqrt(2.0) * sigmaY)) - std::erf((-ym - ra) / (std::sqrt(2.0) * sigmaY)));
 
-    const Real mEven = 2.0 * (mEvenSum + mLast);
+    const double mEven = 2.0 * (mEvenSum + mLast);
 
     // Compute the odd terms
-    Real mOddSum = 0.0;
+    double mOddSum = 0.0;
     for (Size i = 1; i <= m; ++i)
     {
-        const Real x2i1 = (2.0 * i - 1.0) * dx - ra;
+        const double x2i1 = (2.0 * i - 1.0) * dx - ra;
         mOddSum += Alfano2005::ComputeIntegrand(x2i1, xm, ym, sigmaX, sigmaY, ra);
     }
 
-    const Real mOdd = 4.0 * mOddSum;
+    const double mOdd = 4.0 * mOddSum;
 
     // Compute the probability of collision (Simpson's rule)
     return dx / (3.0 * sigmaX * std::sqrt(8.0 * M_PI)) * (m0 + mEven + mOdd);
 }
 
 Size Alfano2005::ComputeIntervalPairCount(
-    const Real& aMissDistanceX,
-    const Real& aMissDistanceY,
-    const Real& aSigmaX,
-    const Real& aSigmaY,
-    const Real& aCombinedHardBodyRadius
+    double aMissDistanceX, double aMissDistanceY, double aSigmaX, double aSigmaY, double aCombinedHardBodyRadius
 )
 {
     const double missDistance = std::sqrt(aMissDistanceX * aMissDistanceX + aMissDistanceY * aMissDistanceY);
@@ -207,24 +201,24 @@ Size Alfano2005::ComputeIntervalPairCount(
     return static_cast<Size>(intervalPairCount);
 }
 
-Real Alfano2005::ComputeIntegrand(
-    const Real& anAbscissa,
-    const Real& aMissDistanceX,
-    const Real& aMissDistanceY,
-    const Real& aSigmaX,
-    const Real& aSigmaY,
-    const Real& aCombinedHardBodyRadius
+double Alfano2005::ComputeIntegrand(
+    double anAbscissa,
+    double aMissDistanceX,
+    double aMissDistanceY,
+    double aSigmaX,
+    double aSigmaY,
+    double aCombinedHardBodyRadius
 )
 {
-    const Real& x = anAbscissa;
-    const Real& xm = aMissDistanceX;
-    const Real& ym = aMissDistanceY;
-    const Real& sigmaX = aSigmaX;
-    const Real& sigmaY = aSigmaY;
-    const Real& ra = aCombinedHardBodyRadius;
+    double x = anAbscissa;
+    double xm = aMissDistanceX;
+    double ym = aMissDistanceY;
+    double sigmaX = aSigmaX;
+    double sigmaY = aSigmaY;
+    double ra = aCombinedHardBodyRadius;
 
     // Half-chord of the hard-body circle at abscissa x
-    const Real halfChord = std::sqrt(ra * ra - x * x);
+    const double halfChord = std::sqrt(ra * ra - x * x);
 
     return (std::erf((-ym + halfChord) / (std::sqrt(2.0) * sigmaY)) -
             std::erf((-ym - halfChord) / (std::sqrt(2.0) * sigmaY))) *

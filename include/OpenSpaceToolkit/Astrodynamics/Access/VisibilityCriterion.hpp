@@ -66,7 +66,7 @@ class VisibilityCriterion
         /// @param anElevationRadians The elevation in radians.
         /// @param aRangeMeters The range in meters.
         /// @return True if the criterion is satisfied.
-        bool isSatisfied(const Real& anAzimuthRadians, const Real& anElevationRadians, const Real& aRangeMeters) const;
+        bool isSatisfied(double anAzimuthRadians, double anElevationRadians, double aRangeMeters) const;
 
         /// @brief Equality operator.
         ///
@@ -84,14 +84,14 @@ class VisibilityCriterion
     /// @brief Represents an AER mask visibility criterion.
     struct AERMask
     {
-        Map<Real, Real> azimuthElevationMask;  /// Map of azimuth angles to elevation angles in radians.
-        Interval<Real> range;                  /// Range interval in meters.
+        Map<double, double> azimuthElevationMask;  /// Map of azimuth angles to elevation angles in radians.
+        Interval<Real> range;                      /// Range interval in meters.
 
         /// @brief Constructs an AERMask.
         ///
         /// @param anAzimuthElevationMask The azimuth-elevation mask in degrees.
         /// @param aRange The range interval in meters.
-        AERMask(const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRange);
+        AERMask(const Map<double, double>& anAzimuthElevationMask, const Interval<Real>& aRange);
 
         /// @brief Checks if the given AER satisfies the criterion.
         ///
@@ -105,7 +105,7 @@ class VisibilityCriterion
         /// @param anElevationRadians The elevation in radians.
         /// @param aRangeMeters The range in meters.
         /// @return True if the criterion is satisfied.
-        bool isSatisfied(const Real& anAzimuthRadians, const Real& anElevationRadians, const Real& aRangeMeters) const;
+        bool isSatisfied(double anAzimuthRadians, double anElevationRadians, double aRangeMeters) const;
 
         /// @brief Equality operator.
         ///
@@ -173,7 +173,7 @@ class VisibilityCriterion
         ///
         /// @param anElevation The elevation in radians.
         /// @return True if the criterion is satisfied.
-        bool isSatisfied(const Real& anElevation) const;
+        bool isSatisfied(double anElevation) const;
 
         /// @brief Equality operator.
         ///
@@ -233,7 +233,7 @@ class VisibilityCriterion
     /// @param aRangeInterval Range interval in meters.
     /// @return The visibility criterion instance.
     static VisibilityCriterion FromAERMask(
-        const Map<Real, Real>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval
+        const Map<double, double>& anAzimuthElevationMask, const Interval<Real>& aRangeInterval
     );
 
     /// @brief Creates a visibility criterion based on line-of-sight considerations.

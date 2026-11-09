@@ -1,9 +1,9 @@
 /// Apache License 2.0
 
+#include <cmath>
 #include <limits>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -18,6 +18,7 @@
 #include <OpenSpaceToolkit/Physics/Time/Time.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -33,8 +34,6 @@ namespace kepler
 {
 
 using ostk::core::type::Array;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -58,7 +57,7 @@ using ostk::physics::unit::Mass;
 using TimeUnit = ostk::physics::unit::Time;
 using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth;
 
-static const Real Tolerance = 1e-30;
+static const double Tolerance = 1e-30;
 static const Derived::Unit GravitationalParameterSIUnit = Derived::Unit::MeterCubedPerSecondSquared();
 static const Derived::Unit angularVelocitySIUnit = Derived::Unit::RadianPerSecond();
 static const Derived::Unit AngularMomentumSIUnit = {
@@ -76,7 +75,7 @@ static const Derived::Unit AngularMomentumSIUnit = {
 
 COE::COE(
     const Length& aSemiMajorAxis,
-    const Real& anEccentricity,
+    double anEccentricity,
     const Angle& anInclination,
     const Angle& aRaan,
     const Angle& anAop,
@@ -118,7 +117,7 @@ std::ostream& operator<<(std::ostream& anOutputStream, const COE& aCOE)
 
 bool COE::isDefined() const
 {
-    return semiMajorAxis_.isDefined() && eccentricity_.isDefined() && inclination_.isDefined() && raan_.isDefined() &&
+    return semiMajorAxis_.isDefined() && !std::isnan(eccentricity_) && inclination_.isDefined() && raan_.isDefined() &&
            aop_.isDefined() && anomaly_.isDefined();
 }
 
@@ -132,7 +131,7 @@ Length COE::getSemiMajorAxis() const
     return semiMajorAxis_;
 }
 
-Real COE::getEccentricity() const
+double COE::getEccentricity() const
 {
     if (!this->isDefined())
     {
@@ -287,7 +286,7 @@ Derived COE::getMeanMotion(const Derived& aGravitationalParameter) const
 }
 
 Derived COE::getNodalPrecessionRate(
-    const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
+    const Derived& aGravitationalParameter, const Length& anEquatorialRadius, double aJ2Parameter
 ) const
 {
     return Derived(
@@ -304,7 +303,7 @@ Derived COE::getNodalPrecessionRate(
 }
 
 Derived COE::getArgumentOfLatitudeAngularRate(
-    const Derived& aGravitationalParameter, const Length& anEquatorialRadius, const Real& aJ2Parameter
+    const Derived& aGravitationalParameter, const Length& anEquatorialRadius, double aJ2Parameter
 ) const
 {
     if (!this->isDefined())
@@ -359,14 +358,14 @@ COE::CartesianState COE::getCartesianState(
         throw ostk::core::error::runtime::Undefined("COE");
     }
 
-    const Real a_m = semiMajorAxis_.inMeters();
-    const Real inclination_rad = inclination_.inRadians();
-    const Real raan_rad = raan_.inRadians();
-    const Real aop_rad = aop_.inRadians();
-    const Real nu_rad = anomaly_.inRadians();
-    const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+    const double a_m = semiMajorAxis_.inMeters();
+    const double inclination_rad = inclination_.inRadians();
+    const double raan_rad = raan_.inRadians();
+    const double aop_rad = aop_.inRadians();
+    const double nu_rad = anomaly_.inRadians();
+    const double mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
-    const Real p_m = a_m * (1.0 - eccentricity_ * eccentricity_);
+    const double p_m = a_m * (1.0 - eccentricity_ * eccentricity_);
 
     const Vector3d R_pqw = {
         p_m * std::cos(nu_rad) / (1.0 + eccentricity_ * std::cos(nu_rad)),
@@ -429,7 +428,7 @@ void COE::print(std::ostream& anOutputStream, bool displayDecorator) const
         << "Semi-major axis:"
         << (semiMajorAxis_.isDefined() ? String::Format("{} [m]", semiMajorAxis_.inMeters().toString()) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Eccentricity:" << (eccentricity_.isDefined() ? eccentricity_.toString() : "Undefined");
+        << "Eccentricity:" << (!std::isnan(eccentricity_) ? utility::DoubleToString(eccentricity_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "Inclination:"
         << (inclination_.isDefined() ? String::Format("{} [deg]", inclination_.inDegrees(0.0, 360.0).toString())
@@ -466,7 +465,7 @@ COE COE::Undefined()
 {
     return {
         Length::Undefined(),
-        Real::Undefined(),
+        std::numeric_limits<double>::quiet_NaN(),
         Angle::Undefined(),
         Angle::Undefined(),
         Angle::Undefined(),
@@ -486,11 +485,11 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
         throw ostk::core::error::runtime::Undefined("Gravitational parameter");
     }
 
-    static const Real tolerance = 1e-11;
+    static const double tolerance = 1e-11;
 
-    const Real mu = aGravitationalParameter.in(GravitationalParameterSIUnit);
+    const double mu = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
-    if (std::abs(mu) < Real::Epsilon())
+    if (std::abs(mu) < 1e-15)
     {
         throw ostk::core::error::runtime::Wrong("Gravitational parameter", String::Format("{}", mu));
     }
@@ -498,10 +497,10 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
     const Vector3d& positionVector = aCartesianState.first.accessCoordinates();
     const Vector3d& velocityVector = aCartesianState.second.accessCoordinates();
 
-    const Real position = positionVector.norm();
-    const Real velocity = velocityVector.norm();
+    const double position = positionVector.norm();
+    const double velocity = velocityVector.norm();
 
-    if (std::abs(position) < Real::Epsilon())
+    if (std::abs(position) < 1e-15)
     {
         throw ostk::core::error::runtime::Wrong("Position vector", String::Format("{}", position));
     }
@@ -510,9 +509,9 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     const Vector3d angularMomentumVector = positionVector.cross(velocityVector);
 
-    const Real angularMomentum = angularMomentumVector.norm();
+    const double angularMomentum = angularMomentumVector.norm();
 
-    if (std::abs(angularMomentum) < Real::Epsilon())
+    if (std::abs(angularMomentum) < 1e-15)
     {
         throw ostk::core::error::runtime::Wrong("Angular momentum", String::Format("{}", angularMomentum));
     }
@@ -521,49 +520,49 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
     const Vector3d nodeVector = Vector3d::Z().cross(angularMomentumVector);
 
-    const Real node = nodeVector.norm();
+    const double node = nodeVector.norm();
 
     // Eccentricity
 
     const Vector3d eccentricityVector = (1.0 / mu) * ((((velocity * velocity) - (mu / position)) * positionVector) -
                                                       ((positionVector.dot(velocityVector)) * (velocityVector)));
 
-    const Real e = eccentricityVector.norm();
+    const double e = eccentricityVector.norm();
 
-    if ((std::abs(1.0 - e)) <= Real::Epsilon())
+    if ((std::abs(1.0 - e)) <= 1e-15)
     {
         throw ostk::core::error::runtime::ToBeImplemented("Support for parabolic orbits.");
     }
 
     // Semi-major axis
 
-    const Real E = (0.5 * velocity * velocity) - (mu / position);
+    const double E = (0.5 * velocity * velocity) - (mu / position);
 
-    if (std::abs(E) < Real::Epsilon())
+    if (std::abs(E) < 1e-15)
     {
         throw ostk::core::error::runtime::Wrong("Specific orbital energy", String::Format("{}", E));
     }
 
-    const Real a_m = -mu / (2.0 * E);
+    const double a_m = -mu / (2.0 * E);
 
-    if (std::abs(a_m * (1.0 - e)) < Real::Epsilon())
+    if (std::abs(a_m * (1.0 - e)) < 1e-15)
     {
         throw ostk::core::error::RuntimeError("Conic section is singular.");
     }
 
     // Inclination
 
-    const Real i_rad = std::acos(angularMomentumVector(2) / angularMomentum);
+    const double i_rad = std::acos(angularMomentumVector(2) / angularMomentum);
 
     // Other angles
 
-    Real raan_rad = 0.0;  // [rad] Right Ascension of the Ascending Node (RAAN)
-    Real aop_rad = 0.0;   // [rad] Argument Of Periapsis (AOP)
-    Real nu_rad = 0.0;    // [rad] True anomaly (Nu)
+    double raan_rad = 0.0;  // [rad] Right Ascension of the Ascending Node (RAAN)
+    double aop_rad = 0.0;   // [rad] Argument Of Periapsis (AOP)
+    double nu_rad = 0.0;    // [rad] True anomaly (Nu)
 
-    if ((e >= tolerance) && ((i_rad >= tolerance) && (i_rad <= (Real::Pi() - tolerance))))  // Non-circular, inclined
+    if ((e >= tolerance) && ((i_rad >= tolerance) && (i_rad <= (M_PI - tolerance))))  // Non-circular, inclined
     {
-        if (std::abs(node) < Real::Epsilon())
+        if (std::abs(node) < 1e-15)
         {
             throw ostk::core::error::runtime::Undefined("Node");
         }
@@ -572,54 +571,54 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
         if (nodeVector(1) < 0.0)
         {
-            raan_rad = Real::TwoPi() - raan_rad;
+            raan_rad = 2.0 * M_PI - raan_rad;
         }
 
         aop_rad = std::acos(std::clamp((double)(nodeVector.dot(eccentricityVector) / (node * e)), -1.0, 1.0));
 
         if (eccentricityVector(2) < 0.0)
         {
-            aop_rad = Real::TwoPi() - aop_rad;
+            aop_rad = 2.0 * M_PI - aop_rad;
         }
 
         nu_rad = std::acos(std::clamp((double)(eccentricityVector.dot(positionVector) / (e * position)), -1.0, 1.0));
 
         if (positionVector.dot(velocityVector) < 0.0)
         {
-            nu_rad = Real::TwoPi() - nu_rad;
+            nu_rad = 2.0 * M_PI - nu_rad;
         }
     }
-    else if ((e >= tolerance) && ((i_rad < tolerance) || (i_rad > (Real::Pi() - tolerance))))  // Non-circular,
-                                                                                               // equatorial
+    else if ((e >= tolerance) && ((i_rad < tolerance) || (i_rad > (M_PI - tolerance))))  // Non-circular,
+                                                                                         // equatorial
     {
         raan_rad = 0.0;
         aop_rad = std::acos(eccentricityVector(0) / e);
 
         if (eccentricityVector(1) < 0.0)
         {
-            aop_rad = Real::TwoPi() - aop_rad;
+            aop_rad = 2.0 * M_PI - aop_rad;
         }
 
-        if (i_rad > (Real::Pi() - tolerance))
+        if (i_rad > (M_PI - tolerance))
         {
             aop_rad = aop_rad * -1.0;
         }
 
         if (aop_rad < 0.0)
         {
-            aop_rad = aop_rad + Real::TwoPi();
+            aop_rad = aop_rad + 2.0 * M_PI;
         }
 
         nu_rad = std::acos(std::clamp((double)(eccentricityVector.dot(positionVector) / (e * position)), -1.0, 1.0));
 
         if (positionVector.dot(velocityVector) < 0.0)
         {
-            nu_rad = Real::TwoPi() - nu_rad;
+            nu_rad = 2.0 * M_PI - nu_rad;
         }
     }
-    else if ((e < tolerance) && ((i_rad >= tolerance) && (i_rad <= (Real::Pi() - tolerance))))  // Circular, inclined
+    else if ((e < tolerance) && ((i_rad >= tolerance) && (i_rad <= (M_PI - tolerance))))  // Circular, inclined
     {
-        if (std::abs(node) < Real::Epsilon())
+        if (std::abs(node) < 1e-15)
         {
             throw ostk::core::error::runtime::Undefined("Node");
         }
@@ -628,7 +627,7 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
         if (nodeVector(1) < 0.0)
         {
-            raan_rad = Real::TwoPi() - raan_rad;
+            raan_rad = 2.0 * M_PI - raan_rad;
         }
 
         aop_rad = 0.0;
@@ -637,10 +636,10 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
         if (positionVector(2) < 0.0)
         {
-            nu_rad = Real::TwoPi() - nu_rad;
+            nu_rad = 2.0 * M_PI - nu_rad;
         }
     }
-    else if ((e < tolerance) && ((i_rad < tolerance) || (i_rad > (Real::Pi() - tolerance))))  // Circular, equatorial
+    else if ((e < tolerance) && ((i_rad < tolerance) || (i_rad > (M_PI - tolerance))))  // Circular, equatorial
     {
         raan_rad = 0.0;
         aop_rad = 0.0;
@@ -649,17 +648,17 @@ COE COE::Cartesian(const COE::CartesianState& aCartesianState, const Derived& aG
 
         if (positionVector(1) < 0.0)
         {
-            nu_rad = Real::TwoPi() - nu_rad;
+            nu_rad = 2.0 * M_PI - nu_rad;
         }
 
-        if (i_rad > (Real::Pi() - tolerance))
+        if (i_rad > (M_PI - tolerance))
         {
             nu_rad = nu_rad * -1.0;
         }
 
         if (nu_rad < 0.0)
         {
-            nu_rad = nu_rad + Real::TwoPi();
+            nu_rad = nu_rad + 2.0 * M_PI;
         }
     }
 
@@ -688,7 +687,7 @@ COE COE::FromSIVector(const Vector6d& aCOEVector, const AnomalyType& anAnomalyTy
 COE COE::FrozenOrbit(
     const Length& aSemiMajorAxis,
     const Shared<const Celestial>& aCelestialObjectSPtr,
-    const Real& anEccentricity,
+    double anEccentricity,
     const Angle& anInclination,
     const Angle& aRaan,
     const Angle& anAop,
@@ -701,8 +700,8 @@ COE COE::FrozenOrbit(
     }
 
     const Length equatorialRadius = aCelestialObjectSPtr->getEquatorialRadius();
-    const Real j2 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J2_;
-    const Real j3 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J3_;
+    const double j2 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J2_;
+    const double j3 = aCelestialObjectSPtr->accessGravitationalModel()->getParameters().J3_;
 
     return COE::FrozenOrbit(
         aSemiMajorAxis, equatorialRadius, j2, j3, anEccentricity, anInclination, aRaan, anAop, aTrueAnomaly
@@ -712,9 +711,9 @@ COE COE::FrozenOrbit(
 COE COE::FrozenOrbit(
     const Length& aSemiMajorAxis,
     const Length& anEquatorialRadius,
-    const Real& aJ2,
-    const Real& aJ3,
-    const Real& anEccentricity,
+    double aJ2,
+    double aJ3,
+    double anEccentricity,
     const Angle& anInclination,
     const Angle& aRaan,
     const Angle& anAop,
@@ -729,11 +728,11 @@ COE COE::FrozenOrbit(
     {
         throw ostk::core::error::runtime::Undefined("Equatorial Radius");
     }
-    if (!aJ2.isDefined() || std::abs(aJ2) < Real::Epsilon())
+    if (std::isnan(aJ2) || std::abs(aJ2) < 1e-15)
     {
         throw ostk::core::error::runtime::Undefined("J2");
     }
-    if (!aJ3.isDefined() || std::abs(aJ3) < Real::Epsilon())
+    if (std::isnan(aJ3) || std::abs(aJ3) < 1e-15)
     {
         throw ostk::core::error::runtime::Undefined("J3");
     }
@@ -745,7 +744,7 @@ COE COE::FrozenOrbit(
     {
         throw ostk::core::error::runtime::Undefined("True anomaly");
     }
-    if (anEccentricity.isDefined() && anInclination.isDefined())
+    if (!std::isnan(anEccentricity) && anInclination.isDefined())
     {
         throw ostk::core::error::RuntimeError("Cannot define both eccentricity and inclination");
     }
@@ -753,19 +752,19 @@ COE COE::FrozenOrbit(
     const Array<Angle> criticalInclinations = {Angle::Degrees(63.4349), Angle::Degrees(116.5651)};
     const Array<Angle> criticalAops = {Angle::Degrees(90.0), Angle::Degrees(270.0)};
 
-    const Real equatorialRadius_meters = anEquatorialRadius.inMeters();
-    const Real j2 = aJ2;
-    const Real j3 = aJ3;
+    const double equatorialRadius_meters = anEquatorialRadius.inMeters();
+    const double j2 = aJ2;
+    const double j3 = aJ3;
 
     // ecc =~ eccCoefficient * sin(incl)
-    const Real eccCoefficient = -j3 * equatorialRadius_meters / 2.0 / j2 / aSemiMajorAxis.inMeters();
+    const double eccCoefficient = -j3 * equatorialRadius_meters / 2.0 / j2 / aSemiMajorAxis.inMeters();
 
-    const auto eccentricityFromInclination = [&eccCoefficient](const Angle& inclination) -> Real
+    const auto eccentricityFromInclination = [&eccCoefficient](const Angle& inclination) -> double
     {
         return eccCoefficient * std::sin(inclination.inRadians());
     };
 
-    const auto inclinationFromEccentricity = [&eccCoefficient](const Real& eccentricity) -> Angle
+    const auto inclinationFromEccentricity = [&eccCoefficient](double eccentricity) -> Angle
     {
         return Angle::Radians(asin(eccentricity / eccCoefficient));
     };
@@ -773,7 +772,7 @@ COE COE::FrozenOrbit(
     // TBI: this only works because neither set of critical angles are 0/360 degrees
     const auto isCritical = [](const Angle& angle, const Array<Angle>& criticalAngles) -> bool
     {
-        const Real epsilon = Angle::Arcseconds(1.0).inRadians();  // TBI: make configurable?
+        const double epsilon = Angle::Arcseconds(1.0).inRadians();  // TBI: make configurable?
 
         return (angle.inRadians().isNear(criticalAngles[0].inRadians(), epsilon)) ||
                (angle.inRadians().isNear(criticalAngles[1].inRadians(), epsilon));
@@ -786,10 +785,10 @@ COE COE::FrozenOrbit(
     if (isCritical(aop, criticalAops))
     {
         Angle inclination = Angle::Undefined();
-        Real eccentricity = Real::Undefined();
+        double eccentricity = std::numeric_limits<double>::quiet_NaN();
 
         // If ecc not defined, use the given inclination or default to critical inclination, and calculate ecc
-        if (!anEccentricity.isDefined())
+        if (std::isnan(anEccentricity))
         {
             inclination = anInclination.isDefined() ? anInclination : criticalInclinations[0];
             eccentricity = eccentricityFromInclination(inclination);
@@ -801,8 +800,8 @@ COE COE::FrozenOrbit(
             if (anEccentricity > eccCoefficient)
             {
                 throw ostk::core::error::RuntimeError(
-                    "Provided eccentricity [" + anEccentricity.toString() + "] cannot be greater than " +
-                    eccCoefficient.toString()
+                    "Provided eccentricity [" + utility::DoubleToString(anEccentricity) + "] cannot be greater than " +
+                    utility::DoubleToString(eccCoefficient)
                 );
             }
             inclination = inclinationFromEccentricity(anEccentricity);
@@ -826,7 +825,7 @@ COE COE::FrozenOrbit(
         throw ostk::core::error::RuntimeError("Provided inclination must be a critical value");
     }
 
-    const Real eccentricity = eccentricityFromInclination(inclination);
+    const double eccentricity = eccentricityFromInclination(inclination);
 
     return {
         aSemiMajorAxis,
@@ -838,24 +837,24 @@ COE COE::FrozenOrbit(
     };
 }
 
-Angle COE::EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real& anEccentricity)
+Angle COE::EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, double anEccentricity)
 {
     if (!aTrueAnomaly.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("True anomaly");
     }
 
-    if (!anEccentricity.isDefined())
+    if (std::isnan(anEccentricity))
     {
         throw ostk::core::error::runtime::Undefined("Eccentricity");
     }
 
-    const Real trueAnomaly_rad = aTrueAnomaly.inRadians();
+    const double trueAnomaly_rad = aTrueAnomaly.inRadians();
 
-    Real eccentricAnomaly_rad = Real::Undefined();
-    Real m = Real::Undefined();
+    double eccentricAnomaly_rad = std::numeric_limits<double>::quiet_NaN();
+    double m = std::numeric_limits<double>::quiet_NaN();
 
-    if (anEccentricity.abs() < Tolerance)  // Circular trajectory
+    if (std::abs(anEccentricity) < Tolerance)  // Circular trajectory
     {
         m = trueAnomaly_rad;
         eccentricAnomaly_rad = trueAnomaly_rad;
@@ -864,9 +863,9 @@ Angle COE::EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real
     {
         if (anEccentricity < (1.0 - Tolerance))  // Elliptical trajectory
         {
-            const Real sinE = (std::sqrt(1.0 - anEccentricity * anEccentricity) * std::sin(trueAnomaly_rad)) /
-                              (1.0 + anEccentricity * std::cos(trueAnomaly_rad));
-            const Real cosE =
+            const double sinE = (std::sqrt(1.0 - anEccentricity * anEccentricity) * std::sin(trueAnomaly_rad)) /
+                                (1.0 + anEccentricity * std::cos(trueAnomaly_rad));
+            const double cosE =
                 (anEccentricity + std::cos(trueAnomaly_rad)) / (1.0 + anEccentricity * std::cos(trueAnomaly_rad));
 
             eccentricAnomaly_rad = std::atan2(sinE, cosE);
@@ -879,8 +878,8 @@ Angle COE::EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real
                 if ((anEccentricity > 1.0) &&
                     (std::fabs(trueAnomaly_rad) + 0.00001 < (M_PI - std::acos(1.0 / anEccentricity))))
                 {
-                    const Real sinE = (std::sqrt(anEccentricity * anEccentricity - 1.0) * std::sin(trueAnomaly_rad)) /
-                                      (1.0 + anEccentricity * std::cos(trueAnomaly_rad));
+                    const double sinE = (std::sqrt(anEccentricity * anEccentricity - 1.0) * std::sin(trueAnomaly_rad)) /
+                                        (1.0 + anEccentricity * std::cos(trueAnomaly_rad));
 
                     eccentricAnomaly_rad = std::asinh(sinE);
                     m = anEccentricity * std::sinh(eccentricAnomaly_rad) - eccentricAnomaly_rad;
@@ -918,63 +917,61 @@ Angle COE::EccentricAnomalyFromTrueAnomaly(const Angle& aTrueAnomaly, const Real
         eccentricAnomaly_rad = std::fmod(eccentricAnomaly_rad, 2.0 * M_PI);
     }
 
-    return Angle::Radians(Angle::Radians(eccentricAnomaly_rad).inRadians(0.0, Real::TwoPi()));
+    return Angle::Radians(Angle::Radians(eccentricAnomaly_rad).inRadians(0.0, 2.0 * M_PI));
 }
 
-Angle COE::TrueAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, const Real& anEccentricity)
+Angle COE::TrueAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, double anEccentricity)
 {
     if (!anEccentricAnomaly.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Eccentric anomaly");
     }
 
-    if (!anEccentricity.isDefined())
+    if (std::isnan(anEccentricity))
     {
         throw ostk::core::error::runtime::Undefined("Eccentricity");
     }
 
-    const Real eccentricAnomaly_rad = anEccentricAnomaly.inRadians();
-    const Real trueAnomaly_rad = 2.0 * std::atan2(
-                                           (std::sqrt(1.0 + anEccentricity) * std::sin(eccentricAnomaly_rad / 2.0)),
-                                           (std::sqrt(1.0 - anEccentricity) * std::cos(eccentricAnomaly_rad / 2.0))
-                                       );
+    const double eccentricAnomaly_rad = anEccentricAnomaly.inRadians();
+    const double trueAnomaly_rad = 2.0 * std::atan2(
+                                             (std::sqrt(1.0 + anEccentricity) * std::sin(eccentricAnomaly_rad / 2.0)),
+                                             (std::sqrt(1.0 - anEccentricity) * std::cos(eccentricAnomaly_rad / 2.0))
+                                         );
 
-    return Angle::Radians(Angle::Radians(trueAnomaly_rad).inRadians(0.0, Real::TwoPi()));
+    return Angle::Radians(Angle::Radians(trueAnomaly_rad).inRadians(0.0, 2.0 * M_PI));
 }
 
-Angle COE::MeanAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, const Real& anEccentricity)
+Angle COE::MeanAnomalyFromEccentricAnomaly(const Angle& anEccentricAnomaly, double anEccentricity)
 {
     if (!anEccentricAnomaly.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Eccentric anomaly");
     }
 
-    if (!anEccentricity.isDefined())
+    if (std::isnan(anEccentricity))
     {
         throw ostk::core::error::runtime::Undefined("Eccentricity");
     }
 
-    const Real eccentricAnomaly_rad = anEccentricAnomaly.inRadians();
-    const Real meanAnomaly_rad = eccentricAnomaly_rad - anEccentricity * std::sin(eccentricAnomaly_rad);
+    const double eccentricAnomaly_rad = anEccentricAnomaly.inRadians();
+    const double meanAnomaly_rad = eccentricAnomaly_rad - anEccentricity * std::sin(eccentricAnomaly_rad);
 
-    return Angle::Radians(Angle::Radians(meanAnomaly_rad).inRadians(0.0, Real::TwoPi()));
+    return Angle::Radians(Angle::Radians(meanAnomaly_rad).inRadians(0.0, 2.0 * M_PI));
 }
 
-Angle COE::EccentricAnomalyFromMeanAnomaly(
-    const Angle& aMeanAnomaly, const Real& anEccentricity, const Real& aTolerance
-)
+Angle COE::EccentricAnomalyFromMeanAnomaly(const Angle& aMeanAnomaly, double anEccentricity, double aTolerance)
 {
     if (!aMeanAnomaly.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Mean anomaly");
     }
 
-    if (!anEccentricity.isDefined())
+    if (std::isnan(anEccentricity))
     {
         throw ostk::core::error::runtime::Undefined("Eccentricity");
     }
 
-    if (!aTolerance.isDefined())
+    if (std::isnan(aTolerance))
     {
         throw ostk::core::error::runtime::Undefined("Tolerance");
     }
@@ -1036,8 +1033,8 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
             throw ostk::core::error::RuntimeError(
                 "Cannot converge to solution ({}, {}, {}).",
                 aMeanAnomaly.toString(32),
-                anEccentricity.toString(32),
-                aTolerance.toString(32)
+                String::Format("{:.32f}", anEccentricity),
+                String::Format("{:.32f}", aTolerance)
             );
         }
     }
@@ -1045,98 +1042,96 @@ Angle COE::EccentricAnomalyFromMeanAnomaly(
     return Angle::Radians(E);
 }
 
-Angle COE::TrueAnomalyFromMeanAnomaly(const Angle& aMeanAnomly, const Real& anEccentricity, const Real& aTolerance)
+Angle COE::TrueAnomalyFromMeanAnomaly(const Angle& aMeanAnomly, double anEccentricity, double aTolerance)
 {
     return TrueAnomalyFromEccentricAnomaly(
         EccentricAnomalyFromMeanAnomaly(aMeanAnomly, anEccentricity, aTolerance), anEccentricity
     );
 }
 
-Real COE::ComputeSemiLatusRectum(const Real& aSemiMajorAxis, const Real& anEccentricity)
+double COE::ComputeSemiLatusRectum(double aSemiMajorAxis, double anEccentricity)
 {
     return aSemiMajorAxis * (1.0 - (anEccentricity * anEccentricity));
 }
 
-Real COE::ComputeRadialDistance(const Real& aSemiMajorAxis, const Real& anEccentricity, const Real& aTrueAnomaly)
+double COE::ComputeRadialDistance(double aSemiMajorAxis, double anEccentricity, double aTrueAnomaly)
 {
     return ComputeSemiLatusRectum(aSemiMajorAxis, anEccentricity) / (1.0 + anEccentricity * std::cos(aTrueAnomaly));
 }
 
-Real COE::ComputeAngularMomentum(
-    const Real& aSemiMajorAxis, const Real& anEccentricity, const Derived& aGravitationalParameter
-)
+double COE::ComputeAngularMomentum(double aSemiMajorAxis, double anEccentricity, const Derived& aGravitationalParameter)
 {
-    const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+    const double mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
     return std::sqrt(mu_SI * ComputeSemiLatusRectum(aSemiMajorAxis, anEccentricity));
 }
 
-Real COE::ComputeAngularMomentum(const Real& aSemiLatusRectum, const Derived& aGravitationalParameter)
+double COE::ComputeAngularMomentum(double aSemiLatusRectum, const Derived& aGravitationalParameter)
 {
-    const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+    const double mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
     return std::sqrt(mu_SI * aSemiLatusRectum);
 }
 
-Real COE::ComputePeriapsisRadius(const Real& aSemiMajorAxis, const Real& anEccentricity)
+double COE::ComputePeriapsisRadius(double aSemiMajorAxis, double anEccentricity)
 {
     return aSemiMajorAxis * (1.0 - anEccentricity);
 }
 
-Real COE::ComputeApoapsisRadius(const Real& aSemiMajorAxis, const Real& anEccentricity)
+double COE::ComputeApoapsisRadius(double aSemiMajorAxis, double anEccentricity)
 {
     return aSemiMajorAxis * (1.0 + anEccentricity);
 }
 
-Real COE::ComputeMeanMotion(const Real& aSemiMajorAxis, const Derived& aGravitationalParameter)
+double COE::ComputeMeanMotion(double aSemiMajorAxis, const Derived& aGravitationalParameter)
 {
-    const Real mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
+    const double mu_SI = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
     return std::sqrt(mu_SI / (aSemiMajorAxis * aSemiMajorAxis * aSemiMajorAxis));
 }
 
-Real COE::ComputeOrbitalPeriod(const Real& aSemiMajorAxis, const Derived& aGravitationalParameter)
+double COE::ComputeOrbitalPeriod(double aSemiMajorAxis, const Derived& aGravitationalParameter)
 {
-    return Real::TwoPi() / COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter);
+    return 2.0 * M_PI / COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter);
 }
 
-Real COE::ComputeNodalPrecessionRate(
-    const Real& aSemiMajorAxis,
-    const Real& anEccentricity,
-    const Real& anInclination,
+double COE::ComputeNodalPrecessionRate(
+    double aSemiMajorAxis,
+    double anEccentricity,
+    double anInclination,
     const Derived& aGravitationalParameter,
-    const Real& anEquatorialRadius,
-    const Real& aJ2Parameter
+    double anEquatorialRadius,
+    double aJ2Parameter
 )
 {
-    const Real meanMotion = COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter);
+    const double meanMotion = COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter);
 
     return -(3.0 / 2.0) * std::pow(anEquatorialRadius, 2.0) * aJ2Parameter * meanMotion * std::cos(anInclination) /
            std::pow(aSemiMajorAxis * (1.0 - (anEccentricity * anEccentricity)), 2.0);
 }
 
-Real COE::ComputeArgumentOfLatitudeAngularRate(
-    const Real& aSemiMajorAxis,
-    const Real& anEccentricity,
-    const Real& anInclination,
+double COE::ComputeArgumentOfLatitudeAngularRate(
+    double aSemiMajorAxis,
+    double anEccentricity,
+    double anInclination,
     const Derived& aGravitationalParameter,
-    const Real& anEquatorialRadius,
-    const Real& aJ2Parameter
+    double anEquatorialRadius,
+    double aJ2Parameter
 )
 {
-    const Real meanMotion = COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter);
-    const Real semiLatusRectum = COE::ComputeSemiLatusRectum(aSemiMajorAxis, anEccentricity);
+    const double meanMotion = COE::ComputeMeanMotion(aSemiMajorAxis, aGravitationalParameter);
+    const double semiLatusRectum = COE::ComputeSemiLatusRectum(aSemiMajorAxis, anEccentricity);
 
-    const Real commonFactor =
+    const double commonFactor =
         (3.0 / 4.0) * meanMotion * aJ2Parameter * std::pow(anEquatorialRadius / semiLatusRectum, 2.0);
 
-    const Real sinInclinationSquared = std::pow(std::sin(anInclination), 2.0);
+    const double sinInclinationSquared = std::pow(std::sin(anInclination), 2.0);
 
     // Secular rate of change of the argument of periapsis
-    const Real aopRate = commonFactor * (4.0 - 5.0 * sinInclinationSquared);
+    const double aopRate = commonFactor * (4.0 - 5.0 * sinInclinationSquared);
 
     // Secular rate of change of the mean anomaly
-    const Real meanAnomalyRate =
+    const double meanAnomalyRate =
         -commonFactor * std::sqrt(1.0 - (anEccentricity * anEccentricity)) * (3.0 * sinInclinationSquared - 2.0);
 
     return meanMotion + meanAnomalyRate + aopRate;
@@ -1175,10 +1170,10 @@ Time COE::ComputeMeanLTAN(
     const Angle smlt = apparentSolarTime + equationOfTime;
 
     // Get angle between sun and ascending node
-    const Real alpha = std::fmod((raan - smlt).inRadians(), 2.0 * M_PI);
+    const double alpha = std::fmod((raan - smlt).inRadians(), 2.0 * M_PI);
 
     // Get Mean LTAN
-    const Real meanLTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
+    const double meanLTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
 
     return Time::Hours(meanLTAN);
 }
@@ -1187,9 +1182,9 @@ Time COE::ComputeMeanLTDN(
     const Angle& raan, const Instant& anInstant, const Sun& aSun, const Shared<const Frame>& aFrameSPtr
 )
 {
-    const Real meanLTAN = COE::ComputeMeanLTAN(raan, anInstant, aSun, aFrameSPtr).getTotalFloatingHours();
+    const double meanLTAN = COE::ComputeMeanLTAN(raan, anInstant, aSun, aFrameSPtr).getTotalFloatingHours();
 
-    const Real meanLTDN = std::fmod(meanLTAN + 12.0, 24.0);
+    const double meanLTDN = std::fmod(meanLTAN + 12.0, 24.0);
 
     return Time::Hours(meanLTDN);
 }
@@ -1202,10 +1197,10 @@ Time COE::ComputeLTAN(
     const Angle apparentSolarTime = computeSunRightAscension(aSun, anInstant, aFrameSPtr);
 
     // Get angle between sun and ascending node
-    const Real alpha = std::fmod((raan - apparentSolarTime).inRadians(), 2.0 * M_PI);
+    const double alpha = std::fmod((raan - apparentSolarTime).inRadians(), 2.0 * M_PI);
 
     // Get LTAN
-    const Real LTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
+    const double LTAN = std::fmod((alpha * 12.0 / M_PI) + 12.0, 24.0);
 
     return Time::Hours(LTAN);
 }
@@ -1214,15 +1209,15 @@ Time COE::ComputeLTDN(
     const Angle& raan, const Instant& anInstant, const Sun& aSun, const Shared<const Frame>& aFrameSPtr
 )
 {
-    const Real LTAN = COE::ComputeLTAN(raan, anInstant, aSun, aFrameSPtr).getTotalFloatingHours();
+    const double LTAN = COE::ComputeLTAN(raan, anInstant, aSun, aFrameSPtr).getTotalFloatingHours();
 
-    const Real LTDN = std::fmod(LTAN + 12.0, 24.0);
+    const double LTDN = std::fmod(LTAN + 12.0, 24.0);
 
     return Time::Hours(LTDN);
 }
 
 Angle COE::ComputeSunSynchronousInclination(
-    const Length& aSemiMajorAxis, const Real& anEccentricity, const Shared<const Celestial>& aCelestialObjectSPtr
+    const Length& aSemiMajorAxis, double anEccentricity, const Shared<const Celestial>& aCelestialObjectSPtr
 )
 {
     if (!aSemiMajorAxis.isDefined())
@@ -1230,7 +1225,7 @@ Angle COE::ComputeSunSynchronousInclination(
         throw ostk::core::error::runtime::Undefined("Semi-major axis");
     }
 
-    if (!anEccentricity.isDefined())
+    if (std::isnan(anEccentricity))
     {
         throw ostk::core::error::runtime::Undefined("Eccentricity");
     }
@@ -1249,42 +1244,44 @@ Angle COE::ComputeSunSynchronousInclination(
 
     if (anEccentricity < 0.0 || anEccentricity >= 1.0)
     {
-        throw ostk::core::error::runtime::Wrong("Eccentricity", anEccentricity.toString());
+        throw ostk::core::error::runtime::Wrong("Eccentricity", utility::DoubleToString(anEccentricity));
     }
 
-    const Real R = aCelestialObjectSPtr->getEquatorialRadius().inMeters();
-    const Real a = aSemiMajorAxis.inMeters();
+    const double R = aCelestialObjectSPtr->getEquatorialRadius().inMeters();
+    const double a = aSemiMajorAxis.inMeters();
 
     if (a * (1.0 - anEccentricity) <= R)
     {
-        throw ostk::core::error::runtime::Wrong("Perigee altitude", (a * (1.0 - anEccentricity)).toString());
+        throw ostk::core::error::runtime::Wrong(
+            "Perigee altitude", utility::DoubleToString((a * (1.0 - anEccentricity)))
+        );
     }
 
-    const Real mu = aCelestialObjectSPtr->getGravitationalParameter().in(GravitationalParameterSIUnit);
-    const Real j2 = aCelestialObjectSPtr->getJ2();
+    const double mu = aCelestialObjectSPtr->getGravitationalParameter().in(GravitationalParameterSIUnit);
+    const double j2 = aCelestialObjectSPtr->getJ2();
 
     // Mean motion of the Earth around the Sun
-    const Real siderealYear_seconds = 31558149.504;
-    const Real meanMotion_radiansPerSecond = Real::TwoPi() / siderealYear_seconds;
+    const double siderealYear_seconds = 31558149.504;
+    const double meanMotion_radiansPerSecond = 2.0 * M_PI / siderealYear_seconds;
 
-    const Real n0 = std::sqrt(mu / (a * a * a));
-    const Real p = a * (1.0 - anEccentricity * anEccentricity);
-    const Real beta = std::sqrt(1.0 - anEccentricity * anEccentricity);
+    const double n0 = std::sqrt(mu / (a * a * a));
+    const double p = a * (1.0 - anEccentricity * anEccentricity);
+    const double beta = std::sqrt(1.0 - anEccentricity * anEccentricity);
 
     // k1 = -(3/2) * J2 * (R/p)^2 * n0
-    const Real k1 = -1.5 * j2 * std::pow(R / p, 2.0) * n0;
+    const double k1 = -1.5 * j2 * std::pow(R / p, 2.0) * n0;
 
     // k2 = (3/4) * J2 * (R/p)^2 * beta
-    const Real k2 = 0.75 * j2 * std::pow(R / p, 2.0) * beta;
+    const double k2 = 0.75 * j2 * std::pow(R / p, 2.0) * beta;
 
-    const Real A = 3.0 * k1 * k2;
-    const Real B = k1 * (1.0 - k2);
+    const double A = 3.0 * k1 * k2;
+    const double B = k1 * (1.0 - k2);
 
-    const Real targetRate = meanMotion_radiansPerSecond;
+    const double targetRate = meanMotion_radiansPerSecond;
 
     // Initial guess: neglect J2 secular perturbation on mean motion
     // rate approx k1 * cos(i)
-    Real cos_i = targetRate / k1;
+    double cos_i = targetRate / k1;
 
     if (std::abs(cos_i) > 1.0)
     {
@@ -1293,15 +1290,15 @@ Angle COE::ComputeSunSynchronousInclination(
 
     // Newton-Raphson
     const Size maxIterations = 50;
-    const Real tolerance = 1e-15;
+    const double tolerance = 1e-15;
 
     for (Size i = 0; i < maxIterations; ++i)
     {
-        const Real cos2_i = cos_i * cos_i;
-        const Real cos3_i = cos2_i * cos_i;
+        const double cos2_i = cos_i * cos_i;
+        const double cos3_i = cos2_i * cos_i;
 
-        const Real f = targetRate - (A * cos3_i + B * cos_i);
-        const Real df = -(3.0 * A * cos2_i + B);
+        const double f = targetRate - (A * cos3_i + B * cos_i);
+        const double df = -(3.0 * A * cos2_i + B);
 
         if (std::abs(f) < tolerance)
         {
@@ -1349,12 +1346,12 @@ Angle COE::ComputeRaanFromLTAN(
         );
     }
 
-    const Real localTime = (aLocalTimeAtAscendingNode.getHour() / 1.0) +
-                           (aLocalTimeAtAscendingNode.getMinute() / 60.0) +
-                           (aLocalTimeAtAscendingNode.getSecond() / 3600.0) +
-                           (aLocalTimeAtAscendingNode.getMillisecond() / (3600.0 * 1e3)) +
-                           (aLocalTimeAtAscendingNode.getMicrosecond() / (3600.0 * 1e6)) +
-                           (aLocalTimeAtAscendingNode.getNanosecond() / (3600.0 * 1e9));
+    const double localTime = (aLocalTimeAtAscendingNode.getHour() / 1.0) +
+                             (aLocalTimeAtAscendingNode.getMinute() / 60.0) +
+                             (aLocalTimeAtAscendingNode.getSecond() / 3600.0) +
+                             (aLocalTimeAtAscendingNode.getMillisecond() / (3600.0 * 1e3)) +
+                             (aLocalTimeAtAscendingNode.getMicrosecond() / (3600.0 * 1e6)) +
+                             (aLocalTimeAtAscendingNode.getNanosecond() / (3600.0 * 1e9));
 
     // Desired angle between the Sun and the ascending node
     const Angle alpha = Angle::Degrees((localTime - 12.0) / 12.0 * 180.0);
@@ -1372,7 +1369,7 @@ Angle COE::ComputeRaanFromLTAN(
     const Angle meanSolarTime = apparentSolarTime + equationOfTime;
 
     // Right Ascension of the Ascending Node
-    const Angle raan = Angle::Radians(std::fmod(meanSolarTime.inRadians() + alpha.inRadians(), Real::TwoPi()));
+    const Angle raan = Angle::Radians(std::fmod(meanSolarTime.inRadians() + alpha.inRadians(), 2.0 * M_PI));
 
     return raan;
 }
@@ -1382,7 +1379,7 @@ COE COE::SunSynchronous(
     const Time& aLocalTimeAtAscendingNode,
     const Instant& anEpoch,
     const Shared<const Celestial>& aCelestialObjectSPtr,
-    const Real& anEccentricity,
+    double anEccentricity,
     const Angle& anArgumentOfLatitude,
     const Shared<const Frame>& aFrameSPtr
 )
@@ -1482,7 +1479,7 @@ COE COE::GeoSynchronous(
 
     // Define COEs that make up this orbit
     const Length semiMajorAxis = aCelestialObjectSPtr->getEquatorialRadius() + geosynchronousAltitude;
-    const Real eccentricity = Real::Epsilon();
+    const double eccentricity = 1e-15;
     const Angle inclination = anInclination;
     const Angle raan = Angle::Radians(std::atan2(ascendingNodeVector[1], ascendingNodeVector[0]));
     const Angle aop = Angle::Zero();
@@ -1515,7 +1512,7 @@ COE COE::Circular(const Length& aSemiMajorAxis, const Angle& anInclination, cons
         throw ostk::core::error::runtime::Undefined("Argument of latitude");
     }
 
-    const Real eccentricity = 0.0;
+    const double eccentricity = 0.0;
     const Angle raan = Angle::Zero();
     const Angle aop = Angle::Zero();
     const Angle trueAnomaly = anArgumentOfLatitude;
@@ -1530,14 +1527,14 @@ COE COE::Circular(const Length& aSemiMajorAxis, const Angle& anInclination, cons
     };
 }
 
-COE COE::Equatorial(const Length& aSemiMajorAxis, const Real& anEccentricity, const Angle& aTrueAnomaly)
+COE COE::Equatorial(const Length& aSemiMajorAxis, double anEccentricity, const Angle& aTrueAnomaly)
 {
     if (!aSemiMajorAxis.isDefined())
     {
         throw ostk::core::error::runtime::Undefined("Semi-major axis");
     }
 
-    if (!anEccentricity.isDefined())
+    if (std::isnan(anEccentricity))
     {
         throw ostk::core::error::runtime::Undefined("Eccentricity");
     }
@@ -1595,7 +1592,7 @@ String COE::StringFromElement(const COE::Element& anElement)
 
 COE::COE(
     const Length& aSemiMajorAxis,
-    const Real& anEccentricity,
+    double anEccentricity,
     const Angle& anInclination,
     const Angle& aRaan,
     const Angle& anAop,
@@ -1614,10 +1611,10 @@ COE::COE(
 
 Angle COE::ConvertAnomaly(
     const Angle& anAnomaly,
-    const Real& anEccentricity,
+    double anEccentricity,
     const AnomalyType& fromAnomalyType,
     const AnomalyType& toAnomalyType,
-    const Real& aTolerance
+    double aTolerance
 )
 {
     switch (fromAnomalyType)
@@ -1677,22 +1674,22 @@ Angle COE::ConvertAnomaly(
 Angle COE::ComputeEquationOfTime(const Instant& anInstant)
 {
     // Assume instant is a datetime object
-    const Real julianDate = anInstant.getJulianDate(Scale::UTC);
+    const double julianDate = anInstant.getJulianDate(Scale::UTC);
 
     // Julian Date of J2000.0
-    const Real julianDate_J2000 = 2451545.0;
+    const double julianDate_J2000 = 2451545.0;
 
     // Number of Julian centuries from J2000.0
-    const Real T_UT1 = (julianDate - julianDate_J2000) / 36525.0;
+    const double T_UT1 = (julianDate - julianDate_J2000) / 36525.0;
 
     // Mean longitude of the Sun
-    const Real sunMeanLongitude_deg = std::fmod(280.460 + 36000.771 * T_UT1, 360.0);
+    const double sunMeanLongitude_deg = std::fmod(280.460 + 36000.771 * T_UT1, 360.0);
 
     // Mean anomaly of the Sun
-    const Real sunMeanAnomaly_rad = Angle::Degrees(std::fmod(357.5291092 + 35999.05034 * T_UT1, 360.0)).inRadians();
+    const double sunMeanAnomaly_rad = Angle::Degrees(std::fmod(357.5291092 + 35999.05034 * T_UT1, 360.0)).inRadians();
 
     // Ecliptic latitude of the Sun
-    const Real sunEclipticLatitude_rad =
+    const double sunEclipticLatitude_rad =
         Angle::Degrees(std::fmod(
                            sunMeanLongitude_deg + 1.914666471 * std::sin(sunMeanAnomaly_rad) +
                                0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad),
@@ -1701,7 +1698,7 @@ Angle COE::ComputeEquationOfTime(const Instant& anInstant)
             .inRadians();
 
     // Compute the equation of time
-    const Real equationOfTime_deg =
+    const double equationOfTime_deg =
         -1.914666471 * std::sin(sunMeanAnomaly_rad) - 0.019994643 * std::sin(2.0 * sunMeanAnomaly_rad) +
         2.466 * std::sin(2.0 * sunEclipticLatitude_rad) - 0.0053 * std::sin(4.0 * sunEclipticLatitude_rad);
 

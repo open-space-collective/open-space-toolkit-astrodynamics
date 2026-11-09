@@ -2,7 +2,6 @@
 
 #include <gmock/gmock.h>
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 #include <OpenSpaceToolkit/Core/Type/Unique.hpp>
@@ -20,7 +19,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 using ostk::core::type::Unique;
@@ -42,11 +40,11 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::tes
    protected:
     const RealCondition::Criterion defaultCriterion_ = RealCondition::Criterion::StrictlyPositive;
     const String defaultName_ = "Test Real Condition";
-    const std::function<Real(const State&)> defaultEvaluator_ = [](const State& aState) -> Real
+    const std::function<double(const State&)> defaultEvaluator_ = [](const State& aState) -> double
     {
         return aState.accessCoordinates()[0];
     };
-    const Real defaultTarget_ = 1.0;
+    const double defaultTarget_ = 1.0;
     const RealCondition defaultCondition_ = {defaultName_, defaultCriterion_, defaultEvaluator_, defaultTarget_};
     const Instant defaultInstant_ = Instant::J2000();
     const Shared<const Frame> defaultFrame_ = Frame::GCRF();
@@ -58,7 +56,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_RealCondition : public ::tes
     };
     const StateBuilder defaultStateBuilder_ = StateBuilder(defaultFrame_, defaultSubsets_);
 
-    const State generateState(const Real& coordinate, const Instant& anInstant = Instant::J2000())
+    const State generateState(double coordinate, const Instant& anInstant = Instant::J2000())
     {
         VectorXd coordinates(1);
         coordinates << coordinate;

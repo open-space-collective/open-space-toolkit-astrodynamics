@@ -3,6 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__
 #define __OpenSpaceToolkit_Astrodynamics_GuidanceLaw_QLaw__
 
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -26,7 +29,6 @@ namespace guidancelaw
 using ostk::core::container::Array;
 using ostk::core::container::Map;
 using ostk::core::container::Tuple;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
@@ -87,8 +89,8 @@ class QLaw : public GuidanceLaw
             const Size& aKValue = 100,
             const double& aPeriapsisWeight = 0.0,
             const Length& minimumPeriapsisradius = Length::Kilometers(6578.0),
-            const Real& absoluteEffectivityThreshold = Real::Undefined(),
-            const Real& relativeEffectivityThreshold = Real::Undefined()
+            double absoluteEffectivityThreshold = std::numeric_limits<double>::quiet_NaN(),
+            double relativeEffectivityThreshold = std::numeric_limits<double>::quiet_NaN()
         );
 
         /// @brief Get control weights.
@@ -112,8 +114,8 @@ class QLaw : public GuidanceLaw
         const double b;
         const double k;
         const double periapsisWeight;
-        const Real absoluteEffectivityThreshold;
-        const Real relativeEffectivityThreshold;
+        const double absoluteEffectivityThreshold;
+        const double relativeEffectivityThreshold;
 
         friend QLaw;
 
@@ -223,7 +225,7 @@ class QLaw : public GuidanceLaw
         const Instant& anInstant,
         const Vector3d& aPositionCoordinates,
         const Vector3d& aVelocityCoordinates,
-        const Real& aThrustAcceleration,
+        double aThrustAcceleration,
         const Shared<const Frame>& outputFrameSPtr
     ) const override;
 
@@ -295,7 +297,7 @@ class QLaw : public GuidanceLaw
     ///
     /// @return A tuple containing the relative and absolute effectivity
     Tuple<double, double> computeEffectivity(
-        const State& aState, const Real& aThrustAcceleration, const Size& discretizationStepCount = 50
+        const State& aState, double aThrustAcceleration, const Size& discretizationStepCount = 50
     ) const;
 
    private:

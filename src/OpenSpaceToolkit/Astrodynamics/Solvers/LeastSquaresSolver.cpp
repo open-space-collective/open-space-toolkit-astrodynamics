@@ -1,5 +1,8 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -22,7 +25,7 @@ using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Frame;
 
-LeastSquaresSolver::Step::Step(const Real& aRmsError, const VectorXd& anXHat)
+LeastSquaresSolver::Step::Step(double aRmsError, const VectorXd& anXHat)
     : rmsError(aRmsError),
       xHat(anXHat)
 {
@@ -49,7 +52,7 @@ LeastSquaresSolver::Analysis::Analysis(
     const Array<State>& aComputedObservationsStateArray,
     const Array<Step>& aStepArray
 )
-    : rmsError(Real::Undefined()),
+    : rmsError(std::numeric_limits<double>::quiet_NaN()),
       observationCount(aComputedObservationsStateArray.getSize()),
       iterationCount(aStepArray.getSize()),
       terminationCriteria(aTerminationCriteria),
@@ -120,7 +123,7 @@ Array<State> LeastSquaresSolver::Analysis::computeResidualStates(const Array<Sta
 
 LeastSquaresSolver::LeastSquaresSolver(
     const Size& aMaxIterationCount,
-    const Real& aRmsUpdateThreshold,
+    double aRmsUpdateThreshold,
     const FiniteDifferenceSolver& aFiniteDifferenceSolver,
     const ScaleFactorGenerator& aScaleFactorGenerator
 )
@@ -150,7 +153,7 @@ Size LeastSquaresSolver::getMaxIterationCount() const
     return maxIterationCount_;
 }
 
-Real LeastSquaresSolver::getRmsUpdateThreshold() const
+double LeastSquaresSolver::getRmsUpdateThreshold() const
 {
     return rmsUpdateThreshold_;
 }
@@ -316,8 +319,8 @@ LeastSquaresSolver::Analysis LeastSquaresSolver::solve(
 
     MatrixXd residualCoordinates = MatrixXd::Zero(observationStateDimension, observationCount);
     MatrixXd computedObservationCoordinates = MatrixXd::Zero(observationStateDimension, observationCount);
-    Real previousRmsError = 0.0;
-    Real currentRmsError = Real::Undefined();
+    double previousRmsError = 0.0;
+    double currentRmsError = std::numeric_limits<double>::quiet_NaN();
     String terminationCriteria = "Maximum Iteration Threshold";
     Array<Step> steps;
     State currentEstimatedState = State::Undefined();

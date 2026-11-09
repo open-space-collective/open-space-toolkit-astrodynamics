@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -43,8 +45,8 @@ QLaw::Parameters::Parameters(
     const Size& aKValue,
     const double& aPeriapsisWeight,
     const Length& minimumPeriapsisradius,
-    const Real& anAbsoluteEffectivityThreshold,
-    const Real& aRelativeEffectivityThreshold
+    double anAbsoluteEffectivityThreshold,
+    double aRelativeEffectivityThreshold
 )
     : m(aMValue),
       n(aNValue),
@@ -82,7 +84,7 @@ QLaw::Parameters::Parameters(
         ++i;
     }
 
-    if (anAbsoluteEffectivityThreshold.isDefined())
+    if (!std::isnan(anAbsoluteEffectivityThreshold))
     {
         if (anAbsoluteEffectivityThreshold < 0.0 || anAbsoluteEffectivityThreshold > 1.0)
         {
@@ -90,7 +92,7 @@ QLaw::Parameters::Parameters(
         }
     }
 
-    if (aRelativeEffectivityThreshold.isDefined())
+    if (!std::isnan(aRelativeEffectivityThreshold))
     {
         if (aRelativeEffectivityThreshold < 0.0 || aRelativeEffectivityThreshold > 1.0)
         {
@@ -226,8 +228,8 @@ Shared<GuidanceLaw> QLaw::constructUngatedGuidanceLaw() const
         static_cast<Size>(parameters_.k),
         parameters_.periapsisWeight,
         parameters_.getMinimumPeriapsisRadius(),
-        Real(0.0),  // absoluteEffectivityThreshold
-        Real(0.0),  // relativeEffectivityThreshold
+        0.0,  // absoluteEffectivityThreshold
+        0.0,  // relativeEffectivityThreshold
     };
 
     return std::make_shared<QLaw>(
@@ -239,7 +241,7 @@ Vector3d QLaw::calculateThrustAccelerationAt(
     const Instant& anInstant,
     const Vector3d& aPositionCoordinates,
     const Vector3d& aVelocityCoordinates,
-    const Real& aThrustAcceleration,
+    double aThrustAcceleration,
     const Shared<const Frame>& outputFrameSPtr
 ) const
 {
@@ -303,7 +305,7 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
 
     const Vector3d thrustVector = computeThrustVector(aCOEVector, aThrustAcceleration);
 
-    if (parameters_.relativeEffectivityThreshold.isDefined() || parameters_.absoluteEffectivityThreshold.isDefined())
+    if (!std::isnan(parameters_.relativeEffectivityThreshold) || !std::isnan(parameters_.absoluteEffectivityThreshold))
     {
         double etaRelative = 0.0;
         double etaAbsolute = 0.0;
@@ -312,14 +314,14 @@ Vector3d QLaw::computeThrustDirection(const Vector6d& aCOEVector, const double& 
             QLaw::computeEffectivity_(aCOEVector, thrustVector, aThrustAcceleration, trueAnomalyAngles_);
 
         // If the relative effectivity is below the threshold, do not thrust.
-        if ((parameters_.relativeEffectivityThreshold.isDefined()) &&
+        if ((!std::isnan(parameters_.relativeEffectivityThreshold)) &&
             (etaRelative < parameters_.relativeEffectivityThreshold))
         {
             return {0.0, 0.0, 0.0};
         }
 
         // If the absolute effectivity is below the threshold, do not thrust.
-        if ((parameters_.absoluteEffectivityThreshold.isDefined()) &&
+        if ((!std::isnan(parameters_.absoluteEffectivityThreshold)) &&
             (etaAbsolute < parameters_.absoluteEffectivityThreshold))
         {
             return {0.0, 0.0, 0.0};
@@ -490,7 +492,7 @@ Matrix3d QLaw::ThetaRHToInertial(const Vector3d& aPositionCoordinates, const Vec
 }
 
 Tuple<double, double> QLaw::computeEffectivity(
-    const State& aState, const Real& aThrustAcceleration, const Size& discretizationStepCount
+    const State& aState, double aThrustAcceleration, const Size& discretizationStepCount
 ) const
 {
     const State stateInFrame = aState.inFrame(frameSPtr_);

@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
@@ -16,7 +18,7 @@ namespace
 {
 
 template <typename OrbitalElementSet>
-Real ExtractElement(const OrbitalElementSet& anOrbitalElementSet, const COE::Element& anElement)
+double ExtractElement(const OrbitalElementSet& anOrbitalElementSet, const COE::Element& anElement)
 {
     switch (anElement)
     {
@@ -25,19 +27,19 @@ Real ExtractElement(const OrbitalElementSet& anOrbitalElementSet, const COE::Ele
         case COE::Element::Eccentricity:
             return anOrbitalElementSet.getEccentricity();
         case COE::Element::Inclination:
-            return anOrbitalElementSet.getInclination().inRadians(0.0, Real::TwoPi());
+            return anOrbitalElementSet.getInclination().inRadians(0.0, 2.0 * M_PI);
         case COE::Element::Aop:
-            return anOrbitalElementSet.getAop().inRadians(0.0, Real::TwoPi());
+            return anOrbitalElementSet.getAop().inRadians(0.0, 2.0 * M_PI);
         case COE::Element::Raan:
-            return anOrbitalElementSet.getRaan().inRadians(0.0, Real::TwoPi());
+            return anOrbitalElementSet.getRaan().inRadians(0.0, 2.0 * M_PI);
         case COE::Element::TrueAnomaly:
-            return anOrbitalElementSet.getTrueAnomaly().inRadians(0.0, Real::TwoPi());
+            return anOrbitalElementSet.getTrueAnomaly().inRadians(0.0, 2.0 * M_PI);
         case COE::Element::MeanAnomaly:
-            return anOrbitalElementSet.getMeanAnomaly().inRadians(0.0, Real::TwoPi());
+            return anOrbitalElementSet.getMeanAnomaly().inRadians(0.0, 2.0 * M_PI);
         case COE::Element::EccentricAnomaly:
-            return anOrbitalElementSet.getEccentricAnomaly().inRadians(0.0, Real::TwoPi());
+            return anOrbitalElementSet.getEccentricAnomaly().inRadians(0.0, 2.0 * M_PI);
         case COE::Element::ArgumentOfLatitude:
-            return anOrbitalElementSet.getArgumentOfLatitude().inRadians(0.0, Real::TwoPi());
+            return anOrbitalElementSet.getArgumentOfLatitude().inRadians(0.0, 2.0 * M_PI);
         default:
             throw ostk::core::error::runtime::Wrong("Element");
     }
@@ -287,14 +289,14 @@ AngularCondition OrbitalElementCondition::ArgumentOfLatitude(
     );
 }
 
-std::function<Real(const State&)> OrbitalElementCondition::GenerateEvaluator(
+std::function<double(const State&)> OrbitalElementCondition::GenerateEvaluator(
     const Theory& aTheory,
     const COE::Element& anElement,
     const Shared<const Frame>& aFrameSPtr,
     const Derived& aGravitationalParameter
 )
 {
-    return [aTheory, anElement, aFrameSPtr, aGravitationalParameter](const State& aState) -> Real
+    return [aTheory, anElement, aFrameSPtr, aGravitationalParameter](const State& aState) -> double
     {
         try
         {

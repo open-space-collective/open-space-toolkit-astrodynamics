@@ -3,7 +3,6 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
@@ -38,7 +37,6 @@
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -86,9 +84,9 @@ class OpenSpaceToolkit_Astrodynamics_Dynamics_AtmosphericDrag : public ::testing
    protected:
     void SetUp() override
     {
-        const Real mass = 100;
-        const Real area = 1;
-        const Real cd = 2.2;
+        const double mass = 100;
+        const double area = 1;
+        const double cd = 2.2;
 
         startStateVector_.resize(9);
         startStateVector_ << 7000000.0, 0.0, 0.0, 0.0, 7546.05329, 0.0, mass, area, cd;

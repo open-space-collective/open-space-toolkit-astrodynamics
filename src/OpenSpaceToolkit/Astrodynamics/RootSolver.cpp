@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <boost/math/tools/roots.hpp>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -12,7 +14,7 @@ namespace ostk
 namespace astrodynamics
 {
 
-RootSolver::RootSolver(const Size& aMaximumIterationCount, const Real& aTolerance)
+RootSolver::RootSolver(const Size& aMaximumIterationCount, double aTolerance)
     : maximumIterationCount_(aMaximumIterationCount),
       tolerance_(aTolerance)
 {
@@ -32,7 +34,7 @@ Size RootSolver::getMaximumIterationCount() const
     return maximumIterationCount_;
 }
 
-Real RootSolver::getTolerance() const
+double RootSolver::getTolerance() const
 {
     return tolerance_;
 }
@@ -46,7 +48,7 @@ RootSolver::Solution RootSolver::bracketAndSolve(
 {
     std::uintmax_t iteratorCount = maximumIterationCount_;
 
-    std::pair<Real, Real> r = boost::math::tools::bracket_and_solve_root(
+    std::pair<double, double> r = boost::math::tools::bracket_and_solve_root(
         aFunction, anInitialGuess, aFactor, isRising, getToleranceFunction(), iteratorCount
     );
 
@@ -69,7 +71,7 @@ RootSolver::Solution RootSolver::solve(
 
     std::uintmax_t iteratorCount = maximumIterationCount_;
 
-    std::pair<Real, Real> r =
+    std::pair<double, double> r =
         boost::math::tools::toms748_solve(aFunction, lowerBound, upperBound, getToleranceFunction(), iteratorCount);
 
     return {
@@ -91,7 +93,7 @@ RootSolver::Solution RootSolver::bisection(
 
     std::uintmax_t iteratorCount = maximumIterationCount_;
 
-    std::pair<Real, Real> r =
+    std::pair<double, double> r =
         boost::math::tools::bisect(aFunction, lowerBound, upperBound, getToleranceFunction(), iteratorCount);
 
     return {

@@ -1,7 +1,8 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp>
@@ -13,15 +14,13 @@ namespace astrodynamics
 namespace trajectory
 {
 
-using ostk::core::type::Real;
-
 LocalOrbitalFrameDirection::LocalOrbitalFrameDirection(
     const Vector3d& aValue, const LocalOrbitalFrameFactory& aLocalOrbitalFrameFactory
 )
     : value_(aValue.normalized()),
       localOrbitalFrameFactory_(aLocalOrbitalFrameFactory)
 {
-    if (std::abs(value_.norm() - 1.0) > Real::Epsilon())
+    if (std::abs(value_.norm() - 1.0) > 1e-15)
     {
         throw ostk::core::error::RuntimeError("LocalOrbitalFrameDirection vector is not unitary [{}].", aValue.norm());
     }

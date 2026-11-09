@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <chrono>
+#include <cmath>
 #include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Triple.hpp>
@@ -17,7 +18,6 @@
 
 using ostk::core::container::Map;
 using ostk::core::container::Triple;
-using ostk::core::type::Real;
 
 using ostk::mathematics::geometry::d3::object::Point;
 using ostk::mathematics::geometry::d3::object::Segment;
@@ -794,7 +794,7 @@ Array<physics::time::Interval> Generator::computePreciseCrossings(
 
     const auto computeAER = [&fromPositionCoordinate_ITRF, &SEZRotation, &aToTrajectory, &aCelestialSPtr](
                                 const Instant& instant
-                            ) -> Triple<Real, Real, Real>
+                            ) -> Triple<double, double, double>
     {
         const Vector3d toPositionCoordinates_ITRF = aToTrajectory.getStateAt(instant)
                                                         .getPosition()

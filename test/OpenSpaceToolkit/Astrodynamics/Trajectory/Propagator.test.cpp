@@ -7,8 +7,6 @@
 #include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/File.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Path.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -66,8 +64,6 @@ using ostk::core::container::Tuple;
 using ostk::core::filesystem::Directory;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -130,7 +126,7 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator : public 
 {
    protected:
     State stateGenerator(
-        const Instant& anInstant, const Vector3d& anAcceleration = {0.0, 0.0, 0.0}, const Real& aMassFlowRate = -1e-5
+        const Instant& anInstant, const Vector3d& anAcceleration = {0.0, 0.0, 0.0}, double aMassFlowRate = -1e-5
     )
     {
         VectorXd coordinates(10);
@@ -1184,9 +1180,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
     // A 2 s maneuver that starts 31 s after the epoch: shorter than the 30 s fixed step below, and it falls between
     // the stages of a step that starts at the epoch, so an integrator that is unaware of it never samples the thrust.
     const Instant epoch = Instant::J2000();
-    const Real acceleration = 1.0;
-    const Real massFlowRate = -1.0e-3;
-    const Real initialMass = 100.0;
+    const double acceleration = 1.0;
+    const double massFlowRate = -1.0e-3;
+    const double initialMass = 100.0;
 
     const Maneuver maneuver = {
         {
@@ -1197,8 +1193,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
         Interpolator::Type::Linear
     };
 
-    const Real maneuverDeltaV = maneuver.calculateDeltaV();
-    const Real maneuverDeltaMass = maneuver.calculateDeltaMass().inKilograms();
+    const double maneuverDeltaV = maneuver.calculateDeltaV();
+    const double maneuverDeltaMass = maneuver.calculateDeltaMass().inKilograms();
     EXPECT_DOUBLE_EQ(maneuverDeltaV, 2.0);
     EXPECT_DOUBLE_EQ(maneuverDeltaMass, 2.0e-3);
 
@@ -1219,7 +1215,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, ShortMa
         CoordinateSubset::Mass(),
     };
 
-    const auto stateAt = [&](const Duration& anOffset, const Real& aMass) -> State
+    const auto stateAt = [&](const Duration& anOffset, double aMass) -> State
     {
         VectorXd coordinates(7);
         coordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, aMass;
@@ -1467,9 +1463,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
     // The numerical solver is called once per stretch of integration (between maneuver starts / ends): its observed
     // states have to cover the whole propagation, as the segments rely on them
     const Instant epoch = Instant::J2000();
-    const Real acceleration = 1.0;
-    const Real massFlowRate = -1.0e-3;
-    const Real initialMass = 100.0;
+    const double acceleration = 1.0;
+    const double massFlowRate = -1.0e-3;
+    const double initialMass = 100.0;
 
     const Maneuver maneuver = {
         {
@@ -1486,7 +1482,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagator, Observe
         CoordinateSubset::Mass(),
     };
 
-    const auto stateAt = [&](const Duration& anOffset, const Real& aMass) -> State
+    const auto stateAt = [&](const Duration& anOffset, double aMass) -> State
     {
         VectorXd coordinates(7);
         coordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, aMass;

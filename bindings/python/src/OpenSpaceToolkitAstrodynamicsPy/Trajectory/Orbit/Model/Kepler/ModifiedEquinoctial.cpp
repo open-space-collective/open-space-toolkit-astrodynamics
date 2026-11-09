@@ -1,7 +1,6 @@
 /// Apache License 2.0
 
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Physics/Coordinate/Position.hpp>
 #include <OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp>
@@ -16,7 +15,6 @@ namespace py = pybind11;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial;
 
 using ostk::core::container::Pair;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::physics::coordinate::Frame;
@@ -50,7 +48,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_Modifi
         )doc"
     )
         .def(
-            init<const Length&, const Real&, const Real&, const Real&, const Real&, const Angle&>(),
+            init<const Length&, double, double, double, double, const Angle&>(),
             arg("semi_latus_rectum"),
             arg("eccentricity_x"),
             arg("eccentricity_y"),

@@ -1,11 +1,12 @@
 /// Apache License 2.0
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/FileSystem/Directory.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -74,7 +75,6 @@ using ostk::core::container::Map;
 using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
 using ostk::core::filesystem::Directory;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -151,7 +151,7 @@ class CustomGuidanceLaw : public ostk::astrodynamics::GuidanceLaw
         const Instant& anInstant,
         [[maybe_unused]] const ostk::mathematics::object::Vector3d& aPositionCoordinates,
         [[maybe_unused]] const ostk::mathematics::object::Vector3d& aVelocityCoordinates,
-        [[maybe_unused]] const Real& aThrustAcceleration,
+        [[maybe_unused]] double aThrustAcceleration,
         [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
     ) const override
     {
@@ -814,15 +814,15 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Segment : public ::testing::Test
                 },
             },
         },
-        3,                           // M value
-        4,                           // N value
-        2,                           // R value
-        0.01,                        // B value
-        100,                         // K value
-        1.0,                         // Periapsis weight
-        Length::Kilometers(6578.0),  // Minimum periapsis
-        Real::Undefined(),           // Absolute effectivity threshold
-        0.5,                         // Relative effectivity threshold
+        3,                                         // M value
+        4,                                         // N value
+        2,                                         // R value
+        0.01,                                      // B value
+        100,                                       // K value
+        1.0,                                       // Periapsis weight
+        Length::Kilometers(6578.0),                // Minimum periapsis
+        std::numeric_limits<double>::quiet_NaN(),  // Absolute effectivity threshold
+        0.5,                                       // Relative effectivity threshold
     };
 
     const QLaw defaultQLaw_ = {
@@ -1820,7 +1820,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Solve)
                 OrbitalElementCondition::Theory::Osculating,
                 RealCondition::Criterion::AnyCrossing,
                 defaultFrameSPtr_,
-                Real(0.5),
+                0.5,
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             ));
 
@@ -1920,7 +1920,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, SolveWithPreviousManeu
                 OrbitalElementCondition::Theory::Osculating,
                 RealCondition::Criterion::AnyCrossing,
                 defaultFrameSPtr_,
-                Real(0.5),
+                0.5,
                 EarthGravitationalModel::EGM2008.gravitationalParameter_
             ));
 
@@ -4863,7 +4863,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Segment, Regression_Solve_Dupli
     );
     const COE blmAsCOE = blm.toCOE();
 
-    const Real targetSMA = 6918136.0;
+    const double targetSMA = 6918136.0;
     const COE targetCOE = {
         Length::Meters(targetSMA),
         0.0010689,

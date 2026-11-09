@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <gtest/gtest.h>
 
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
@@ -18,7 +20,6 @@
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
@@ -49,16 +50,16 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
         {
             MatrixXd statesCoordinates(2, anInstantArray.size());
 
-            const Real& x0 = aState.accessCoordinates()(0);  // Initial position
-            const Real& v0 = aState.accessCoordinates()(1);  // Initial position
-            const Real omega = std::sqrt(1.0);  // Angular frequency, assuming unit mass and spring constant
+            double x0 = aState.accessCoordinates()(0);  // Initial position
+            double v0 = aState.accessCoordinates()(1);  // Initial position
+            const double omega = std::sqrt(1.0);        // Angular frequency, assuming unit mass and spring constant
 
             Size i = 0;
             for (const Instant& instant : anInstantArray)
             {
-                const Real t = (instant - aState.accessInstant()).inSeconds();
-                const Real x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
-                const Real v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
+                const double t = (instant - aState.accessInstant()).inSeconds();
+                const double x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
+                const double v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
 
                 VectorXd coordinates(2);
                 coordinates << x, v;
@@ -72,13 +73,13 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
 
         generateStateCoordinates_ = [](const State& aState, const Instant& anInstant) -> VectorXd
         {
-            const Real& x0 = aState.accessCoordinates()(0);  // Initial position
-            const Real& v0 = aState.accessCoordinates()(1);  // Initial position
-            const Real omega = std::sqrt(1.0);  // Angular frequency, assuming unit mass and spring constant
+            double x0 = aState.accessCoordinates()(0);  // Initial position
+            double v0 = aState.accessCoordinates()(1);  // Initial position
+            const double omega = std::sqrt(1.0);        // Angular frequency, assuming unit mass and spring constant
 
-            const Real t = (anInstant - aState.accessInstant()).inSeconds();
-            const Real x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
-            const Real v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
+            const double t = (anInstant - aState.accessInstant()).inSeconds();
+            const double x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
+            const double v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
 
             VectorXd coordinates(2, 1);
             coordinates << x, v;
@@ -94,7 +95,7 @@ class OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver : public ::t
 
    protected:
     const FiniteDifferenceSolver::Type defaultType_ = FiniteDifferenceSolver::Type::Central;
-    const Real defaultStepPercentage_ = 1e-3;
+    const double defaultStepPercentage_ = 1e-3;
     const Duration defaultStepDuration_ = Duration::Microseconds(1.0);
     const FiniteDifferenceSolver defaultSolver_ = {
         defaultType_,
@@ -156,7 +157,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
         Array<MatrixXd> expectedStateTransitionMatrices = Array<MatrixXd>::Empty();
         for (const auto& instant : instants)
         {
-            const Real t = (instant - Instant::J2000()).inSeconds();
+            const double t = (instant - Instant::J2000()).inSeconds();
 
             MatrixXd expectedStateTransitionMatrix(2, 2);
             expectedStateTransitionMatrix << std::cos(t), std::sin(t), std::sin(-t), std::cos(t);
@@ -217,7 +218,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeSta
 TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, computeStateTransitionMatrix)
 {
     {
-        const Real t = 100.0;
+        const double t = 100.0;
         const Instant instant = Instant::J2000() + Duration::Seconds(t);
 
         MatrixXd expectedStateTransitionMatrix(2, 2);
@@ -319,7 +320,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeGra
         // 0.1 |     ---    | (1.0, 0.1)
         const auto generateStateCoordinates = [](const State& aState, const Instant& anInstant) -> VectorXd
         {
-            const Real offset = (anInstant - aState.accessInstant()).inSeconds();
+            const double offset = (anInstant - aState.accessInstant()).inSeconds();
 
             VectorXd coordinates(2, 1);
             coordinates << aState.getCoordinates(), offset;
@@ -386,16 +387,16 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeGra
         return propagator.calculateStateAt(aState, anInstant).accessCoordinates();
     };
 
-    const Real mu =
+    const double mu =
         EarthGravitationalModel::EGM2008.gravitationalParameter_.in(Derived::Unit::MeterCubedPerSecondSquared());
 
     const Vector3d positionCoordinates = state.getPosition().getCoordinates();
-    const Real r = positionCoordinates.norm();
-    const Real r3 = std::pow(r, 3);
+    const double r = positionCoordinates.norm();
+    const double r3 = std::pow(r, 3);
 
-    const Real x = positionCoordinates(0);
-    const Real y = positionCoordinates(1);
-    const Real z = positionCoordinates(2);
+    const double x = positionCoordinates(0);
+    const double y = positionCoordinates(1);
+    const double z = positionCoordinates(2);
 
     VectorXd expectedGradient(6);
     expectedGradient << coordinates(3), coordinates(4), coordinates(5), -mu * x / r3, -mu * y / r3, -mu * z / r3;
@@ -456,13 +457,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeJac
 
     const auto generateStateCoordinates = [](const State& aState, const Instant& anInstant) -> VectorXd
     {
-        const Real& x0 = aState.accessCoordinates()(0);  // Initial position
-        const Real& v0 = aState.accessCoordinates()(1);  // Initial position
-        const Real omega = std::sqrt(1.0);               // Angular frequency, assuming unit mass and spring constant
+        double x0 = aState.accessCoordinates()(0);  // Initial position
+        double v0 = aState.accessCoordinates()(1);  // Initial position
+        const double omega = std::sqrt(1.0);        // Angular frequency, assuming unit mass and spring constant
 
-        const Real t = (anInstant - aState.accessInstant()).inSeconds();
-        const Real x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
-        const Real v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
+        const double t = (anInstant - aState.accessInstant()).inSeconds();
+        const double x = x0 * std::cos(omega * t) + v0 / omega * std::sin(omega * t);
+        const double v = -x0 * omega * std::sin(omega * t) + v0 * std::cos(omega * t);
 
         VectorXd coordinates(2, 1);
         coordinates << x, v;
@@ -529,17 +530,17 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver, ComputeJac
         return propagator.calculateStateAt(aState, anInstant).accessCoordinates();
     };
 
-    const Real mu =
+    const double mu =
         EarthGravitationalModel::EGM2008.gravitationalParameter_.in(Derived::Unit::MeterCubedPerSecondSquared());
 
     const Vector3d positionCoordinates = state.getPosition().getCoordinates();
-    const Real r = positionCoordinates.norm();
-    const Real r3 = std::pow(r, 3);
-    const Real r5 = std::pow(r, 5);
+    const double r = positionCoordinates.norm();
+    const double r3 = std::pow(r, 3);
+    const double r5 = std::pow(r, 5);
 
-    const Real x = positionCoordinates(0);
-    const Real y = positionCoordinates(1);
-    const Real z = positionCoordinates(2);
+    const double x = positionCoordinates(0);
+    const double y = positionCoordinates(1);
+    const double z = positionCoordinates(2);
 
     MatrixXd expectedJacobian(6, 6);
     expectedJacobian << 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,  // first row

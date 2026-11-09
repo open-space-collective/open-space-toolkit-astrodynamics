@@ -2,7 +2,6 @@
 
 #include <OpenSpaceToolkit/Core/Container/Tuple.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -27,7 +26,6 @@
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
 using ostk::core::container::Tuple;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -61,7 +59,7 @@ class OpenSpaceToolkit_Astrodynamics_EventCondition_OrbitalElementCondition
     static COE::CartesianState ComputeCartesianState(
         const OrbitalElementCondition::Theory& aTheory,
         const Length& aSemiMajorAxis,
-        const Real& anEccentricity,
+        double anEccentricity,
         const Angle& anInclination,
         const Angle& aRaan,
         const Angle& anAop,
@@ -146,7 +144,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_EventCondition_OrbitalElementCondition, Se
 
 TEST_P(OpenSpaceToolkit_Astrodynamics_EventCondition_OrbitalElementCondition, Eccentricity)
 {
-    const Real target = 0.0002;
+    const double target = 0.0002;
 
     {
         RealCondition condition = OrbitalElementCondition::Eccentricity(

@@ -1,5 +1,7 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
 #include <sstream>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
@@ -15,7 +17,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d3::transformation::rotation::RotationMatrix;
@@ -731,7 +732,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Reduce)
 TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Scale)
 {
     {
-        const Covariance scaledCovariance = defaultCovariance_.scale(Real(2.0));
+        const Covariance scaledCovariance = defaultCovariance_.scale(2.0);
 
         EXPECT_EQ(defaultInstant_, scaledCovariance.getInstant());
         EXPECT_EQ(defaultFrameSPtr_, scaledCovariance.getFrame());
@@ -742,7 +743,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Scale)
     {
         EXPECT_THROW(
             try {
-                defaultCovariance_.scale(Real::Undefined());
+                defaultCovariance_.scale(std::numeric_limits<double>::quiet_NaN());
             } catch (const ostk::core::error::runtime::Undefined& e) {
                 EXPECT_NE(e.getMessage().find("Scalar"), std::string::npos);
                 throw;
@@ -751,7 +752,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Scale)
         );
 
         EXPECT_THROW(
-            try { defaultCovariance_.scale(Real(0.0)); } catch (const ostk::core::error::runtime::Wrong& e) {
+            try { defaultCovariance_.scale(0.0); } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_NE(e.getMessage().find("Scalar"), std::string::npos);
                 throw;
             },
@@ -759,7 +760,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, Scale)
         );
 
         EXPECT_THROW(
-            try { defaultCovariance_.scale(Real(-1.0)); } catch (const ostk::core::error::runtime::Wrong& e) {
+            try { defaultCovariance_.scale(-1.0); } catch (const ostk::core::error::runtime::Wrong& e) {
                 EXPECT_NE(e.getMessage().find("Scalar"), std::string::npos);
                 throw;
             },
@@ -817,13 +818,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, ComputeMahalanobis
         const Shared<const CoordinateSubset> coordinateSubsetSPtr =
             std::make_shared<CoordinateSubset>("1D_COORDINATE_SUBSET", 1);
 
-        const Real sigma = 2.0;
+        const double sigma = 2.0;
 
         const Covariance covariance = {
             defaultInstant_, MatrixXd::Constant(1, 1, sigma * sigma), defaultFrameSPtr_, {coordinateSubsetSPtr}
         };
 
-        const Array<std::tuple<Real, Real, Real>> testCases = {
+        const Array<std::tuple<double, double, double>> testCases = {
             {1.0 * sigma, 1.0, 1.0 - 0.6827},
             {2.0 * sigma, 4.0, 1.0 - 0.9545},
             {3.0 * sigma, 9.0, 1.0 - 0.9973},
@@ -846,13 +847,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, ComputeMahalanobis
         const Shared<const CoordinateSubset> coordinateSubsetSPtr =
             std::make_shared<CoordinateSubset>("2D_COORDINATE_SUBSET", 2);
 
-        const Real sigma = 2.0;
+        const double sigma = 2.0;
 
         const Covariance covariance = {
             defaultInstant_, sigma * sigma * MatrixXd::Identity(2, 2), defaultFrameSPtr_, {coordinateSubsetSPtr}
         };
 
-        const Array<std::tuple<Real, Real, Real>> testCases = {
+        const Array<std::tuple<double, double, double>> testCases = {
             {1.0, 1.0, 1.0 - 0.3935},
             {2.0, 4.0, 1.0 - 0.8647},
             {3.0, 9.0, 1.0 - 0.9889},
@@ -877,13 +878,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Uncertainty_Covariance, ComputeMahalanobis
         const Shared<const CoordinateSubset> coordinateSubsetSPtr =
             std::make_shared<CoordinateSubset>("3D_COORDINATE_SUBSET", 3);
 
-        const Real sigma = 2.0;
+        const double sigma = 2.0;
 
         const Covariance covariance = {
             defaultInstant_, sigma * sigma * MatrixXd::Identity(3, 3), defaultFrameSPtr_, {coordinateSubsetSPtr}
         };
 
-        const Array<std::tuple<Real, Real, Real>> testCases = {
+        const Array<std::tuple<double, double, double>> testCases = {
             {1.0, 1.0, 1.0 - 0.1987},
             {2.0, 4.0, 1.0 - 0.7385},
             {3.0, 9.0, 1.0 - 0.9707},

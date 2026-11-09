@@ -644,7 +644,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, getSecondLi
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatelliteNumber)
 {
-    using ostk::core::type::Integer;
     using ostk::core::type::String;
 
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
@@ -657,7 +656,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatellit
 
         EXPECT_EQ(99993, tle.getSatelliteNumber());
 
-        const Integer updatedSatelliteNumber = 99995;
+        const int updatedSatelliteNumber = 99995;
 
         tle.setSatelliteNumber(updatedSatelliteNumber);
 
@@ -678,7 +677,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatellit
 
         EXPECT_EQ(0, tle.getSatelliteNumber());
 
-        const Integer updatedSatelliteNumber = 99995;
+        const int updatedSatelliteNumber = 99995;
 
         tle.setSatelliteNumber(updatedSatelliteNumber);
 
@@ -699,7 +698,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetSatellit
 
         EXPECT_EQ(99993, tle.getSatelliteNumber());
 
-        const Integer updatedSatelliteNumber = 400;
+        const int updatedSatelliteNumber = 400;
 
         tle.setSatelliteNumber(updatedSatelliteNumber);
 
@@ -832,7 +831,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetEpoch)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetRevolutionNumberAtEpoch)
 {
-    using ostk::core::type::Integer;
     using ostk::core::type::String;
 
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
@@ -845,7 +843,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetRevoluti
 
         EXPECT_EQ(999, tle.getRevolutionNumberAtEpoch());
 
-        const Integer updatedRevolutionNumberAtEpoch = 10;
+        const int updatedRevolutionNumberAtEpoch = 10;
 
         tle.setRevolutionNumberAtEpoch(updatedRevolutionNumberAtEpoch);
 
@@ -865,7 +863,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetRevoluti
 
         EXPECT_EQ(999, tle.getRevolutionNumberAtEpoch());
 
-        const Integer updatedRevolutionNumberAtEpoch = 56353;
+        const int updatedRevolutionNumberAtEpoch = 56353;
 
         tle.setRevolutionNumberAtEpoch(updatedRevolutionNumberAtEpoch);
 
@@ -885,7 +883,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetRevoluti
 
         EXPECT_EQ(999, tle.getRevolutionNumberAtEpoch());
 
-        const Integer updatedRevolutionNumberAtEpoch = 56353;
+        const int updatedRevolutionNumberAtEpoch = 56353;
 
         tle.setRevolutionNumberAtEpoch(updatedRevolutionNumberAtEpoch);
 
@@ -905,7 +903,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, SetRevoluti
 
         EXPECT_EQ(999, tle.getRevolutionNumberAtEpoch());
 
-        const Integer updatedRevolutionNumberAtEpoch = 6353;
+        const int updatedRevolutionNumberAtEpoch = 6353;
 
         tle.setRevolutionNumberAtEpoch(updatedRevolutionNumberAtEpoch);
 
@@ -941,7 +939,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, CanParse)
 {
     using ostk::core::filesystem::File;
     using ostk::core::filesystem::Path;
-    using ostk::core::type::Integer;
     using ostk::core::type::String;
 
     using ostk::astrodynamics::trajectory::orbit::model::sgp4::TLE;
@@ -1047,7 +1044,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, CanParse)
         String firstLine = String::Empty();
         String secondLine = String::Empty();
 
-        Integer count = 0;
+        int count = 0;
 
         String line;
 
@@ -1083,7 +1080,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Parse)
 {
     using ostk::core::filesystem::File;
     using ostk::core::filesystem::Path;
-    using ostk::core::type::Integer;
     using ostk::core::type::String;
 
     using ostk::physics::unit::Angle;
@@ -1207,7 +1203,7 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Parse)
         String firstLine = String::Empty();
         String secondLine = String::Empty();
 
-        Integer count = 0;
+        int count = 0;
 
         String line;
 
@@ -1351,8 +1347,6 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Load)
 
 TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Construct)
 {
-    using ostk::core::type::Integer;
-    using ostk::core::type::Real;
     using ostk::core::type::String;
 
     using ostk::physics::time::DateTime;
@@ -1366,23 +1360,23 @@ TEST(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_SGP4_TLE, Construct)
 
     {
         const String satelliteName = "Satellite";
-        const Integer satelliteNumber = 25544;
+        const int satelliteNumber = 25544;
         const String classification = "U";
         const String internationalDesignator = "98067A";
         const Instant epoch = Instant::DateTime(DateTime::Parse("2008-09-20 12:25:40.104.192"), Scale::UTC);
-        const Real meanMotionFirstTimeDerivativeDividedByTwo = -0.00002182;
-        const Real meanMotionSecondTimeDerivativeDividedBySix = 0.0;
-        const Real bStarDragTerm = -0.11606e-4;
-        const Integer ephemerisType = 0;
-        const Integer elementSetNumber = 292;
+        const double meanMotionFirstTimeDerivativeDividedByTwo = -0.00002182;
+        const double meanMotionSecondTimeDerivativeDividedBySix = 0.0;
+        const double bStarDragTerm = -0.11606e-4;
+        const int ephemerisType = 0;
+        const int elementSetNumber = 292;
         const Angle inclination = Angle::Degrees(51.6416);
         const Angle raan = Angle::Degrees(247.4627);
-        const Real eccentricity = 0.0006703;
+        const double eccentricity = 0.0006703;
         const Angle aop = Angle::Degrees(130.5360);
         const Angle meanAnomaly = Angle::Degrees(325.0288);
         const Derived meanMotion =
             Derived(15.72125391, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day));
-        const Integer revolutionNumberAtEpoch = 56353;
+        const int revolutionNumberAtEpoch = 56353;
 
         {
             const TLE tle = TLE::Construct(

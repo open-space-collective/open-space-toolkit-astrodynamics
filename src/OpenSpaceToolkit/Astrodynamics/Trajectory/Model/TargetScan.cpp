@@ -115,7 +115,7 @@ State TargetScan::calculateStateAt(const Instant& anInstant) const
     const Duration intervalDuration = endInstant_ - startInstant_;
     const Length scanDistance =
         startLLA_.calculateDistanceTo(endLLA_, celestialSPtr_->getEquatorialRadius(), celestialSPtr_->getFlattening());
-    const Real scanSpeed = scanDistance.inMeters() / intervalDuration.inSeconds();
+    const double scanSpeed = scanDistance.inMeters() / intervalDuration.inSeconds();
 
     const Pair<Angle, Angle> azimuthAngles =
         startLLA_.calculateAzimuthTo(endLLA_, celestialSPtr_->getEquatorialRadius(), celestialSPtr_->getFlattening());
@@ -274,7 +274,7 @@ TargetScan TargetScan::FromGroundSpeed(
         throw ostk::core::error::RuntimeError("Step size must be positive.");
     }
 
-    const Real groundSpeedMps = aGroundSpeed.in(Derived::Unit::MeterPerSecond());
+    const double groundSpeedMps = aGroundSpeed.in(Derived::Unit::MeterPerSecond());
 
     if (groundSpeedMps <= 0.0)
     {

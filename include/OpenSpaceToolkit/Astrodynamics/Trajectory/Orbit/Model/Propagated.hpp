@@ -4,8 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -27,8 +25,6 @@ namespace model
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Integer;
-using ostk::core::type::Real;
 
 using ostk::physics::time::Instant;
 
@@ -55,7 +51,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aPropagator A propagator
     /// @param aState A state
     /// @param aRevolutionNumber A revolution number
-    Propagated(const Propagator& aPropagator, const State& aState, const Integer& aRevolutionNumber = 1);
+    Propagated(const Propagator& aPropagator, const State& aState, int aRevolutionNumber = 1);
 
     /// @brief Constructor with a cached state array
     ///
@@ -68,9 +64,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @param aPropagator A propagator
     /// @param aCachedStateArray A state array
     /// @param aRevolutionNumber A revolution number
-    Propagated(
-        const Propagator& aPropagator, const Array<State>& aCachedStateArray, const Integer& aRevolutionNumber = 1
-    );
+    Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray, int aRevolutionNumber = 1);
 
     /// @brief Clone propagated
     ///
@@ -113,11 +107,11 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Get revolution number at epoch (it is equal to 1)
     ///
     /// @code{.cpp}
-    ///              Real real = propagated.getRevolutionNumberAtEpoch();
+    ///              double real = propagated.getRevolutionNumberAtEpoch();
     /// @endcode
     ///
-    /// @return Integer
-    virtual Integer getRevolutionNumberAtEpoch() const override;
+    /// @return int
+    virtual int getRevolutionNumberAtEpoch() const override;
 
     /// @brief Calculate the state at an instant, given initial state
 
@@ -143,11 +137,11 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @brief Calculate the revolution number at an instant
     ///
     /// @code{.cpp}
-    ///              Integer integer = propagated.calculateRevolutionNumberAt(anInstant);
+    ///              int integer = propagated.calculateRevolutionNumberAt(anInstant);
     /// @endcode
     /// @param anInstant An instant
-    /// @return Integer
-    virtual Integer calculateRevolutionNumberAt(const Instant& anInstant) const override;
+    /// @return int
+    virtual int calculateRevolutionNumberAt(const Instant& anInstant) const override;
 
     /// @brief Fetch internal cached state array
     ///
@@ -203,7 +197,7 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
    private:
     Propagator propagator_;
     mutable Array<State> cachedStateArray_;
-    Integer initialRevolutionNumber_;
+    int initialRevolutionNumber_;
 
     void sanitizeCachedArray() const;
 };

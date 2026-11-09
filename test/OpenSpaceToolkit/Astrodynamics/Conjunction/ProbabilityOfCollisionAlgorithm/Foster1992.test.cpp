@@ -1,11 +1,11 @@
 /// Apache License 2.0
 
 #include <algorithm>
+#include <cmath>
 #include <optional>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Error.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
@@ -27,7 +27,6 @@
 #include <Global.test.hpp>
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -332,7 +331,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm
 {
    protected:
     const Foster1992 algorithm_ = {};
-    const Real relativeTolerance_ = 0.01;
+    const double relativeTolerance_ = 0.01;
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -362,7 +361,7 @@ TEST_P(
 {
     const PoCTestCase& testCase = GetParam();
 
-    const Real probabilityOfCollision = algorithm_.computeProbabilityOfCollision(
+    const double probabilityOfCollision = algorithm_.computeProbabilityOfCollision(
         testCase.closeApproach, testCase.hardBody1SPtr, testCase.hardBody2SPtr
     );
 
@@ -378,7 +377,7 @@ class OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm
 {
    protected:
     const Shared<const Foster1992> algorithmSPtr_ = std::make_shared<Foster1992>();
-    const Real relativeTolerance_ = 0.01;
+    const double relativeTolerance_ = 0.01;
 };
 
 INSTANTIATE_TEST_SUITE_P(

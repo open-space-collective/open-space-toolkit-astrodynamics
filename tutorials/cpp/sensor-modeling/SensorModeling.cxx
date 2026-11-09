@@ -25,7 +25,6 @@
 int main()
 {
     using ostk::core::container::Array;
-    using ostk::core::type::Real;
     using ostk::core::type::Shared;
 
     using ostk::mathematics::object::Vector3d;
@@ -71,7 +70,7 @@ int main()
     // Orbital parameters
 
     const Length a = Length::Kilometers(7000.0);
-    const Real e = 0.0;
+    const double e = 0.0;
     const Angle i = Angle::Degrees(0.0);
     const Angle raan = Angle::Degrees(0.0);
     const Angle aop = Angle::Degrees(0.0);

@@ -7,8 +7,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
     using namespace pybind11;
 
     using ostk::core::container::Array;
-    using ostk::core::type::Integer;
-    using ostk::core::type::Real;
     using ostk::core::type::String;
 
     using ostk::physics::coordinate::Position;
@@ -228,7 +226,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
         .def(
             init<
                 const String&,
-                const Integer&,
+                int,
                 const Duration&,
                 const Instant&,
                 const Position&,
@@ -239,7 +237,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Message_SpaceX_OPM(
                 const Angle&,
                 const Angle&,
                 const Angle&,
-                const Real&>(),
+                double>(),
             arg("name"),
             arg("sequence_number"),
             arg("mission_time"),

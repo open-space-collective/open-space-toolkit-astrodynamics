@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Alfano2005__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -27,7 +26,6 @@ namespace probabilityofcollisionalgorithm
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -92,7 +90,7 @@ class Alfano2005 : public ProbabilityOfCollisionAlgorithm
     /// @param aHardBody2SPtr The hard body of Object 2
     ///
     /// @return The probability of collision
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -110,12 +108,8 @@ class Alfano2005 : public ProbabilityOfCollisionAlgorithm
     /// @param aCombinedHardBodyRadius A combined hard-body radius [m]
     ///
     /// @return The probability of collision
-    static Real ComputeProbabilityOfCollision(
-        const Real& aMissDistanceX,
-        const Real& aMissDistanceY,
-        const Real& aSigmaX,
-        const Real& aSigmaY,
-        const Real& aCombinedHardBodyRadius
+    static double ComputeProbabilityOfCollision(
+        double aMissDistanceX, double aMissDistanceY, double aSigmaX, double aSigmaY, double aCombinedHardBodyRadius
     );
 
     /// @brief Compute the number of Simpson's rule interval pairs (M)
@@ -131,11 +125,7 @@ class Alfano2005 : public ProbabilityOfCollisionAlgorithm
     ///
     /// @return The number of interval pairs
     static Size ComputeIntervalPairCount(
-        const Real& aMissDistanceX,
-        const Real& aMissDistanceY,
-        const Real& aSigmaX,
-        const Real& aSigmaY,
-        const Real& aCombinedHardBodyRadius
+        double aMissDistanceX, double aMissDistanceY, double aSigmaX, double aSigmaY, double aCombinedHardBodyRadius
     );
 
     /// @brief Compute the integrand of the Simpson's rule at a given abscissa
@@ -152,13 +142,13 @@ class Alfano2005 : public ProbabilityOfCollisionAlgorithm
     /// @param aCombinedHardBodyRadius A combined hard-body radius [m]
     ///
     /// @return The integrand value
-    static Real ComputeIntegrand(
-        const Real& anAbscissa,
-        const Real& aMissDistanceX,
-        const Real& aMissDistanceY,
-        const Real& aSigmaX,
-        const Real& aSigmaY,
-        const Real& aCombinedHardBodyRadius
+    static double ComputeIntegrand(
+        double anAbscissa,
+        double aMissDistanceX,
+        double aMissDistanceY,
+        double aSigmaX,
+        double aSigmaY,
+        double aCombinedHardBodyRadius
     );
 
     static const Shared<const CoordinateSubset> CartesianPositionSubsetSPtr;

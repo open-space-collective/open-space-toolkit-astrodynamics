@@ -21,7 +21,7 @@ BooleanCondition::BooleanCondition(
     : RealCondition(
           aName,
           aCriterion,
-          [anInverseFlag, anEvaluator](const State& aState) -> Real
+          [anInverseFlag, anEvaluator](const State& aState) -> double
           {
               const bool boolean = anEvaluator(aState);
               return anInverseFlag ? (boolean ? -1.0 : 1.0) : (boolean ? 1.0 : -1.0);

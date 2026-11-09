@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_HardBody__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Geometry/2D/Object/Point.hpp>
@@ -21,7 +20,6 @@ namespace conjunction
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::geometry::d2::object::Point;
@@ -69,7 +67,7 @@ class HardBody
         /// @param aConvexHull The convex hull vertices [m], relative to the object position (see class
         /// documentation)
         /// @param aRadius The radius [m] by which the convex hull is dilated
-        CrossSection(const Array<Point>& aConvexHull, const Real& aRadius);
+        CrossSection(const Array<Point>& aConvexHull, double aRadius);
 
         /// @brief Get the enclosing radius of the cross section
         ///
@@ -78,7 +76,7 @@ class HardBody
         /// convex hull is empty.
         ///
         /// @return The enclosing radius [m]
-        Real getEnclosingRadius() const;
+        double getEnclosingRadius() const;
 
         /// @brief Combine two cross sections into their Minkowski sum
         ///
@@ -101,7 +99,7 @@ class HardBody
 
        private:
         Array<Point> convexHull_;
-        Real radius_;
+        double radius_;
     };
 
     /// @brief Destructor

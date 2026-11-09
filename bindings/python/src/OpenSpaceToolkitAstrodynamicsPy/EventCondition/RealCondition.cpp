@@ -6,7 +6,6 @@
 
 using namespace pybind11;
 
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -50,8 +49,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
                 init<
                     const String&,
                     const RealCondition::Criterion&,
-                    const std::function<Real(const State&)>&,
-                    const Real&>(),
+                    const std::function<double(const State&)>&,
+                    double>(),
                 R"doc(
                     Constructor.
 
@@ -72,7 +71,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_EventCondition_RealCondition(pybind1
                 init<
                     const String&,
                     const RealCondition::Criterion&,
-                    const std::function<Real(const State&)>&,
+                    const std::function<double(const State&)>&,
                     const EventCondition::Target&>(),
                 R"doc(
                     Constructor.

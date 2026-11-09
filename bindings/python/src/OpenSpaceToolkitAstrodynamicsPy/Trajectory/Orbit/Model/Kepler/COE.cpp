@@ -1,12 +1,12 @@
 /// Apache License 2.0
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 
 inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(pybind11::module& aModule)
 {
     using namespace pybind11;
-
-    using ostk::core::type::Real;
 
     using ostk::physics::coordinate::Frame;
     using ostk::physics::environment::object::Celestial;
@@ -82,7 +82,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
     coe
 
         .def(
-            init<const Length&, const Real&, const Angle&, const Angle&, const Angle&, const Angle&>(),
+            init<const Length&, double, const Angle&, const Angle&, const Angle&, const Angle&>(),
             R"doc(
                 Constructor.
 
@@ -427,7 +427,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             overload_cast<
                 const Length&,
                 const Shared<const Celestial>&,
-                const Real&,
+                double,
                 const Angle&,
                 const Angle&,
                 const Angle&,
@@ -468,7 +468,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             )doc",
             arg("semi_major_axis"),
             arg("celestial_object"),
-            arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
+            arg_v("eccentricity", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
             arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
             arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
             arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
@@ -480,9 +480,9 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             overload_cast<
                 const Length&,
                 const Length&,
-                const Real&,
-                const Real&,
-                const Real&,
+                double,
+                double,
+                double,
                 const Angle&,
                 const Angle&,
                 const Angle&,
@@ -527,7 +527,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
             arg("equatorial_radius"),
             arg("j2"),
             arg("j3"),
-            arg_v("eccentricity", Real::Undefined(), "Real.undefined()"),
+            arg_v("eccentricity", std::numeric_limits<double>::quiet_NaN(), "float('nan')"),
             arg_v("inclination", Angle::Undefined(), "Angle.undefined()"),
             arg_v("raan", Angle::Degrees(0.0), "Angle.degrees(0.0)"),
             arg_v("aop", Angle::Undefined(), "Angle.undefined()"),
@@ -642,7 +642,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
 
         .def_static(
             "compute_angular_momentum",
-            overload_cast<const Real&, const Real&, const Derived&>(&COE::ComputeAngularMomentum),
+            overload_cast<double, double, const Derived&>(&COE::ComputeAngularMomentum),
             R"doc(
                 Compute the angular momentum from the semi-major axis and the eccentricity.
 
@@ -661,7 +661,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler_COE(py
 
         .def_static(
             "compute_angular_momentum",
-            overload_cast<const Real&, const Derived&>(&COE::ComputeAngularMomentum),
+            overload_cast<double, const Derived&>(&COE::ComputeAngularMomentum),
             R"doc(
                 Compute the angular momentum from the semi-latus rectum.
 

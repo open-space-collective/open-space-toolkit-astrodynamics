@@ -77,9 +77,9 @@ void TLESolver::Analysis::print(std::ostream& anOutputStream) const
 
 TLESolver::TLESolver(
     const LeastSquaresSolver& aSolver,
-    const Integer& aSatelliteNumber,
+    int aSatelliteNumber,
     const String& anInternationalDesignator,
-    const Integer& aRevolutionNumber,
+    int aRevolutionNumber,
     const bool anEstimateBStar
 )
     : solver_(aSolver),
@@ -117,7 +117,7 @@ const LeastSquaresSolver& TLESolver::accessSolver() const
     return solver_;
 }
 
-const Integer& TLESolver::accessSatelliteNumber() const
+const int& TLESolver::accessSatelliteNumber() const
 {
     return satelliteNumber_;
 }
@@ -127,7 +127,7 @@ const String& TLESolver::accessInternationalDesignator() const
     return internationalDesignator_;
 }
 
-const Integer& TLESolver::accessRevolutionNumber() const
+const int& TLESolver::accessRevolutionNumber() const
 {
     return revolutionNumber_;
 }
@@ -137,27 +137,27 @@ const bool& TLESolver::accessEstimateBStar() const
     return estimateBStar_;
 }
 
-const Real& TLESolver::accessDefaultBStar() const
+const double& TLESolver::accessDefaultBStar() const
 {
     return defaultBStar_;
 }
 
-const Real& TLESolver::accessFirstDerivativeMeanMotionDividedBy2() const
+const double& TLESolver::accessFirstDerivativeMeanMotionDividedBy2() const
 {
     return firstDerivativeMeanMotionDividedBy2_;
 }
 
-const Real& TLESolver::accessSecondDerivativeMeanMotionDividedBy6() const
+const double& TLESolver::accessSecondDerivativeMeanMotionDividedBy6() const
 {
     return secondDerivativeMeanMotionDividedBy6_;
 }
 
-const Integer& TLESolver::accessEphemerisType() const
+const int& TLESolver::accessEphemerisType() const
 {
     return ephemerisType_;
 }
 
-const Integer& TLESolver::accessElementSetNumber() const
+const int& TLESolver::accessElementSetNumber() const
 {
     return elementSetNumber_;
 }
@@ -168,7 +168,7 @@ const StateBuilder& TLESolver::accessTLEStateBuilder() const
 }
 
 TLESolver::Analysis TLESolver::estimate(
-    const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
+    const std::variant<TLE, Pair<State, double>, State>& anInitialGuess,
     const Array<State>& anObservationStateArray,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
@@ -181,7 +181,7 @@ TLESolver::Analysis TLESolver::estimate(
     {
         initialGuessTLEState = TLEToTLEState(*tle);
     }
-    else if (const auto* pair = std::get_if<Pair<State, Real>>(&anInitialGuess))
+    else if (const auto* pair = std::get_if<Pair<State, double>>(&anInitialGuess))
     {
         if (estimateBStar_)
         {
@@ -232,7 +232,7 @@ TLESolver::Analysis TLESolver::estimate(
 }
 
 Orbit TLESolver::estimateOrbit(
-    const std::variant<TLE, Pair<State, Real>, State>& anInitialGuess,
+    const std::variant<TLE, Pair<State, double>, State>& anInitialGuess,
     const Array<State>& anObservationStateArray,
     const std::unordered_map<CoordinateSubset, VectorXd>& anInitialGuessSigmas,
     const std::unordered_map<CoordinateSubset, VectorXd>& anObservationSigmas
@@ -290,7 +290,7 @@ TLE TLESolver::TLEStateToTLE(const State& aTLEState) const
         aTLEState.getInstant(),
         firstDerivativeMeanMotionDividedBy2_,
         secondDerivativeMeanMotionDividedBy6_,
-        estimateBStar_ ? Real(aTLEState.extractCoordinate(BStarSubset)[0]) : defaultBStar_,
+        estimateBStar_ ? double(aTLEState.extractCoordinate(BStarSubset)[0]) : defaultBStar_,
         ephemerisType_,
         elementSetNumber_,
         coe.getInclination(),
@@ -324,13 +324,13 @@ SGP4FullPrecision TLESolver::TLEStateToSGP4FullPrecision(const State& aTLEState)
         coe.getAop(),
         coe.getMeanAnomaly(),
         coe.getMeanMotion(EarthGravitationalModel::EGM2008.gravitationalParameter_),
-        estimateBStar_ ? Real(aTLEState.extractCoordinate(BStarSubset)[0]) : defaultBStar_,
+        estimateBStar_ ? double(aTLEState.extractCoordinate(BStarSubset)[0]) : defaultBStar_,
         1,
         tleStateBuilder_.getFrame(),
     };
 }
 
-State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, const Real& aBStar) const
+State TLESolver::CartesianStateAndBStarToTLEState(const State& aCartesianState, double aBStar) const
 {
     const State cartesianStateTEME = aCartesianState.inFrame(tleStateBuilder_.getFrame());
 

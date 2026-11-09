@@ -10,7 +10,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Access_Generator(pybind11::module& a
 
     using ostk::core::container::Array;
     using ostk::core::container::Map;
-    using ostk::core::type::Real;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::spherical::AER;

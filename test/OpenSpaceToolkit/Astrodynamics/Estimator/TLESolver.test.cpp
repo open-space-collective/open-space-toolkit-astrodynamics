@@ -1,9 +1,10 @@
 /// Apache License 2.0
 
+#include <cmath>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Map.hpp>
 #include <OpenSpaceToolkit/Core/Container/Table.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Matrix.hpp>
@@ -38,7 +39,6 @@ using ostk::core::container::Table;
 using ostk::core::container::Tuple;
 using ostk::core::filesystem::File;
 using ostk::core::filesystem::Path;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -251,10 +251,10 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_InitialGues
 }
 
 class OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithBStar_Parameterized
-    : public ::testing::TestWithParam<Tuple<Duration, Duration, Real, Real, Real>>
+    : public ::testing::TestWithParam<Tuple<Duration, Duration, double, double, double>>
 {
    protected:
-    const Real testBStar_ = 3.5e-4;
+    const double testBStar_ = 3.5e-4;
     const TLESolver tleSolver_ = {LeastSquaresSolver::Default(), 0, "00001A", 0, true};
 };
 
@@ -318,7 +318,7 @@ TEST_P(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithBStar_
 }
 
 class OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver_EstimateTLEWithoutBStar_Parameterized
-    : public ::testing::TestWithParam<Tuple<Duration, Duration, Real, Real, Real>>
+    : public ::testing::TestWithParam<Tuple<Duration, Duration, double, double, double>>
 {
    protected:
     const TLESolver tleSolver_ = {LeastSquaresSolver::Default(), 0, "00001A", 0, false};
@@ -452,8 +452,8 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, EstimateOrbit)
     {
         const Duration fitSpanDuration = Duration::Hours(12.0);
         const Duration predictionDuration = Duration::Hours(8.5);
-        const Real maximumPositionError = 1100.0;
-        const Real maximumVelocityError = 1.5;
+        const double maximumPositionError = 1100.0;
+        const double maximumVelocityError = 1.5;
 
         const Array<State> observations = truncateObservations(loadData("observations"), fitSpanDuration);
         const Array<State> predictions = truncatePredictions(loadData("predictions"), predictionDuration);
@@ -563,7 +563,6 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_Eccentricit
 // this pins the failure to the one variable that caused it.
 TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircular)
 {
-    using ostk::core::type::Integer;
     using ostk::physics::unit::Angle;
     using ostk::physics::unit::Derived;
     using ostk::physics::unit::Time;
@@ -572,25 +571,25 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
 
     const TLESolver solver = {LeastSquaresSolver::Default(), 99999, "23001A", 0, false};
 
-    for (const Real eccentricity : {1e-3, 1e-4, 3e-5, 1e-5, 3e-6})
+    for (const double eccentricity : {1e-3, 1e-4, 3e-5, 1e-5, 3e-6})
     {
         const TLE truthTLE = TLE::Construct(
-            Integer(11111),
+            11111,
             "U",
             "23001A",
             epoch,
             0.0,
             0.0,
             1e-4,
-            Integer(0),
-            Integer(0),
+            0,
+            0,
             Angle::Degrees(97.8054),
             Angle::Degrees(127.36),
             eccentricity,
             Angle::Degrees(90.0),
             Angle::Degrees(0.0),
             Derived(15.1029, Derived::Unit::AngularVelocity(Angle::Unit::Revolution, Time::Unit::Day)),
-            Integer(0)
+            0
         );
 
         const SGP4 truthSGP4 = {truthTLE, Frame::GCRF()};
@@ -619,15 +618,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
             )
         );
 
-        ASSERT_NO_THROW(analysis = solver.estimate(observations[0], observations))
-            << "eccentricity " << eccentricity.toString();
+        ASSERT_NO_THROW(analysis = solver.estimate(observations[0], observations)) << "eccentricity " << eccentricity;
 
         EXPECT_EQ(analysis.solverAnalysis.terminationCriteria, "RMS Update Threshold")
-            << "eccentricity " << eccentricity.toString();
+            << "eccentricity " << eccentricity;
 
         // The eccentricity must be recovered to within the TLE's own quantization.
-        EXPECT_NEAR(analysis.estimatedTLE.getEccentricity(), eccentricity, 1e-7)
-            << "eccentricity " << eccentricity.toString();
+        EXPECT_NEAR(analysis.estimatedTLE.getEccentricity(), eccentricity, 1e-7) << "eccentricity " << eccentricity;
 
         // The estimated state carries the epoch the emitted TLE will actually hold, so that
         // serializing it costs nothing more.
@@ -645,13 +642,13 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Estimation_TLESolver, Estimate_NearCircula
                 estimatedSGP4.calculateStateAt(observation.getInstant()).getPosition().getCoordinates() -
                 observation.getPosition().getCoordinates();
 
-            EXPECT_LT(positionDelta.norm(), 200.0) << "eccentricity " << eccentricity.toString();
+            EXPECT_LT(positionDelta.norm(), 200.0) << "eccentricity " << eccentricity;
 
             sumOfSquares += positionDelta.squaredNorm();
         }
 
         EXPECT_LT(std::sqrt(sumOfSquares / static_cast<double>(observations.getSize())), 100.0)
-            << "eccentricity " << eccentricity.toString();
+            << "eccentricity " << eccentricity;
     }
 }
 

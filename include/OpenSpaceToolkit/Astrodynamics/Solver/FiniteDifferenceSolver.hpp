@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Solvers_FiniteDifferenceSolver__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
@@ -22,7 +21,6 @@ namespace solver
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Size;
 using ostk::core::type::String;
 
@@ -53,7 +51,7 @@ class FiniteDifferenceSolver
     ///
     /// @code{.cpp}
     ///                  const Type aType = FiniteDifferenceSolver::Type::Forward;
-    ///                  const Real aStepPercentage = 1e-3;
+    ///                  const double aStepPercentage = 1e-3;
     ///                  const Duration aStepDuration = Duration::Milliseconds(1e-3);
     ///
     ///                  FiniteDifferenceSolver finiteDifferenceSolver = {aType};
@@ -63,7 +61,7 @@ class FiniteDifferenceSolver
     /// @param aType A Finite Difference type.
     /// @param aStepPercentage The step percentage to use for computing the STM.
     /// @param aStepDuration The step duration to use for computing the gradient.
-    FiniteDifferenceSolver(const Type& aType, const Real& aStepPercentage, const Duration& aStepDuration);
+    FiniteDifferenceSolver(const Type& aType, double aStepPercentage, const Duration& aStepDuration);
 
     /// @brief Output stream operator.
     ///
@@ -88,11 +86,11 @@ class FiniteDifferenceSolver
     ///
     /// @code{.cpp}
     ///     FiniteDifferenceSolver solver = { ... } ;
-    ///     Real stepPercentage = solver.getStepPercentage() ;
+    ///     double stepPercentage = solver.getStepPercentage() ;
     /// @endcode
     ///
     /// @return The step percentage.
-    Real getStepPercentage() const;
+    double getStepPercentage() const;
 
     /// @brief Get the step duration.
     ///
@@ -179,7 +177,7 @@ class FiniteDifferenceSolver
 
    private:
     const Type type_;
-    const Real stepPercentage_;
+    const double stepPercentage_;
     const Duration stepDuration_;
 };
 

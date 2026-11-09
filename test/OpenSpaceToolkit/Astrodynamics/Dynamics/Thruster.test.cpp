@@ -3,7 +3,6 @@
 #include <gmock/gmock.h>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
@@ -17,7 +16,6 @@
 
 using ostk::core::container::Array;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::String;
 
@@ -46,7 +44,7 @@ class MockGuidanceLaw : public GuidanceLaw
         [[maybe_unused]] const Instant& anInstant,
         [[maybe_unused]] const Vector3d& aPositionCoordinates,
         [[maybe_unused]] const Vector3d& aVelocityCoordinates,
-        [[maybe_unused]] const Real& aThrustDirection,
+        [[maybe_unused]] double aThrustDirection,
         [[maybe_unused]] const Shared<const Frame>& outputFrameSPtr
     ) const override
     {

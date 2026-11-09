@@ -8,7 +8,6 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
 {
     using namespace pybind11;
 
-    using ostk::core::type::Real;
     using ostk::core::type::Shared;
 
     using ostk::physics::coordinate::Frame;
@@ -58,8 +57,8 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Kepler(pybind
                     const Instant&,
                     const Derived&,
                     const Length&,
-                    const Real&,
-                    const Real&,
+                    double,
+                    double,
                     const Kepler::PerturbationType&,
                     const Shared<const Frame>&>(),
                 R"doc(

@@ -3,8 +3,9 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
 #define __OpenSpaceToolkit_Astrodynamics_StateNumericalSolver__
 
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/Solver/NumericalSolver.hpp>
 
@@ -65,9 +66,9 @@ class NumericalSolver : public MathNumericalSolver
     NumericalSolver(
         const NumericalSolver::LogType& aLogType,
         const NumericalSolver::StepperType& aStepperType,
-        const Real& aTimeStep,
-        const Real& aRelativeTolerance,
-        const Real& anAbsoluteTolerance,
+        double aTimeStep,
+        double aRelativeTolerance,
+        double anAbsoluteTolerance,
         const RootSolver& aRootSolver = RootSolver::Default(),
         const std::function<void(const State&)>& aStateLogger = nullptr
     );
@@ -101,16 +102,16 @@ class NumericalSolver : public MathNumericalSolver
 
     /// @brief Get the maximum step size
     ///
-    /// @return Maximum step size in seconds, or Real::Undefined() if not set
-    Real getMaxStepSize() const;
+    /// @return Maximum step size in seconds, or NaN if not set
+    double getMaxStepSize() const;
 
     /// @brief Set the maximum step size the integrator is allowed to take during conditional
     ///        integration. Useful for detecting discrete/step-function events (e.g., thrust
     ///        toggles) that can be missed when the adaptive stepper grows its step too large.
     ///
-    /// @param aMaxStepSize Maximum step size in seconds. Use Real::Undefined() to remove the
+    /// @param aMaxStepSize Maximum step size in seconds. Use NaN to remove the
     ///                     limit.
-    void setMaxStepSize(const Real& aMaxStepSize);
+    void setMaxStepSize(double aMaxStepSize);
 
     /// @brief Perform numerical integration for a given array of time instants.
     ///
@@ -195,32 +196,32 @@ class NumericalSolver : public MathNumericalSolver
     /// @param aSystemOfEquations System of equations to integrate.
     ///
     /// @return A fixed step size numerical solver.
-    static NumericalSolver FixedStepSize(const NumericalSolver::StepperType& aStepperType, const Real& aTimeStep);
+    static NumericalSolver FixedStepSize(const NumericalSolver::StepperType& aStepperType, double aTimeStep);
 
     /// Delete undesired methods from parent
     Array<MathNumericalSolver::Solution> integrateTime(
         const MathNumericalSolver::StateVector& anInitialStateVector,
-        const Real& aStartTime,
-        const Array<Real>& aTimeArray,
+        double aStartTime,
+        const Array<double>& aTimeArray,
         const SystemOfEquationsWrapper& aSystemOfEquations
     ) = delete;
 
     MathNumericalSolver::Solution integrateTime(
         const MathNumericalSolver::StateVector& anInitialStateVector,
-        const Real& aStartTime,
-        const Real& anEndTime,
+        double aStartTime,
+        double anEndTime,
         const SystemOfEquationsWrapper& aSystemOfEquations
     ) = delete;
 
     MathNumericalSolver::Solution integrateDuration(
         const MathNumericalSolver::StateVector& anInitialStateVector,
-        const Real& aDurationInSeconds,
+        double aDurationInSeconds,
         const SystemOfEquationsWrapper& aSystemOfEquations
     ) = delete;
 
     Array<MathNumericalSolver::Solution> integrateDuration(
         const MathNumericalSolver::StateVector& anInitialStateVector,
-        const Array<Real>& aDurationArray,
+        const Array<double>& aDurationArray,
         const SystemOfEquationsWrapper& aSystemOfEquations
     ) = delete;
 
@@ -232,7 +233,7 @@ class NumericalSolver : public MathNumericalSolver
     RootSolver rootSolver_;
     Array<State> observedStates_;
     std::function<void(const State&)> stateLogger_;
-    Real maxStepSize_ = Real::Undefined();
+    double maxStepSize_ = std::numeric_limits<double>::quiet_NaN();
 
     /// @brief Observe a state, storing it's coordinates in the observedStates_ array
     ///

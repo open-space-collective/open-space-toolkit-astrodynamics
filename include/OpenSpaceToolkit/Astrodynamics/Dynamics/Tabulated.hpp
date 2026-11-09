@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_Tabulated__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 
 #include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
@@ -25,7 +24,6 @@ namespace dynamics
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 
 using ostk::mathematics::curvefitting::Interpolator;

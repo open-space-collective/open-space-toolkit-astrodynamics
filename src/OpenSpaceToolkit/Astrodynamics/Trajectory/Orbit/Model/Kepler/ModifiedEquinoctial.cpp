@@ -1,6 +1,7 @@
 /// Apache License 2.0
 
 #include <cmath>
+#include <limits>
 
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -12,6 +13,7 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Utility/String.hpp>
 
 namespace ostk
 {
@@ -38,10 +40,10 @@ static const Derived::Unit GravitationalParameterSIUnit =
 
 ModifiedEquinoctial::ModifiedEquinoctial(
     const Length& semiLatusRectum,
-    const Real& eccentricityX,
-    const Real& eccentricityY,
-    const Real& nodeX,
-    const Real& nodeY,
+    double eccentricityX,
+    double eccentricityY,
+    double nodeX,
+    double nodeY,
     const Angle& trueLongitude
 )
     : semiLatusRectum_(semiLatusRectum),
@@ -60,7 +62,7 @@ bool ModifiedEquinoctial::operator==(const ModifiedEquinoctial& aModifiedEquinoc
         return false;
     }
 
-    const Real tolerance = Real::Epsilon() * 1e3;
+    const double tolerance = 1e-15 * 1e3;
 
     return (std::abs(semiLatusRectum_.inMeters() - aModifiedEquinoctial.semiLatusRectum_.inMeters()) <= tolerance) &&
            (std::abs(eccentricityX_ - aModifiedEquinoctial.eccentricityX_) <= tolerance) &&
@@ -68,8 +70,8 @@ bool ModifiedEquinoctial::operator==(const ModifiedEquinoctial& aModifiedEquinoc
            (std::abs(nodeX_ - aModifiedEquinoctial.nodeX_) <= tolerance) &&
            (std::abs(nodeY_ - aModifiedEquinoctial.nodeY_) <= tolerance) &&
            (std::abs(
-                trueLongitude_.inRadians(0.0, Real::TwoPi()) -
-                aModifiedEquinoctial.trueLongitude_.inRadians(0.0, Real::TwoPi())
+                trueLongitude_.inRadians(0.0, 2.0 * M_PI) -
+                aModifiedEquinoctial.trueLongitude_.inRadians(0.0, 2.0 * M_PI)
             ) <= Angle::Radians(tolerance).inRadians());
 }
 
@@ -86,8 +88,8 @@ std::ostream& operator<<(std::ostream& anOutputStream, const ModifiedEquinoctial
 
 bool ModifiedEquinoctial::isDefined() const
 {
-    return semiLatusRectum_.isDefined() && eccentricityX_.isDefined() && eccentricityY_.isDefined() &&
-           nodeX_.isDefined() && nodeY_.isDefined() && trueLongitude_.isDefined();
+    return semiLatusRectum_.isDefined() && !std::isnan(eccentricityX_) && !std::isnan(eccentricityY_) &&
+           !std::isnan(nodeX_) && !std::isnan(nodeY_) && trueLongitude_.isDefined();
 }
 
 Length ModifiedEquinoctial::getSemiLatusRectum() const
@@ -99,7 +101,7 @@ Length ModifiedEquinoctial::getSemiLatusRectum() const
     return semiLatusRectum_;
 }
 
-Real ModifiedEquinoctial::getEccentricityX() const
+double ModifiedEquinoctial::getEccentricityX() const
 {
     if (!this->isDefined())
     {
@@ -108,7 +110,7 @@ Real ModifiedEquinoctial::getEccentricityX() const
     return eccentricityX_;
 }
 
-Real ModifiedEquinoctial::getEccentricityY() const
+double ModifiedEquinoctial::getEccentricityY() const
 {
     if (!this->isDefined())
     {
@@ -117,7 +119,7 @@ Real ModifiedEquinoctial::getEccentricityY() const
     return eccentricityY_;
 }
 
-Real ModifiedEquinoctial::getNodeX() const
+double ModifiedEquinoctial::getNodeX() const
 {
     if (!this->isDefined())
     {
@@ -126,7 +128,7 @@ Real ModifiedEquinoctial::getNodeX() const
     return nodeX_;
 }
 
-Real ModifiedEquinoctial::getNodeY() const
+double ModifiedEquinoctial::getNodeY() const
 {
     if (!this->isDefined())
     {
@@ -209,50 +211,50 @@ Pair<Position, Velocity> ModifiedEquinoctial::getCartesianState(
         throw ostk::core::error::runtime::Wrong("Frame", aFrameSPtr->getName());
     }
 
-    const Real p_m = semiLatusRectum_.inMeters();
-    const Real f_val = eccentricityX_;
-    const Real g_val = eccentricityY_;
-    const Real h_val = nodeX_;
-    const Real k_val = nodeY_;
-    const Real L_rad = trueLongitude_.inRadians();
+    const double p_m = semiLatusRectum_.inMeters();
+    const double f_val = eccentricityX_;
+    const double g_val = eccentricityY_;
+    const double h_val = nodeX_;
+    const double k_val = nodeY_;
+    const double L_rad = trueLongitude_.inRadians();
 
-    const Real sSquaredInverse = 1.0 / (1.0 + h_val * h_val + k_val * k_val);
+    const double sSquaredInverse = 1.0 / (1.0 + h_val * h_val + k_val * k_val);
 
-    const Real cosL = std::cos(L_rad);
-    const Real sinL = std::sin(L_rad);
+    const double cosL = std::cos(L_rad);
+    const double sinL = std::sin(L_rad);
 
-    const Real w = 1.0 + f_val * cosL + g_val * sinL;
-    if (w < Real::Epsilon())
+    const double w = 1.0 + f_val * cosL + g_val * sinL;
+    if (w < 1e-15)
     {
         throw ostk::core::error::RuntimeError("w is zero (singularity).");
     }
 
-    const Real r_m = p_m / w;
+    const double r_m = p_m / w;
 
-    const Real alphaSquared = h_val * h_val - k_val * k_val;
+    const double alphaSquared = h_val * h_val - k_val * k_val;
 
-    const Real mu = aGravitationalParameter.in(GravitationalParameterSIUnit);
+    const double mu = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
-    const Real muOverPSqrt = std::sqrt(mu / p_m);
+    const double muOverPSqrt = std::sqrt(mu / p_m);
 
     // Perifocal frame components
 
-    const Real x_pf = r_m * cosL;
-    const Real y_pf = r_m * sinL;
-    const Real vx_pf = -muOverPSqrt * (sinL + g_val);
-    const Real vy_pf = muOverPSqrt * (cosL + f_val);
+    const double x_pf = r_m * cosL;
+    const double y_pf = r_m * sinL;
+    const double vx_pf = -muOverPSqrt * (sinL + g_val);
+    const double vy_pf = muOverPSqrt * (cosL + f_val);
 
     // Inertial frame components
 
-    const Real x = sSquaredInverse * (x_pf * (1.0 + alphaSquared) + 2.0 * h_val * k_val * y_pf);
-    const Real y = sSquaredInverse * (y_pf * (1.0 - alphaSquared) + x_pf * (2.0 * h_val * k_val));
-    const Real z = 2.0 * sSquaredInverse * (h_val * y_pf - k_val * x_pf);
+    const double x = sSquaredInverse * (x_pf * (1.0 + alphaSquared) + 2.0 * h_val * k_val * y_pf);
+    const double y = sSquaredInverse * (y_pf * (1.0 - alphaSquared) + x_pf * (2.0 * h_val * k_val));
+    const double z = 2.0 * sSquaredInverse * (h_val * y_pf - k_val * x_pf);
 
     const Position position = Position::Meters({x, y, z}, aFrameSPtr);
 
-    const Real vx = sSquaredInverse * (vx_pf * (1.0 + alphaSquared) + 2.0 * h_val * k_val * vy_pf);
-    const Real vy = sSquaredInverse * (vy_pf * (1.0 - alphaSquared) + vx_pf * (2.0 * h_val * k_val));
-    const Real vz = 2.0 * sSquaredInverse * (h_val * vy_pf - k_val * vx_pf);
+    const double vx = sSquaredInverse * (vx_pf * (1.0 + alphaSquared) + 2.0 * h_val * k_val * vy_pf);
+    const double vy = sSquaredInverse * (vy_pf * (1.0 - alphaSquared) + vx_pf * (2.0 * h_val * k_val));
+    const double vz = 2.0 * sSquaredInverse * (h_val * vy_pf - k_val * vx_pf);
 
     const Velocity velocity = Velocity::MetersPerSecond({vx, vy, vz}, aFrameSPtr);
 
@@ -266,13 +268,13 @@ void ModifiedEquinoctial::print(std::ostream& anOutputStream, bool displayDecora
     ostk::core::utils::Print::Line(anOutputStream)
         << "Semi-latus rectum:" << (semiLatusRectum_.isDefined() ? semiLatusRectum_.toString() : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Eccentricity X:" << (eccentricityX_.isDefined() ? eccentricityX_.toString() : "Undefined");
+        << "Eccentricity X:" << (!std::isnan(eccentricityX_) ? utility::DoubleToString(eccentricityX_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Eccentricity Y:" << (eccentricityY_.isDefined() ? eccentricityY_.toString() : "Undefined");
+        << "Eccentricity Y:" << (!std::isnan(eccentricityY_) ? utility::DoubleToString(eccentricityY_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Node X:" << (nodeX_.isDefined() ? nodeX_.toString() : "Undefined");
+        << "Node X:" << (!std::isnan(nodeX_) ? utility::DoubleToString(nodeX_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
-        << "Node Y:" << (nodeY_.isDefined() ? nodeY_.toString() : "Undefined");
+        << "Node Y:" << (!std::isnan(nodeY_) ? utility::DoubleToString(nodeY_) : "Undefined");
     ostk::core::utils::Print::Line(anOutputStream)
         << "True Longitude:" << (trueLongitude_.isDefined() ? trueLongitude_.toString() : "Undefined");
 
@@ -283,10 +285,10 @@ ModifiedEquinoctial ModifiedEquinoctial::Undefined()
 {
     return {
         Length::Undefined(),
-        Real::Undefined(),
-        Real::Undefined(),
-        Real::Undefined(),
-        Real::Undefined(),
+        std::numeric_limits<double>::quiet_NaN(),
+        std::numeric_limits<double>::quiet_NaN(),
+        std::numeric_limits<double>::quiet_NaN(),
+        std::numeric_limits<double>::quiet_NaN(),
         Angle::Undefined()
     };
 }
@@ -318,7 +320,7 @@ ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
         );
     }
 
-    const Real mu = aGravitationalParameter.in(GravitationalParameterSIUnit);
+    const double mu = aGravitationalParameter.in(GravitationalParameterSIUnit);
 
     const Vector3d positionCoordinates = aCartesianState.first.accessCoordinates();
     const Vector3d velocityCoordinates = aCartesianState.second.accessCoordinates();
@@ -329,7 +331,7 @@ ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
 
     const Vector3d angularMomentumDirection = angularMomentumCoordinates.normalized();
 
-    const Real angularMomentumMagnitude = angularMomentumCoordinates.norm();
+    const double angularMomentumMagnitude = angularMomentumCoordinates.norm();
 
     const Vector3d velocityDirectionInOrbitalPlane =
         (positionCoordinates.norm() * velocityCoordinates -
@@ -337,19 +339,19 @@ ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
         angularMomentumMagnitude;
 
     // Modified equinoctial elements nodeY and nodeX
-    const Real nodeX = angularMomentumDirection.x() / (1.0 + angularMomentumDirection.z());
-    const Real nodeY = -angularMomentumDirection.y() / (1.0 + angularMomentumDirection.z());
+    const double nodeX = angularMomentumDirection.x() / (1.0 + angularMomentumDirection.z());
+    const double nodeY = -angularMomentumDirection.y() / (1.0 + angularMomentumDirection.z());
 
     // Check for singularity (angularMomentumDirection.z() == -1, i.e., inclination = 180 degrees)
-    if (std::abs(1.0 + angularMomentumDirection.z()) < Real::Epsilon())
+    if (std::abs(1.0 + angularMomentumDirection.z()) < 1e-15)
     {
         return ModifiedEquinoctial::Undefined();
     }
 
-    const Real nodeXSquared = nodeX * nodeX;
-    const Real nodeYSquared = nodeY * nodeY;
-    const Real sSquared = 1.0 + nodeYSquared + nodeXSquared;
-    const Real tkh = 2.0 * nodeX * nodeY;
+    const double nodeXSquared = nodeX * nodeX;
+    const double nodeYSquared = nodeY * nodeY;
+    const double sSquared = 1.0 + nodeYSquared + nodeXSquared;
+    const double tkh = 2.0 * nodeX * nodeY;
 
     // Eccentricity vector
     const Vector3d eccentricity = velocityCoordinates.cross(angularMomentumCoordinates) / mu - positionDirection;
@@ -362,15 +364,15 @@ ModifiedEquinoctial ModifiedEquinoctial::Cartesian(
     ghat = ghat / sSquared;
 
     // Modified equinoctial elements eccentricityX and eccentricityY
-    const Real eccentricityX = eccentricity.dot(fhat);
-    const Real eccentricityY = eccentricity.dot(ghat);
+    const double eccentricityX = eccentricity.dot(fhat);
+    const double eccentricityY = eccentricity.dot(ghat);
 
     // True longitude
     const double L_radians = std::atan2(
         positionDirection.y() - velocityDirectionInOrbitalPlane.x(),
         positionDirection.x() + velocityDirectionInOrbitalPlane.y()
     );
-    const Angle L = Angle::Radians(Angle::Radians(L_radians).inRadians(0.0, Real::TwoPi()));
+    const Angle L = Angle::Radians(Angle::Radians(L_radians).inRadians(0.0, 2.0 * M_PI));
 
     const Length semiLatusRectum = Length::Meters(angularMomentumMagnitude * angularMomentumMagnitude / mu);
 
@@ -412,21 +414,21 @@ ModifiedEquinoctial ModifiedEquinoctial::COE(const KeplerianCOE& aKeplerianEleme
     }
 
     // Check for inclination singularity (i = 180 degrees)
-    if (std::abs(inc_rad - Real::Pi()) < Real::Epsilon())
+    if (std::abs(inc_rad - M_PI) < 1e-15)
     {
         // This case (inclination is PI) is a singularity for nodeY, nodeX elements.
         return ModifiedEquinoctial::Undefined();
     }
 
     // Convert to Modified Equinoctial elements
-    const Real eccentricityX = ecc_val * std::cos(aop_rad + raan_rad);
-    const Real eccentricityY = ecc_val * std::sin(aop_rad + raan_rad);
+    const double eccentricityX = ecc_val * std::cos(aop_rad + raan_rad);
+    const double eccentricityY = ecc_val * std::sin(aop_rad + raan_rad);
 
-    const Real tan_i_half = std::tan(inc_rad / 2.0);
-    const Real nodeX = tan_i_half * std::cos(raan_rad);
-    const Real nodeY = tan_i_half * std::sin(raan_rad);
+    const double tan_i_half = std::tan(inc_rad / 2.0);
+    const double nodeX = tan_i_half * std::cos(raan_rad);
+    const double nodeY = tan_i_half * std::sin(raan_rad);
 
-    const Angle L = Angle::Radians(Angle::Radians(raan_rad + aop_rad + ta_rad).inRadians(0.0, Real::TwoPi()));
+    const Angle L = Angle::Radians(Angle::Radians(raan_rad + aop_rad + ta_rad).inRadians(0.0, 2.0 * M_PI));
 
     return {semiLatusRectum, eccentricityX, eccentricityY, nodeX, nodeY, L};
 }

@@ -5,7 +5,6 @@ from typing import Callable
 import pytest
 import numpy as np
 
-from ostk.core.type import Real
 from ostk.core.type import String
 
 from ostk.physics.time import Instant
@@ -252,7 +251,7 @@ class TestLeastSquaresSolverAnalysis:
         self,
         analysis: LeastSquaresSolver.Analysis,
     ):
-        assert isinstance(analysis.rms_error, Real)
+        assert isinstance(analysis.rms_error, float)
         assert isinstance(analysis.observation_count, int)
         assert isinstance(analysis.iteration_count, int)
         assert isinstance(analysis.termination_criteria, String)

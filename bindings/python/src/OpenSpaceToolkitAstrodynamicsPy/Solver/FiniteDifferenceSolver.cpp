@@ -44,7 +44,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Solver_FiniteDifferenceSolver(pybind
     finiteDifferenceSolver
 
         .def(
-            init<const ostk::astrodynamics::solver::FiniteDifferenceSolver::Type&, const Real&, const Duration&>(),
+            init<const ostk::astrodynamics::solver::FiniteDifferenceSolver::Type&, double, const Duration&>(),
             R"doc(
                 Construct a FiniteDifferenceSolver.
 

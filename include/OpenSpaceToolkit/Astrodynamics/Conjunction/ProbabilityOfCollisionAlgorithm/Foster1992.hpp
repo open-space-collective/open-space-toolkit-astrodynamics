@@ -4,7 +4,6 @@
 #define __OpenSpaceToolkit_Astrodynamics_Conjunction_ProbabilityOfCollisionAlgorithm_Foster1992__
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
@@ -28,7 +27,6 @@ namespace probabilityofcollisionalgorithm
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -116,7 +114,7 @@ class Foster1992 : public ProbabilityOfCollisionAlgorithm
     /// @param aHardBody2SPtr The hard body of Object 2
     ///
     /// @return The probability of collision
-    virtual Real computeProbabilityOfCollision(
+    virtual double computeProbabilityOfCollision(
         const CloseApproach& aCloseApproach,
         const Shared<const HardBody>& aHardBody1SPtr,
         const Shared<const HardBody>& aHardBody2SPtr
@@ -135,9 +133,8 @@ class Foster1992 : public ProbabilityOfCollisionAlgorithm
     /// @param anObj The combined hard-body radius (OBJ) [m]
     ///
     /// @return The probability of collision
-    Real computeProbabilityOfCollision_(
-        const Real& aR0, const Angle& aPhi, const Real& aSigmaU, const Real& aSigmaW, const Real& anObj
-    ) const;
+    double computeProbabilityOfCollision_(double aR0, const Angle& aPhi, double aSigmaU, double aSigmaW, double anObj)
+        const;
 
     static const Shared<const CoordinateSubset> CartesianPositionSubsetSPtr;
 
@@ -145,7 +142,7 @@ class Foster1992 : public ProbabilityOfCollisionAlgorithm
     Shared<const Frame> frameSPtr_;
     Size numberOfRadialSteps_;
     bool increaseNumberOfRadialStepsIfNeeded_;
-    Real angularStepSize_;               ///< Angular step size (dTheta), dividing a full turn evenly [rad]
+    double angularStepSize_;             ///< Angular step size (dTheta), dividing a full turn evenly [rad]
     Array<double> angularSliceSines_;    ///< Sines of the angles at the center of the angular slices
     Array<double> angularSliceCosines_;  ///< Cosines of the angles at the center of the angular slices
 };

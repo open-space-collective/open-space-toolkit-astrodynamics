@@ -19,8 +19,8 @@ using ostk::physics::time::Instant;
 RealCondition::RealCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<Real(const State&)>& anEvaluator,
-    const Real& aTargetValue
+    const std::function<double(const State&)>& anEvaluator,
+    double aTargetValue
 )
     : EventCondition(aName, anEvaluator, aTargetValue),
       criterion_(aCriterion),
@@ -31,7 +31,7 @@ RealCondition::RealCondition(
 RealCondition::RealCondition(
     const String& aName,
     const Criterion& aCriterion,
-    const std::function<Real(const State&)>& anEvaluator,
+    const std::function<double(const State&)>& anEvaluator,
     const Target& aTarget
 )
     : EventCondition(aName, anEvaluator, aTarget),
@@ -57,7 +57,7 @@ void RealCondition::print(std::ostream& anOutputStream, bool displayDecorator) c
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
 
-Real RealCondition::evaluate(const State& aState) const
+double RealCondition::evaluate(const State& aState) const
 {
     return this->evaluator_(aState) - (target_.value + target_.valueOffset);
 }
@@ -103,7 +103,7 @@ RealCondition RealCondition::DurationCondition(const Criterion& aCriterion, cons
     return {
         "Duration",
         aCriterion,
-        [](const State& aState) -> Real
+        [](const State& aState) -> double
         {
             return (aState.accessInstant() - Instant::J2000()).inSeconds();
         },
@@ -111,38 +111,36 @@ RealCondition RealCondition::DurationCondition(const Criterion& aCriterion, cons
     };
 }
 
-std::function<bool(const Real&, const Real&)> RealCondition::GenerateComparator(
-    const RealCondition::Criterion& aCriterion
-)
+std::function<bool(double, double)> RealCondition::GenerateComparator(const RealCondition::Criterion& aCriterion)
 {
     switch (aCriterion)
     {
         case RealCondition::Criterion::StrictlyPositive:
-            return [](const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
+            return [](double currentValue, [[maybe_unused]] double previousValue) -> bool
             {
                 return (currentValue > 0.0);
             };
 
         case RealCondition::Criterion::StrictlyNegative:
-            return [](const Real& currentValue, [[maybe_unused]] const Real& previousValue) -> bool
+            return [](double currentValue, [[maybe_unused]] double previousValue) -> bool
             {
                 return (currentValue < 0.0);
             };
 
         case RealCondition::Criterion::PositiveCrossing:
-            return [](const Real& currentValue, const Real& previousValue) -> bool
+            return [](double currentValue, double previousValue) -> bool
             {
                 return (previousValue < 0.0) && (currentValue > 0.0);
             };
 
         case RealCondition::Criterion::NegativeCrossing:
-            return [](const Real& currentValue, const Real& previousValue) -> bool
+            return [](double currentValue, double previousValue) -> bool
             {
                 return (previousValue > 0.0) && (currentValue < 0.0);
             };
 
         case RealCondition::Criterion::AnyCrossing:
-            return [](const Real& currentValue, const Real& previousValue) -> bool
+            return [](double currentValue, double previousValue) -> bool
             {
                 return (currentValue > 0.0) == (previousValue < 0.0);
             };

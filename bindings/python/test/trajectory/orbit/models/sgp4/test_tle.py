@@ -4,7 +4,6 @@ import pytest
 
 import tempfile
 
-from ostk.core.type import Integer
 from ostk.core.type import String
 from ostk.core.filesystem import Path
 from ostk.core.filesystem import File
@@ -98,7 +97,7 @@ class TestTLE:
         )
 
     def test_get_satellite_number(self, tle: TLE):
-        assert isinstance(tle.get_satellite_number(), Integer)
+        assert isinstance(tle.get_satellite_number(), int)
         assert tle.get_satellite_number() == 25544
 
     def test_get_satellite_number_failure_invalid_alpha5_character(
@@ -128,7 +127,7 @@ class TestTLE:
 
         assert isinstance(tle.get_raw_satellite_number(), String)
         assert tle.get_raw_satellite_number() == "A5544"
-        assert isinstance(tle.get_satellite_number(), Integer)
+        assert isinstance(tle.get_satellite_number(), int)
         assert tle.get_satellite_number() == 105544
 
     def test_get_classification(self, tle: TLE):

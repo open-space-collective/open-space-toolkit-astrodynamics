@@ -1,5 +1,8 @@
 /// Apache License 2.0
 
+#include <cmath>
+#include <limits>
+
 #include <OpenSpaceToolkit/Core/Error.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Utility.hpp>
@@ -19,12 +22,11 @@ namespace model
 namespace blm
 {
 
-using ostk::core::type::Integer;
 using ostk::core::type::Size;
 
 BrouwerLyddaneMean::BrouwerLyddaneMean(
     const Length &aSemiMajorAxis,
-    const Real &anEccentricity,
+    const double &anEccentricity,
     const Angle &anInclination,
     const Angle &aRaan,
     const Angle &anAop,
@@ -90,7 +92,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
         );
     }
 
-    const Real perigee = coe.getPeriapsisRadius().inMeters();
+    const double perigee = coe.getPeriapsisRadius().inMeters();
     if (perigee < 3000000.0)
     {
         throw ostk::core::error::RuntimeError(
@@ -108,7 +110,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
         }
     }
 
-    const Real inclination_degrees = coe.getInclination().inDegrees();
+    const double inclination_degrees = coe.getInclination().inDegrees();
     if (inclination_degrees > 180.0)
     {
         throw ostk::core::error::RuntimeError(
@@ -135,11 +137,11 @@ Vector6d BrouwerLyddaneMean::Cartesian(
 
     Vector6d coeVector = coe.getSIVector(COE::AnomalyType::Mean);
 
-    Integer pseudoState = 0;
+    int pseudoState = 0;
     if (coeVector[2] > 3.0543261909900763)  // 175.0 degrees
     {
-        coeVector[2] = Real::Pi() - coeVector[2];  // INC = 180 - INC
-        coeVector[3] = -coeVector[3];              // RAAN = - RAAN
+        coeVector[2] = M_PI - coeVector[2];  // INC = 180 - INC
+        coeVector[3] = -coeVector[3];        // RAAN = - RAAN
         Position position = Position::Undefined();
         Velocity velocity = Velocity::Undefined();
         std::tie(position, velocity) =
@@ -168,7 +170,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
     // TBI: Same as above
     const auto brouwerLyddaneMeanFromMEE = [](const Vector6d &anAeqVector) -> Vector6d
     {
-        Real meanInc = Real::Undefined();
+        double meanInc = std::numeric_limits<double>::quiet_NaN();
 
         if ((anAeqVector[3] * anAeqVector[3] + anAeqVector[4] * anAeqVector[4]) <= 1.0)
         {
@@ -179,10 +181,10 @@ Vector6d BrouwerLyddaneMean::Cartesian(
             meanInc = std::acos(1.0 - 2.0 * 1.0);
         }
 
-        Real meanRaan = std::atan2(anAeqVector[3], anAeqVector[4]);
+        double meanRaan = std::atan2(anAeqVector[3], anAeqVector[4]);
         if (meanRaan < 0.0)
         {
-            meanRaan += Real::TwoPi();
+            meanRaan += 2.0 * M_PI;
         }
 
         return {
@@ -206,13 +208,13 @@ Vector6d BrouwerLyddaneMean::Cartesian(
 
     Vector6d brouwerLyddaneMean;
 
-    Real errorMagnitude = 0.9;
-    Real errorMagnitudePrevious = 1.0;
-    Integer iter = 0;
+    double errorMagnitude = 0.9;
+    double errorMagnitudePrevious = 1.0;
+    int iter = 0;
     Vector6d cartesian_2;
 
-    const Real tol = 1.0E-8;
-    const Integer maxiter = 75;
+    const double tol = 1.0E-8;
+    const int maxiter = 75;
     while (errorMagnitude > tol)
     {
         brouwerLyddaneMean = brouwerLyddaneMeanFromMEE(modifiedEquinoctialElementsMean_2);
@@ -261,7 +263,7 @@ Vector6d BrouwerLyddaneMean::Cartesian(
 
     if (pseudoState != 0)
     {
-        brouwerLyddaneMean[2] = Real::Pi() - brouwerLyddaneMean[2];
+        brouwerLyddaneMean[2] = M_PI - brouwerLyddaneMean[2];
         brouwerLyddaneMean[3] = -brouwerLyddaneMean[3];
     }
 

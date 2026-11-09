@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_PropulsionSystem__
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
-
 #include <OpenSpaceToolkit/Physics/Unit/Mass.hpp>
 
 namespace ostk
@@ -15,8 +13,6 @@ namespace flight
 {
 namespace system
 {
-
-using ostk::core::type::Real;
 
 using ostk::physics::unit::Mass;
 
@@ -32,7 +28,7 @@ class PropulsionSystem
     ///
     /// @param aThrustInSIUnit Thrust value in SI Unit
     /// @param aSpecificImpulseInSIUnit Specific impulse in SI Unit
-    PropulsionSystem(const Real& aThrustInSIUnit, const Real& aSpecificImpulseInSIUnit);
+    PropulsionSystem(double aThrustInSIUnit, double aSpecificImpulseInSIUnit);
 
     /// @brief Equal to operator
     ///
@@ -67,39 +63,39 @@ class PropulsionSystem
     /// @brief Get propulsion system's thrust
     ///
     /// @code{.cpp}
-    ///              Real thrust = propulsionSystem.getThrust();
+    ///              double thrust = propulsionSystem.getThrust();
     /// @endcode
     ///
-    /// @return Real
-    Real getThrust() const;
+    /// @return double
+    double getThrust() const;
 
     /// @brief Get propulsion system's specific impulse
     ///              https://en.wikipedia.org/wiki/Specific_impulse
     ///
     /// @code{.cpp}
-    ///              Real specificImpulse = propulsionSystem.getSpecificImpulse();
+    ///              double specificImpulse = propulsionSystem.getSpecificImpulse();
     /// @endcode
     ///
-    /// @return Real
-    Real getSpecificImpulse() const;
+    /// @return double
+    double getSpecificImpulse() const;
 
     /// @brief Get propulsion system's mass flow rate
     ///
     /// @code{.cpp}
-    ///              Real massFlowRate = propulsionSystem.getMassFlowRate();
+    ///              double massFlowRate = propulsionSystem.getMassFlowRate();
     /// @endcode
     ///
-    /// @return Real
-    Real getMassFlowRate() const;
+    /// @return double
+    double getMassFlowRate() const;
 
     /// @brief Get propulsion system's acceleration
     ///
     /// @code{.cpp}
-    ///              Real acceleration = propulsionSystem.getAcceleration();
+    ///              double acceleration = propulsionSystem.getAcceleration();
     /// @endcode
     ///
-    /// @return Real
-    Real getAcceleration(const Mass& aMass) const;
+    /// @return double
+    double getAcceleration(const Mass& aMass) const;
 
     /// @brief Undefined propulsion system
     ///
@@ -120,9 +116,9 @@ class PropulsionSystem
     static PropulsionSystem Default();
 
    private:
-    Real thrust_;           /// Thrust [N]
-    Real specificImpulse_;  /// Specific impulse [s]
-    Real massFlowRate_;     /// Mass flow rate [kg/s]
+    double thrust_;           /// Thrust [N]
+    double specificImpulse_;  /// Specific impulse [s]
+    double massFlowRate_;     /// Mass flow rate [kg/s]
 };
 
 }  // namespace system

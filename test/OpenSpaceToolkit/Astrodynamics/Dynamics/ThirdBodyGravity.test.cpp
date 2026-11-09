@@ -5,7 +5,6 @@
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
 #include <OpenSpaceToolkit/Core/Container/Pair.hpp>
 #include <OpenSpaceToolkit/Core/Type/Index.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
@@ -34,7 +33,6 @@
 using ostk::core::container::Array;
 using ostk::core::container::Pair;
 using ostk::core::type::Index;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
@@ -338,7 +336,7 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Dynamics_ThirdBodyGravity, ComputeContribu
         const Vector3d thirdBodyPositionCoordinates =
             oblateThirdBodySPtr->getPositionIn(Frame::GCRF(), startInstant_).getCoordinates();
         const Vector3d relativePositionCoordinates = thirdBodyPositionCoordinates - positionCoordinates;
-        const Real mu = oblateThirdBodySPtr->getGravitationalParameter().in(GravitationalParameterSIUnit);
+        const double mu = oblateThirdBodySPtr->getGravitationalParameter().in(GravitationalParameterSIUnit);
         const Vector3d pointMassGravitationalAccelerationSI =
             mu * (relativePositionCoordinates / std::pow(relativePositionCoordinates.norm(), 3) -
                   thirdBodyPositionCoordinates / std::pow(thirdBodyPositionCoordinates.norm(), 3));

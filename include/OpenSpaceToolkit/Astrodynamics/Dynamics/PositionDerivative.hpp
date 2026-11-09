@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative__
 #define __OpenSpaceToolkit_Astrodynamics_Dynamics_PositionDerivative__
 
-#include <OpenSpaceToolkit/Core/Type/Integer.hpp>
-
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
@@ -17,8 +15,6 @@ namespace astrodynamics
 {
 namespace dynamics
 {
-
-using ostk::core::type::Integer;
 
 using ostk::astrodynamics::Dynamics;
 

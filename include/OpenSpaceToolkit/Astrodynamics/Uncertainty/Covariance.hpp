@@ -6,7 +6,6 @@
 #include <ostream>
 
 #include <OpenSpaceToolkit/Core/Container/Array.hpp>
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
 #include <OpenSpaceToolkit/Core/Type/Shared.hpp>
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 
@@ -27,7 +26,6 @@ namespace uncertainty
 {
 
 using ostk::core::container::Array;
-using ostk::core::type::Real;
 using ostk::core::type::Shared;
 using ostk::core::type::Size;
 
@@ -54,8 +52,8 @@ class Covariance
     /// @ref https://en.wikipedia.org/wiki/Mahalanobis_distance
     struct MahalanobisDistanceAnalysis
     {
-        Real mahalanobisDistanceSquared;  ///< The squared Mahalanobis distance of the residuals
-        Real pValue;              ///< The probability of a point in the distribution lying at least that far out
+        double mahalanobisDistanceSquared;  ///< The squared Mahalanobis distance of the residuals
+        double pValue;            ///< The probability of a point in the distribution lying at least that far out
         Size numberOfDimensions;  ///< The number of dimensions of the residual vector
         Array<Shared<const CoordinateSubset>> coordinateSubsets;  ///< The coordinate subsets of the analysis
     };
@@ -179,7 +177,7 @@ class Covariance
     ///
     /// @param aScalar The strictly positive scalar to multiply the covariance coordinates by
     /// @return A new Covariance with scaled coordinates
-    Covariance scale(const Real& aScalar) const;
+    Covariance scale(double aScalar) const;
 
     /// @brief Compute the Mahalanobis distance analysis of residuals with respect to the Covariance.
     ///

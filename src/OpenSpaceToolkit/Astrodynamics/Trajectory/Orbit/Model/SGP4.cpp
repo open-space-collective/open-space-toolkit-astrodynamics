@@ -275,7 +275,7 @@ Instant SGP4::getEpoch() const
     return this->tleArray_.accessFirst().getEpoch();
 }
 
-Integer SGP4::getRevolutionNumberAtEpoch() const
+int SGP4::getRevolutionNumberAtEpoch() const
 {
     if (!this->isDefined())
     {

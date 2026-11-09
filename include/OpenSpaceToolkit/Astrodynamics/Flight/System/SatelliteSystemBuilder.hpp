@@ -3,8 +3,6 @@
 #ifndef __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder__
 #define __OpenSpaceToolkit_Astrodynamics_Flight_System_SatelliteSystemBuilder__
 
-#include <OpenSpaceToolkit/Core/Type/Real.hpp>
-
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Composite.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Cuboid.hpp>
 #include <OpenSpaceToolkit/Mathematics/Geometry/3D/Object/Point.hpp>
@@ -24,8 +22,6 @@ namespace flight
 {
 namespace system
 {
-
-using ostk::core::type::Real;
 
 using ostk::mathematics::geometry::d3::object::Composite;
 using ostk::mathematics::geometry::d3::object::Cuboid;
@@ -93,13 +89,13 @@ class SatelliteSystemBuilder
     ///
     /// @param aCrossSectionalSurfaceArea A cross-sectional surface area
     /// @return The builder
-    SatelliteSystemBuilder& withCrossSectionalSurfaceArea(const Real& aCrossSectionalSurfaceArea);
+    SatelliteSystemBuilder& withCrossSectionalSurfaceArea(double aCrossSectionalSurfaceArea);
 
     /// @brief Set the drag coefficient
     ///
     /// @param aDragCoefficient A drag coefficient
     /// @return The builder
-    SatelliteSystemBuilder& withDragCoefficient(const Real& aDragCoefficient);
+    SatelliteSystemBuilder& withDragCoefficient(double aDragCoefficient);
 
     /// @brief Set the propulsion system
     ///
@@ -131,8 +127,8 @@ class SatelliteSystemBuilder
     Mass dryMass_;
     Composite geometry_;
     Matrix3d inertiaTensor_;
-    Real crossSectionalSurfaceArea_;
-    Real dragCoefficient_;
+    double crossSectionalSurfaceArea_;
+    double dragCoefficient_;
     PropulsionSystem propulsionSystem_;
 };
 
