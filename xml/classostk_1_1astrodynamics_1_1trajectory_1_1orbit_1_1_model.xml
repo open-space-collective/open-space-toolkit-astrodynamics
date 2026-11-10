@@ -22,7 +22,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="33" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp" bodystart="31" bodyend="31"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="29" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp" bodystart="31" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a49fe068b6734357011f16e3db5e1457d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type></type>
@@ -37,7 +37,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="36" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp" bodystart="33" bodyend="33"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="32" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp" bodystart="33" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a8e8b55528a289a24a139fdc9526d6699" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model" kindref="compound">Model</ref> *</type>
@@ -46,8 +46,8 @@
         <name>clone</name>
         <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac3cebd79bb8109bf4eada3b95b689cfd">clone</reimplements>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae6c6823d8d795c53422c643d4288713d">clone</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a70ffb34799727c8fac6f2a93aadbf944">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1aec60303c53b1cfd49b18f6bf04f62bf8">clone</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a70ffb34799727c8fac6f2a93aadbf944">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aaeb6fea43961ab9fe73158c88727edda">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a5c602e82d4eb0e20497943e45b437893">clone</reimplementedby>
         <briefdescription>
@@ -60,30 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="41" column="19"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a68336998bbf054ebf15060fe56baed46" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
-        <type>bool</type>
-        <definition>virtual bool ostk::astrodynamics::trajectory::orbit::Model::isDefined</definition>
-        <argsstring>() const =0</argsstring>
-        <name>isDefined</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1acd0fea7c711e88d8287959b34589b481">isDefined</reimplements>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1ee56729996737bdeb0a82aae6208218">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a212c20f9354591e30d9fb27400869809">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a4555bef397257e8f4239ece8aff79d0d">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ada222f4aae7caa9fc6710c6046282d81">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a2cf7eb3886519efe9ff2e47d78afa3cc">isDefined</reimplementedby>
-        <briefdescription>
-<para>Check if the orbit model is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if the orbit model is defined, false otherwise. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="46" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="37" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a9867f3f069a4333ba5a037ace603466d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Instant</type>
@@ -91,8 +68,8 @@
         <argsstring>() const =0</argsstring>
         <name>getEpoch</name>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae59405bd8e3741bedf843305a7ac8670">getEpoch</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aa5f849dfef488812988656e334f2be98">getEpoch</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a2179b5781de8a1b58be9794d295158e8">getEpoch</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aa5f849dfef488812988656e334f2be98">getEpoch</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ab536a2b8887f4eabf4b40fb421ac6292">getEpoch</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1ae54bd0ba0ab57343a301b332587c8a8c">getEpoch</reimplementedby>
         <briefdescription>
@@ -105,18 +82,18 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="51" column="21"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="42" column="21"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1af94c4fb7500e16671735e1d978b7475e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
-        <type>Integer</type>
-        <definition>virtual Integer ostk::astrodynamics::trajectory::orbit::Model::getRevolutionNumberAtEpoch</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1aa78beb72e7b80e4be76b3e53476e695f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int ostk::astrodynamics::trajectory::orbit::Model::getRevolutionNumberAtEpoch</definition>
         <argsstring>() const =0</argsstring>
         <name>getRevolutionNumberAtEpoch</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a0ce999f90d98f84c70cff2c31714c094">getRevolutionNumberAtEpoch</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aba868792a196fe2e28fd5b52b1e34998">getRevolutionNumberAtEpoch</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a9785d1c1f627838e69f6c816026226ec">getRevolutionNumberAtEpoch</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1ae5070899e3a10f0727ed29772677151e">getRevolutionNumberAtEpoch</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a449d26ccda0b4469eb0ce0772bc73e10">getRevolutionNumberAtEpoch</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a20f6c952f7eca5e58588e70532dcb6f2">getRevolutionNumberAtEpoch</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a0338be18eba12afcb5d7a34ec9ff5b29">getRevolutionNumberAtEpoch</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a034a162e9041e23b7ef848cf26d3226d">getRevolutionNumberAtEpoch</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1ac79ed6e6821daa3169956eee40748e02">getRevolutionNumberAtEpoch</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ac804ef577c6df8509155414f7e64611e">getRevolutionNumberAtEpoch</reimplementedby>
         <briefdescription>
 <para>Get the revolution number at the epoch. </para>
         </briefdescription>
@@ -127,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="56" column="21"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="47" column="17"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ac1357b291393c44c18be2d5db954e32b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -163,15 +140,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="62" column="19"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="53" column="19"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a96da6a07d34c0b30d8e8dc579065b8b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::trajectory::orbit::Model::calculateRevolutionNumberAt</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a97149d958e73cf32a44e63c153391d6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::trajectory::orbit::Model::calculateRevolutionNumberAt</definition>
         <argsstring>(const Instant &amp;anInstant) const</argsstring>
         <name>calculateRevolutionNumberAt</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a4dcaa5812aa62aa034da8e8f79b8fae7">calculateRevolutionNumberAt</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1afc577d8f07f9c6c39a6c5ec46bb89486">calculateRevolutionNumberAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae9d1e08efaa3a5532bdceb18a2e8d7c5">calculateRevolutionNumberAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ad5fc27d4afde7f2da224c3ba6c2905b6">calculateRevolutionNumberAt</reimplementedby>
         <param>
           <type>const Instant &amp;</type>
           <declname>anInstant</declname>
@@ -180,7 +157,7 @@
 <para>Calculate the revolution number at a given instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Integer<sp/>revolutionNumber<sp/>=<sp/>model.calculateRevolutionNumberAt(instant)<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>revolutionNumber<sp/>=<sp/>model.calculateRevolutionNumberAt(instant)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -197,7 +174,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="72" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp" bodystart="35" bodyend="61"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="63" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.cpp" bodystart="35" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1adb95510c1c7cde93bcfc7fd0d8c8f4f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -244,7 +221,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="78" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="69" column="18"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -306,17 +283,16 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="30" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" bodystart="29" bodyend="79"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" line="26" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp" bodystart="25" bodyend="70"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>as</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a96da6a07d34c0b30d8e8dc579065b8b8" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>calculateRevolutionNumberAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a97149d958e73cf32a44e63c153391d6a" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>calculateRevolutionNumberAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ac1357b291393c44c18be2d5db954e32b" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>calculateStateAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1af636a899043ecc4337b69314d56f7075" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>calculateStatesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a8e8b55528a289a24a139fdc9526d6699" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a9867f3f069a4333ba5a037ace603466d" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>getEpoch</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1af94c4fb7500e16671735e1d978b7475e" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>getRevolutionNumberAtEpoch</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1aa78beb72e7b80e4be76b3e53476e695f" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>getRevolutionNumberAtEpoch</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>is</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a68336998bbf054ebf15060fe56baed46" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ae31a2ca84e2ced0ed3ae5b89b240f68d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>Model</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac03a04471c72da2b606a05386636b10d" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a3815cac54f418dcc69a94935de307d89" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::Model</scope><name>operator==</name></member>

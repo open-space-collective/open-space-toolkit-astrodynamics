@@ -4,9 +4,9 @@
     <compoundname>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</compoundname>
     <includes refid="_satellite_system_builder_8hpp" local="no">SatelliteSystemBuilder.hpp</includes>
       <sectiondef kind="private-attrib">
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a6fa27559556cc0b1898a4536484f334c" prot="private" static="no" mutable="no">
-        <type>Mass</type>
-        <definition>Mass ostk::astrodynamics::flight::system::SatelliteSystemBuilder::dryMass_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a72323199f2f3d2e33a6b70c9221036fd" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; Mass &gt;</type>
+        <definition>std::optional&lt;Mass&gt; ostk::astrodynamics::flight::system::SatelliteSystemBuilder::dryMass_</definition>
         <argsstring></argsstring>
         <name>dryMass_</name>
         <briefdescription>
@@ -15,11 +15,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="131" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="131" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="131" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="131" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aba964ac3859dba20784f9ebd58d2861d" prot="private" static="no" mutable="no">
-        <type>Composite</type>
-        <definition>Composite ostk::astrodynamics::flight::system::SatelliteSystemBuilder::geometry_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1abceaee02430d76188442bb263e477b5c" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; Composite &gt;</type>
+        <definition>std::optional&lt;Composite&gt; ostk::astrodynamics::flight::system::SatelliteSystemBuilder::geometry_</definition>
         <argsstring></argsstring>
         <name>geometry_</name>
         <briefdescription>
@@ -28,11 +28,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="132" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="132" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="132" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="132" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aa889951d6dd3a241e3cd0f6934cf84df" prot="private" static="no" mutable="no">
-        <type>Matrix3d</type>
-        <definition>Matrix3d ostk::astrodynamics::flight::system::SatelliteSystemBuilder::inertiaTensor_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1ab70fb07f5101875c9284f8431ea77770" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; Matrix3d &gt;</type>
+        <definition>std::optional&lt;Matrix3d&gt; ostk::astrodynamics::flight::system::SatelliteSystemBuilder::inertiaTensor_</definition>
         <argsstring></argsstring>
         <name>inertiaTensor_</name>
         <briefdescription>
@@ -41,11 +41,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="133" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="133" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="133" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="133" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a16baffa1a95bf3ffe8882c962e9671ca" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::flight::system::SatelliteSystemBuilder::crossSectionalSurfaceArea_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aea2d6cedb7aa2fe3b64255cf0e323d33" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::flight::system::SatelliteSystemBuilder::crossSectionalSurfaceArea_</definition>
         <argsstring></argsstring>
         <name>crossSectionalSurfaceArea_</name>
         <briefdescription>
@@ -54,11 +54,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="134" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="134" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="134" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="134" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1af2c8a474759a37bf3a58091bf4de2e6f" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::flight::system::SatelliteSystemBuilder::dragCoefficient_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a1a10025bd84fffee7c2506606702c00e" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::flight::system::SatelliteSystemBuilder::dragCoefficient_</definition>
         <argsstring></argsstring>
         <name>dragCoefficient_</name>
         <briefdescription>
@@ -67,11 +67,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="135" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="135" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="135" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="135" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a1995db31534da15b2b27fc06abd1fa3f" prot="private" static="no" mutable="no">
-        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref></type>
-        <definition>PropulsionSystem ostk::astrodynamics::flight::system::SatelliteSystemBuilder::propulsionSystem_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a5390720da70f07a52fcddcc647126c30" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_propulsion_system" kindref="compound">PropulsionSystem</ref> &gt;</type>
+        <definition>std::optional&lt;PropulsionSystem&gt; ostk::astrodynamics::flight::system::SatelliteSystemBuilder::propulsionSystem_</definition>
         <argsstring></argsstring>
         <name>propulsionSystem_</name>
         <briefdescription>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="136" column="22" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="136" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="136" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="136" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="55" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="17" bodyend="25"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="53" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="18" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1ae99630407c674fcc26141807f756e4e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -110,7 +110,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="58" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="27" bodyend="27"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="56" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="28" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aab605bb7383eea14f12ad86ffa300abf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder" kindref="compound">SatelliteSystemBuilder</ref> *</type>
@@ -127,7 +127,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="63" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="29" bodyend="32"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="61" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="30" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a8ffba7454de1b518dcacdd9e7c528408" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder" kindref="compound">SatelliteSystemBuilder</ref> &amp;</type>
@@ -157,7 +157,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="78" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="41" bodyend="45"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="76" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="42" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aee6fcb8b0e182d65b37b5fe8f2cc0001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder" kindref="compound">SatelliteSystemBuilder</ref> &amp;</type>
@@ -187,7 +187,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="84" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="47" bodyend="51"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="82" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="48" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a1903d997124c97b4f5c18c0161aa3dce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder" kindref="compound">SatelliteSystemBuilder</ref> &amp;</type>
@@ -217,15 +217,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="90" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="53" bodyend="57"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="88" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="54" bodyend="58"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aaa47bb33282e19cfcf6bbc13e1795e0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a2127626e07103c8431026fd15f6c828c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder" kindref="compound">SatelliteSystemBuilder</ref> &amp;</type>
         <definition>SatelliteSystemBuilder &amp; ostk::astrodynamics::flight::system::SatelliteSystemBuilder::withCrossSectionalSurfaceArea</definition>
-        <argsstring>(const Real &amp;aCrossSectionalSurfaceArea)</argsstring>
+        <argsstring>(double aCrossSectionalSurfaceArea)</argsstring>
         <name>withCrossSectionalSurfaceArea</name>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aCrossSectionalSurfaceArea</declname>
         </param>
         <briefdescription>
@@ -247,15 +247,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="96" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="59" bodyend="63"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="94" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="60" bodyend="64"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1ac4e847878b441ece003fe6b4c502ffb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a13cf3003c43320e182625bb82df55782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder" kindref="compound">SatelliteSystemBuilder</ref> &amp;</type>
         <definition>SatelliteSystemBuilder &amp; ostk::astrodynamics::flight::system::SatelliteSystemBuilder::withDragCoefficient</definition>
-        <argsstring>(const Real &amp;aDragCoefficient)</argsstring>
+        <argsstring>(double aDragCoefficient)</argsstring>
         <name>withDragCoefficient</name>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aDragCoefficient</declname>
         </param>
         <briefdescription>
@@ -277,7 +277,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="102" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="65" bodyend="69"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="100" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="66" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1ac54b88d53a7395edeec62021f55c8fbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder" kindref="compound">SatelliteSystemBuilder</ref> &amp;</type>
@@ -307,7 +307,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="108" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="71" bodyend="75"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="106" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="72" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a450f2c560e7e2eab05ffd8d39d29ab73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref></type>
@@ -315,16 +315,25 @@
         <argsstring>() const</argsstring>
         <name>build</name>
         <briefdescription>
-<para>Builds the satellite system. </para>
+<para>Builds the satellite system. The cross-sectional surface area, drag coefficient and propulsion system that were not set are absent from the built satellite system. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>A new satellite system </para>
 </simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::runtime::Undefined</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the dry mass, geometry or inertia tensor was not set </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="113" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="77" bodyend="87"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="113" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="78" bodyend="103"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a63fdfba6e047d81d510467ecc7266b20" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -365,7 +374,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="119" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="89" bodyend="108"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="119" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="105" bodyend="126"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -409,7 +418,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="70" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="34" bodyend="39"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="68" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="35" bodyend="40"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -430,7 +439,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="128" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="110" bodyend="121"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="128" column="35" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="128" bodyend="139"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -442,22 +451,22 @@
 <codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a9f7f81acbae39c3581beba599b2a551d" kindref="member">SatelliteSystemBuilder::Default</ref>().<ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a8ffba7454de1b518dcacdd9e7c528408" kindref="member">withDryMass</ref>(X)</highlight></codeline>
 </programlisting> </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="52" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="51" bodyend="137"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" line="50" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.hpp" bodystart="49" bodyend="137"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a450f2c560e7e2eab05ffd8d39d29ab73" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>build</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aab605bb7383eea14f12ad86ffa300abf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>clone</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a16baffa1a95bf3ffe8882c962e9671ca" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>crossSectionalSurfaceArea_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aea2d6cedb7aa2fe3b64255cf0e323d33" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>crossSectionalSurfaceArea_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a9f7f81acbae39c3581beba599b2a551d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>Default</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1af2c8a474759a37bf3a58091bf4de2e6f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>dragCoefficient_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a6fa27559556cc0b1898a4536484f334c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>dryMass_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aba964ac3859dba20784f9ebd58d2861d" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>geometry_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aa889951d6dd3a241e3cd0f6934cf84df" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>inertiaTensor_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a1a10025bd84fffee7c2506606702c00e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>dragCoefficient_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a72323199f2f3d2e33a6b70c9221036fd" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>dryMass_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1abceaee02430d76188442bb263e477b5c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>geometry_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1ab70fb07f5101875c9284f8431ea77770" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>inertiaTensor_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aa6b9ba20b8ee31d727250fcf6f2de53f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a63fdfba6e047d81d510467ecc7266b20" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>print</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a1995db31534da15b2b27fc06abd1fa3f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>propulsionSystem_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a5390720da70f07a52fcddcc647126c30" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>propulsionSystem_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aab6889a255c83bca361aa7385fc9ada5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>SatelliteSystemBuilder</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aaa47bb33282e19cfcf6bbc13e1795e0e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>withCrossSectionalSurfaceArea</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1ac4e847878b441ece003fe6b4c502ffb2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>withDragCoefficient</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a2127626e07103c8431026fd15f6c828c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>withCrossSectionalSurfaceArea</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a13cf3003c43320e182625bb82df55782" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>withDragCoefficient</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a8ffba7454de1b518dcacdd9e7c528408" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>withDryMass</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1aee6fcb8b0e182d65b37b5fe8f2cc0001" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>withGeometry</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_builder_1a1903d997124c97b4f5c18c0161aa3dce" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::system::SatelliteSystemBuilder</scope><name>withInertiaTensor</name></member>

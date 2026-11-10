@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::hardbody::Custom</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::HardBody</basecompoundref>
+    <includes refid="_custom_8hpp" local="no">Custom.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a2ae0f6156d16e182324e9beff0882d14" prot="public" static="no">
+        <type>ostk::mathematics::geometry::d3::object::Point</type>
+        <definition>using ostk::astrodynamics::conjunction::hardbody::Custom::Vertex =  ostk::mathematics::geometry::d3::object::Point</definition>
+        <argsstring></argsstring>
+        <name>Vertex</name>
+        <briefdescription>
+<para>3D vertex of the hard body </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" line="52" column="5" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a9266643457782ab9a577374ae881a68c" prot="public" static="no">
+        <type>std::function&lt; Array&lt; <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a2ae0f6156d16e182324e9beff0882d14" kindref="member">Vertex</ref> &gt;(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
+        <definition>using ostk::astrodynamics::conjunction::hardbody::Custom::VertexGenerator =  std::function&lt;Array&lt;Vertex&gt;(const State&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>VertexGenerator</name>
+        <briefdescription>
+<para>Vertex generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the vertices [m] for a given state, relative to the object position and expressed along the vertex frame axes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" line="58" column="5" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a9f8dbb1f4b4d3d9be2bcae529bc6708e" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a9266643457782ab9a577374ae881a68c" kindref="member">VertexGenerator</ref></type>
+        <definition>VertexGenerator ostk::astrodynamics::conjunction::hardbody::Custom::vertexGenerator_</definition>
+        <argsstring></argsstring>
+        <name>vertexGenerator_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" line="110" column="21" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1ae153958a5bb3a02cb4bc3c0054104c80" prot="private" static="no" mutable="no">
+        <type>std::variant&lt; Shared&lt; const Frame &gt;, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt;</type>
+        <definition>std::variant&lt;Shared&lt;const Frame&gt;, LocalOrbitalFrameFactory&gt; ostk::astrodynamics::conjunction::hardbody::Custom::frameOrLOF_</definition>
+        <argsstring></argsstring>
+        <name>frameOrLOF_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" line="111" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a03e10941b7666bbc27285e9d4329ad26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::conjunction::hardbody::Custom::Custom</definition>
+        <argsstring>(const VertexGenerator &amp;aVertexGenerator, const std::variant&lt; Shared&lt; const Frame &gt;, LocalOrbitalFrameFactory &gt; &amp;aFrameOrLOFFactory)</argsstring>
+        <name>Custom</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a9266643457782ab9a577374ae881a68c" kindref="member">VertexGenerator</ref> &amp;</type>
+          <declname>aVertexGenerator</declname>
+        </param>
+        <param>
+          <type>const std::variant&lt; Shared&lt; const Frame &gt;, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt; &amp;</type>
+          <declname>aFrameOrLOFFactory</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The vertices are expressed either in a fixed frame, or in a local orbital frame generated from the state by a factory. Raises an Undefined error if the vertex generator or the frame is null.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Cube<sp/>of<sp/>side<sp/>2.0<sp/>m,<sp/>with<sp/>edges<sp/>aligned<sp/>with<sp/>the<sp/>GCRF<sp/>axes</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a9266643457782ab9a577374ae881a68c" kindref="member">Custom::VertexGenerator</ref><sp/>vertexGenerator<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>State&amp;<sp/>aState)<sp/>-&gt;<sp/>Array&lt;Custom::Vertex&gt;</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Custom::Vertex&gt;<sp/>vertices<sp/>=<sp/>Array&lt;Custom::Vertex&gt;::Empty()<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>x<sp/>:<sp/>{<sp/>-1.0,<sp/>1.0<sp/>})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>y<sp/>:<sp/>{<sp/>-1.0,<sp/>1.0<sp/>})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>z<sp/>:<sp/>{<sp/>-1.0,<sp/>1.0<sp/>})</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vertices.add({<sp/>x,<sp/>y,<sp/>z<sp/>})<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>vertices<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a03e10941b7666bbc27285e9d4329ad26" kindref="member">Custom</ref><sp/>custom<sp/>=<sp/>{<sp/>vertexGenerator,<sp/>Frame::GCRF()<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Same<sp/>cube,<sp/>with<sp/>edges<sp/>aligned<sp/>with<sp/>the<sp/>VNC<sp/>axes</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a03e10941b7666bbc27285e9d4329ad26" kindref="member">Custom</ref><sp/>lofCustom<sp/>=<sp/>{<sp/>vertexGenerator,<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a831e6ac86477adb2edc37a9edbbbbcce" kindref="member">LocalOrbitalFrameFactory::VNC</ref>(Frame::GCRF())<sp/>}<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aVertexGenerator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vertex generator </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameOrLOFFactory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A vertex frame, or a local orbital frame factory generating the vertex frame </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" line="85" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.cpp" bodystart="28" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a1b69b589b715f6320afc69d1f3b7ef60" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual ostk::astrodynamics::conjunction::hardbody::Custom::~Custom</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~Custom</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" line="91" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1aa4f9650c0cef1ab0c5beb7af0aa34895" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a9266643457782ab9a577374ae881a68c" kindref="member">VertexGenerator</ref> &amp;</type>
+        <definition>const Custom::VertexGenerator &amp; ostk::astrodynamics::conjunction::hardbody::Custom::getVertexGenerator</definition>
+        <argsstring>() const</argsstring>
+        <name>getVertexGenerator</name>
+        <briefdescription>
+<para>Get the vertex generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The vertex generator </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" line="96" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a946f689b82d434604d290e73334eb0bb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section" kindref="compound">HardBody::CrossSection</ref></type>
+        <definition>HardBody::CrossSection ostk::astrodynamics::conjunction::hardbody::Custom::calculateCrossSectionAt</definition>
+        <argsstring>(const State &amp;aState, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const override</argsstring>
+        <name>calculateCrossSectionAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1a4e5fab8b553feb35a079b83ed464c5f0">calculateCrossSectionAt</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the cross section of the hard body at a given state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The vertices are rotated from the vertex frame into the given frame, then projected. Raises an Undefined error if the vertex generator returns no vertex.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A state of the object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame whose axes define the projection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The cross section </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" line="106" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.cpp" bodystart="55" bodyend="94"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom" kindref="compound">Custom</ref> hard body. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A set of 3D vertices returned by a user-defined generator, which may depend on the state (e.g. to account for the attitude).</para>
+<para>Vertices are in meters, relative to the object position. The vertex frame, either a fixed frame or a local orbital frame generated from the state, only defines their direction: they are rotated, never translated.</para>
+<para>The cross section is the convex hull of the projected vertices, with a zero radius. For a non-convex object, it conservatively encloses the actual shadow. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::hardbody::Custom</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::HardBody</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::hardbody::Custom</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::HardBody</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" line="49" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp" bodystart="48" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a946f689b82d434604d290e73334eb0bb" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Custom</scope><name>calculateCrossSectionAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a03e10941b7666bbc27285e9d4329ad26" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Custom</scope><name>Custom</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1ae153958a5bb3a02cb4bc3c0054104c80" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Custom</scope><name>frameOrLOF_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1aa4f9650c0cef1ab0c5beb7af0aa34895" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Custom</scope><name>getVertexGenerator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a2ae0f6156d16e182324e9beff0882d14" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Custom</scope><name>Vertex</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a9266643457782ab9a577374ae881a68c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Custom</scope><name>VertexGenerator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a9f8dbb1f4b4d3d9be2bcae529bc6708e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Custom</scope><name>vertexGenerator_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a1b69b589b715f6320afc69d1f3b7ef60" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Custom</scope><name>~Custom</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1a1795055dab121a5de4add6a96f0c28d7" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Custom</scope><name>~HardBody</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

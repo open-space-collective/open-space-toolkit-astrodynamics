@@ -11,18 +11,17 @@ ostk.astrodynamics.solver.TemporalConditionSolver
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~TemporalConditionSolver.get_maximum_iteration_count
       ~TemporalConditionSolver.get_time_step
       ~TemporalConditionSolver.get_tolerance
       ~TemporalConditionSolver.solve
-   
-   
-
-   
    
    

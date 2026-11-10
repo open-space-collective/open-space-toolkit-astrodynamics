@@ -16,18 +16,22 @@ ostk.astrodynamics.flight.profile.Model
    .. autosummary::
       :nosignatures:
    
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
       ~Model.as_tabulated
       ~Model.as_transform
       ~Model.calculate_state_at
       ~Model.calculate_states_at
       ~Model.construct_body_frame
       ~Model.get_axes_at
-      ~Model.is_defined
       ~Model.is_tabulated
       ~Model.is_transform
-   
-   
-
-   
    
    

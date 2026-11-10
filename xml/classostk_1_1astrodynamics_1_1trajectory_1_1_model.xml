@@ -44,14 +44,14 @@
         <argsstring>() const =0</argsstring>
         <name>clone</name>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a8e8b55528a289a24a139fdc9526d6699">clone</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a37b27d80820a12ac8e096b6266b5407c">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1aaf10d3ddc3eac1e6124b5a1beea95498">clone</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a37b27d80820a12ac8e096b6266b5407c">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a0f2755ad9d4a7468ac36e03d008f7a48">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae6c6823d8d795c53422c643d4288713d">clone</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a70ffb34799727c8fac6f2a93aadbf944">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1aec60303c53b1cfd49b18f6bf04f62bf8">clone</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aaeb6fea43961ab9fe73158c88727edda">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1ab84d9b28ab8a411f63b45a22c966bd67">clone</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a70ffb34799727c8fac6f2a93aadbf944">clone</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1aaeb6fea43961ab9fe73158c88727edda">clone</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a5c602e82d4eb0e20497943e45b437893">clone</reimplementedby>
         <briefdescription>
 <para>Clone the model. </para>
@@ -70,13 +70,13 @@
         <definition>virtual bool ostk::astrodynamics::trajectory::Model::operator==</definition>
         <argsstring>(const Model &amp;aModel) const =0</argsstring>
         <name>operator==</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a6a47a72749bfdc9baa771f7d211695ac">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a9bb3828fb4482e4c711b8f1b36840354">operator==</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a6a47a72749bfdc9baa771f7d211695ac">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a961aa0514cc3889cf37190e530d18b5b">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a89c2cb7001ab70b5f820c74c82443c76">operator==</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a9e5b9df39988d48b0f20e0623ed70e70">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1afbd317a7eafe857c771af5cf0ce8bde3">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a922311d0aedf6c53633800218386c3d2">operator==</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a9e5b9df39988d48b0f20e0623ed70e70">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a1b7db3daa2bcd07f6b5e1324d22db02d">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a01ba92451890ab15623c36f3001c6036">operator==</reimplementedby>
         <param>
@@ -109,13 +109,13 @@
         <definition>virtual bool ostk::astrodynamics::trajectory::Model::operator!=</definition>
         <argsstring>(const Model &amp;aModel) const =0</argsstring>
         <name>operator!=</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1acb140acc2965e7a67c42f45a5119dce4">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1a9d2223e8479c9a26a4b5f238f1e44f00">operator!=</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1acb140acc2965e7a67c42f45a5119dce4">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ac9141f1b13751f7394af8e5761ce3adf">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a6f1c5b3736b7b78b5b169d46fa9d011b">operator!=</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a17b974edccbb8a3f22e1ae48a9d328b7">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ac7d0730c330045951d9fddc7b0f8a1ba">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a454e2aa31029204a948184b4c24b29cf">operator!=</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a17b974edccbb8a3f22e1ae48a9d328b7">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a5a786cee7a33949aac998a335c9d6fe9">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a94378d2b8cb327856b39180a1ada8a9b">operator!=</reimplementedby>
         <param>
@@ -143,33 +143,6 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="53" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1acd0fea7c711e88d8287959b34589b481" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
-        <type>bool</type>
-        <definition>virtual bool ostk::astrodynamics::trajectory::Model::isDefined</definition>
-        <argsstring>() const =0</argsstring>
-        <name>isDefined</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a68336998bbf054ebf15060fe56baed46">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1afe9bcc0dbd33385904b00c0ef3531dc9">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a1ee56729996737bdeb0a82aae6208218">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1aec835ee1356e36ad19e82337db0d2b91">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a212c20f9354591e30d9fb27400869809">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a4555bef397257e8f4239ece8aff79d0d">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1abbbcf0ddb2c131007c33e33da32b8ce0">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1ada222f4aae7caa9fc6710c6046282d81">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a2cf7eb3886519efe9ff2e47d78afa3cc">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1ad5e7338411b5add689c737d9e2cc345f">isDefined</reimplementedby>
-        <briefdescription>
-<para>Check if model is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if model is defined. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="65" column="18"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
           <param>
@@ -190,7 +163,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="71" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" bodystart="71" bodyend="74"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="66" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" bodystart="66" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -212,7 +185,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="80" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" bodystart="80" bodyend="90"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="75" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" bodystart="75" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a6fb011dadcbafb410efd0b02cb8ade57" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -220,12 +193,12 @@
         <argsstring>(const Instant &amp;anInstant) const =0</argsstring>
         <name>calculateStateAt</name>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ac1357b291393c44c18be2d5db954e32b">calculateStateAt</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a54dc2696b84b3db796d4291de721dc35">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a51e555eb1f81be80591f44c4719aa1f6">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ac40a9c726cc4abe79918547a1f3cf89a">calculateStateAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a54dc2696b84b3db796d4291de721dc35">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1afe6ee6f73e40b3c1723de24663158b93">calculateStateAt</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a1b006869b9345866044450138104e900">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aef489244fe28239fc380d45a150cd334">calculateStateAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a1b006869b9345866044450138104e900">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1aff8828a9a7c2ef2baf3c2fd0c9e3fb98">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a41cbcbf78726ae3beaa0b4d1e9255fbc">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a7dc7e42b9bbcd9bea9cd9dce49acd3f4">calculateStateAt</reimplementedby>
@@ -252,7 +225,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="96" column="19"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="91" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1af636a899043ecc4337b69314d56f7075" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -286,7 +259,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="102" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.cpp" bodystart="26" bodyend="38"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="97" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.cpp" bodystart="26" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a4c369772dbc81298959e594cbfbc7270" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -295,11 +268,11 @@
         <name>print</name>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1acc995493734898e0aa5f174e9370be4b">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1adb95510c1c7cde93bcfc7fd0d8c8f4f7">print</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ae30f8ba6533aca4f229525a032aefb0e">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ae18bcb196132c33366a906f4e4b2fe28">print</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ae30f8ba6533aca4f229525a032aefb0e">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ab633721b98b7518e0136e62cb964f604">print</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a38e950141db96b27e959391885e32122">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ab7482c810778fe7d9c3ef82464dfb2ca">print</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a38e950141db96b27e959391885e32122">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a0dc0ae91d8e127fb2a7c8a77ba481816">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a50eed9bbbdeab33745acfad02b10bc5f">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a6208209bee0b650edf9f8d4f7b21786d">print</reimplementedby>
@@ -337,7 +310,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="108" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="103" column="18"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -458,14 +431,13 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="30" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" bodystart="29" bodyend="109"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" line="30" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Model.hpp" bodystart="29" bodyend="104"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Model</scope><name>as</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a6fb011dadcbafb410efd0b02cb8ade57" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::Model</scope><name>calculateStateAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1af636a899043ecc4337b69314d56f7075" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::Model</scope><name>calculateStatesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac3cebd79bb8109bf4eada3b95b689cfd" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::Model</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Model</scope><name>is</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1acd0fea7c711e88d8287959b34589b481" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::Model</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a0191f7970f0913b13fc3b06f13ed42cc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Model</scope><name>Model</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ac03a04471c72da2b606a05386636b10d" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::Model</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a68240493d08f91f6613186eb52823e85" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Model</scope><name>operator&lt;&lt;</name></member>

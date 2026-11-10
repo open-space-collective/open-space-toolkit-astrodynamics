@@ -3,8 +3,12 @@
   <compounddef id="dir_cfa2102f767844d309cc5038fae47d4e" kind="dir">
     <compoundname>src/OpenSpaceToolkit/Astrodynamics/Conjunction</compoundname>
     <innerdir refid="dir_ba7dec18025f9e1d6890950470b7b0cc">src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach</innerdir>
+    <innerdir refid="dir_8d26885afef1a102af06969e78b26841">src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody</innerdir>
     <innerdir refid="dir_9a889c64229b09636cfa912267f80894">src/OpenSpaceToolkit/Astrodynamics/Conjunction/Message</innerdir>
+    <innerdir refid="dir_7cf9730818539795c8f6400432907068">src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm</innerdir>
     <innerfile refid="_close_approach_8cpp">CloseApproach.cpp</innerfile>
+    <innerfile refid="_hard_body_8cpp">HardBody.cpp</innerfile>
+    <innerfile refid="_probability_of_collision_algorithm_8cpp">ProbabilityOfCollisionAlgorithm.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

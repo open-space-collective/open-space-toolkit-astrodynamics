@@ -5,17 +5,17 @@
     <basecompoundref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean" prot="public" virt="non-virtual">ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean</basecompoundref>
     <includes refid="_brouwer_lyddane_mean_short_8hpp" local="no">BrouwerLyddaneMeanShort.hpp</includes>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa57590ff35aeccb84cd74c7d33d6a56e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a25081568e7afa9e3dfb3cbb806222e57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort::BrouwerLyddaneMeanShort</definition>
-        <argsstring>(const Length &amp;aSemiMajorAxis, const Real &amp;anEccentricity, const Angle &amp;anInclination, const Angle &amp;aRaan, const Angle &amp;anAop, const Angle &amp;aMeanAnomaly)</argsstring>
+        <argsstring>(const Length &amp;aSemiMajorAxis, const double &amp;anEccentricity, const Angle &amp;anInclination, const Angle &amp;aRaan, const Angle &amp;anAop, const Angle &amp;aMeanAnomaly)</argsstring>
         <name>BrouwerLyddaneMeanShort</name>
         <param>
           <type>const Length &amp;</type>
           <declname>aSemiMajorAxis</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>const double &amp;</type>
           <declname>anEccentricity</declname>
         </param>
         <param>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="70" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="29" bodyend="39"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="68" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="31" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a98e8ed2e6e8684986f16b46b6b3e7b15" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1a9926db96024bf6f4545a640ebfccae8c" kindref="member">classicalOE</ref></type>
@@ -103,7 +103,7 @@
 <para>Convert to classical orbital elements (COE). </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa57590ff35aeccb84cd74c7d33d6a56e" kindref="member">BrouwerLyddaneMeanShort</ref><sp/>blmShort<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a25081568e7afa9e3dfb3cbb806222e57" kindref="member">BrouwerLyddaneMeanShort</ref><sp/>blmShort<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal"><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1a9926db96024bf6f4545a640ebfccae8c" kindref="member">classicalOE</ref><sp/>coe<sp/>=<sp/>blmShort.toCOE()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>Classical orbital elements. </para>
@@ -112,7 +112,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="98" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="41" bodyend="309"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="96" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="43" bodyend="312"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -130,7 +130,7 @@
         </briefdescription>
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1a9926db96024bf6f4545a640ebfccae8c" kindref="member">classicalOE</ref><sp/>coe<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa57590ff35aeccb84cd74c7d33d6a56e" kindref="member">BrouwerLyddaneMeanShort</ref><sp/>blmShort<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1adc2944b6a3e11135df1b76c88588f510" kindref="member">BrouwerLyddaneMeanShort::COE</ref>(coe)<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a25081568e7afa9e3dfb3cbb806222e57" kindref="member">BrouwerLyddaneMeanShort</ref><sp/>blmShort<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1adc2944b6a3e11135df1b76c88588f510" kindref="member">BrouwerLyddaneMeanShort::COE</ref>(coe)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -147,7 +147,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="88" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="311" bodyend="322"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="86" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="314" bodyend="320"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa24e347d1ddc78bb7b562cceccf288b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short" kindref="compound">BrouwerLyddaneMeanShort</ref></type>
@@ -168,7 +168,7 @@
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1afe61bec3df3ed29002a9bc07f3f53311" kindref="member">COE::CartesianState</ref><sp/>cartesianState<sp/>=<sp/>{<sp/>position,<sp/>velocity<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Derived<sp/>mu<sp/>=<sp/>Derived(3.986004418e14,<sp/>Derived::Unit::GravitationalParameter())<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa57590ff35aeccb84cd74c7d33d6a56e" kindref="member">BrouwerLyddaneMeanShort</ref><sp/>blmShort<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa24e347d1ddc78bb7b562cceccf288b5" kindref="member">BrouwerLyddaneMeanShort::Cartesian</ref>(cartesianState,<sp/>mu)<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a25081568e7afa9e3dfb3cbb806222e57" kindref="member">BrouwerLyddaneMeanShort</ref><sp/>blmShort<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa24e347d1ddc78bb7b562cceccf288b5" kindref="member">BrouwerLyddaneMeanShort::Cartesian</ref>(cartesianState,<sp/>mu)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -193,26 +193,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="111" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="324" bodyend="336"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a5e46f5cbd1aa68040607fd8a74a0ad29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short" kindref="compound">BrouwerLyddaneMeanShort</ref></type>
-        <definition>BrouwerLyddaneMeanShort ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort::Undefined</definition>
-        <argsstring>()</argsstring>
-        <name>Undefined</name>
-        <briefdescription>
-<para>Construct an undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short" kindref="compound">BrouwerLyddaneMeanShort</ref>. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa57590ff35aeccb84cd74c7d33d6a56e" kindref="member">BrouwerLyddaneMeanShort</ref><sp/>blmShort<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a5e46f5cbd1aa68040607fd8a74a0ad29" kindref="member">BrouwerLyddaneMeanShort::Undefined</ref>()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>Undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short" kindref="compound">BrouwerLyddaneMeanShort</ref>. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="122" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="338" bodyend="348"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="109" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="322" bodyend="334"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -242,7 +223,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="128" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="350" bodyend="360"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="117" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.cpp" bodystart="336" bodyend="346"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -277,24 +258,18 @@
         </childnode>
       </node>
       <node id="4">
-        <label>Real</label>
-      </node>
-      <node id="5">
         <label>Angle</label>
       </node>
       <node id="3">
         <label>ostk::astrodynamics::trajectory::orbit::model::kepler::COE</label>
         <link refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e"/>
         <childnode refid="4" relation="usage">
-          <edgelabel>eccentricity_</edgelabel>
-        </childnode>
-        <childnode refid="5" relation="usage">
           <edgelabel>inclination_</edgelabel>
           <edgelabel>anomaly_</edgelabel>
           <edgelabel>aop_</edgelabel>
           <edgelabel>raan_</edgelabel>
         </childnode>
-        <childnode refid="6" relation="usage">
+        <childnode refid="5" relation="usage">
           <edgelabel>semiMajorAxis_</edgelabel>
         </childnode>
       </node>
@@ -304,85 +279,83 @@
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="5">
         <label>Length</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="60" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" bodystart="59" bodyend="129"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" line="58" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMeanShort.hpp" bodystart="57" bodyend="118"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaca6611c6a4941e0ddfa61cb582ab11d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>anomaly_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a02c7469a148dbc9fe13f865518d39603" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>AnomalyType</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a1ee850c01b3469538db439e3fcdc6ffb" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>anomalyType_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3f5f26d20b18fca6335b56209b465a49" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>aop_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_1a260a7ee26c26565d0b7aa5b3c147c91b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>BrouwerLyddaneMean</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa57590ff35aeccb84cd74c7d33d6a56e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>BrouwerLyddaneMeanShort</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_1a0dee26efa57eb2780b698baeaa327bb3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>BrouwerLyddaneMean</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a25081568e7afa9e3dfb3cbb806222e57" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>BrouwerLyddaneMeanShort</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1aa24e347d1ddc78bb7b562cceccf288b5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>Cartesian</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_1a076ce14c07311f16eba19ea247d399e4" prot="protected" virt="non-virtual" ambiguityscope="ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean::"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>Cartesian</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1afe61bec3df3ed29002a9bc07f3f53311" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>CartesianState</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7f497a9fd64f4052427a8dc0182cec61" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>Circular</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1adc2944b6a3e11135df1b76c88588f510" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>COE</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac7303dc5cd7c9a24aa9e82049de6103b" prot="public" virt="non-virtual" ambiguityscope="ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean::"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>COE</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a9c53658e24acd7d01ee3b00f61df1d9a" prot="protected" virt="non-virtual" ambiguityscope="ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean::"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>COE</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a5f3bfc58424cb44a7f6f449f1555409a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeAngularMomentum</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a5c3b082070e866d26c52a3754f804bbd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeAngularMomentum</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a69b399b7d8751775c9900dfd1e82b034" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeApoapsisRadius</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a05d09767ccc03a45cc3e4437d619fd10" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeArgumentOfLatitudeAngularRate</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7b983230cbd19b3041ddeb3f7f34539f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeLTAN</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac2ae6a71fa47a6a4ec2a08c35da63969" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeLTDN</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa70eb790b3235a2d515dca52b3e5ef50" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeMeanLTAN</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a48e1a309b0a0be581f49e6ebcb3ba527" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeMeanLTDN</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ab3b2c235536cd098fd8bd52ba8999b6e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeMeanMotion</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac8799e8edd08f2dfd62bd492e5e90b3c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeNodalPrecessionRate</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1af1ca61ed242ca74153088d7cebc70325" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeOrbitalPeriod</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aba15450bca78305f682ab22faf389c69" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputePeriapsisRadius</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac48260c7792a9fdadfc077e53d8a5e87" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeRaanFromLTAN</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa77eb1ebcf7b116557519a12ee36daf0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeRadialDistance</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a82c5f6186a979b53092675699517601d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeSemiLatusRectum</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a830e34d0e9d80ac2baa7e30a1442d097" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeSunSynchronousInclination</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aab17fd6d3ff8af61c06b17ce2a90cd2c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>EccentricAnomalyFromMeanAnomaly</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a9b1f7533901966add395f67143c21324" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>EccentricAnomalyFromTrueAnomaly</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aad6be786eb38ced8cdb170af32c6a75d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>eccentricity_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac94126cb81bb930b1f86df54885e3e89" prot="public" virt="non-virtual" ambiguityscope="ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean::"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>COE</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a81f1fae9776c255665b6457c0d5758a2" prot="protected" virt="non-virtual" ambiguityscope="ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean::"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>COE</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaacaff5880b0ef5538fa9a3994e19f4f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeAngularMomentum</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a984e01ff8fbe90dbcfae0f1f81a6a737" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeAngularMomentum</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac24c7fa2e55b20461e2d3ad8fc0cccec" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeApoapsisRadius</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a549d1ad7daa0af96fa2b37d1fd89a1aa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeArgumentOfLatitudeAngularRate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a723b3142aaa1d40f0e487fbd844c6586" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeLTAN</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a6dc7d451a25c10df733cfd6fe2ad107c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeLTDN</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3a45e09ff163e52f99407426f52001c1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeMeanLTAN</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaa24a56535f1b5e636dd8c9f1188bb7e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeMeanLTDN</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1af980745945928d41ef370295db855332" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeMeanMotion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a54759b23f34d36a31c1bdab44ed92908" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeNodalPrecessionRate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aea609eb4225ca1b11f5d4b00926c9774" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeOrbitalPeriod</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a23035e9156bed175bf27ef43d3928672" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputePeriapsisRadius</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ae1f949c1a4dc98ba0adc9a409b4f175d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeRaanFromLTAN</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a1c9f419ae5d093a2962c6914cf759bce" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeRadialDistance</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a2b161090d16644f61d22b1b050fcf011" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeSemiLatusRectum</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a90bedc13abc037c67f5f264bf63c50b2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>ComputeSunSynchronousInclination</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a20ee6e6901e05080b6869503c6d54d99" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>EccentricAnomalyFromMeanAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ada8cad5352707d26d3cacc8965c73686" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>EccentricAnomalyFromTrueAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ab410245870c95d78ebc9061268799127" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>eccentricity_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad329a59499bd192ab5b154433a04ce31" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>Element</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1af6f4417761484f8b050e1ea950986997" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>Equatorial</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a15bdec3e251b592a8fa8b4cc3d53409d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>Equatorial</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a524abe59a0d7d88972eef6657e2cafe9" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>FromSIVector</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a0124cb803a367588595c9e5222c02d97" prot="public" virt="non-virtual" ambiguityscope="ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMean::"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>FromSIVector</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa250ad7c9959fe6469970027742b3de8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>FrozenOrbit</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad6bebf84f5ffa36ce654a36b4ea15f39" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>FrozenOrbit</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a9a111c59f8320651eb4a45e9a57fdd0d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>GeoSynchronous</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac25c8fb1598864f921560ed6af3f040c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>FrozenOrbit</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1addcae9f5fd6a0f8b02267d502c4bae31" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>FrozenOrbit</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad411fda8c711e4273bd01b74399175f3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>GeoSynchronous</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a086be845a0b8359252431b52b755931d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getAngularMomentum</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aae05ff592f697d49ac2261e065a0c5af" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getAop</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a580db3f7c6f1d2ab88734d28a850cdd1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getAop</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a39554007da04f798eb165cccad09d91d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getApoapsisRadius</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1afb4ca0b05d40a7ee77f0aa56f25b011c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getArgumentOfLatitude</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a79c0841d6050989aac9665b69817ef69" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getArgumentOfLatitudeAngularRate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a1c9df905fe70600749d9c0fb76280c98" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getArgumentOfLatitudeAngularRate</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_1ac82bbb64416d7c35f225c599d34612e1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getCartesianState</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_1a2a7364d11e3196b86a0673088d948130" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getEccentricAnomaly</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad75957f6b47fa6e152e7e3e78b070b2b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getEccentricity</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a6e143d633133c02a2576103c2640d125" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getInclination</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ab26bff3c5a7261e4eb5091566f59e673" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getEccentricity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3157d91909ef074916ea967c96850047" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getInclination</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_1a58ee073b482e7ed6935f9082b40ae2a3" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getMeanAnomaly</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aada6c64f035662e9a32201f95de0eeb9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getMeanMotion</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ab32fb12776070d71e4381bac2aca54d2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getNodalPrecessionRate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a53780f99b17248bc01b0e14d1c6aaf87" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getNodalPrecessionRate</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac9b6ef6b81de82080889e713fde2796f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getOrbitalPeriod</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7d518d3a51572c89252e86f349807e80" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getPeriapsisRadius</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ac6af84890e2b719a4fe8cca0e13e3fad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getRaan</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aec6d371b74a0a28ca7937b7eacee15ee" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getRaan</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaf0183b14a5f8cf9e46db1f55079755c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getRadialDistance</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aaf238543edcd5889b5788910e12bca73" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getSemiLatusRectum</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a462a859a6c27f62d729e5caa967e1030" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getSemiMajorAxis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a4da234abf3939836c091c833efe5906c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getSemiMajorAxis</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a86cd3cb76cc484be9a2008e19458173b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getSIVector</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_1a81dd523937581fb60d697fe899b750b0" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>getTrueAnomaly</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a62d1b6d74c04b351bb35a897179ae519" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>inclination_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a70018a70f0d36e2bb88b328e0b78484f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>isDefined</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a503017783745fc1c2f29e5e5961a09c4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>MeanAnomalyFromEccentricAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a463a9173cb855cf22213fce1a877db05" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>MeanAnomalyFromEccentricAnomaly</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7e596be2bdbd8bfc8689f212940acb18" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aff72535c563c51c5457a42f4935dcbe3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>operator==</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a86877732fb16a51197145b134593a7ce" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>print</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a0632e479d04b69bd929cb3d9209f8ab9" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>raan_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ae54537df9837d380add6b84e789eb74d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>semiMajorAxis_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3347d99fa79c1ba759aa8871a240d488" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>StringFromElement</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad0f0768c0057634913e27d8612118184" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>SunSynchronous</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1af3385402c66a1697de7863c5e89e0ee6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>SunSynchronous</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a98e8ed2e6e8684986f16b46b6b3e7b15" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>toCOE</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ad5d28c03990087706bb5eefa689c965e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>TrueAnomalyFromEccentricAnomaly</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1ae74b1b69141c6a008a967a256954c13f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>TrueAnomalyFromMeanAnomaly</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1blm_1_1_brouwer_lyddane_mean_short_1a5e46f5cbd1aa68040607fd8a74a0ad29" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>Undefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a3dbd60dc9e8906c69c47cd86ed96bbac" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>TrueAnomalyFromEccentricAnomaly</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1aa3fb28bbed31285d350ec94fc9f85261" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::blm::BrouwerLyddaneMeanShort</scope><name>TrueAnomalyFromMeanAnomaly</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

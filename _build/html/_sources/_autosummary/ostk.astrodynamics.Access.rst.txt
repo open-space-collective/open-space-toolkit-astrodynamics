@@ -11,10 +11,13 @@ ostk.astrodynamics.Access
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Access.get_acquisition_of_signal
       ~Access.get_duration
@@ -24,12 +27,6 @@ ostk.astrodynamics.Access
       ~Access.get_time_of_closest_approach
       ~Access.get_type
       ~Access.is_complete
-      ~Access.is_defined
       ~Access.string_from_type
-      ~Access.undefined
-   
-   
-
-   
    
    

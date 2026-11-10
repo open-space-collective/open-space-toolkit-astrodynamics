@@ -11,10 +11,13 @@ ostk.astrodynamics.event\_condition.RealCondition
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~RealCondition.duration_condition
       ~RealCondition.evaluate
@@ -25,9 +28,5 @@ ostk.astrodynamics.event\_condition.RealCondition
       ~RealCondition.is_satisfied
       ~RealCondition.string_from_criterion
       ~RealCondition.update_target
-   
-   
-
-   
    
    

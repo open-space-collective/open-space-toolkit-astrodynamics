@@ -11,19 +11,18 @@ ostk.astrodynamics.EventCondition
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~EventCondition.get_evaluator
       ~EventCondition.get_name
       ~EventCondition.get_target
       ~EventCondition.is_satisfied
       ~EventCondition.update_target
-   
-   
-
-   
    
    

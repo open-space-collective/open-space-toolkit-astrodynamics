@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_7cf9730818539795c8f6400432907068" kind="dir">
+    <compoundname>src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm</compoundname>
+    <innerfile refid="_alfano2005_8cpp">Alfano2005.cpp</innerfile>
+    <innerfile refid="_foster1992_8cpp">Foster1992.cpp</innerfile>
+    <innerfile refid="_frisbee2015_8cpp">Frisbee2015.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/"/>
+  </compounddef>
+</doxygen>

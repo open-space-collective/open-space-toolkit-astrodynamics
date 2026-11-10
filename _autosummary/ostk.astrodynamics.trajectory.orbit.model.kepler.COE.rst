@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~COE.cartesian
       ~COE.circular
@@ -59,16 +62,10 @@ ostk.astrodynamics.trajectory.orbit.model.kepler.COE
       ~COE.get_semi_latus_rectum
       ~COE.get_semi_major_axis
       ~COE.get_true_anomaly
-      ~COE.is_defined
       ~COE.mean_anomaly_from_eccentric_anomaly
       ~COE.string_from_element
       ~COE.sun_synchronous
       ~COE.true_anomaly_from_eccentric_anomaly
       ~COE.true_anomaly_from_mean_anomaly
-      ~COE.undefined
-   
-   
-
-   
    
    

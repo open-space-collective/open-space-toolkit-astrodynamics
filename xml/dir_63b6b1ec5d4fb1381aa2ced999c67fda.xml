@@ -13,6 +13,7 @@
     <innerdir refid="dir_24a764cd8ceb16d81396c7a9f4a45711">include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw</innerdir>
     <innerdir refid="dir_ee2d1f1e192992f8d487054687430bc0">include/OpenSpaceToolkit/Astrodynamics/Solver</innerdir>
     <innerdir refid="dir_487c49ff17ded48b6f4eeef50bd2df5e">include/OpenSpaceToolkit/Astrodynamics/Trajectory</innerdir>
+    <innerdir refid="dir_ab4be85bb8852c9a5d9dccb0d8f90146">include/OpenSpaceToolkit/Astrodynamics/Uncertainty</innerdir>
     <innerfile refid="_access_8hpp">Access.hpp</innerfile>
     <innerfile refid="_dynamics_8hpp">Dynamics.hpp</innerfile>
     <innerfile refid="_event_condition_8hpp">EventCondition.hpp</innerfile>

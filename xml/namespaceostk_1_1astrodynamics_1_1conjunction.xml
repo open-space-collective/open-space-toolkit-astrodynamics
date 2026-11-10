@@ -3,8 +3,12 @@
   <compounddef id="namespaceostk_1_1astrodynamics_1_1conjunction" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::conjunction</compoundname>
     <innerclass refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" prot="public">ostk::astrodynamics::conjunction::CloseApproach</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" prot="public">ostk::astrodynamics::conjunction::HardBody</innerclass>
+    <innerclass refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm" prot="public">ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</innerclass>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1closeapproach">ostk::astrodynamics::conjunction::closeapproach</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1hardbody">ostk::astrodynamics::conjunction::hardbody</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1message">ostk::astrodynamics::conjunction::message</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm">ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm</innernamespace>
       <sectiondef kind="func">
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1conjunction_1a63c462979f6f65a9a713d49de255a500" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -47,13 +51,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" line="72" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="72" bodyend="77"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" line="71" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp" bodystart="71" bodyend="76"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp" line="23" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach/Generator.hpp" line="22" column="1"/>
   </compounddef>
 </doxygen>

@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.AttitudeQuaternion
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~AttitudeQuaternion.add
       ~AttitudeQuaternion.ballistic_coefficient
@@ -28,9 +31,5 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.AttitudeQuaternion
       ~AttitudeQuaternion.mass_flow_rate
       ~AttitudeQuaternion.subtract
       ~AttitudeQuaternion.surface_area
-   
-   
-
-   
    
    

@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::hardbody::Spherical</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::HardBody</basecompoundref>
+    <includes refid="_spherical_8hpp" local="no">Spherical.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a8c9ab1930da36b1bfe9c1f3b25de6b6a" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::hardbody::Spherical::radius_</definition>
+        <argsstring></argsstring>
+        <name>radius_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.hpp" line="66" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.hpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a2b21e8fd62616af3d746b29ff040a7d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::conjunction::hardbody::Spherical::Spherical</definition>
+        <argsstring>(double aRadius)</argsstring>
+        <name>Spherical</name>
+        <param>
+          <type>double</type>
+          <declname>aRadius</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Raises a RuntimeError if the radius is negative.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a2b21e8fd62616af3d746b29ff040a7d0" kindref="member">Spherical</ref><sp/>spherical<sp/>=<sp/>{<sp/>1.0<sp/>}<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aRadius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The radius of the sphere [m] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.hpp" line="45" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.cpp" bodystart="23" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a7477ba3cc9f933768c9291898c2afb4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual ostk::astrodynamics::conjunction::hardbody::Spherical::~Spherical</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~Spherical</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.hpp" line="48" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a492d64274750344a8466813f6b95cc04" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::hardbody::Spherical::getRadius</definition>
+        <argsstring>() const</argsstring>
+        <name>getRadius</name>
+        <briefdescription>
+<para>Get the radius of the sphere. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The radius of the sphere [m] </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.hpp" line="53" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.cpp" bodystart="33" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a4cac7ad46616cba35e7e4daea8c86703" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section" kindref="compound">HardBody::CrossSection</ref></type>
+        <definition>HardBody::CrossSection ostk::astrodynamics::conjunction::hardbody::Spherical::calculateCrossSectionAt</definition>
+        <argsstring>(const State &amp;aState, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const override</argsstring>
+        <name>calculateCrossSectionAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1a4e5fab8b553feb35a079b83ed464c5f0">calculateCrossSectionAt</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the cross section of the sphere at a given state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A circle of the sphere radius, i.e. a single vertex at the object position dilated by the radius.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A state of the object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame whose axes define the projection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The cross section </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.hpp" line="62" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.cpp" bodystart="38" bodyend="43"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical" kindref="compound">Spherical</ref> hard body. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A sphere centered on the object position. Its cross section is a circle of the same radius, whatever the state or frame. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::hardbody::Spherical</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::HardBody</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::hardbody::Spherical</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::HardBody</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.hpp" line="34" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Spherical.hpp" bodystart="33" bodyend="67"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a4cac7ad46616cba35e7e4daea8c86703" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Spherical</scope><name>calculateCrossSectionAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a492d64274750344a8466813f6b95cc04" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Spherical</scope><name>getRadius</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a8c9ab1930da36b1bfe9c1f3b25de6b6a" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Spherical</scope><name>radius_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a2b21e8fd62616af3d746b29ff040a7d0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Spherical</scope><name>Spherical</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1a1795055dab121a5de4add6a96f0c28d7" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Spherical</scope><name>~HardBody</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a7477ba3cc9f933768c9291898c2afb4f" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::hardbody::Spherical</scope><name>~Spherical</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

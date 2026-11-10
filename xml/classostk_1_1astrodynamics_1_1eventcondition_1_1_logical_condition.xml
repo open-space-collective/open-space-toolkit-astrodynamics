@@ -208,9 +208,9 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="71" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="34" bodyend="40"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a33f44a189d26aa36536475c24321467f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Array&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">EventCondition</ref> &gt; &gt;</type>
-        <definition>Array&lt; Shared&lt; EventCondition &gt; &gt; ostk::astrodynamics::eventcondition::LogicalCondition::getEventConditions</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a46654a243d62b545783d3462185f2ef4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Array&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">EventCondition</ref> &gt; &gt; &amp;</type>
+        <definition>const Array&lt; Shared&lt; EventCondition &gt; &gt; &amp; ostk::astrodynamics::eventcondition::LogicalCondition::getEventConditions</definition>
         <argsstring>() const</argsstring>
         <name>getEventConditions</name>
         <briefdescription>
@@ -226,7 +226,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="81" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="29" bodyend="32"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="81" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.cpp" bodystart="29" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a2490e3096cdbb040475737e09822676a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -370,19 +370,8 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="4">
-        <label>ostk::astrodynamics::EventCondition::Target</label>
-        <link refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target"/>
-        <childnode refid="5" relation="usage">
-          <edgelabel>valueOffset</edgelabel>
-          <edgelabel>value</edgelabel>
-        </childnode>
-      </node>
       <node id="3">
         <label>String</label>
-      </node>
-      <node id="5">
-        <label>Real</label>
       </node>
       <node id="1">
         <label>ostk::astrodynamics::eventcondition::LogicalCondition</label>
@@ -396,9 +385,6 @@
         <childnode refid="3" relation="usage">
           <edgelabel>name_</edgelabel>
         </childnode>
-        <childnode refid="4" relation="usage">
-          <edgelabel>target_</edgelabel>
-        </childnode>
       </node>
     </collaborationgraph>
     <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" line="29" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/LogicalCondition.hpp" bodystart="28" bodyend="113"/>
@@ -406,20 +392,21 @@
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1afe7a919462239debba32773dc3152b71" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1ad66416036aebd443c0f8627971750556" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>evaluationSignature</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a859cbe8e997aafcfe1a3bb608593dba8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>evaluator_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa9db3935e2fee560f9852e6189d6edc3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>EventCondition</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a055740b32c8dded3fed30df4007b5464" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1adecaa447d3be119248808e1977cd7ee2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa4d87f71fe8070bd9697aa484bb00170" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a359b7bf62bfd17f1b5624c8f0a71e60b" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>EventCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a12bed494de47084102b02dd76a7d7ec6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>eventConditions_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a627d173194b1465ea1aaff302575e007" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>GenerateEvaluator</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a1b745a1fb8324f122f298dfd92568f6b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>getEvaluator</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a33f44a189d26aa36536475c24321467f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>getEventConditions</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a87dde43e3ace08e700b68a7c7b1cab81" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>getName</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ab99ea53a7ef849753078be800d798874" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>getTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa803a7a973ae64f279685f0246ee92c0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>getEvaluator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a46654a243d62b545783d3462185f2ef4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>getEventConditions</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a2379a211c9dcbd038618cbe8dcab6cc5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1acdd8abf3dd2a0bf71b2e6e8b9f0cb79b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>getTarget</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a743ef6216cf001085e6a220ff9431a2d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>getType</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a2490e3096cdbb040475737e09822676a" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>isSatisfied</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a2748ec48306746d0f2d2029d74c227ef" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>LogicalCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1af55b4fe880915e5fa993476d205ad3ad" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>name_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1ac881121665f25980f45445daafcca4cc" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>print</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a4a084bbc8324927fc3ebd14984c4c4a0" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>target_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ab19fe5622064b9277efd254664bb4172" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>target_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aae55de039bedad57e0165c5b13f5dee6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>Type</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1aed729036edf3c77386fa769785ad16c1" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>type_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_logical_condition_1a0f94893311b22a00c4e699e4a650341e" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::LogicalCondition</scope><name>updateTarget</name></member>

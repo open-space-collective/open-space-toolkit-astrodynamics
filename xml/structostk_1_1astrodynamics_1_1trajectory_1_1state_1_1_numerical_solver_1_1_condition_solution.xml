@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="42" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="42" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="43" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="43" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution_1a24d2163a4b5b9bfbaad3c7a690417907" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="43" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="43" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="44" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="44" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution_1a1cb0877aa0424c7312035d485aacca9a" prot="public" static="no" mutable="no">
         <type>Size</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="44" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="44" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="45" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="45" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution_1a5721927111031b851ec83f75c50ed1b1" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="45" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="45" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="46" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="46" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -85,7 +85,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="41" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="40" bodyend="46"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="42" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="41" bodyend="47"/>
     <listofallmembers>
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution_1a24d2163a4b5b9bfbaad3c7a690417907" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver::ConditionSolution</scope><name>conditionIsSatisfied</name></member>
       <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution_1a1cb0877aa0424c7312035d485aacca9a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver::ConditionSolution</scope><name>iterationCount</name></member>

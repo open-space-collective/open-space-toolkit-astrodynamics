@@ -11,19 +11,17 @@ ostk.astrodynamics.eclipse.Generator
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Generator.generate
       ~Generator.get_environment
       ~Generator.get_search_step_size
       ~Generator.get_search_tolerance
-      ~Generator.is_defined
-   
-   
-
-   
    
    

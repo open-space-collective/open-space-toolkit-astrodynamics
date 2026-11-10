@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.model.Tabulated
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Tabulated.calculate_state_at
       ~Tabulated.calculate_states_at
@@ -24,10 +27,5 @@ ostk.astrodynamics.trajectory.model.Tabulated
       ~Tabulated.get_interpolation_type
       ~Tabulated.get_interval
       ~Tabulated.get_last_state
-      ~Tabulated.is_defined
-   
-   
-
-   
    
    

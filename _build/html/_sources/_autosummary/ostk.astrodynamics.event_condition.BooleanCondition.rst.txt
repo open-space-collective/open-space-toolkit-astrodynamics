@@ -11,10 +11,13 @@ ostk.astrodynamics.event\_condition.BooleanCondition
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~BooleanCondition.duration_condition
       ~BooleanCondition.evaluate
@@ -26,9 +29,5 @@ ostk.astrodynamics.event\_condition.BooleanCondition
       ~BooleanCondition.is_satisfied
       ~BooleanCondition.string_from_criterion
       ~BooleanCondition.update_target
-   
-   
-
-   
    
    

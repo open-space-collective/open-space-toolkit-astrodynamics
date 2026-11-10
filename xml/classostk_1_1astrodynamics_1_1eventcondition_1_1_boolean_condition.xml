@@ -190,19 +190,8 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="5">
-        <label>ostk::astrodynamics::EventCondition::Target</label>
-        <link refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target"/>
-        <childnode refid="6" relation="usage">
-          <edgelabel>valueOffset</edgelabel>
-          <edgelabel>value</edgelabel>
-        </childnode>
-      </node>
       <node id="4">
         <label>String</label>
-      </node>
-      <node id="6">
-        <label>Real</label>
       </node>
       <node id="2">
         <label>ostk::astrodynamics::eventcondition::RealCondition</label>
@@ -222,9 +211,6 @@
         <childnode refid="4" relation="usage">
           <edgelabel>name_</edgelabel>
         </childnode>
-        <childnode refid="5" relation="usage">
-          <edgelabel>target_</edgelabel>
-        </childnode>
       </node>
     </collaborationgraph>
     <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" line="28" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.hpp" bodystart="27" bodyend="72"/>
@@ -233,23 +219,24 @@
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a53dd1812c905b5a4953b8c2aa7a8c67e" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a953aee66ab37b79c90eee2238334ba8a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>Criterion</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a38e31f897edca3284d517677c3f773ff" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>DurationCondition</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a24ee6af9652bf6ada36705cb390e3607" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>evaluate</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a22fb110e41e196c20dee2d3100ea9e2d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>evaluator_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa9db3935e2fee560f9852e6189d6edc3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>EventCondition</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a055740b32c8dded3fed30df4007b5464" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1ad89fcf7f385d72127fa7fd4d7f7920f0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>evaluate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a547095039ec14ecd68ac9d4583c4cf36" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>evaluator_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1adecaa447d3be119248808e1977cd7ee2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa4d87f71fe8070bd9697aa484bb00170" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a359b7bf62bfd17f1b5624c8f0a71e60b" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>EventCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a581866780d7022e5e160264d4ff8d54f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>getCriterion</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a1b745a1fb8324f122f298dfd92568f6b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>getEvaluator</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a87dde43e3ace08e700b68a7c7b1cab81" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>getName</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ab99ea53a7ef849753078be800d798874" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>getTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa803a7a973ae64f279685f0246ee92c0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>getEvaluator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a2379a211c9dcbd038618cbe8dcab6cc5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1acdd8abf3dd2a0bf71b2e6e8b9f0cb79b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>getTarget</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1a875cc21a156cbb783adfc96ab82c2f9d" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>inverse_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1ad4ce6e9d92b564e79498db428fd7ada6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>isInversed</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a64c1b504ab76b56255be7a82ea164a67" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>isSatisfied</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1af55b4fe880915e5fa993476d205ad3ad" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>name_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1a02407b9f943a94e829d1e04c52952096" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>print</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1aafa13fc81423a9fc20451d31ce5e9441" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>RealCondition</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1af295d102986ca8c004eda3944340ba11" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>RealCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1aa2a36fe7ffceabb8cbeba0b461c11353" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>RealCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1a9d6955a44cb0ac5d74f81c303f2435dd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>RealCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_real_condition_1aa8150c10e958de38abfa88830c59d054" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>StringFromCriterion</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a4a084bbc8324927fc3ebd14984c4c4a0" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>target_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ab19fe5622064b9277efd254664bb4172" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>target_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa35b925dc33acbf74a614203c87d8264" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>updateTarget</name></member>
       <member refid="classostk_1_1astrodynamics_1_1eventcondition_1_1_boolean_condition_1a963976ee34ef068ba567b0b92ced7f25" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>~BooleanCondition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa60a1788d6c2a3acfd9dcd9fdd949076" prot="public" virt="virtual"><scope>ostk::astrodynamics::eventcondition::BooleanCondition</scope><name>~EventCondition</name></member>

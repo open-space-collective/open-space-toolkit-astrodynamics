@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.orbit.model.sgp4.SGP4FullPrecision
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~SGP4FullPrecision.as_kepler
       ~SGP4FullPrecision.as_propagated
@@ -33,14 +36,8 @@ ostk.astrodynamics.trajectory.orbit.model.sgp4.SGP4FullPrecision
       ~SGP4FullPrecision.get_output_frame
       ~SGP4FullPrecision.get_raan
       ~SGP4FullPrecision.get_revolution_number_at_epoch
-      ~SGP4FullPrecision.is_defined
       ~SGP4FullPrecision.is_kepler
       ~SGP4FullPrecision.is_propagated
       ~SGP4FullPrecision.is_sgp4
-      ~SGP4FullPrecision.undefined
-   
-   
-
-   
    
    

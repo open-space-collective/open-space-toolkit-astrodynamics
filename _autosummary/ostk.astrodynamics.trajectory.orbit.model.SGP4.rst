@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.orbit.model.SGP4
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~SGP4.as_kepler
       ~SGP4.as_propagated
@@ -28,13 +31,8 @@ ostk.astrodynamics.trajectory.orbit.model.SGP4
       ~SGP4.get_tle
       ~SGP4.get_tles
       ~SGP4.get_validity_intervals
-      ~SGP4.is_defined
       ~SGP4.is_kepler
       ~SGP4.is_propagated
       ~SGP4.is_sgp4
-   
-   
-
-   
    
    

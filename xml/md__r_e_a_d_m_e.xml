@@ -47,7 +47,7 @@
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;2<sp/>25544<sp/><sp/>51.6447<sp/><sp/>64.7824<sp/>0005971<sp/><sp/>73.1467<sp/><sp/>36.4366<sp/>15.53848234128316&apos;</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">)<sp/><sp/></highlight><highlight class="comment">#<sp/>Construct<sp/>Two-Line<sp/>Element<sp/>set</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
-<codeline><highlight class="normal">earth<sp/>=<sp/>Environment.default().access_celestial_object_with_name(</highlight><highlight class="stringliteral">&apos;Earth&apos;</highlight><highlight class="normal">)<sp/><sp/></highlight><highlight class="comment">#<sp/>Access<sp/>Earth<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">earth<sp/>=<sp/>Environment.default().get_celestial_object_with_name(</highlight><highlight class="stringliteral">&apos;Earth&apos;</highlight><highlight class="normal">)<sp/><sp/></highlight><highlight class="comment">#<sp/>Access<sp/>Earth<sp/>model</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal">orbit<sp/>=<sp/>Orbit(SGP4(tle),<sp/>earth)<sp/><sp/></highlight><highlight class="comment">#<sp/>Construct<sp/>orbit<sp/>using<sp/>SGP4<sp/>model</highlight><highlight class="normal"></highlight></codeline>
 <codeline><highlight class="normal"></highlight></codeline>
@@ -337,10 +337,10 @@
 </entry><entry thead="yes"><para>Link  </para>
 </entry></row>
 <row>
-<entry thead="no"><para>Pybind11 </para>
-</entry><entry thead="no"><para><computeroutput>2.10.1</computeroutput> </para>
+<entry thead="no"><para>nanobind </para>
+</entry><entry thead="no"><para><computeroutput>3.1.0</computeroutput> </para>
 </entry><entry thead="no"><para>BSD-3-Clause </para>
-</entry><entry thead="no"><para><ulink url="https://github.com/pybind/pybind11">github.com/pybind/pybind11</ulink>  </para>
+</entry><entry thead="no"><para><ulink url="https://github.com/wjakob/nanobind">github.com/wjakob/nanobind</ulink>  </para>
 </entry></row>
 <row>
 <entry thead="no"><para>ordered-map </para>

@@ -7,11 +7,14 @@
     <includes refid="_state_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</includes>
     <includedby refid="_boolean_condition_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/EventCondition/BooleanCondition.cpp</includedby>
     <incdepgraph>
-      <node id="4">
-        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
-      </node>
       <node id="24">
         <label>functional</label>
+      </node>
+      <node id="25">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp</label>
+        <link refid="_cartesian_position_8hpp"/>
+        <childnode refid="20" relation="include">
+        </childnode>
       </node>
       <node id="16">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
@@ -22,6 +25,8 @@
       <node id="10">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
         <link refid="_state_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
@@ -44,6 +49,10 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
       </node>
       <node id="8">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
@@ -64,10 +73,10 @@
       <node id="17">
         <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
       </node>
-      <node id="6">
+      <node id="5">
         <label>OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</label>
         <link refid="_event_condition_8hpp"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
@@ -83,17 +92,18 @@
       <node id="3">
         <label>OpenSpaceToolkit/Astrodynamics/EventCondition/RealCondition.hpp</label>
         <link refid="_real_condition_8hpp"/>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="19">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="27">
+        <label>ostream</label>
       </node>
       <node id="12">
         <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
@@ -119,8 +129,14 @@
         <childnode refid="19" relation="include">
         </childnode>
       </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
       <node id="9">
         <label>OpenSpaceToolkit/Physics/Unit/Length.hpp</label>
+      </node>
+      <node id="28">
+        <label>OpenSpaceToolkit/Mathematics/Object/Matrix.hpp</label>
       </node>
       <node id="7">
         <label>OpenSpaceToolkit/Core/Type/Unique.hpp</label>
@@ -140,6 +156,30 @@
       <node id="11">
         <label>OpenSpaceToolkit/Core/Container/Array.hpp</label>
       </node>
+      <node id="26">
+        <label>OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp</label>
+        <link refid="_covariance_8hpp"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
       <node id="20">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp</label>
         <link refid="_coordinate_broker_8hpp"/>
@@ -158,7 +198,7 @@
         <childnode refid="23" relation="include">
         </childnode>
       </node>
-      <node id="5">
+      <node id="4">
         <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
       </node>
     </incdepgraph>

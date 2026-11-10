@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="129" column="32" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" bodystart="129" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="127" column="32" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" bodystart="127" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="49" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="31" bodyend="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="47" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="30" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ad74133941ea11a15480e48fe86b4128d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -63,11 +63,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="52" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="37" bodyend="37"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="50" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="36" bodyend="36"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ab70359e36aee88fd810acd524afc2d69" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction" kindref="compound">LocalOrbitalFrameDirection</ref></type>
-        <definition>LocalOrbitalFrameDirection ostk::astrodynamics::guidancelaw::ConstantThrust::getLocalThrustDirection</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a3efeb76cba4e18b301a60dd755f67be4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction" kindref="compound">LocalOrbitalFrameDirection</ref> &amp;</type>
+        <definition>const LocalOrbitalFrameDirection &amp; ostk::astrodynamics::guidancelaw::ConstantThrust::getLocalThrustDirection</definition>
         <argsstring>() const</argsstring>
         <name>getLocalThrustDirection</name>
         <briefdescription>
@@ -83,14 +83,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="69" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="46" bodyend="54"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="67" column="38" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="45" bodyend="48"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ae1c155d65dc553706039df0608f7de85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a69a9ef08d4a290cae65ff47dcc40d91e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Vector3d</type>
         <definition>Vector3d ostk::astrodynamics::guidancelaw::ConstantThrust::calculateThrustAccelerationAt</definition>
-        <argsstring>(const Instant &amp;anInstant, const Vector3d &amp;aPositionCoordinates, const Vector3d &amp;aVelocityCoordinates, const Real &amp;aThrustAcceleration, const Shared&lt; const Frame &gt; &amp;outputFrameSPtr) const override</argsstring>
+        <argsstring>(const Instant &amp;anInstant, const Vector3d &amp;aPositionCoordinates, const Vector3d &amp;aVelocityCoordinates, double aThrustAcceleration, const Shared&lt; const Frame &gt; &amp;outputFrameSPtr) const override</argsstring>
         <name>calculateThrustAccelerationAt</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1_guidance_law_1a2fe8fbe5b61d15040da6de231772b346">calculateThrustAccelerationAt</reimplements>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_guidance_law_1a849652af51de2e9652e36009bb5bbe37">calculateThrustAccelerationAt</reimplements>
         <param>
           <type>const Instant &amp;</type>
           <declname>anInstant</declname>
@@ -104,7 +104,7 @@
           <declname>aVelocityCoordinates</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aThrustAcceleration</declname>
         </param>
         <param>
@@ -162,7 +162,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="80" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="56" bodyend="82"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="78" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="50" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a651a2c66e831e8bfdbac2c6f6c39b725" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -204,7 +204,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="93" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="84" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="91" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="78" bodyend="88"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -248,7 +248,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="59" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="39" bodyend="44"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="57" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="38" bodyend="43"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -281,34 +281,34 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="101" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="96" bodyend="103"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="99" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="90" bodyend="97"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a8eadb8442d769b849adc2b56bd61d2ca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a0645d102c0436b90e22ec40380a5a30e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust" kindref="compound">ConstantThrust</ref></type>
         <definition>ConstantThrust ostk::astrodynamics::guidancelaw::ConstantThrust::FromManeuver</definition>
-        <argsstring>(const Maneuver &amp;aManeuver, const Shared&lt; const LocalOrbitalFrameFactory &gt; &amp;aLocalOrbitalFrameFactorySPtr, const Angle &amp;aMaximumAllowedAngularOffset=Angle::Undefined())</argsstring>
+        <argsstring>(const Maneuver &amp;aManeuver, const LocalOrbitalFrameFactory &amp;aLocalOrbitalFrameFactory, const std::optional&lt; Angle &gt; &amp;aMaximumAllowedAngularOffset=std::nullopt)</argsstring>
         <name>FromManeuver</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &amp;</type>
           <declname>aManeuver</declname>
         </param>
         <param>
-          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt; &amp;</type>
-          <declname>aLocalOrbitalFrameFactorySPtr</declname>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &amp;</type>
+          <declname>aLocalOrbitalFrameFactory</declname>
         </param>
         <param>
-          <type>const Angle &amp;</type>
+          <type>const std::optional&lt; Angle &gt; &amp;</type>
           <declname>aMaximumAllowedAngularOffset</declname>
-          <defval>Angle::Undefined()</defval>
+          <defval>std::nullopt</defval>
         </param>
         <briefdescription>
 <para>Create a constant thrust guidance law from a maneuver. </para>
         </briefdescription>
         <detaileddescription>
 <para>The local orbital frame maneuver&apos;s mean thrust direction is calculated and used to create a constant thrust guidance law in said direction.</para>
-<para>If defined, a runtime error will be thrown if the maximum allowed angular offset between the original thrust acceleration direction and the mean thrust direction is violated.</para>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a572c63513c9359ecb25b803a350032e3" kindref="member">ConstantThrust</ref><sp/>constantThrustGuidanceLaw<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a8eadb8442d769b849adc2b56bd61d2ca" kindref="member">ConstantThrust::FromManeuver</ref>(maneuver,</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a489494b20dbd4a5c8d056e61c0d19b95" kindref="member">LocalOrbitalFrameFactory::TNW</ref>(Frame::GCRF()));</highlight></codeline>
+<para>If provided, a runtime error will be thrown if the maximum allowed angular offset between the original thrust acceleration direction and the mean thrust direction is violated.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a572c63513c9359ecb25b803a350032e3" kindref="member">ConstantThrust</ref><sp/>constantThrustGuidanceLaw<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a0645d102c0436b90e22ec40380a5a30e" kindref="member">ConstantThrust::FromManeuver</ref>(maneuver,</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1ae3c1df34fcca40fe2d512cfb97d363fe" kindref="member">LocalOrbitalFrameFactory::TNW</ref>(Frame::GCRF()));</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -320,7 +320,7 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>aLocalOrbitalFrameFactorySPtr</parametername>
+<parametername>aLocalOrbitalFrameFactory</parametername>
 </parameternamelist>
 <parameterdescription>
 <para>A local orbital frame factory </para>
@@ -331,7 +331,7 @@
 <parametername>aMaximumAllowedAngularOffset</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A maximum allowed angular offset to consider (if any). Defaults to Undefined.</para>
+<para>A maximum allowed angular offset to consider (if any). Defaults to std::nullopt.</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -341,7 +341,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="122" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="105" bodyend="129"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="120" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="99" bodyend="123"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -389,14 +389,14 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="39" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" bodystart="38" bodyend="130"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" bodystart="36" bodyend="128"/>
     <listofallmembers>
-      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ae1c155d65dc553706039df0608f7de85" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>calculateThrustAccelerationAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a69a9ef08d4a290cae65ff47dcc40d91e" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>calculateThrustAccelerationAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a572c63513c9359ecb25b803a350032e3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>ConstantThrust</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1afa769d0ef0b5b7d3bad2ea57a8b2b0f7" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>constructUngatedGuidanceLaw</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a8eadb8442d769b849adc2b56bd61d2ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>FromManeuver</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1ab70359e36aee88fd810acd524afc2d69" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>getLocalThrustDirection</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9070d37e137647cc0927c49d0991978c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a0645d102c0436b90e22ec40380a5a30e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>FromManeuver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a3efeb76cba4e18b301a60dd755f67be4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>getLocalThrustDirection</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad8cb91ddd34b06b2eb82112473ea78d4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>getName</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad14e3f6378328956164d8cbc6957962a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>GuidanceLaw</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1aa596608b9b6be8ffe444b36ca67f7799" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>Intrack</name></member>
       <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust_1a1384198caac8307bf4f4059763eada0c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::ConstantThrust</scope><name>localOrbitalFrameDirection_</name></member>

@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="62" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="61" bodyend="69"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="60" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="59" bodyend="67"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -78,11 +78,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="226" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="226" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="210" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="210" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a3d3bf57fc7571ab90dbd51ae41b0aa76" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::eccentricityX_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5d1ed38dccd2f25872ef02b66b797d3a" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::eccentricityX_</definition>
         <argsstring></argsstring>
         <name>eccentricityX_</name>
         <briefdescription>
@@ -92,11 +92,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="227" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="227" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="211" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="211" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a2bff613661f9e4c42351cfd0d65cf188" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::eccentricityY_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a76966c6a2ea591a301fe0e1b17cc6630" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::eccentricityY_</definition>
         <argsstring></argsstring>
         <name>eccentricityY_</name>
         <briefdescription>
@@ -106,11 +106,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="228" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="228" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="212" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="212" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a50761b4f1f306b86008ce431556b2d1a" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::nodeX_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ae8dd3b6d06d44229ec3c6c32298f48a9" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::nodeX_</definition>
         <argsstring></argsstring>
         <name>nodeX_</name>
         <briefdescription>
@@ -120,11 +120,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="229" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="229" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="213" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="213" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ac382aaa8283640bd9ed6d23f12ffd7c2" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::nodeY_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a31d24a9cb820405bac77c8debf372099" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::nodeY_</definition>
         <argsstring></argsstring>
         <name>nodeY_</name>
         <briefdescription>
@@ -134,7 +134,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="230" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="230" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="214" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="214" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a724ebb6ff7b2e15a945d107ceee4120c" prot="private" static="no" mutable="no">
         <type>Angle</type>
@@ -148,33 +148,33 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="231" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="231" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="215" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="215" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a6365cd60b45c9bcffa58ae021f828e96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aa4402c1473d8e19919877bca8e8d3c90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::ModifiedEquinoctial</definition>
-        <argsstring>(const Length &amp;semiLatusRectum, const Real &amp;eccentricityX, const Real &amp;eccentricityY, const Real &amp;nodeX, const Real &amp;nodeY, const Angle &amp;trueLongitude)</argsstring>
+        <argsstring>(const Length &amp;semiLatusRectum, double eccentricityX, double eccentricityY, double nodeX, double nodeY, const Angle &amp;trueLongitude)</argsstring>
         <name>ModifiedEquinoctial</name>
         <param>
           <type>const Length &amp;</type>
           <declname>semiLatusRectum</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>eccentricityX</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>eccentricityY</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>nodeX</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>nodeY</declname>
         </param>
         <param>
@@ -185,7 +185,7 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a6365cd60b45c9bcffa58ae021f828e96" kindref="member">ModifiedEquinoctial</ref><sp/>meoe<sp/>=<sp/>{</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aa4402c1473d8e19919877bca8e8d3c90" kindref="member">ModifiedEquinoctial</ref><sp/>meoe<sp/>=<sp/>{</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Length::Kilometers(7000.0),<sp/>0.01,<sp/>0.02,<sp/>0.001,<sp/>0.002,<sp/>Angle::Degrees(45.0)</highlight></codeline>
 <codeline><highlight class="normal">}<sp/>;</highlight></codeline>
 </programlisting></para>
@@ -242,7 +242,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="85" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="39" bodyend="54"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="83" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="41" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a88ef8ae6a0a3f36fa1551a94a741bf80" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -272,7 +272,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="98" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="56" bodyend="74"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="96" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="58" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ae5c07bf2e2fa534846d2039f329dddb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -302,28 +302,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="104" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="76" bodyend="79"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="102" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="73" bodyend="76"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a223f62c175573563f6de2e5db1b5009a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::isDefined</definition>
-        <argsstring>() const</argsstring>
-        <name>isDefined</name>
-        <briefdescription>
-<para>Check if <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref> is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref> is defined </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="116" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="87" bodyend="91"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a395cc5e937d5c51220dc2e55e5e73780" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Length</type>
-        <definition>Length ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getSemiLatusRectum</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1af16c9a72708aa4f22dce496b6139bee6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Length &amp;</type>
+        <definition>const Length &amp; ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getSemiLatusRectum</definition>
         <argsstring>() const</argsstring>
         <name>getSemiLatusRectum</name>
         <briefdescription>
@@ -336,11 +319,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="121" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="93" bodyend="100"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="114" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="84" bodyend="87"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ac1eab88858b7dd7f34b7d2bc36eb53db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getEccentricityX</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aac3a96076f5c3f14d38f9170dcf06c77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getEccentricityX</definition>
         <argsstring>() const</argsstring>
         <name>getEccentricityX</name>
         <briefdescription>
@@ -353,11 +336,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="126" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="102" bodyend="109"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="119" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="89" bodyend="92"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ac79c70ac3e038a3c1e2fb7c05cc46044" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getEccentricityY</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ad5b6f24eea29197377fe5454250fc4e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getEccentricityY</definition>
         <argsstring>() const</argsstring>
         <name>getEccentricityY</name>
         <briefdescription>
@@ -370,11 +353,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="131" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="111" bodyend="118"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="124" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="94" bodyend="97"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a2cd84bdcc9cef4a12e557968ffdd680f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getNodeX</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1adc3bd9c441715214898a9f970d40e1f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getNodeX</definition>
         <argsstring>() const</argsstring>
         <name>getNodeX</name>
         <briefdescription>
@@ -387,11 +370,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="136" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="120" bodyend="127"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="129" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="99" bodyend="102"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a0249537897c2c1796bbeab3bfab2ac1e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getNodeY</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a89fa264cde9e543315f502fa8ff71046" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getNodeY</definition>
         <argsstring>() const</argsstring>
         <name>getNodeY</name>
         <briefdescription>
@@ -404,11 +387,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="141" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="129" bodyend="136"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="134" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="104" bodyend="107"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a14ec20b93e4c2455ed86320169af0176" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Angle</type>
-        <definition>Angle ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getTrueLongitude</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1adb8c07818a83489a2d6c294930f9f3fd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Angle &amp;</type>
+        <definition>const Angle &amp; ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::getTrueLongitude</definition>
         <argsstring>() const</argsstring>
         <name>getTrueLongitude</name>
         <briefdescription>
@@ -421,7 +404,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="146" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="138" bodyend="145"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="139" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="109" bodyend="112"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aee686c5a21bfee461fed7fc031961b72" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Vector6d</type>
@@ -438,7 +421,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="151" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="147" bodyend="156"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="144" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="114" bodyend="119"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a502249dbf44c3fba3ce60734fb2bdb53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ab279e7e0dff525efc212354b8cac4403" kindref="member">KeplerianCOE</ref></type>
@@ -453,7 +436,7 @@
 <para>Convert <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref> to Classical Orbital Elements. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a6365cd60b45c9bcffa58ae021f828e96" kindref="member">ModifiedEquinoctial</ref><sp/>meoe<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aa4402c1473d8e19919877bca8e8d3c90" kindref="member">ModifiedEquinoctial</ref><sp/>meoe<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Derived<sp/>mu<sp/>=<sp/>Derived(3.986004418e14,<sp/>Derived::Unit::GravitationalParameter())<sp/>;</highlight></codeline>
 <codeline><highlight class="normal"><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ab279e7e0dff525efc212354b8cac4403" kindref="member">KeplerianCOE</ref><sp/>coe<sp/>=<sp/>meoe.toCOE(mu)<sp/>;</highlight></codeline>
 </programlisting></para>
@@ -472,7 +455,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="163" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="158" bodyend="186"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="156" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="121" bodyend="139"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aed1820b5c31158d65c73937aff08ee6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Pair&lt; Position, Velocity &gt;</type>
@@ -514,7 +497,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="170" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="188" bodyend="260"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="163" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="141" bodyend="203"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b6f8c3f259ff82c39b250d1643f9966" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -555,7 +538,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="178" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="262" bodyend="280"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="171" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="205" bodyend="217"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -599,29 +582,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="111" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="81" bodyend="85"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="109" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="78" bodyend="82"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1af83dc0e24fc306e646001b4ce5431b01" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref></type>
-        <definition>ModifiedEquinoctial ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::Undefined</definition>
-        <argsstring>()</argsstring>
-        <name>Undefined</name>
-        <briefdescription>
-<para>Construct an undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref>. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a6365cd60b45c9bcffa58ae021f828e96" kindref="member">ModifiedEquinoctial</ref><sp/>meoe<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1af83dc0e24fc306e646001b4ce5431b01" kindref="member">ModifiedEquinoctial::Undefined</ref>()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>Undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref>. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="187" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="282" bodyend="292"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1abcaaccebf8ee5a74bad014dccd683498" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref></type>
         <definition>ModifiedEquinoctial ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial::Cartesian</definition>
@@ -641,7 +605,7 @@
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal">Pair&lt;Position,<sp/>Velocity&gt;<sp/>cartesianState<sp/>=<sp/>{<sp/>position,<sp/>velocity<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Derived<sp/>mu<sp/>=<sp/>Derived(3.986004418e14,<sp/>Derived::Unit::GravitationalParameter())<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a6365cd60b45c9bcffa58ae021f828e96" kindref="member">ModifiedEquinoctial</ref><sp/>meoe<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1abcaaccebf8ee5a74bad014dccd683498" kindref="member">ModifiedEquinoctial::Cartesian</ref>(cartesianState,<sp/>mu)<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aa4402c1473d8e19919877bca8e8d3c90" kindref="member">ModifiedEquinoctial</ref><sp/>meoe<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1abcaaccebf8ee5a74bad014dccd683498" kindref="member">ModifiedEquinoctial::Cartesian</ref>(cartesianState,<sp/>mu)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -666,7 +630,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="200" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="294" bodyend="378"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="184" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="219" bodyend="294"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b72a058fe21af1d8993f75a57454214" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial" kindref="compound">ModifiedEquinoctial</ref></type>
@@ -682,7 +646,7 @@
         </briefdescription>
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1ab279e7e0dff525efc212354b8cac4403" kindref="member">KeplerianCOE</ref><sp/>coe<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a6365cd60b45c9bcffa58ae021f828e96" kindref="member">ModifiedEquinoctial</ref><sp/>meoe<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b72a058fe21af1d8993f75a57454214" kindref="member">ModifiedEquinoctial::COE</ref>(coe)<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aa4402c1473d8e19919877bca8e8d3c90" kindref="member">ModifiedEquinoctial</ref><sp/>meoe<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b72a058fe21af1d8993f75a57454214" kindref="member">ModifiedEquinoctial::COE</ref>(coe)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -699,7 +663,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="213" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="380" bodyend="432"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="197" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="296" bodyend="341"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5580958b378a768233842c9a576d2ecf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
@@ -731,7 +695,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="223" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="434" bodyend="453"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="207" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.cpp" bodystart="343" bodyend="362"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -740,25 +704,24 @@
     <detaileddescription>
 <para><ulink url="https://degenerateconic.com/modified-equinoctial-elements.html">https://degenerateconic.com/modified-equinoctial-elements.html</ulink> <ulink url="https://spsweb.fltops.jpl.nasa.gov/portaldataops/mpg/MPG_Docs/Source">https://spsweb.fltops.jpl.nasa.gov/portaldataops/mpg/MPG_Docs/Source</ulink>%20Docs/EquinoctalElements-modified.pdf </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="58" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="57" bodyend="232"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" line="56" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/ModifiedEquinoctial.hpp" bodystart="55" bodyend="216"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1abcaaccebf8ee5a74bad014dccd683498" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>Cartesian</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5b72a058fe21af1d8993f75a57454214" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>COE</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a3d3bf57fc7571ab90dbd51ae41b0aa76" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>eccentricityX_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a2bff613661f9e4c42351cfd0d65cf188" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>eccentricityY_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5d1ed38dccd2f25872ef02b66b797d3a" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>eccentricityX_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a76966c6a2ea591a301fe0e1b17cc6630" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>eccentricityY_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ab9caa667dda3fdeb8e7782dcc00e0a10" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>Element</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aed1820b5c31158d65c73937aff08ee6a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getCartesianState</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ac1eab88858b7dd7f34b7d2bc36eb53db" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getEccentricityX</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ac79c70ac3e038a3c1e2fb7c05cc46044" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getEccentricityY</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a2cd84bdcc9cef4a12e557968ffdd680f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getNodeX</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a0249537897c2c1796bbeab3bfab2ac1e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getNodeY</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a395cc5e937d5c51220dc2e55e5e73780" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getSemiLatusRectum</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aac3a96076f5c3f14d38f9170dcf06c77" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getEccentricityX</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ad5b6f24eea29197377fe5454250fc4e0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getEccentricityY</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1adc3bd9c441715214898a9f970d40e1f3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getNodeX</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a89fa264cde9e543315f502fa8ff71046" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getNodeY</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1af16c9a72708aa4f22dce496b6139bee6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getSemiLatusRectum</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aee686c5a21bfee461fed7fc031961b72" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getSIVector</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a14ec20b93e4c2455ed86320169af0176" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getTrueLongitude</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a223f62c175573563f6de2e5db1b5009a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>isDefined</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a6365cd60b45c9bcffa58ae021f828e96" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>ModifiedEquinoctial</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a50761b4f1f306b86008ce431556b2d1a" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>nodeX_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ac382aaa8283640bd9ed6d23f12ffd7c2" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>nodeY_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1adb8c07818a83489a2d6c294930f9f3fd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>getTrueLongitude</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aa4402c1473d8e19919877bca8e8d3c90" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>ModifiedEquinoctial</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ae8dd3b6d06d44229ec3c6c32298f48a9" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>nodeX_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a31d24a9cb820405bac77c8debf372099" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>nodeY_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1ae5c07bf2e2fa534846d2039f329dddb7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1aa71e1eaa18a1ad38c273f715d8cde250" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a88ef8ae6a0a3f36fa1551a94a741bf80" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>operator==</name></member>
@@ -767,7 +730,6 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a5580958b378a768233842c9a576d2ecf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>StringFromElement</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a502249dbf44c3fba3ce60734fb2bdb53" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>toCOE</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1a724ebb6ff7b2e15a945d107ceee4120c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>trueLongitude_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_modified_equinoctial_1af83dc0e24fc306e646001b4ce5431b01" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::kepler::ModifiedEquinoctial</scope><name>Undefined</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

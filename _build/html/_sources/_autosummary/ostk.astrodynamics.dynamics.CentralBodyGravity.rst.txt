@@ -11,10 +11,13 @@ ostk.astrodynamics.dynamics.CentralBodyGravity
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~CentralBodyGravity.compute_contribution
       ~CentralBodyGravity.from_environment
@@ -22,10 +25,5 @@ ostk.astrodynamics.dynamics.CentralBodyGravity
       ~CentralBodyGravity.get_name
       ~CentralBodyGravity.get_read_coordinate_subsets
       ~CentralBodyGravity.get_write_coordinate_subsets
-      ~CentralBodyGravity.is_defined
-   
-   
-
-   
    
    

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1uncertainty" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::uncertainty</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" prot="public">ostk::astrodynamics::uncertainty::Covariance</innerclass>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1uncertainty_1a6fb3a2357b658321227284f3e55c422b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; ostk::astrodynamics::uncertainty::operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Covariance &amp;aCovariance)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> &amp;</type>
+          <declname>aCovariance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream to insert into </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCovariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> to insert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The output stream with the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> inserted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" line="149" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="149" bodyend="154"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

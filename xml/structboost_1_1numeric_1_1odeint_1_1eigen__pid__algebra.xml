@@ -38,7 +38,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="46" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="46" bodyend="52"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="48" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="48" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="structboost_1_1numeric_1_1odeint_1_1eigen__pid__algebra_1a1bf259f56214cec1be40be03008660a5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="55" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="55" bodyend="61"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="57" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="57" bodyend="63"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -115,7 +115,7 @@
         <label>vector_space_algebra</label>
       </node>
     </collaborationgraph>
-    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="44" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="43" bodyend="62"/>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="46" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="45" bodyend="64"/>
     <listofallmembers>
       <member refid="structboost_1_1numeric_1_1odeint_1_1eigen__pid__algebra_1acd86592f1effd2dd392032b9b701b93c" prot="public" virt="non-virtual"><scope>boost::numeric::odeint::eigen_pid_algebra</scope><name>for_each2</name></member>
       <member refid="structboost_1_1numeric_1_1odeint_1_1eigen__pid__algebra_1a1bf259f56214cec1be40be03008660a5" prot="public" virt="non-virtual"><scope>boost::numeric::odeint::eigen_pid_algebra</scope><name>for_each4</name></member>

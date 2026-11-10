@@ -18,63 +18,26 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-all_comparison_states = []
-
-for ind, filename in enumerate(filenames):
-    with open(f"{os.getcwd()}/data/{filename}") as csvfile:
-        reader = csv.DictReader(csvfile)
-        comparison_states = []
-        comparison_instants = []
-        for row in reader:
-            instant_iter = start_instant + Duration.seconds(
-                float(row[reader.fieldnames[0]])
-            )
-            position_iter = Position.meters(
-                [
-                    row[reader.fieldnames[1]],
-                    row[reader.fieldnames[2]],
-                    row[reader.fieldnames[3]],
-                ],
-                Frame.GCRF(),
-            )
-            velocity_iter = Velocity.meters_per_second(
-                [
-                    row[reader.fieldnames[4]],
-                    row[reader.fieldnames[5]],
-                    row[reader.fieldnames[6]],
-                ],
-                Frame.GCRF(),
-            )
-
-            position_iter_m = np.multiply(
-                position_iter.get_coordinates(), multiplication_factors[ind]
-            )
-            velocity_iter_ms = np.multiply(
-                velocity_iter.get_coordinates(), multiplication_factors[ind]
-            )
-
-            comparison_instants.append(instant_iter)
-            comparison_states.append(
-                State(
-                    instant_iter,
-                    Position.meters(position_iter_m, Frame.GCRF()),
-                    Velocity.meters_per_second(velocity_iter_ms, Frame.GCRF()),
-                )
-            )
-    all_comparison_states.append(comparison_states)
+earth = Earth.from_models(
+    EarthGravitationalModel(
+        EarthGravitationalModel.Type.Spherical, Directory.undefined(), 0, 0
+    ),
+    EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+    EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
+)
+environment = Environment(Instant.J2000(), [earth])
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
-[31mFileNotFoundError[39m                         Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[12][39m[32m, line 4[39m
-[32m      1[39m all_comparison_states = []
-[32m      2[39m 
-[32m      3[39m [38;5;28;01mfor[39;00m ind, filename [38;5;28;01min[39;00m enumerate(filenames):
-[32m----> [39m[32m4[39m     [38;5;28;01mwith[39;00m open([33mf"{os.getcwd()}/data/{filename}"[39m) [38;5;28;01mas[39;00m csvfile:
-[32m      5[39m         reader = csv.DictReader(csvfile)
-[32m      6[39m         comparison_states = []
-[32m      7[39m         comparison_instants = []
+[31mAttributeError[39m                            Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[3][39m[32m, line 3[39m
+[32m      1[39m earth = Earth.from_models(
+[32m      2[39m     EarthGravitationalModel(
+[32m----> [39m[32m3[39m         EarthGravitationalModel.Type.Spherical, Directory.undefined(), [32m0[39m, [32m0[39m
+[32m      4[39m     ),
+[32m      5[39m     EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+[32m      6[39m     EarthAtmosphericModel(EarthAtmosphericModel.Type.Exponential),
 
-[31mFileNotFoundError[39m: [Errno 2] No such file or directory: '/app/docs/_notebooks/data/gmat_astrodynamics/scenario003-mission-sequence.csv'
+[31mAttributeError[39m: type object 'Directory' has no attribute 'undefined'
 

@@ -11,20 +11,19 @@ ostk.astrodynamics.estimator.OrbitDeterminationSolver
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
-      ~OrbitDeterminationSolver.access_environment
-      ~OrbitDeterminationSolver.access_estimation_frame
-      ~OrbitDeterminationSolver.access_propagator
-      ~OrbitDeterminationSolver.access_solver
       ~OrbitDeterminationSolver.estimate
       ~OrbitDeterminationSolver.estimate_orbit
-   
-   
-
-   
+      ~OrbitDeterminationSolver.get_environment
+      ~OrbitDeterminationSolver.get_estimation_frame
+      ~OrbitDeterminationSolver.get_propagator
+      ~OrbitDeterminationSolver.get_solver
    
    

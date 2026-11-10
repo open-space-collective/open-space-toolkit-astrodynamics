@@ -10,11 +10,14 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
-      </node>
       <node id="25">
         <label>functional</label>
+      </node>
+      <node id="26">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp</label>
+        <link refid="_cartesian_position_8hpp"/>
+        <childnode refid="21" relation="include">
+        </childnode>
       </node>
       <node id="18">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
@@ -25,6 +28,8 @@
       <node id="12">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</label>
         <link refid="_state_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
@@ -47,6 +52,10 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
       </node>
       <node id="10">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
@@ -57,12 +66,12 @@
       <node id="19">
         <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
       </node>
-      <node id="8">
+      <node id="7">
         <label>OpenSpaceToolkit/Astrodynamics/EventCondition.hpp</label>
         <link refid="_event_condition_8hpp"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -82,11 +91,12 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
       </node>
       <node id="3">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
+      </node>
+      <node id="28">
+        <label>ostream</label>
       </node>
       <node id="14">
         <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
@@ -111,7 +121,7 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
@@ -120,13 +130,19 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
       <node id="11">
         <label>OpenSpaceToolkit/Physics/Unit/Length.hpp</label>
+      </node>
+      <node id="29">
+        <label>OpenSpaceToolkit/Mathematics/Object/Matrix.hpp</label>
       </node>
       <node id="9">
         <label>OpenSpaceToolkit/Core/Type/Unique.hpp</label>
       </node>
-      <node id="6">
+      <node id="5">
         <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
       </node>
       <node id="20">
@@ -141,6 +157,30 @@
       <node id="13">
         <label>OpenSpaceToolkit/Core/Container/Array.hpp</label>
       </node>
+      <node id="27">
+        <label>OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp</label>
+        <link refid="_covariance_8hpp"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
       <node id="21">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp</label>
         <link refid="_coordinate_broker_8hpp"/>
@@ -154,12 +194,12 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="6">
         <label>OpenSpaceToolkit/Physics/Time/Duration.hpp</label>
       </node>
     </incdepgraph>
@@ -187,9 +227,9 @@
 <codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>RealCondition(</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Instant<sp/>Condition&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aCriterion,</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[anInstant](const<sp/>State&amp;<sp/>aState)<sp/>-&gt;<sp/>Real</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[anInstant](const<sp/>State&amp;<sp/>aState)<sp/>-&gt;<sp/>double</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(aState.accessInstant()<sp/>-<sp/>anInstant).inSeconds();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(aState.getInstant()<sp/>-<sp/>anInstant).inSeconds();</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
 <codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>),</highlight></codeline>
@@ -199,7 +239,7 @@
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
 <codeline lineno="28"><highlight class="normal">InstantCondition::~InstantCondition()<sp/>{}</highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal">Instant<sp/>InstantCondition::getInstant()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>InstantCondition::getInstant()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="31"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>instant_;</highlight></codeline>
 <codeline lineno="33"><highlight class="normal">}</highlight></codeline>

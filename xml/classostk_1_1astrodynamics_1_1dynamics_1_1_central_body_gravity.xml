@@ -16,60 +16,31 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="140" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" bodystart="140" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="120" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" bodystart="120" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::dynamics::CentralBodyGravity::CentralBodyGravity</definition>
-        <argsstring>(const Shared&lt; const Celestial &gt; &amp;aCelestial)</argsstring>
+        <argsstring>(const Shared&lt; const Celestial &gt; &amp;aCelestial, const std::optional&lt; String &gt; &amp;aName=std::nullopt)</argsstring>
         <name>CentralBodyGravity</name>
         <param>
           <type>const Shared&lt; const Celestial &gt; &amp;</type>
           <declname>aCelestial</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; String &gt; &amp;</type>
+          <declname>aName</declname>
+          <defval>std::nullopt</defval>
         </param>
         <briefdescription>
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
 <para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;const<sp/>Celestial&gt;<sp/>celestialSPtr<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>celestialSPtr<sp/>}<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>aCelestial</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A celestial object representing the central body. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="44" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="24" bodyend="29"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8d63e701dcdad5102e31177392825e48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>ostk::astrodynamics::dynamics::CentralBodyGravity::CentralBodyGravity</definition>
-        <argsstring>(const Shared&lt; const Celestial &gt; &amp;aCelestial, const String &amp;aName)</argsstring>
-        <name>CentralBodyGravity</name>
-        <param>
-          <type>const Shared&lt; const Celestial &gt; &amp;</type>
-          <declname>aCelestial</declname>
-        </param>
-        <param>
-          <type>const String &amp;</type>
-          <declname>aName</declname>
-        </param>
-        <briefdescription>
-<para>Constructor with name. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;const<sp/>Celestial&gt;<sp/>celestialSPtr<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>celestialSPtr,<sp/></highlight><highlight class="stringliteral">&quot;Earth<sp/>Gravity&quot;</highlight><highlight class="normal"><sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>celestialSPtr<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" kindref="member">CentralBodyGravity</ref><sp/>namedCentralBodyGravity<sp/>=<sp/>{<sp/>celestialSPtr,<sp/>String(</highlight><highlight class="stringliteral">&quot;Earth<sp/>Gravity&quot;</highlight><highlight class="normal">)<sp/>}<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -84,7 +55,7 @@
 <parametername>aName</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A name for the dynamics. </para>
+<para>A name for the dynamics. Defaults to &quot;Central Body Gravity [&lt;celestial name&gt;]&quot;. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -92,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="55" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="31" bodyend="39"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="45" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="24" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a0d73ed472892ff8ac435dca5b85e757a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -106,39 +77,18 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="58" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="41" bodyend="41"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="48" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="39" bodyend="39"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1adb406a568a7b88700100ad7d0af8e57a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::dynamics::CentralBodyGravity::isDefined</definition>
-        <argsstring>() const override</argsstring>
-        <name>isDefined</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1_dynamics_1a934808fb5b77afd3b25a918b0fe32892">isDefined</reimplements>
-        <briefdescription>
-<para>Check if the central body gravity dynamics is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>defined<sp/>=<sp/>centralBodyGravity.isDefined()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>True if the central body gravity dynamics is defined. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="80" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="50" bodyend="53"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a5fda10b480b4c6694c2ca99401c02ac8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Shared&lt; const Celestial &gt;</type>
-        <definition>Shared&lt; const Celestial &gt; ostk::astrodynamics::dynamics::CentralBodyGravity::getCelestial</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a576aa1797ee1a7940e62fec1125e4624" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Shared&lt; const Celestial &gt; &amp;</type>
+        <definition>const Shared&lt; const Celestial &gt; &amp; ostk::astrodynamics::dynamics::CentralBodyGravity::getCelestial</definition>
         <argsstring>() const</argsstring>
         <name>getCelestial</name>
         <briefdescription>
 <para>Get the celestial object. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Shared&lt;const<sp/>Celestial&gt;<sp/>celestial<sp/>=<sp/>centralBodyGravity.getCelestial()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>A shared pointer to the celestial object. </para>
@@ -147,7 +97,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="90" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="55" bodyend="63"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="70" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="48" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a2f8108998910c0bb8112857d5d2a690e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -159,7 +109,7 @@
 <para>Get the coordinate subsets that the instance reads from. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;<sp/>readSubsets<sp/>=<sp/>centralBodyGravity.getReadCoordinateSubsets()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>The coordinate subsets that the instance reads from. </para>
@@ -168,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="100" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="65" bodyend="70"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="80" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="53" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a2322b621299a95a268602540cc27507f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -180,7 +130,7 @@
 <para>Get the coordinate subsets that the instance writes to. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Array&lt;Shared&lt;const<sp/>CoordinateSubset&gt;&gt;<sp/>writeSubsets<sp/>=<sp/>centralBodyGravity.getWriteCoordinateSubsets()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>The coordinate subsets that the instance writes to. </para>
@@ -189,7 +139,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="110" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="72" bodyend="77"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="90" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="60" bodyend="65"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a49ca9e85f9a55122684e9c1f07e72e62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>VectorXd</type>
@@ -213,7 +163,7 @@
 <para>Compute the contribution to the state derivative. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">VectorXd<sp/>contribution<sp/>=<sp/>centralBodyGravity.computeContribution(anInstant,<sp/>x,<sp/>aFrameSPtr)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -247,7 +197,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="124" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="79" bodyend="96"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="104" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="67" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1ae8af2f11463701b68bd63510efd9e29f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -268,7 +218,7 @@
 <para>Print the central body gravity dynamics. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">centralBodyGravity.print(std::cout)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -292,7 +242,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="137" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="98" bodyend="107"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="117" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="86" bodyend="95"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -313,7 +263,7 @@
 <para>Stream insertion operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" kindref="member">CentralBodyGravity</ref><sp/>centralBodyGravity<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>centralBodyGravity<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -339,7 +289,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="70" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="43" bodyend="48"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="60" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.cpp" bodystart="41" bodyend="46"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -372,20 +322,18 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="34" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" bodystart="33" bodyend="141"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp" bodystart="32" bodyend="121"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1acfc57668e1a37ec30dca69f889b998ea" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>celestialObjectSPtr_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a953a118fc1af91cf362b3527927af93d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>CentralBodyGravity</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8d63e701dcdad5102e31177392825e48" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>CentralBodyGravity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a8f54937617a1d8081487a34ea1f8ce29" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>CentralBodyGravity</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a49ca9e85f9a55122684e9c1f07e72e62" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>computeContribution</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a999586ae8bcb846dce521bde617939ad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>Dynamics</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a32cd83261284ade7ce4aa80681587175" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>FromEnvironment</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a5fda10b480b4c6694c2ca99401c02ac8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>getCelestial</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a6055a6b91a571604860e46a2563c0b9e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a576aa1797ee1a7940e62fec1125e4624" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>getCelestial</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a91b58c009931e99c22ec18efd213455f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>getName</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a2f8108998910c0bb8112857d5d2a690e" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>getReadCoordinateSubsets</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1abb6276a394f319cc716a564c19353cc1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>GetSystemOfEquations</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a2322b621299a95a268602540cc27507f" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>getWriteCoordinateSubsets</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1adb406a568a7b88700100ad7d0af8e57a" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1af189772468e7e8600ceaf4b333daa251" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1ae8af2f11463701b68bd63510efd9e29f" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>print</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a0d73ed472892ff8ac435dca5b85e757a" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::CentralBodyGravity</scope><name>~CentralBodyGravity</name></member>

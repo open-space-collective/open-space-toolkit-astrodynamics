@@ -1,0 +1,412 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</basecompoundref>
+    <includes refid="_frisbee2015_8hpp" local="no">Frisbee2015.hpp</includes>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a499d069df9a6708ebb52f4dd3b365b8b" prot="private" static="yes" mutable="no">
+        <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
+        <definition>const Shared&lt; const CoordinateSubset &gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::CartesianPositionSubsetSPtr</definition>
+        <argsstring></argsstring>
+        <name>CartesianPositionSubsetSPtr</name>
+        <initializer>= <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" kindref="member">CartesianPosition::Default</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="143" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a2bdd31a144ab1606946e02f2e717472b" prot="private" static="no" mutable="no">
+        <type>Derived</type>
+        <definition>Derived ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::relativeSpeedThreshold_</definition>
+        <argsstring></argsstring>
+        <name>relativeSpeedThreshold_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="145" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a95b052cc4bdb7532c330100b86ffd4cf" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::frameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>frameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="146" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a2087c9ef5637ee74a564d231d5248f6f" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::considerObject2Covariance_</definition>
+        <argsstring></argsstring>
+        <name>considerObject2Covariance_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="147" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a04c42b8b3ee60de88949a86fb30dc217" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::considerWorstCaseWhenBothCovariancesArePresent_</definition>
+        <argsstring></argsstring>
+        <name>considerWorstCaseWhenBothCovariancesArePresent_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="148" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a3a74b0ef687edf7233bf9d4115204599" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm" kindref="compound">ProbabilityOfCollisionAlgorithm</ref> &gt; &gt;</type>
+        <definition>std::optional&lt;Shared&lt;const ProbabilityOfCollisionAlgorithm&gt; &gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::probabilityOfCollisionAlgorithmSPtr_</definition>
+        <argsstring></argsstring>
+        <name>probabilityOfCollisionAlgorithmSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="149" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a80244710e391930e5a6adfed7cdd7601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::Frisbee2015</definition>
+        <argsstring>(const bool &amp;considerObject2Covariance=true, const bool &amp;considerWorstCaseWhenBothCovariancesArePresent=true, const Derived &amp;aRelativeSpeedThreshold=Derived(100.0, Derived::Unit::MeterPerSecond()), const Shared&lt; const Frame &gt; &amp;aFrameSPtr=Frame::GCRF(), const std::optional&lt; Shared&lt; const ProbabilityOfCollisionAlgorithm &gt;&gt; &amp;aProbabilityOfCollisionAlgorithmSPtr=std::make_shared&lt; Alfano2005 &gt;())</argsstring>
+        <name>Frisbee2015</name>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>considerObject2Covariance</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>considerWorstCaseWhenBothCovariancesArePresent</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aRelativeSpeedThreshold</declname>
+          <defval>Derived(100.0, Derived::Unit::MeterPerSecond())</defval>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+          <defval>Frame::GCRF()</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm" kindref="compound">ProbabilityOfCollisionAlgorithm</ref> &gt;&gt; &amp;</type>
+          <declname>aProbabilityOfCollisionAlgorithmSPtr</declname>
+          <defval>std::make_shared&lt; <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005" kindref="compound">Alfano2005</ref> &gt;()</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a80244710e391930e5a6adfed7cdd7601" kindref="member">Frisbee2015</ref><sp/>algorithm<sp/>=<sp/>{}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a80244710e391930e5a6adfed7cdd7601" kindref="member">Frisbee2015</ref><sp/>algorithm<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Derived(100.0,<sp/>Derived::Unit::MeterPerSecond()),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Frame::GCRF(),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::make_shared&lt;Alfano2005&gt;()</highlight></codeline>
+<codeline><highlight class="normal">}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a80244710e391930e5a6adfed7cdd7601" kindref="member">Frisbee2015</ref><sp/>algorithm<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>Derived(100.0,<sp/>Derived::Unit::MeterPerSecond()),<sp/>Frame::GCRF(),<sp/>std::nullopt</highlight></codeline>
+<codeline><highlight class="normal">}<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>considerObject2Covariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to use the Object 2 covariance when Object 1 has no position uncertainty. If false, only the Object 1 covariance is used. Defaults to true. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>considerWorstCaseWhenBothCovariancesArePresent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to use the worst case (i.e. the covariance yielding the highest probability of collision) when both covariances are present and the Object 2 covariance can be considered. Defaults to true. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRelativeSpeedThreshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A relative speed threshold below which the close approach is considered a low relative speed encounter and the algorithm is not applicable. Defaults to 100 m/s. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An inertial (or quasi-inertial) frame to use. Defaults to Frame::GCRF(). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aProbabilityOfCollisionAlgorithmSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A probability of collision algorithm used to compute the probability of collision from the critical (degenerate) combined covariance. If std::nullopt, Frisbee&apos;s closed-form solution is used (see note below). Defaults to <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005" kindref="compound">Alfano2005</ref>.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Frisbee&apos;s closed-form solution degrades when the combined hard-body radius is large compared to the smaller standard deviation of the critical combined covariance (sigma_min). In such cases, using a 2D probability of collision algorithm (e.g. <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005" kindref="compound">Alfano2005</ref>) is recommended. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="95" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.cpp" bodystart="35" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a2109a23a2af997f2412f3a1667d318bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::~Frisbee2015</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~Frisbee2015</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="105" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a3c298397ac8f928c70f88b10fc727cce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; String &gt;</type>
+        <definition>Array&lt; String &gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::identifyUnsatisfiedAssumptions</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach) const override</argsstring>
+        <name>identifyUnsatisfiedAssumptions</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a7ee1d7cc74f527aacf171d1ba3ccf823">identifyUnsatisfiedAssumptions</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <briefdescription>
+<para>Identify unsatisfied assumptions for a close approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A non-exhaustive array of unsatisfied assumption descriptions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="111" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.cpp" bodystart="70" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a10d4f1222ea1b75f8d8478025084affb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::computeProbabilityOfCollision</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach, const Shared&lt; const HardBody &gt; &amp;aHardBody1SPtr, const Shared&lt; const HardBody &gt; &amp;aHardBody2SPtr) const override</argsstring>
+        <name>computeProbabilityOfCollision</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a3996b1b6fceb676d2873e924e06cd2d6">computeProbabilityOfCollision</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody1SPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody2SPtr</declname>
+        </param>
+        <briefdescription>
+<para>Compute the probability of collision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The hard bodies are approximated by a combined hard-body radius, taken as the enclosing radius of their combined cross-section in the encounter frame.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody1SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 1 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody2SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 2</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The probability of collision </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="123" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.cpp" bodystart="109" bodyend="155"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a632304a91bd8e5557e9fa5e94f73cda4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015::computeProbabilityOfCollision_</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach, const Shared&lt; const HardBody &gt; &amp;aHardBody1SPtr, const Shared&lt; const HardBody &gt; &amp;aHardBody2SPtr) const</argsstring>
+        <name>computeProbabilityOfCollision_</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody1SPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody2SPtr</declname>
+        </param>
+        <briefdescription>
+<para>Compute the probability of collision using the Object 1 covariance only. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody1SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 1 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody2SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 2</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The probability of collision </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="137" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.cpp" bodystart="157" bodyend="236"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Frisbee 2015 maximum probability of collision algorithm as described in: </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Frisbee, J.H. (2015). An Upper Bound On High Speed Satellite Collision Probability When Only One Object Has Position Uncertainty Information. AAS 15-717.</para>
+<para>The algorithm computes an upper bound on the probability of collision for a high relative speed encounter when the position error covariance of only one object is known. The unknown covariance is replaced by the critical degenerate covariance that maximizes the probability of collision.</para>
+<para>The result is an upper bound: a value below an action threshold shows that no risk mitigation is required, while a value above it is inconclusive.</para>
+<para>The following assumptions apply:<itemizedlist>
+<listitem><para>High relative speed encounter</para>
+</listitem><listitem><para>Position uncertainty available for Object 1, or for at least one of the objects when the Object 2 covariance is considered</para>
+</listitem></itemizedlist>
+</para>
+<para><ulink url="https://ntrs.nasa.gov/citations/20150014495">https://ntrs.nasa.gov/citations/20150014495</ulink> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>String</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>name_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" line="62" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp" bodystart="61" bodyend="150"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a499d069df9a6708ebb52f4dd3b365b8b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>CartesianPositionSubsetSPtr</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a173d741cf3aec10505010a3f08edcc2c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>ComputeProbabilityAnalysis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a10d4f1222ea1b75f8d8478025084affb" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>computeProbabilityOfCollision</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a632304a91bd8e5557e9fa5e94f73cda4" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>computeProbabilityOfCollision_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a2087c9ef5637ee74a564d231d5248f6f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>considerObject2Covariance_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a04c42b8b3ee60de88949a86fb30dc217" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>considerWorstCaseWhenBothCovariancesArePresent_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a95b052cc4bdb7532c330100b86ffd4cf" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>frameSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a80244710e391930e5a6adfed7cdd7601" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>Frisbee2015</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a0b3dd32db62c04daf547c2e67373e1a6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a3c298397ac8f928c70f88b10fc727cce" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>identifyUnsatisfiedAssumptions</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1aeaf739a3fc5bbc94f00bfacdfa34fa69" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>isApplicable</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a11cb3a2a30f70e8dd5ccecbadde74348" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>isMaximum</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a739f9f93d0fcd8eaa7d1940a1a8d9d84" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>isMaximum_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1af1f8ea91a8b4167aeca182e4faf63905" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>name_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a109d81fb5d5fec61390c82ae20860031" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>ProbabilityOfCollisionAlgorithm</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a3a74b0ef687edf7233bf9d4115204599" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>probabilityOfCollisionAlgorithmSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>ProbabilityRegion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a2bdd31a144ab1606946e02f2e717472b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>relativeSpeedThreshold_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a2109a23a2af997f2412f3a1667d318bf" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>~Frisbee2015</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1abfbbf23c2039fde2c57c951188a9842b" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</scope><name>~ProbabilityOfCollisionAlgorithm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

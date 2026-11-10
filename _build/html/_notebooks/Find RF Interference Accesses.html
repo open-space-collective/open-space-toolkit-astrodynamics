@@ -149,6 +149,16 @@
 
 <span class=n >orbit_1</span><span class=p >:</span> <span class=n >Orbit</span> <span class=o >=</span> <span class=n >Orbit</span><span class=p >(</span><span class=n >SGP4</span><span class=p >(</span><span class=n >tle_1</span><span class=p >),</span> <span class=n >earth</span><span class=p >)</span>
 <span class=n >orbit_2</span><span class=p >:</span> <span class=n >Orbit</span> <span class=o >=</span> <span class=n >Orbit</span><span class=p >(</span><span class=n >SGP4</span><span class=p >(</span><span class=n >tle_2</span><span class=p >),</span> <span class=n >earth</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output traceback highlight-ipythontb notranslate"><div class=highlight ><pre><span></span><span class=gt >---------------------------------------------------------------------------</span>
+<span class=ne >AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class=n >Cell</span> <span class=n >In</span><span class=p >[</span><span class=mi >5</span><span class=p >],</span> <span class=n >line</span> <span class=mi >2</span>
+<span class="g g-Whitespace">      </span><span class=mi >1</span> <span class=n >environment</span><span class=p >:</span> <span class=n >Environment</span> <span class=o >=</span> <span class=n >Environment</span><span class=o >.</span><span class=n >default</span><span class=p >()</span>
+<span class=ne >----&gt; </span><span class=mi >2</span> <span class=n >earth</span><span class=p >:</span> <span class=n >Celestial</span> <span class=o >=</span> <span class=n >environment</span><span class=o >.</span><span class=n >access_celestial_object_with_name</span><span class=p >(</span><span class=s2 >"Earth"</span><span class=p >)</span>
+<span class="g g-Whitespace">      </span><span class=mi >3</span> 
+<span class="g g-Whitespace">      </span><span class=mi >4</span> <span class=n >stop_instant</span><span class=p >:</span> <span class=n >Instant</span> <span class=o >=</span> <span class=n >start_instant</span> <span class=o >+</span> <span class=n >duration</span>
+<span class="g g-Whitespace">      </span><span class=mi >5</span> <span class=n >search_interval</span><span class=p >:</span> <span class=n >RealInterval</span> <span class=o >=</span> <span class=n >Interval</span><span class=o >.</span><span class=n >closed</span><span class=p >(</span><span class=n >start_instant</span><span class=p >,</span> <span class=n >stop_instant</span><span class=p >)</span>
+
+<span class=ne >AttributeError</span>: 'Environment' object has no attribute 'access_celestial_object_with_name'
 </pre></div> </div> </div> </div> <p>Build and define interference filter and access generator to find the 'interference' accesses.</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >interference_filter</span><span class=p >:</span> <span class=n >InterferenceFilter</span> <span class=o >=</span> <span class=n >InterferenceFilter</span><span class=p >(</span>
     <span class=n >earth</span><span class=o >=</span><span class=n >earth</span><span class=p >,</span>
     <span class=n >ground_station_lla</span><span class=o >=</span><span class=n >ground_station_lla</span><span class=p >,</span>
@@ -176,7 +186,7 @@
     <span class=n >access_target</span><span class=o >=</span><span class=n >access_target</span><span class=p >,</span>
     <span class=n >to_trajectory</span><span class=o >=</span><span class=n >orbit_2</span><span class=p >,</span>
 <span class=p >)</span>
-</pre></div> </div> </div> </div> <p>Display the number of 'interfered' accesses:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Number of interfered accesses: </span><span class=si >{</span><span class=nb >len</span><span class=p >(</span><span class=n >interfered_accesses</span><span class=p >)</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <script type="application/vnd.jupyter.widget-view+json">{"model_id": "ab30da6104474677ab761c3975741e52", "version_major": 2, "version_minor": 0}</script></div> </div> <p>Display the number of 'interfered' accesses:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=nb >print</span><span class=p >(</span><span class=sa >f</span><span class=s2 >"Number of interfered accesses: </span><span class=si >{</span><span class=nb >len</span><span class=p >(</span><span class=n >interfered_accesses</span><span class=p >)</span><span class=si >}</span><span class=s2 >"</span><span class=p >)</span>
 </pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>Number of interfered accesses: 7
 </pre></div> </div> </div> </div> <p>Display the accesses themselves:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=nb >print</span><span class=p >(</span><span class=n >interfered_accesses</span><span class=p >)</span>
 </pre></div> </div> </div> <div class="cell_output docutils container"> <div class="output stream highlight-myst-ansi notranslate"><div class=highlight ><pre><span></span>[-- Access ------------------------------------------------------------------------------------------
@@ -185,47 +195,47 @@
     Time of Closest Approach:                2023-01-03 02:30:45.228.193.391 [UTC]    
     Loss Of Signal:                          2023-01-03 02:31:01.135.358.795 [UTC]    
     Duration:                                15.907.165.404                           
-    Maximum Elevation:                       -0.1321179707510246 [rad]                
+    Maximum Elevation:                       -0.13217129975777883 [rad]               
 ----------------------------------------------------------------------------------------------------
 , -- Access ------------------------------------------------------------------------------------------
     Type:                                    Complete                                 
     Acquisition Of Signal:                   2023-01-03 04:05:25.780.017.886 [UTC]    
-    Time of Closest Approach:                2023-01-03 04:05:48.102.487.561 [UTC]    
+    Time of Closest Approach:                2023-01-03 04:05:52.296.523.567 [UTC]    
     Loss Of Signal:                          2023-01-03 04:06:01.135.358.795 [UTC]    
     Duration:                                35.355.340.909                           
-    Maximum Elevation:                       -0.20009535668678191 [rad]               
+    Maximum Elevation:                       -0.192810837553058 [rad]                 
 ----------------------------------------------------------------------------------------------------
 , -- Access ------------------------------------------------------------------------------------------
     Type:                                    Complete                                 
     Acquisition Of Signal:                   2023-01-03 05:40:32.256.314.174 [UTC]    
-    Time of Closest Approach:                2023-01-03 05:40:54.700.877.650 [UTC]    
+    Time of Closest Approach:                2023-01-03 05:41:01.838.983.113 [UTC]    
     Loss Of Signal:                          2023-01-03 05:41:11.699.872.760 [UTC]    
     Duration:                                39.443.558.586                           
-    Maximum Elevation:                       -0.46723749575382245 [rad]               
+    Maximum Elevation:                       -0.30201138682032563 [rad]               
 ----------------------------------------------------------------------------------------------------
 , -- Access ------------------------------------------------------------------------------------------
     Type:                                    Complete                                 
     Acquisition Of Signal:                   2023-01-03 07:15:39.612.133.012 [UTC]    
-    Time of Closest Approach:                2023-01-03 07:16:01.299.548.621 [UTC]    
+    Time of Closest Approach:                2023-01-03 07:16:18.254.552.349 [UTC]    
     Loss Of Signal:                          2023-01-03 07:16:31.135.358.795 [UTC]    
     Duration:                                51.523.225.783                           
-    Maximum Elevation:                       -0.71704761500212733 [rad]               
+    Maximum Elevation:                       -0.1695263133797123 [rad]                
 ----------------------------------------------------------------------------------------------------
 , -- Access ------------------------------------------------------------------------------------------
     Type:                                    Complete                                 
     Acquisition Of Signal:                   2023-01-03 08:50:47.070.012.414 [UTC]    
-    Time of Closest Approach:                2023-01-03 08:51:07.889.827.641 [UTC]    
+    Time of Closest Approach:                2023-01-03 08:51:17.070.012.414 [UTC]    
     Loss Of Signal:                          2023-01-03 08:51:17.070.012.414 [UTC]    
     Duration:                                30.000.000.000                           
-    Maximum Elevation:                       -0.2367225769608011 [rad]                
+    Maximum Elevation:                       -0.19197693395507287 [rad]               
 ----------------------------------------------------------------------------------------------------
 , -- Access ------------------------------------------------------------------------------------------
     Type:                                    Complete                                 
     Acquisition Of Signal:                   2023-01-03 10:25:56.425.770.132 [UTC]    
-    Time of Closest Approach:                2023-01-03 10:26:14.481.083.641 [UTC]    
+    Time of Closest Approach:                2023-01-03 10:26:18.925.770.132 [UTC]    
     Loss Of Signal:                          2023-01-03 10:26:26.425.770.132 [UTC]    
     Duration:                                30.000.000.000                           
-    Maximum Elevation:                       -0.14723559828528063 [rad]               
+    Maximum Elevation:                       -0.14450960696945572 [rad]               
 ----------------------------------------------------------------------------------------------------
 , -- Access ------------------------------------------------------------------------------------------
     Type:                                    Complete                                 
@@ -233,7 +243,7 @@
     Time of Closest Approach:                2023-01-03 12:01:10.387.866.987 [UTC]    
     Loss Of Signal:                          2023-01-03 12:01:10.387.866.987 [UTC]    
     Duration:                                02.087.739.748                           
-    Maximum Elevation:                       -0.10907716214240551 [rad]               
+    Maximum Elevation:                       -0.10853009229704395 [rad]               
 ----------------------------------------------------------------------------------------------------
 ]
 </pre></div> </div> </div> </div> </section> <section id=plots > <h2 id=plots >Plots<a class=headerlink  href="#plots" title="Link to this heading">¶</a></h2> <p>Define a class to help plotting the satellite trajectories, highlighting the interfered accesses over the ground station.</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=k >class</span><span class=w > </span><span class=nc >InterferencePlot</span><span class=p >:</span>
@@ -377,4 +387,4 @@
     <span class=n >rgb</span><span class=o >=</span><span class=p >[</span><span class=mi >0</span><span class=p >,</span> <span class=mi >0</span><span class=p >,</span> <span class=mi >180</span><span class=p >],</span>
 <span class=p >)</span>
 </pre></div> </div> </div> </div> <p>Show the plot:</p> <div class="cell docutils container"> <div class="cell_input docutils container"> <div class="highlight-ipython3 notranslate"><div class=highlight ><pre><span></span><span class=n >interference_plot</span><span class=o >.</span><span class=n >get_figure</span><span class=p >()</span><span class=o >.</span><span class=n >show</span><span class=p >(</span><span class=s2 >"svg"</span><span class=p >)</span>
-</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/98eedd6c9b9e7c9d871bfc2f18006268f255572d094eef855e017b04d5bf81c4.svg" src="../_images/98eedd6c9b9e7c9d871bfc2f18006268f255572d094eef855e017b04d5bf81c4.svg"/> </div> </div> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> <a href="Custom%20Window%20Generation.html" title="Custom Window Generation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev > <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Previous" </span> Custom Window Generation </span> </div> </a> <a href="Nadir%20Tracking%20%28With%20Yaw%20Compensation%29.html" title="Nadir Tracking (With Yaw Compensation)" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next > <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Next" </span> Nadir Tracking (With Yaw Compensation) </span> </div> <div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2024, Lucas Bremond. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.4.7. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>
+</pre></div> </div> </div> <div class="cell_output docutils container"> <img alt="../_images/b1067b87ef351ddbb61ffee6b907786b1a055841770a7e80ff5ca208e5a2ee8f.svg" src="../_images/b1067b87ef351ddbb61ffee6b907786b1a055841770a7e80ff5ca208e5a2ee8f.svg"/> </div> </div> </section> </section> </article> </div> </div> </main> </div> <footer class=md-footer > <div class=md-footer-nav > <nav class="md-footer-nav__inner md-grid"> <a href="Custom%20Window%20Generation.html" title="Custom Window Generation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel=prev > <div class="md-flex__cell md-flex__cell--shrink"> <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i> </div> <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"> <span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Previous" </span> Custom Window Generation </span> </div> </a> <a href="Nadir%20Tracking%20%28With%20Yaw%20Compensation%29.html" title="Nadir Tracking (With Yaw Compensation)" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel=next > <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title"><span class=md-flex__ellipsis > <span class=md-footer-nav__direction > "Next" </span> Nadir Tracking (With Yaw Compensation) </span> </div> <div class="md-flex__cell md-flex__cell--shrink"><i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i> </div> </a> </nav> </div> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright > <div class=md-footer-copyright__highlight > &#169; Copyright 2024, Lucas Bremond. </div> Created using <a href="http://www.sphinx-doc.org/">Sphinx</a> 7.4.7. and <a href="https://github.com/bashtage/sphinx-material/">Material for Sphinx</a> </div> </div> </div> </footer> <script src="../_static/javascripts/application.js"></script> <script>app.initialize({version: "1.0.4", url: {base: ".."}})</script>

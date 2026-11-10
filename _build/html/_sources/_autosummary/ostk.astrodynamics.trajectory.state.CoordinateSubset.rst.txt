@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.state.CoordinateSubset
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~CoordinateSubset.add
       ~CoordinateSubset.ballistic_coefficient
@@ -27,9 +30,5 @@ ostk.astrodynamics.trajectory.state.CoordinateSubset
       ~CoordinateSubset.mass_flow_rate
       ~CoordinateSubset.subtract
       ~CoordinateSubset.surface_area
-   
-   
-
-   
    
    

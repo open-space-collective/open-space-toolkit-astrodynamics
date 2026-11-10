@@ -138,7 +138,7 @@
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>Vector3d<sp/>toFrameCoordinates<sp/>=</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Position::Meters({positionCoordinates(0),<sp/>positionCoordinates(1),<sp/>positionCoordinates(2)},<sp/>fromFrame)</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1a6bb03994b989934f9ec7c27aabb6de8e" kindref="member">inFrame</ref>(toFrame,<sp/>anInstant)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.inFrame(toFrame,<sp/>anInstant)</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.getCoordinates();</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>VectorXd::Map(toFrameCoordinates.data(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">Eigen::Index</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(3));</highlight></codeline>

@@ -147,12 +147,12 @@
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::hash&lt;String&gt;()(id_);</highlight></codeline>
 <codeline lineno="49"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal">String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a68a24eee92adf518056571cc3f8b79c6" kindref="member">CoordinateSubset::getId</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a081ec8cab8062d6988b165fb6ddb9e91" kindref="member">CoordinateSubset::getId</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="52"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id_;</highlight></codeline>
 <codeline lineno="54"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="56"><highlight class="normal">String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1acbbac80495e300676b7bfc4ee9154276" kindref="member">CoordinateSubset::getName</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset_1a48892889f7051adc1979ee50a459ddc9" kindref="member">CoordinateSubset::getName</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="57"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>name_;</highlight></codeline>
 <codeline lineno="59"><highlight class="normal">}</highlight></codeline>

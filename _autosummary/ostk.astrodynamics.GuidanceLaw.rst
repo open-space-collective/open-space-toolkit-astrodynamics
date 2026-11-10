@@ -11,17 +11,16 @@ ostk.astrodynamics.GuidanceLaw
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~GuidanceLaw.calculate_thrust_acceleration_at
       ~GuidanceLaw.construct_ungated_guidance_law
       ~GuidanceLaw.get_name
-   
-   
-
-   
    
    

@@ -16,12 +16,16 @@ ostk.astrodynamics.trajectory.Model
    .. autosummary::
       :nosignatures:
    
-      ~Model.calculate_state_at
-      ~Model.calculate_states_at
-      ~Model.is_defined
    
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Model.calculate_state_at
+      ~Model.calculate_states_at
    
    

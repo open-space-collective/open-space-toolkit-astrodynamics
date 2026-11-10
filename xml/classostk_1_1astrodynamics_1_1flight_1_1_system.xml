@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="106" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="106" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="92" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="92" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1a6c35938ee98c25e9ec9b8bdc970b7a00" prot="private" static="no" mutable="no">
         <type>Composite</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="107" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="107" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="93" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="93" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -136,7 +136,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="52" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="29" bodyend="37"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="52" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="29" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1a46e786f3e77767fbe36b794ca1774eee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -166,25 +166,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="58" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="39" bodyend="42"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1a901fcd667e14c02dccaf3fd1ae563158" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::flight::System::isDefined</definition>
-        <argsstring>() const</argsstring>
-        <name>isDefined</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system_1a6c08a88cb1652877ec3581a5d75f1f4a">isDefined</reimplementedby>
-        <briefdescription>
-<para>Check if system is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if system is defined </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="70" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="51" bodyend="54"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="58" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="34" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1ab8e8d8de88b49f397d0f63a7e54228d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -226,11 +208,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="76" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="66" bodyend="76"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="71" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="51" bodyend="61"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1a24ad57a8e513e3b3c58400a94094e612" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Mass</type>
-        <definition>Mass ostk::astrodynamics::flight::System::getMass</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1af1e6277d123661ed4ecffe6e3b4aef1f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Mass &amp;</type>
+        <definition>const Mass &amp; ostk::astrodynamics::flight::System::getMass</definition>
         <argsstring>() const</argsstring>
         <name>getMass</name>
         <briefdescription>
@@ -245,11 +227,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="85" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="56" bodyend="64"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="80" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="46" bodyend="49"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1af7951e1c52d71b70f95fac79cbb1531d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Composite</type>
-        <definition>Composite ostk::astrodynamics::flight::System::getGeometry</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1aafaf816b96e1ce1bfd89c269867d670b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Composite &amp;</type>
+        <definition>const Composite &amp; ostk::astrodynamics::flight::System::getGeometry</definition>
         <argsstring>() const</argsstring>
         <name>getGeometry</name>
         <briefdescription>
@@ -264,7 +246,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="94" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="78" bodyend="86"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="89" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="63" bodyend="66"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -308,28 +290,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="65" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="44" bodyend="49"/>
-      </memberdef>
-      </sectiondef>
-      <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_system_1a8e82409e5977713b4467ea691bbd1099" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system" kindref="compound">System</ref></type>
-        <definition>System ostk::astrodynamics::flight::System::Undefined</definition>
-        <argsstring>()</argsstring>
-        <name>Undefined</name>
-        <briefdescription>
-<para>Construct an undefined system. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a772de61f507ab713e73cb6baf5836c35" kindref="member">System</ref><sp/>system<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a8e82409e5977713b4467ea691bbd1099" kindref="member">System::Undefined</ref>()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>Undefined system. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="103" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="88" bodyend="91"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="65" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System.cpp" bodystart="39" bodyend="44"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -349,20 +310,18 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="26" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="25" bodyend="108"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" line="26" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/System.hpp" bodystart="25" bodyend="94"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a97d1398c4662ccae432afac9056352aa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a6c35938ee98c25e9ec9b8bdc970b7a00" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>geometry_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1af7951e1c52d71b70f95fac79cbb1531d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>getGeometry</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a24ad57a8e513e3b3c58400a94094e612" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>getMass</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a901fcd667e14c02dccaf3fd1ae563158" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::System</scope><name>isDefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1aafaf816b96e1ce1bfd89c269867d670b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>getGeometry</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1af1e6277d123661ed4ecffe6e3b4aef1f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>getMass</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1adfa67365e250637e31f07be74bca92fc" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>mass_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a46e786f3e77767fbe36b794ca1774eee" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1aaf88422b640217e9e1c2c354a7e05634" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a650be5fc8f7bb02c2758ff5adb3f4376" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>operator==</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1ab8e8d8de88b49f397d0f63a7e54228d5" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::System</scope><name>print</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a772de61f507ab713e73cb6baf5836c35" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>System</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a8e82409e5977713b4467ea691bbd1099" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::System</scope><name>Undefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1_system_1a4aec1ee8b9fb36840360dce2332b7659" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::System</scope><name>~System</name></member>
     </listofallmembers>
   </compounddef>

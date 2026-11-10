@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc</compoundname>
+    <includes refid="_propagator_8hpp" local="no">Propagator.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc_1a53a7632a830509a878e6950e0fa8f6d8" prot="public" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc::startInstant</definition>
+        <argsstring></argsstring>
+        <name>startInstant</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="231" column="21" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc_1a77d3cd2955b4d577337cadb5df8edbb2" prot="public" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc::endInstant</definition>
+        <argsstring></argsstring>
+        <name>endInstant</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="232" column="21" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc_1afe324790d7812bcb98cfd4c175fda8d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc::hasManeuver</definition>
+        <argsstring></argsstring>
+        <name>hasManeuver</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="233" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc_1a563aedfcb46676b5213ef49bb6fbed64" prot="public" static="no" mutable="no">
+        <type>Array&lt; <ref refid="structostk_1_1astrodynamics_1_1_dynamics_1_1_context" kindref="compound">Dynamics::Context</ref> &gt;</type>
+        <definition>Array&lt;Dynamics::Context&gt; ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc::contexts</definition>
+        <argsstring></argsstring>
+        <name>contexts</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="234" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>A stretch of integration between two consecutive breakpoints (maneuver starts / ends), over which the set of applied dynamics is constant. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc</label>
+        <link refid="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>contexts</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>endInstant</edgelabel>
+          <edgelabel>startInstant</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Instant</label>
+      </node>
+      <node id="2">
+        <label>Array&lt; ostk::astrodynamics::Dynamics::Context &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" line="230" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp" bodystart="229" bodyend="235"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc_1a563aedfcb46676b5213ef49bb6fbed64" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc</scope><name>contexts</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc_1a77d3cd2955b4d577337cadb5df8edbb2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc</scope><name>endInstant</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc_1afe324790d7812bcb98cfd4c175fda8d7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc</scope><name>hasManeuver</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1trajectory_1_1_propagator_1_1_maneuver_schedule_1_1_arc_1a53a7632a830509a878e6950e0fa8f6d8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::Propagator::ManeuverSchedule::Arc</scope><name>startInstant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

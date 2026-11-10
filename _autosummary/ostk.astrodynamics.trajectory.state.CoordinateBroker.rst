@@ -11,12 +11,14 @@ ostk.astrodynamics.trajectory.state.CoordinateBroker
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
-      ~CoordinateBroker.access_subsets
       ~CoordinateBroker.add_subset
       ~CoordinateBroker.extract_coordinate
       ~CoordinateBroker.extract_coordinates
@@ -24,9 +26,5 @@ ostk.astrodynamics.trajectory.state.CoordinateBroker
       ~CoordinateBroker.get_number_of_subsets
       ~CoordinateBroker.get_subsets
       ~CoordinateBroker.has_subset
-   
-   
-
-   
    
    

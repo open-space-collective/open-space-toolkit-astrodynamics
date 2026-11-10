@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::flight::Profile::PointingTarget</compoundname>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator" prot="public" virt="non-virtual">ostk::astrodynamics::flight::Profile::PointingTargetGenerator</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target" prot="public" virt="non-virtual">ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target" prot="public" virt="non-virtual">ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</derivedcompoundref>
+    <includes refid="_profile_8hpp" local="no">Profile.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10cab33a455491d5af35eb5eaeb0c1c43cde" prot="public">
+          <name>GeocentricNadir</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10ca4e2caa3cd4fbc1ba7c3ed9b2ff3ac2f2" prot="public">
+          <name>GeodeticNadir</name>
+          <briefdescription>
+<para>Negative of the position vector of the satellite in the ECI frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10ca91cce8c5dfb9fb6916acd5779b4d020c" prot="public">
+          <name>VelocityECI</name>
+          <briefdescription>
+<para>Negative of the geodetic normal of the satellite in the ECI frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10ca59bd763f05b94cb8c8244592c851272e" prot="public">
+          <name>VelocityECEF</name>
+          <briefdescription>
+<para>The velocity vector of the satellite in the ECI frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10cae866d42f2134a0c63162edbb3e3a3a42" prot="public">
+          <name>OrbitalMomentum</name>
+          <briefdescription>
+<para>The velocity vector of the satellite in the ECEF frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10caef6572e4cd58bb39a3f4e82fc64fe9f0" prot="public">
+          <name>Sun</name>
+          <briefdescription>
+<para>The orbital momentum vector of the satellite in the ECI frame. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10cad502a50ed945d5fca74e0105575b5b34" prot="public">
+          <name>Moon</name>
+          <briefdescription>
+<para>The position of the Sun. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10ca1a141f169d6bf77ff0f332f108f1c3a7" prot="public">
+          <name>TrajectoryPosition</name>
+          <briefdescription>
+<para>The position of the Moon. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10ca25a610b5f7c753e20f4059f2382113d1" prot="public">
+          <name>TrajectoryVelocity</name>
+          <briefdescription>
+<para>Points towards the provided trajectory&apos;s position. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10ca93c425639e4c75bdd473e969273030be" prot="public">
+          <name>TrajectorySlidingGroundVelocity</name>
+          <briefdescription>
+<para>Points along the provided trajectory&apos;s velocity vector. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10caecb680645618700f5ea6a003ed696b03" prot="public">
+          <name>Tabulated</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Points along the provided trajectory&apos;s ground velocity vector (aka the scan direction of the point sliding across the ground) </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10ca92a8f0b9d28a89b480bd1d29f46f0484" prot="public">
+          <name>Generator</name>
+          <briefdescription>
+<para>Pointing pre-defined via a profile of vectors in the ECI frame that can be interpolated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Represents the type of target to point towards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="79" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="78" bodyend="98"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a7abac6d6ca35d950fc1e02bf24424838" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10c" kindref="member">Type</ref></type>
+        <definition>Type ostk::astrodynamics::flight::Profile::PointingTarget::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+<para>The type of the target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="108" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a957984aa516d08276e85acee3a6ad2d7" prot="public" static="no" mutable="no">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::PointingTarget::directionInBodyFrame</definition>
+        <argsstring></argsstring>
+        <name>directionInBodyFrame</name>
+        <briefdescription>
+<para>The direction (unit vector) in the spacecraft&apos;s body frame of the target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="109" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a1868ca8337d008045bc0fa5485eb0493" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::Profile::PointingTarget::PointingTarget</definition>
+        <argsstring>(const Type &amp;aType, const Vector3d &amp;aDirectionInBodyFrame)</argsstring>
+        <name>PointingTarget</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10c" kindref="member">Type</ref> &amp;</type>
+          <declname>aType</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aDirectionInBodyFrame</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target" kindref="compound">PointingTarget</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the target. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aDirectionInBodyFrame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (unit) vector in the spacecraft&apos;s body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="106" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="38" bodyend="46"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents a pointing constraint of one axis of the spacecraft towards a target. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::PointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target"/>
+      </node>
+      <node id="4">
+        <label>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Vector3d</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::PointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>directionInBodyFrame</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="75" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="74" bodyend="110"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a957984aa516d08276e85acee3a6ad2d7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTarget</scope><name>directionInBodyFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a1868ca8337d008045bc0fa5485eb0493" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTarget</scope><name>PointingTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTarget</scope><name>Type</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a7abac6d6ca35d950fc1e02bf24424838" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTarget</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

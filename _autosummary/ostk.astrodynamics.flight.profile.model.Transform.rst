@@ -11,10 +11,13 @@ ostk.astrodynamics.flight.profile.model.Transform
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Transform.as_tabulated
       ~Transform.as_transform
@@ -23,14 +26,8 @@ ostk.astrodynamics.flight.profile.model.Transform
       ~Transform.construct_body_frame
       ~Transform.get_axes_at
       ~Transform.inertial_pointing
-      ~Transform.is_defined
       ~Transform.is_tabulated
       ~Transform.is_transform
       ~Transform.local_orbital_frame_pointing
-      ~Transform.undefined
-   
-   
-
-   
    
    

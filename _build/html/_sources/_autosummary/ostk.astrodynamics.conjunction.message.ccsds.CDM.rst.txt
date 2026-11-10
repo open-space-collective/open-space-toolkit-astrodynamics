@@ -11,10 +11,13 @@ ostk.astrodynamics.conjunction.message.ccsds.CDM
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~CDM.dictionary
       ~CDM.get_ccsds_cdm_version
@@ -34,14 +37,8 @@ ostk.astrodynamics.conjunction.message.ccsds.CDM
       ~CDM.get_relative_position
       ~CDM.get_relative_velocity
       ~CDM.get_time_of_closest_approach
-      ~CDM.is_defined
       ~CDM.load
       ~CDM.object_type_from_string
       ~CDM.parse
-      ~CDM.undefined
-   
-   
-
-   
    
    

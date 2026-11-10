@@ -16,15 +16,6 @@ ostk.astrodynamics.access.AccessTarget
    .. autosummary::
       :nosignatures:
    
-      ~AccessTarget.compute_r_sez_ecef
-      ~AccessTarget.from_lla
-      ~AccessTarget.from_position
-      ~AccessTarget.from_trajectory
-      ~AccessTarget.get_lla
-      ~AccessTarget.get_position
-      ~AccessTarget.get_trajectory
-      ~AccessTarget.get_type
-      ~AccessTarget.get_visibility_criterion
    
    
 
@@ -36,5 +27,14 @@ ostk.astrodynamics.access.AccessTarget
    
       ~AccessTarget.Fixed
       ~AccessTarget.Trajectory
+      ~AccessTarget.compute_r_sez_ecef
+      ~AccessTarget.from_lla
+      ~AccessTarget.from_position
+      ~AccessTarget.from_trajectory
+      ~AccessTarget.get_lla
+      ~AccessTarget.get_position
+      ~AccessTarget.get_trajectory
+      ~AccessTarget.get_type
+      ~AccessTarget.get_visibility_criterion
    
    

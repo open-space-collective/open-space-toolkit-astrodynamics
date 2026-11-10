@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1_guidance_law" prot="public" virt="non-virtual">ostk::astrodynamics::GuidanceLaw</basecompoundref>
+    <includes refid="_composite_guidance_law_8hpp" local="no">CompositeGuidanceLaw.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1aca9bc57703ecb77e97790aaa8fe8f253" prot="private" static="no" mutable="no">
+        <type>Array&lt; Interval &gt;</type>
+        <definition>Array&lt;Interval&gt; ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw::intervals_</definition>
+        <argsstring></argsstring>
+        <name>intervals_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" line="102" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1a94e3bdd18a0dcea8a6d3e15842f5e51e" prot="private" static="no" mutable="no">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt; &gt;</type>
+        <definition>Array&lt;Shared&lt;const GuidanceLaw&gt; &gt; ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw::guidanceLaws_</definition>
+        <argsstring></argsstring>
+        <name>guidanceLaws_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" line="103" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1aa7a9da86b3de5a6aa0f4b8a92962f03e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw::CompositeGuidanceLaw</definition>
+        <argsstring>(const Array&lt; Pair&lt; Shared&lt; const GuidanceLaw &gt;, Interval &gt;&gt; &amp;aGuidanceLawWithIntervalArray=Array&lt; Pair&lt; Shared&lt; const GuidanceLaw &gt;, Interval &gt;&gt;::Empty())</argsstring>
+        <name>CompositeGuidanceLaw</name>
+        <param>
+          <type>const Array&lt; Pair&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;, Interval &gt;&gt; &amp;</type>
+          <declname>aGuidanceLawWithIntervalArray</declname>
+          <defval>Array&lt; Pair&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;, Interval &gt;&gt;::Empty()</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1aa7a9da86b3de5a6aa0f4b8a92962f03e" kindref="member">CompositeGuidanceLaw</ref><sp/>guidanceLaw<sp/>=<sp/>{}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">guidanceLaw.addGuidanceLaw(aConstantThrustSPtr,<sp/>anInterval)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aGuidanceLawWithIntervalArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of pairs containing the guidance law and their corresponding interval. Defaults to empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" line="51" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.cpp" bodystart="29" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1af3364382b492480844b0f4dedef41a67" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Array&lt; Pair&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;, Interval &gt; &gt;</type>
+        <definition>Array&lt; Pair&lt; Shared&lt; const GuidanceLaw &gt;, Interval &gt; &gt; ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw::getGuidanceLawsWithIntervals</definition>
+        <argsstring>() const</argsstring>
+        <name>getGuidanceLawsWithIntervals</name>
+        <briefdescription>
+<para>Get guidance laws with their corresponding intervals. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1aa7a9da86b3de5a6aa0f4b8a92962f03e" kindref="member">CompositeGuidanceLaw</ref><sp/>guidanceLaw<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lawsWithIntervals<sp/>=<sp/>guidanceLaw.getGuidanceLawsWithIntervals()<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Array of pairs containing the guidance laws and their corresponding intervals. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" line="64" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.cpp" bodystart="42" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1a2e86fc8230e1630b55257fbaa8727b0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw::addGuidanceLaw</definition>
+        <argsstring>(const Shared&lt; const GuidanceLaw &gt; &amp;aGuidanceLawSPtr, const Interval &amp;anInterval)</argsstring>
+        <name>addGuidanceLaw</name>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt; &amp;</type>
+          <declname>aGuidanceLawSPtr</declname>
+        </param>
+        <param>
+          <type>const Interval &amp;</type>
+          <declname>anInterval</declname>
+        </param>
+        <briefdescription>
+<para>Add a guidance law with its corresponding interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1aa7a9da86b3de5a6aa0f4b8a92962f03e" kindref="member">CompositeGuidanceLaw</ref><sp/>guidanceLaw<sp/>=<sp/>{}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">guidanceLaw.addGuidanceLaw(aConstantThrustSPtr,<sp/>anInterval)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aGuidanceLawSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The guidance law to add. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInterval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The interval during which the guidance law is active. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" line="75" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.cpp" bodystart="53" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1a1d7db636728dd4a0203e56a60b0e3873" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw::calculateThrustAccelerationAt</definition>
+        <argsstring>(const Instant &amp;anInstant, const Vector3d &amp;aPositionCoordinates, const Vector3d &amp;aVelocityCoordinates, double aThrustAcceleration, const Shared&lt; const Frame &gt; &amp;outputFrameSPtr) const override</argsstring>
+        <name>calculateThrustAccelerationAt</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_guidance_law_1a849652af51de2e9652e36009bb5bbe37">calculateThrustAccelerationAt</reimplements>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aPositionCoordinates</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aVelocityCoordinates</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aThrustAcceleration</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>outputFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Calculate thrust acceleration at a given instant and state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPositionCoordinates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The position coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aVelocityCoordinates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The velocity coordinates </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aThrustAcceleration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The thrust acceleration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outputFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The frame in which the acceleration is expressed</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The acceleration at the provided coordinates </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" line="86" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.cpp" bodystart="86" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1a6f3b873dbb5dd819f51f63e970a04374" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;</type>
+        <definition>Shared&lt; GuidanceLaw &gt; ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw::constructUngatedGuidanceLaw</definition>
+        <argsstring>() const override</argsstring>
+        <name>constructUngatedGuidanceLaw</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1_guidance_law_1afa769d0ef0b5b7d3bad2ea57a8b2b0f7">constructUngatedGuidanceLaw</reimplements>
+        <briefdescription>
+<para>Construct an ungated composite guidance law from this instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The new instance contains the same intervals paired with the ungated versions of the underlying guidance laws.</para>
+<para><simplesect kind="return"><para>The ungated guidance law instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" line="99" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.cpp" bodystart="74" bodyend="84"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>The Composite Guidance Law encompasses a sequence of one or more guidance laws to be used over specific time intervals. At each point in time, the applicable guidance law is selected and used to calculate the thrust acceleration. Guidance laws don&apos;t need to be contiguous, and can be added in any order. If the instant does not fall within any of the intervals, the thrust acceleration is zero. The guidance law intervals must not intersect each other. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; GuidanceLaw &gt;</label>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::GuidanceLaw</label>
+        <link refid="classostk_1_1astrodynamics_1_1_guidance_law"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</label>
+        <link refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>String</label>
+      </node>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; GuidanceLaw &gt;</label>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::GuidanceLaw</label>
+        <link refid="classostk_1_1astrodynamics_1_1_guidance_law"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>name_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</label>
+        <link refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" line="40" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" bodystart="39" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1a2e86fc8230e1630b55257fbaa8727b0a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>addGuidanceLaw</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1a1d7db636728dd4a0203e56a60b0e3873" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>calculateThrustAccelerationAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1aa7a9da86b3de5a6aa0f4b8a92962f03e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>CompositeGuidanceLaw</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1a6f3b873dbb5dd819f51f63e970a04374" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>constructUngatedGuidanceLaw</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1af3364382b492480844b0f4dedef41a67" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>getGuidanceLawsWithIntervals</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad8cb91ddd34b06b2eb82112473ea78d4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad14e3f6378328956164d8cbc6957962a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>GuidanceLaw</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1a94e3bdd18a0dcea8a6d3e15842f5e51e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>guidanceLaws_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law_1aca9bc57703ecb77e97790aaa8fe8f253" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>intervals_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9ccb9065feabe9baff67daba6759106e" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>name_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1aec533d7bc01b6b0efcfe6eca7a804860" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_guidance_law_1a6efc5c9384e96c01924c73e72ff7a33b" prot="public" virt="virtual"><scope>ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</scope><name>~GuidanceLaw</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

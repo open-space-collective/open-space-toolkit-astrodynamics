@@ -11,10 +11,13 @@ ostk.astrodynamics.flight.profile.model.Tabulated
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Tabulated.as_tabulated
       ~Tabulated.as_transform
@@ -23,14 +26,9 @@ ostk.astrodynamics.flight.profile.model.Tabulated
       ~Tabulated.construct_body_frame
       ~Tabulated.default
       ~Tabulated.get_axes_at
-      ~Tabulated.get_interpolator_type
+      ~Tabulated.get_interpolation_type
       ~Tabulated.get_interval
-      ~Tabulated.is_defined
       ~Tabulated.is_tabulated
       ~Tabulated.is_transform
-   
-   
-
-   
    
    

@@ -16,6 +16,15 @@ ostk.astrodynamics.access.VisibilityCriterion
    .. autosummary::
       :nosignatures:
    
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
       ~VisibilityCriterion.as_aer_interval
       ~VisibilityCriterion.as_aer_mask
       ~VisibilityCriterion.as_elevation_interval
@@ -28,9 +37,5 @@ ostk.astrodynamics.access.VisibilityCriterion
       ~VisibilityCriterion.is_aer_mask
       ~VisibilityCriterion.is_elevation_interval
       ~VisibilityCriterion.is_line_of_sight
-   
-   
-
-   
    
    

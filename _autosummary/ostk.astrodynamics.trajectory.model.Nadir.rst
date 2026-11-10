@@ -11,19 +11,17 @@ ostk.astrodynamics.trajectory.model.Nadir
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Nadir.calculate_state_at
       ~Nadir.calculate_states_at
       ~Nadir.get_orbit
       ~Nadir.get_step_size
-      ~Nadir.is_defined
-   
-   
-
-   
    
    

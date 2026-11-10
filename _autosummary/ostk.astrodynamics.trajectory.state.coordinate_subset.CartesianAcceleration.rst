@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.CartesianAcceleration
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~CartesianAcceleration.add
       ~CartesianAcceleration.ballistic_coefficient
@@ -29,9 +32,5 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.CartesianAcceleration
       ~CartesianAcceleration.subtract
       ~CartesianAcceleration.surface_area
       ~CartesianAcceleration.thrust_acceleration
-   
-   
-
-   
    
    

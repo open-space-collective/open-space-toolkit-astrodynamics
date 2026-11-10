@@ -4,9 +4,9 @@
     <compoundname>ostk::astrodynamics::RootSolver::Solution</compoundname>
     <includes refid="_root_solver_8hpp" local="no">RootSolver.hpp</includes>
       <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a952b45165f8dbb31fab78ffe7792070e" prot="public" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::RootSolver::Solution::root</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a93669ac5ddf7773cb6d77ddda45450b8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::RootSolver::Solution::root</definition>
         <argsstring></argsstring>
         <name>root</name>
         <briefdescription>
@@ -16,11 +16,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="24" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="24" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="25" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="25" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aa7efd4aaf4db4efd4d0d0577e2415c5d" prot="public" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::RootSolver::Solution::lowerBound</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a3995a8649b7292a11e44d3fec7ccc176" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::RootSolver::Solution::lowerBound</definition>
         <argsstring></argsstring>
         <name>lowerBound</name>
         <briefdescription>
@@ -30,11 +30,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="26" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="26" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="27" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="27" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a571ef3178fa0e1d8d26314427aba859d" prot="public" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::RootSolver::Solution::upperBound</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a4b11ff819d830f2c0c894b38e896480e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::RootSolver::Solution::upperBound</definition>
         <argsstring></argsstring>
         <name>upperBound</name>
         <briefdescription>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="27" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="27" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="28" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="28" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a1b1347d8755b191197508c79f2dcbf9a" prot="public" static="no" mutable="no">
         <type>Size</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="28" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="28" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="29" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="29" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aaae022dbcebc48d5dfd2f6a6447dd8fa" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -72,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="29" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="29" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="30" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="30" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -81,32 +81,24 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="3">
-        <label>Real</label>
-      </node>
       <node id="1">
         <label>ostk::astrodynamics::RootSolver::Solution</label>
         <link refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution"/>
         <childnode refid="2" relation="usage">
           <edgelabel>iterationCount</edgelabel>
         </childnode>
-        <childnode refid="3" relation="usage">
-          <edgelabel>root</edgelabel>
-          <edgelabel>lowerBound</edgelabel>
-          <edgelabel>upperBound</edgelabel>
-        </childnode>
       </node>
       <node id="2">
         <label>Size</label>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="23" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="22" bodyend="30"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" line="24" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/RootSolver.hpp" bodystart="23" bodyend="31"/>
     <listofallmembers>
       <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aaae022dbcebc48d5dfd2f6a6447dd8fa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>hasConverged</name></member>
       <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a1b1347d8755b191197508c79f2dcbf9a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>iterationCount</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1aa7efd4aaf4db4efd4d0d0577e2415c5d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>lowerBound</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a952b45165f8dbb31fab78ffe7792070e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>root</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a571ef3178fa0e1d8d26314427aba859d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>upperBound</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a3995a8649b7292a11e44d3fec7ccc176" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>lowerBound</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a93669ac5ddf7773cb6d77ddda45450b8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>root</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1_root_solver_1_1_solution_1a4b11ff819d830f2c0c894b38e896480e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::RootSolver::Solution</scope><name>upperBound</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

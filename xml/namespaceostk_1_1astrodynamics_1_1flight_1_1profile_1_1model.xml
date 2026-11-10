@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" line="88" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="88" bodyend="93"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" line="106" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Tabulated.cpp" bodystart="106" bodyend="111"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1a9d89a7d2993371420d8d24c2ac80d92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" line="30" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="30" bodyend="35"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" line="34" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="34" bodyend="39"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

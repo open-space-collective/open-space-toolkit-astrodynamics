@@ -11,10 +11,13 @@ ostk.astrodynamics.dynamics.AtmosphericDrag
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~AtmosphericDrag.compute_contribution
       ~AtmosphericDrag.from_environment
@@ -22,10 +25,5 @@ ostk.astrodynamics.dynamics.AtmosphericDrag
       ~AtmosphericDrag.get_name
       ~AtmosphericDrag.get_read_coordinate_subsets
       ~AtmosphericDrag.get_write_coordinate_subsets
-      ~AtmosphericDrag.is_defined
-   
-   
-
-   
    
    

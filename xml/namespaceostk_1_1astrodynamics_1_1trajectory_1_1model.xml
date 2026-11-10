@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" line="56" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="56" bodyend="61"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" line="53" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Nadir.cpp" bodystart="53" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1model_1af450595a7de997fb6323b9cae8c51d1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -93,7 +93,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" line="49" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="49" bodyend="54"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" line="45" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Static.cpp" bodystart="45" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1model_1a591af444c7e35100d57177a1d1535d11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -136,7 +136,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" line="178" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="178" bodyend="183"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" line="154" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp" bodystart="154" bodyend="159"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1model_1af03768edb9415f2084b23945ef0b8c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -180,7 +180,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" line="70" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="70" bodyend="75"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" line="67" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/TargetScan.cpp" bodystart="67" bodyend="72"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

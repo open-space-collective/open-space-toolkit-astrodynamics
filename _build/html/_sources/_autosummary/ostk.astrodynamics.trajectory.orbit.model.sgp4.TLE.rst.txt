@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.orbit.model.sgp4.TLE
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~TLE.can_parse
       ~TLE.construct
@@ -41,16 +44,10 @@ ostk.astrodynamics.trajectory.orbit.model.sgp4.TLE
       ~TLE.get_satellite_number
       ~TLE.get_second_line
       ~TLE.get_second_line_checksum
-      ~TLE.is_defined
       ~TLE.load
       ~TLE.parse
       ~TLE.set_epoch
       ~TLE.set_revolution_number_at_epoch
       ~TLE.set_satellite_number
-      ~TLE.undefined
-   
-   
-
-   
    
    

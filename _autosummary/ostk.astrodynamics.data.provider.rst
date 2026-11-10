@@ -9,14 +9,6 @@
 
    
    
-   .. rubric:: Functions
-
-   .. autosummary::
-      :toctree:
-      :nosignatures:
-   
-      compute_off_nadir_angles
-   
    
 
    

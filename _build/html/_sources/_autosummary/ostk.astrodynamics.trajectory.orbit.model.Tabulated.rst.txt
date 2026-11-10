@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.orbit.model.Tabulated
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Tabulated.as_kepler
       ~Tabulated.as_propagated
@@ -28,13 +31,8 @@ ostk.astrodynamics.trajectory.orbit.model.Tabulated
       ~Tabulated.get_interpolation_type
       ~Tabulated.get_interval
       ~Tabulated.get_revolution_number_at_epoch
-      ~Tabulated.is_defined
       ~Tabulated.is_kepler
       ~Tabulated.is_propagated
       ~Tabulated.is_sgp4
-   
-   
-
-   
    
    

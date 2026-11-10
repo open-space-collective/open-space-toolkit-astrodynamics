@@ -18,51 +18,65 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-initial_coe = orbit.access_kepler_model().get_classical_orbital_elements()
-target_coe = COE(
-    initial_coe.get_semi_major_axis() + Length.kilometers(3.0),
-    initial_coe.get_eccentricity(),
-    initial_coe.get_inclination(),
-    initial_coe.get_raan(),
-    initial_coe.get_aop(),
-    initial_coe.get_true_anomaly(),
+import plotly.express as px
+import pandas as pd
+import numpy as np
+
+from ostk.core.filesystem import Directory
+
+from ostk.mathematics.geometry.d3.object import Cuboid
+from ostk.mathematics.geometry.d3.object import Composite
+from ostk.mathematics.geometry.d3.object import Point
+
+from ostk.physics import Environment
+from ostk.physics.coordinate import Frame
+from ostk.physics.environment.atmospheric import Earth as EarthAtmosphericModel
+from ostk.physics.environment.gravitational import Earth as EarthGravitationalModel
+from ostk.physics.environment.magnetic import Earth as EarthMagneticModel
+from ostk.physics.environment.object.celestial import Earth
+from ostk.physics.environment.object.celestial import Moon
+from ostk.physics.environment.object.celestial import Sun
+from ostk.physics.time import DateTime
+from ostk.physics.time import Duration
+from ostk.physics.time import Instant
+from ostk.physics.time import Scale
+from ostk.physics.time import Time
+from ostk.physics.unit import Length
+from ostk.physics.unit import Mass
+
+from ostk.astrodynamics import Dynamics
+from ostk.astrodynamics.dynamics import Thruster
+from ostk.astrodynamics.event_condition import RealCondition
+from ostk.astrodynamics.event_condition import LogicalCondition
+from ostk.astrodynamics.event_condition import BooleanCondition
+from ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean import (
+    BrouwerLyddaneMeanShort,
 )
-q_law = QLaw(
-    target_coe,
-    EarthGravitationalModel.EGM2008.gravitational_parameter,
-    QLaw.Parameters(
-        element_weights={
-            COE.Element.SemiMajorAxis: (1.0, 50.0),
-            COE.Element.Eccentricity: (1.0, 1e-4),
-        }
-    ),
-)
-thruster_dynamics = Thruster(satellite_system, q_law)
+from ostk.astrodynamics.trajectory import Orbit
+from ostk.astrodynamics.trajectory import Sequence
+from ostk.astrodynamics.trajectory import StateBuilder
+from ostk.astrodynamics.trajectory.state import NumericalSolver
+from ostk.astrodynamics.trajectory.state import CoordinateBroker, CoordinateSubset
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianPosition
+from ostk.astrodynamics.trajectory.state.coordinate_subset import CartesianVelocity
+from ostk.astrodynamics.trajectory.orbit.model.kepler import COE
+from ostk.astrodynamics.flight.system import SatelliteSystem
+from ostk.astrodynamics.flight.system import PropulsionSystem
+from ostk.astrodynamics.guidance_law import QLaw
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
-[31mTypeError[39m                                 Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[9][39m[32m, line 10[39m
-[32m      6[39m     initial_coe.get_raan(),
-[32m      7[39m     initial_coe.get_aop(),
-[32m      8[39m     initial_coe.get_true_anomaly(),
-[32m      9[39m )
-[32m---> [39m[32m10[39m q_law = QLaw(
-[32m     11[39m     target_coe,
-[32m     12[39m     EarthGravitationalModel.EGM2008.gravitational_parameter,
-[32m     13[39m     QLaw.Parameters(
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 32[39m
+[32m     28[39m [38;5;28;01mfrom[39;00m ostk.astrodynamics.dynamics [38;5;28;01mimport[39;00m Thruster
+[32m     29[39m [38;5;28;01mfrom[39;00m ostk.astrodynamics.event_condition [38;5;28;01mimport[39;00m RealCondition
+[32m     30[39m [38;5;28;01mfrom[39;00m ostk.astrodynamics.event_condition [38;5;28;01mimport[39;00m LogicalCondition
+[32m     31[39m [38;5;28;01mfrom[39;00m ostk.astrodynamics.event_condition [38;5;28;01mimport[39;00m BooleanCondition
+[32m---> [39m[32m32[39m from ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean import (
+[32m     33[39m     BrouwerLyddaneMeanShort,
+[32m     34[39m )
+[32m     35[39m [38;5;28;01mfrom[39;00m ostk.astrodynamics.trajectory [38;5;28;01mimport[39;00m Orbit
 
-[31mTypeError[39m: __init__(): incompatible constructor arguments. The following argument types are supported:
-    1. ostk.astrodynamics.guidance_law.QLaw(target_coe: ostk.astrodynamics.trajectory.orbit.model.kepler.COE, gravitational_parameter: ostk.physics.unit.Derived, parameters: ostk.astrodynamics.guidance_law.QLaw.Parameters, coe_domain: ostk.astrodynamics.guidance_law.QLaw.COEDomain, gradient_strategy: ostk.astrodynamics.guidance_law.QLaw.GradientStrategy = <GradientStrategy.FiniteDifference: 1>)
-
-Invoked with: -- Classical Orbital Elements ----------------------------------------------------------------------
-    Semi-major axis:                         6961137.0 [m]                            
-    Eccentricity:                            0.0                                      
-    Inclination:                             97.71399746669357 [deg]                  
-    Right ascension of the ascending node:   280.07718299043836 [deg]                 
-    Argument of periapsis:                   0.0 [deg]                                
-    True anomaly:                            0.0 [deg]                                
-----------------------------------------------------------------------------------------------------
-, 398600441500000.0 [m^3.s^-2], <ostk.astrodynamics.guidance_law.QLaw.Parameters object at 0x7f571cd174b0>
+[31mModuleNotFoundError[39m: No module named 'ostk.astrodynamics.trajectory.orbit.model.brouwerLyddaneMean'; 'ostk.astrodynamics.trajectory.orbit.model' is not a package
 

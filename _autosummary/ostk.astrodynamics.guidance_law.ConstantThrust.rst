@@ -11,10 +11,13 @@ ostk.astrodynamics.guidance\_law.ConstantThrust
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~ConstantThrust.calculate_thrust_acceleration_at
       ~ConstantThrust.construct_ungated_guidance_law
@@ -22,9 +25,5 @@ ostk.astrodynamics.guidance\_law.ConstantThrust
       ~ConstantThrust.get_local_thrust_direction
       ~ConstantThrust.get_name
       ~ConstantThrust.intrack
-   
-   
-
-   
    
    

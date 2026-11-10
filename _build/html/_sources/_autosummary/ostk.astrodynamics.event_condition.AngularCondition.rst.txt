@@ -11,10 +11,13 @@ ostk.astrodynamics.event\_condition.AngularCondition
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~AngularCondition.get_criterion
       ~AngularCondition.get_evaluator
@@ -26,9 +29,5 @@ ostk.astrodynamics.event\_condition.AngularCondition
       ~AngularCondition.string_from_criterion
       ~AngularCondition.update_target
       ~AngularCondition.within_range
-   
-   
-
-   
    
    

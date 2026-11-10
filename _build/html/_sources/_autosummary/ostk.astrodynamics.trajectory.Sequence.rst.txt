@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.Sequence
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Sequence.add_coast_segment
       ~Sequence.add_maneuver_segment
@@ -26,9 +29,5 @@ ostk.astrodynamics.trajectory.Sequence
       ~Sequence.get_segments
       ~Sequence.solve
       ~Sequence.solve_to_condition
-   
-   
-
-   
    
    

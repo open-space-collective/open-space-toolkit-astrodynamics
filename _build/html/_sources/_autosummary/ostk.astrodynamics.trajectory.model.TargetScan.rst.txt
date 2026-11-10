@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.model.TargetScan
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~TargetScan.calculate_state_at
       ~TargetScan.calculate_states_at
@@ -25,10 +28,5 @@ ostk.astrodynamics.trajectory.model.TargetScan
       ~TargetScan.get_start_instant
       ~TargetScan.get_start_lla
       ~TargetScan.get_step_size
-      ~TargetScan.is_defined
-   
-   
-
-   
    
    

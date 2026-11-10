@@ -53,7 +53,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="213" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="213" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="221" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="221" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a7e55a9de6e3b956b559a3489591a5bb2" prot="private" static="no" mutable="no">
         <type>Instant</type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="214" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="214" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="222" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="222" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ad3284044a054b6c79edb7bdb64b1ea07" prot="private" static="no" mutable="no">
         <type>Derived</type>
@@ -79,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="215" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="215" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="223" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="223" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a9b0ed689b029cafe1f67f07ba61e4fc3" prot="private" static="no" mutable="no">
         <type>Length</type>
@@ -92,11 +92,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="216" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="216" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="224" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="224" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a2ec3c52850f84febcb10218830c5b8d2" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::Kepler::j2_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a5ab90ebe3d03c77c5a22c11a5c22ec5f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::Kepler::j2_</definition>
         <argsstring></argsstring>
         <name>j2_</name>
         <briefdescription>
@@ -105,11 +105,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="217" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="217" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="225" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="225" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a0ef639ddf7b1002297651fd05997e546" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::Kepler::j4_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a9b46009258d411e31b57e75f3d99a9bb" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::Kepler::j4_</definition>
         <argsstring></argsstring>
         <name>j4_</name>
         <briefdescription>
@@ -118,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="218" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="218" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="226" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="226" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a43acaa3cb85a85eb436a302cf638e5e7" prot="private" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11" kindref="member">Kepler::PerturbationType</ref></type>
@@ -131,14 +131,27 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="219" column="30" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="219" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="227" column="30" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af9ccd364c5b2b0bdb4e441b33013a024" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::trajectory::orbit::model::Kepler::frameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>frameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="228" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="228" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a962bded14ad0aaa1a0ed6363f16301c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a29dbba48870a1160b0acc87556add39c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::orbit::model::Kepler::Kepler</definition>
-        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Length &amp;anEquatorialRadius, const Real &amp;aJ2, const Real &amp;aJ4, const Kepler::PerturbationType &amp;aPerturbationType)</argsstring>
+        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Length &amp;anEquatorialRadius, double aJ2, double aJ4, const Kepler::PerturbationType &amp;aPerturbationType, const Shared&lt; const Frame &gt; &amp;aFrameSPtr=Frame::GCRF())</argsstring>
         <name>Kepler</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
@@ -157,16 +170,21 @@
           <declname>anEquatorialRadius</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aJ2</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aJ4</declname>
         </param>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11" kindref="member">Kepler::PerturbationType</ref> &amp;</type>
           <declname>aPerturbationType</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+          <defval>Frame::GCRF()</defval>
         </param>
         <briefdescription>
 <para>Construct a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler" kindref="compound">Kepler</ref> model from explicit gravitational parameters. </para>
@@ -176,9 +194,9 @@
 <codeline><highlight class="normal">Instant<sp/>epoch<sp/>=<sp/>Instant::J2000();</highlight></codeline>
 <codeline><highlight class="normal">Derived<sp/>mu<sp/>=<sp/>Derived(3.986004418e14,<sp/>Derived::Unit::GravitationalParameter());</highlight></codeline>
 <codeline><highlight class="normal">Length<sp/>Re<sp/>=<sp/>Length::Kilometers(6378.137);</highlight></codeline>
-<codeline><highlight class="normal">Real<sp/>j2<sp/>=<sp/>1.08262668e-3;</highlight></codeline>
-<codeline><highlight class="normal">Real<sp/>j4<sp/>=<sp/>-1.6109876e-6;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a962bded14ad0aaa1a0ed6363f16301c6" kindref="member">Kepler</ref><sp/>model(coe,<sp/>epoch,<sp/>mu,<sp/>Re,<sp/>j2,<sp/>j4,<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11a7f132d501fb9863844ab51697900d494" kindref="member">Kepler::PerturbationType::J2</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>j2<sp/>=<sp/>1.08262668e-3;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>j4<sp/>=<sp/>-1.6109876e-6;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a29dbba48870a1160b0acc87556add39c" kindref="member">Kepler</ref><sp/>model(coe,<sp/>epoch,<sp/>mu,<sp/>Re,<sp/>j2,<sp/>j4,<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11a7f132d501fb9863844ab51697900d494" kindref="member">Kepler::PerturbationType::J2</ref>);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -236,17 +254,25 @@
 <para>Perturbation type to apply during propagation. </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The inertial frame in which the orbital elements are defined and the states are returned. Its Z axis is the pole about which the J2/J4 secular rates are applied. Must be quasi-inertial (not a body-fixed frame). Defaults to GCRF. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="78" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="29" bodyend="47"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="81" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="30" bodyend="51"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1adabaa582b2c25147553f487910a4ca78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af13e4b5e9de053b4baae8464a6e208b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::orbit::model::Kepler::Kepler</definition>
-        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Celestial &amp;aCelestialObject, const Kepler::PerturbationType &amp;aPerturbationType, const bool inFixedFrame=DEFAULT_IN_FIXED_FRAME)</argsstring>
+        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Celestial &amp;aCelestialObject, const Kepler::PerturbationType &amp;aPerturbationType, const bool inFixedFrame=DEFAULT_IN_FIXED_FRAME, const Shared&lt; const Frame &gt; &amp;aFrameSPtr=Frame::GCRF())</argsstring>
         <name>Kepler</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
@@ -269,6 +295,11 @@
           <declname>inFixedFrame</declname>
           <defval><ref refid="_kepler_8hpp_1a42fbab7c9532a311984a768a10f815aa" kindref="member">DEFAULT_IN_FIXED_FRAME</ref></defval>
         </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+          <defval>Frame::GCRF()</defval>
+        </param>
         <briefdescription>
 <para>Construct a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler" kindref="compound">Kepler</ref> model from a celestial body object. </para>
         </briefdescription>
@@ -276,7 +307,7 @@
 <para><programlisting filename=".cpp"><codeline><highlight class="normal">COE<sp/>coe<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e_1a7f497a9fd64f4052427a8dc0182cec61" kindref="member">COE::Circular</ref>({<sp/>Length::Kilometers(6878.0),<sp/>Angle::Degrees(97.5)<sp/>});</highlight></codeline>
 <codeline><highlight class="normal">Instant<sp/>epoch<sp/>=<sp/>Instant::J2000();</highlight></codeline>
 <codeline><highlight class="normal">Shared&lt;Celestial&gt;<sp/>earthSPtr<sp/>=<sp/>std::make_shared&lt;Celestial&gt;(Celestial::Earth());</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a962bded14ad0aaa1a0ed6363f16301c6" kindref="member">Kepler</ref><sp/>model(coe,<sp/>epoch,<sp/>*earthSPtr,<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11a7f132d501fb9863844ab51697900d494" kindref="member">Kepler::PerturbationType::J2</ref>);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a29dbba48870a1160b0acc87556add39c" kindref="member">Kepler</ref><sp/>model(coe,<sp/>epoch,<sp/>*earthSPtr,<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11a7f132d501fb9863844ab51697900d494" kindref="member">Kepler::PerturbationType::J2</ref>);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -318,12 +349,20 @@
 <para>If true, the provided orbital elements are given in the body-fixed frame. </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The inertial frame in which the orbital elements are defined (or into which the body-fixed elements are converted) and the states are returned. Its Z axis is the pole about which the J2/J4 secular rates are applied. Must be quasi-inertial (not a body-fixed frame). Defaults to GCRF. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="102" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="49" bodyend="68"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="109" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="53" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a70ffb34799727c8fac6f2a93aadbf944" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler" kindref="compound">Kepler</ref> *</type>
@@ -341,7 +380,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="113" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="70" bodyend="73"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="121" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="79" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a623cffb592c590074df25e84649ff371" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -371,7 +410,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="119" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="75" bodyend="85"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="127" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="84" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ab812055e46b2892f6b949aa7bb981f2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -401,29 +440,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="125" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="87" bodyend="90"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="133" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="91" bodyend="94"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a212c20f9354591e30d9fb27400869809" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::trajectory::orbit::model::Kepler::isDefined</definition>
-        <argsstring>() const override</argsstring>
-        <name>isDefined</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a68336998bbf054ebf15060fe56baed46">isDefined</reimplements>
-        <briefdescription>
-<para>Check if the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler" kindref="compound">Kepler</ref> model is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if the model is fully defined. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="137" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="99" bodyend="102"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1acb2e4a51a301bfef7e7460f0b2ae7571" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref></type>
-        <definition>COE ostk::astrodynamics::trajectory::orbit::model::Kepler::getClassicalOrbitalElements</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aea73b4813b93a20185d2b2db1543ed78" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
+        <definition>const COE &amp; ostk::astrodynamics::trajectory::orbit::model::Kepler::getClassicalOrbitalElements</definition>
         <argsstring>() const</argsstring>
         <name>getClassicalOrbitalElements</name>
         <briefdescription>
@@ -436,7 +457,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="142" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="104" bodyend="112"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="145" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="103" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aa5f849dfef488812988656e334f2be98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Instant</type>
@@ -454,14 +475,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="147" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="114" bodyend="122"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="150" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="108" bodyend="111"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aba868792a196fe2e28fd5b52b1e34998" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::trajectory::orbit::model::Kepler::getRevolutionNumberAtEpoch</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a034a162e9041e23b7ef848cf26d3226d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::trajectory::orbit::model::Kepler::getRevolutionNumberAtEpoch</definition>
         <argsstring>() const override</argsstring>
         <name>getRevolutionNumberAtEpoch</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1af94c4fb7500e16671735e1d978b7475e">getRevolutionNumberAtEpoch</reimplements>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1aa78beb72e7b80e4be76b3e53476e695f">getRevolutionNumberAtEpoch</reimplements>
         <briefdescription>
 <para>Get the revolution number at the epoch. </para>
         </briefdescription>
@@ -472,11 +493,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="152" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="124" bodyend="132"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="155" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="113" bodyend="116"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a63d1476c3eec9bd02223657ebb52f2e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Derived</type>
-        <definition>Derived ostk::astrodynamics::trajectory::orbit::model::Kepler::getGravitationalParameter</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af68a77779862d6f6e51a389be7681920" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Derived &amp;</type>
+        <definition>const Derived &amp; ostk::astrodynamics::trajectory::orbit::model::Kepler::getGravitationalParameter</definition>
         <argsstring>() const</argsstring>
         <name>getGravitationalParameter</name>
         <briefdescription>
@@ -489,11 +510,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="157" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="134" bodyend="142"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="160" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="118" bodyend="121"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af670925417799d38091ada21acabd053" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Length</type>
-        <definition>Length ostk::astrodynamics::trajectory::orbit::model::Kepler::getEquatorialRadius</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a34f9b722b34c8c45103b5024f7e37a3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Length &amp;</type>
+        <definition>const Length &amp; ostk::astrodynamics::trajectory::orbit::model::Kepler::getEquatorialRadius</definition>
         <argsstring>() const</argsstring>
         <name>getEquatorialRadius</name>
         <briefdescription>
@@ -506,11 +527,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="162" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="144" bodyend="152"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="165" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="123" bodyend="126"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aaca09077ee9637a00a5f174cf63478ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::Kepler::getJ2</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a40d5db5050b1e8389eb11226699beced" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::Kepler::getJ2</definition>
         <argsstring>() const</argsstring>
         <name>getJ2</name>
         <briefdescription>
@@ -523,11 +544,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="167" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="154" bodyend="162"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="170" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="128" bodyend="131"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a05284b53bde7687c376b10f39151a91a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::orbit::model::Kepler::getJ4</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a5cdecf5d13f2c7be0feb3e3f609f8c37" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::trajectory::orbit::model::Kepler::getJ4</definition>
         <argsstring>() const</argsstring>
         <name>getJ4</name>
         <briefdescription>
@@ -540,7 +561,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="172" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="164" bodyend="172"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="175" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="133" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a392152b1af9f62e2382df9c131fa7142" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt; const Frame &gt; ostk::astrodynamics::trajectory::orbit::model::Kepler::getFrame</definition>
+        <argsstring>() const</argsstring>
+        <name>getFrame</name>
+        <briefdescription>
+<para>Get the frame in which the orbital elements are defined and the states are returned. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The frame of the model. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="180" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="138" bodyend="141"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af36f6cd9c4e560262da0dfabed15e92f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a14e8d3cc7479fe069a7090956631aa11" kindref="member">Kepler::PerturbationType</ref></type>
@@ -557,7 +595,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="177" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="174" bodyend="182"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="185" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="143" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a1b006869b9345866044450138104e900" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -588,14 +626,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="183" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="184" bodyend="214"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="191" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="148" bodyend="168"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1afc577d8f07f9c6c39a6c5ec46bb89486" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::trajectory::orbit::model::Kepler::calculateRevolutionNumberAt</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ad5fc27d4afde7f2da224c3ba6c2905b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::trajectory::orbit::model::Kepler::calculateRevolutionNumberAt</definition>
         <argsstring>(const Instant &amp;anInstant) const override</argsstring>
         <name>calculateRevolutionNumberAt</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a96da6a07d34c0b30d8e8dc579065b8b8">calculateRevolutionNumberAt</reimplements>
+        <reimplements refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a97149d958e73cf32a44e63c153391d6a">calculateRevolutionNumberAt</reimplements>
         <param>
           <type>const Instant &amp;</type>
           <declname>anInstant</declname>
@@ -619,7 +657,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="189" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="216" bodyend="256"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="197" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="170" bodyend="198"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a38e950141db96b27e959391885e32122" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -661,7 +699,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="195" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="258" bodyend="274"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="203" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="200" bodyend="215"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -705,7 +743,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="132" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="92" bodyend="97"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="140" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="96" bodyend="101"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
@@ -739,7 +777,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="205" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="276" bodyend="294"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="213" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="217" bodyend="235"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -772,7 +810,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="208" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="296" bodyend="301"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="216" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="237" bodyend="242"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a454e2aa31029204a948184b4c24b29cf" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -803,14 +841,31 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="210" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="303" bodyend="306"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="218" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="244" bodyend="247"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ad3fe2cb4e4dc5f67ea7b98620c895e5e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a3109148206edf4d89239647e0fc83772" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const Shared&lt; const Frame &gt; &amp;</type>
+        <definition>const Shared&lt; const Frame &gt; &amp; ostk::astrodynamics::trajectory::orbit::model::Kepler::ValidateFrame</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</argsstring>
+        <name>ValidateFrame</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="230" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="249" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aef189acd8d5b52184e8cefcabda8787f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref></type>
         <definition>COE ostk::astrodynamics::trajectory::orbit::model::Kepler::InertialCoeFromFixedCoe</definition>
-        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Celestial &amp;aCelestialObject)</argsstring>
+        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Celestial &amp;aCelestialObject, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</argsstring>
         <name>InertialCoeFromFixedCoe</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
@@ -824,18 +879,22 @@
           <type>const Celestial &amp;</type>
           <declname>aCelestialObject</declname>
         </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="221" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="308" bodyend="337"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="232" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="264" bodyend="294"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a37b83238849cf95f3b82fb016ac3d6d0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ade0f9daa632c4f9fecf103f17ca7b845" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
         <definition>State ostk::astrodynamics::trajectory::orbit::model::Kepler::CalculateNoneStateAt</definition>
-        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant)</argsstring>
+        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</argsstring>
         <name>CalculateNoneStateAt</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
@@ -853,17 +912,21 @@
           <type>const Instant &amp;</type>
           <declname>anInstant</declname>
         </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="225" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="339" bodyend="412"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="239" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="296" bodyend="368"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aa414de907922dea83340da871c929434" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::trajectory::orbit::model::Kepler::CalculateNoneRevolutionNumberAt</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aefa850f38dc1aec46fb7c17f24640d53" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::trajectory::orbit::model::Kepler::CalculateNoneRevolutionNumberAt</definition>
         <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant)</argsstring>
         <name>CalculateNoneRevolutionNumberAt</name>
         <param>
@@ -888,12 +951,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="232" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="414" bodyend="428"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="247" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="370" bodyend="384"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a61a1a985215d08fc9281a25318e0a0b7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ac2086e4ba69ff98488db41025c0ecae2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
         <definition>State ostk::astrodynamics::trajectory::orbit::model::Kepler::CalculateJ2StateAt</definition>
-        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant, const Length &amp;anEquatorialRadius, const Real &amp;aJ2)</argsstring>
+        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant, const Length &amp;anEquatorialRadius, double aJ2, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</argsstring>
         <name>CalculateJ2StateAt</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
@@ -916,8 +979,12 @@
           <declname>anEquatorialRadius</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aJ2</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -925,12 +992,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="239" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="430" bodyend="518"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="254" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="386" bodyend="473"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a5063db7c6dcee843f5ebd8ccdb72c8c5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::trajectory::orbit::model::Kepler::CalculateJ2RevolutionNumberAt</definition>
-        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant, const Length &amp;anEquatorialRadius, const Real &amp;aJ2)</argsstring>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ab490677e9d7a69e6c72d089641836413" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::trajectory::orbit::model::Kepler::CalculateJ2RevolutionNumberAt</definition>
+        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant, const Length &amp;anEquatorialRadius, double aJ2)</argsstring>
         <name>CalculateJ2RevolutionNumberAt</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
@@ -953,7 +1020,7 @@
           <declname>anEquatorialRadius</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aJ2</declname>
         </param>
         <briefdescription>
@@ -962,12 +1029,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="248" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="520" bodyend="670"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="264" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="475" bodyend="621"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a56a70d92a556d7415af0c19971c8b92e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a06bbca640c152a7a6122da6b341885d9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
         <definition>State ostk::astrodynamics::trajectory::orbit::model::Kepler::CalculateJ4StateAt</definition>
-        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant, const Length &amp;anEquatorialRadius, const Real &amp;aJ2, const Real &amp;aJ4)</argsstring>
+        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant, const Length &amp;anEquatorialRadius, double aJ2, double aJ4, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</argsstring>
         <name>CalculateJ4StateAt</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
@@ -990,12 +1057,16 @@
           <declname>anEquatorialRadius</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aJ2</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aJ4</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -1003,12 +1074,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="257" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="672" bodyend="792"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="273" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="623" bodyend="742"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a3d956e9858735daa294fb82cd2126f03" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::trajectory::orbit::model::Kepler::CalculateJ4RevolutionNumberAt</definition>
-        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant, const Length &amp;anEquatorialRadius, const Real &amp;aJ2, const Real &amp;aJ4)</argsstring>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aba2f9839da8e32ada940fb4cfd5932d5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::trajectory::orbit::model::Kepler::CalculateJ4RevolutionNumberAt</definition>
+        <argsstring>(const COE &amp;aClassicalOrbitalElementSet, const Instant &amp;anEpoch, const Derived &amp;aGravitationalParameter, const Instant &amp;anInstant, const Length &amp;anEquatorialRadius, double aJ2, double aJ4)</argsstring>
         <name>CalculateJ4RevolutionNumberAt</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler_1_1_c_o_e" kindref="compound">COE</ref> &amp;</type>
@@ -1031,11 +1102,11 @@
           <declname>anEquatorialRadius</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aJ2</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aJ4</declname>
         </param>
         <briefdescription>
@@ -1044,7 +1115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="267" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="794" bodyend="853"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="284" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="744" bodyend="798"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1089,38 +1160,39 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="48" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="47" bodyend="276"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" line="48" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.hpp" bodystart="47" bodyend="293"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>as</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a5063db7c6dcee843f5ebd8ccdb72c8c5" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateJ2RevolutionNumberAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a61a1a985215d08fc9281a25318e0a0b7" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateJ2StateAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a3d956e9858735daa294fb82cd2126f03" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateJ4RevolutionNumberAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a56a70d92a556d7415af0c19971c8b92e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateJ4StateAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aa414de907922dea83340da871c929434" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateNoneRevolutionNumberAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a37b83238849cf95f3b82fb016ac3d6d0" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateNoneStateAt</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1afc577d8f07f9c6c39a6c5ec46bb89486" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>calculateRevolutionNumberAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ab490677e9d7a69e6c72d089641836413" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateJ2RevolutionNumberAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ac2086e4ba69ff98488db41025c0ecae2" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateJ2StateAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aba2f9839da8e32ada940fb4cfd5932d5" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateJ4RevolutionNumberAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a06bbca640c152a7a6122da6b341885d9" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateJ4StateAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aefa850f38dc1aec46fb7c17f24640d53" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateNoneRevolutionNumberAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ade0f9daa632c4f9fecf103f17ca7b845" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>CalculateNoneStateAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ad5fc27d4afde7f2da224c3ba6c2905b6" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>calculateRevolutionNumberAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a1b006869b9345866044450138104e900" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>calculateStateAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1af636a899043ecc4337b69314d56f7075" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>calculateStatesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a70ffb34799727c8fac6f2a93aadbf944" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a6298e8c7fb1a09c49e28810a47941110" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>coe_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a7e55a9de6e3b956b559a3489591a5bb2" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>epoch_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a9b0ed689b029cafe1f67f07ba61e4fc3" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>equatorialRadius_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1acb2e4a51a301bfef7e7460f0b2ae7571" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getClassicalOrbitalElements</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af9ccd364c5b2b0bdb4e441b33013a024" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>frameSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aea73b4813b93a20185d2b2db1543ed78" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getClassicalOrbitalElements</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aa5f849dfef488812988656e334f2be98" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getEpoch</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af670925417799d38091ada21acabd053" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getEquatorialRadius</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a63d1476c3eec9bd02223657ebb52f2e6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getGravitationalParameter</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aaca09077ee9637a00a5f174cf63478ab" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getJ2</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a05284b53bde7687c376b10f39151a91a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getJ4</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a34f9b722b34c8c45103b5024f7e37a3f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getEquatorialRadius</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a392152b1af9f62e2382df9c131fa7142" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af68a77779862d6f6e51a389be7681920" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getGravitationalParameter</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a40d5db5050b1e8389eb11226699beced" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getJ2</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a5cdecf5d13f2c7be0feb3e3f609f8c37" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getJ4</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af36f6cd9c4e560262da0dfabed15e92f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getPerturbationType</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aba868792a196fe2e28fd5b52b1e34998" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getRevolutionNumberAtEpoch</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a034a162e9041e23b7ef848cf26d3226d" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>getRevolutionNumberAtEpoch</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ad3284044a054b6c79edb7bdb64b1ea07" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>gravitationalParameter_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ad3fe2cb4e4dc5f67ea7b98620c895e5e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>InertialCoeFromFixedCoe</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1aef189acd8d5b52184e8cefcabda8787f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>InertialCoeFromFixedCoe</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>is</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a212c20f9354591e30d9fb27400869809" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>isDefined</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a2ec3c52850f84febcb10218830c5b8d2" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>j2_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a0ef639ddf7b1002297651fd05997e546" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>j4_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a962bded14ad0aaa1a0ed6363f16301c6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>Kepler</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1adabaa582b2c25147553f487910a4ca78" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>Kepler</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a5ab90ebe3d03c77c5a22c11a5c22ec5f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>j2_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a9b46009258d411e31b57e75f3d99a9bb" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>j4_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a29dbba48870a1160b0acc87556add39c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>Kepler</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1af13e4b5e9de053b4baae8464a6e208b3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>Kepler</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ae31a2ca84e2ced0ed3ae5b89b240f68d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>Model</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ab812055e46b2892f6b949aa7bb981f2d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a454e2aa31029204a948184b4c24b29cf" prot="protected" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>operator!=</name></member>
@@ -1131,6 +1203,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a43acaa3cb85a85eb436a302cf638e5e7" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>perturbationType_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a38e950141db96b27e959391885e32122" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>print</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1ad0ec0e73572a5b3474910fc5e4371e22" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>StringFromPerturbationType</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a3109148206edf4d89239647e0fc83772" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>ValidateFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a49fe068b6734357011f16e3db5e1457d" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Kepler</scope><name>~Model</name></member>
     </listofallmembers>
   </compounddef>

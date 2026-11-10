@@ -21,6 +21,7 @@
       :nosignatures:
    
       Nadir
+      Static
       Tabulated
       TargetScan
    

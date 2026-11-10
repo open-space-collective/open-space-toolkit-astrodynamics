@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis</compoundname>
+    <includes refid="_probability_of_collision_algorithm_8hpp" local="no">ProbabilityOfCollisionAlgorithm.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1a7f435fa3d2d97bb04c9851d927466582" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis::probabilityOfCollision</definition>
+        <argsstring></argsstring>
+        <name>probabilityOfCollision</name>
+        <briefdescription>
+<para>The probability of collision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="96" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1a744e167929ae053599d799a33097942a" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34" kindref="member">ProbabilityRegion</ref></type>
+        <definition>ProbabilityRegion ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis::region</definition>
+        <argsstring></argsstring>
+        <name>region</name>
+        <briefdescription>
+<para>The probability region. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="97" column="27" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1aa63d0a15e878279283dc4d7509d1dc75" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollision</definition>
+        <argsstring></argsstring>
+        <name>maximumProbabilityOfCollision</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The maximum probability of collision (empty in the unknown region). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="98" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1a59a7a80347fec437ec170779e34137b8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollisionScalingFactor</definition>
+        <argsstring></argsstring>
+        <name>maximumProbabilityOfCollisionScalingFactor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The covariance scaling factor yielding the maximum probability of collision (empty in the unknown region). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="100" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1afcbb9eabfa0d3141a22ee30ae512ca5a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis::maximumProbabilityOfCollisionSigmaScalingFactor</definition>
+        <argsstring></argsstring>
+        <name>maximumProbabilityOfCollisionSigmaScalingFactor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The sigma scaling factor (i.e. the square root of the covariance scaling factor) yielding the maximum probability of collision (empty in the unknown region). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="103" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Probability of collision analysis of a close approach. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="95" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="94" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1aa63d0a15e878279283dc4d7509d1dc75" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis</scope><name>maximumProbabilityOfCollision</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1a59a7a80347fec437ec170779e34137b8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis</scope><name>maximumProbabilityOfCollisionScalingFactor</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1afcbb9eabfa0d3141a22ee30ae512ca5a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis</scope><name>maximumProbabilityOfCollisionSigmaScalingFactor</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1a7f435fa3d2d97bb04c9851d927466582" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis</scope><name>probabilityOfCollision</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis_1a744e167929ae053599d799a33097942a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis</scope><name>region</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

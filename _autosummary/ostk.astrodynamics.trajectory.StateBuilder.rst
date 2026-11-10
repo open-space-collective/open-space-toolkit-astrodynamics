@@ -11,23 +11,20 @@ ostk.astrodynamics.trajectory.StateBuilder
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
-      ~StateBuilder.access_coordinate_broker
       ~StateBuilder.build
       ~StateBuilder.expand
+      ~StateBuilder.get_coordinate_broker
       ~StateBuilder.get_coordinate_subsets
       ~StateBuilder.get_frame
       ~StateBuilder.get_size
-      ~StateBuilder.is_defined
       ~StateBuilder.reduce
-      ~StateBuilder.undefined
-   
-   
-
-   
    
    

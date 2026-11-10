@@ -11,21 +11,18 @@ ostk.astrodynamics.flight.system.PropulsionSystem
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~PropulsionSystem.default
       ~PropulsionSystem.get_acceleration
       ~PropulsionSystem.get_mass_flow_rate
       ~PropulsionSystem.get_specific_impulse
       ~PropulsionSystem.get_thrust
-      ~PropulsionSystem.is_defined
-      ~PropulsionSystem.undefined
-   
-   
-
-   
    
    

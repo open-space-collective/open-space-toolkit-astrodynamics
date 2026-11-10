@@ -11,14 +11,15 @@ ostk.astrodynamics.trajectory.Propagator
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
-      ~Propagator.access_numerical_solver
       ~Propagator.add_dynamics
-      ~Propagator.add_maneuver
       ~Propagator.calculate_state_at
       ~Propagator.calculate_state_to_condition
       ~Propagator.calculate_states_at
@@ -27,11 +28,7 @@ ostk.astrodynamics.trajectory.Propagator
       ~Propagator.from_environment
       ~Propagator.get_dynamics
       ~Propagator.get_number_of_coordinates
-      ~Propagator.is_defined
+      ~Propagator.get_numerical_solver
       ~Propagator.set_dynamics
-   
-   
-
-   
    
    

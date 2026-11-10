@@ -18,102 +18,32 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-eclipse_windows = solver.solve(condition=eclipse_condition, interval=analysis_interval)
-print(*eclipse_windows[:3])
+earth = Earth.from_models(
+    gravity_model=EarthGravitationalModel(EarthGravitationalModel.Type.Spherical),
+    magnetic_model=EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+    atmospheric_model=EarthAtmosphericModel(EarthAtmosphericModel.Type.Undefined),
+)
+environment = Environment(
+    instant=Instant.J2000(),
+    objects=[earth, Sun.default()],
+)
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
-[31mRuntimeError[39m                              Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[8][39m[32m, line 1[39m
-[32m----> [39m[32m1[39m eclipse_windows = solver.solve(condition=eclipse_condition, interval=analysis_interval)
-[32m      2[39m print(*eclipse_windows[:[32m3[39m])
+[31mAttributeError[39m                            Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[3][39m[32m, line 3[39m
+[32m      1[39m earth = Earth.from_models(
+[32m      2[39m     gravity_model=EarthGravitationalModel(EarthGravitationalModel.Type.Spherical),
+[32m----> [39m[32m3[39m     magnetic_model=EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+[32m      4[39m     atmospheric_model=EarthAtmosphericModel(EarthAtmosphericModel.Type.Undefined),
+[32m      5[39m )
+[32m      6[39m environment = Environment(
 
-[36mCell[39m[36m [39m[32mIn[7][39m[32m, line 2[39m, in [36meclipse_condition[39m[34m(instant)[39m
-[32m      1[39m [38;5;28;01mdef[39;00m eclipse_condition(instant):
-[32m----> [39m[32m2[39m     state = tabulated.calculate_state_at(instant)
-[32m      3[39m     environment.set_instant(state.get_instant())
-[32m      4[39m 
-[32m      5[39m     [38;5;28;01mreturn[39;00m environment.is_position_in_eclipse(state.get_position())
+[36mFile [39m[32m/opt/uv-python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/enum.py:786[39m, in [36mEnumType.__getattr__[39m[34m(cls, name)[39m
+[32m    784[39m     [38;5;28;01mreturn[39;00m [38;5;28mcls[39m._member_map_[name]
+[32m    785[39m [38;5;28;01mexcept[39;00m [38;5;167;01mKeyError[39;00m:
+[32m--> [39m[32m786[39m     [38;5;28;01mraise[39;00m [38;5;167;01mAttributeError[39;00m(name) [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;28;01mNone[39;00m
 
-[31mRuntimeError[39m: Provided instant [2000-01-01 11:58:55.816 [UTC]] is outside of interpolation range [2000-01-01 11:59:00.816 [UTC], 2000-01-03 11:58:55.816 [UTC]].
- 0# ostk::core::error::RuntimeError::RuntimeError(ostk::core::type::String const&) in /usr/local/lib/libopen-space-toolkit-core.so.5
- 1# ostk::astrodynamics::trajectory::model::Tabulated::calculateStateAt(ostk::physics::time::Instant const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Model/Tabulated.cpp:245
- 2# ostk::astrodynamics::trajectory::orbit::model::Tabulated::calculateStateAt(ostk::physics::time::Instant const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.cpp:110
- 3# 0x00007F8369A147E4 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 4# 0x00007F8369C9C70B in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 5# 0x00007F8369BF5E69 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 6# 0x00007F8369B1F6EB in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 7# 0x00007F8369B1F81C in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 8# 0x00007F83698E3028 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
- 9# cfunction_call in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-10# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-11# _PyFunction_Vectorcall in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-12# 0x00007F83699A7B1E in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-13# 0x00007F8369DB7E07 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-14# 0x00007F8369DB4A56 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-15# 0x00007F8369DAE4D7 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-16# 0x00007F8369DA2253 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-17# 0x00007F8369D903C9 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-18# std::function<bool (ostk::physics::time::Instant const&)>::operator()(ostk::physics::time::Instant const&) const at /usr/include/c++/13/bits/std_function.h:592
-19# ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}::operator()(std::function<bool (ostk::physics::time::Instant const&)> const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp:150
-20# bool __gnu_cxx::__ops::_Iter_negate<ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}>::operator()<__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > > >(__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >) at /usr/include/c++/13/bits/predefined_ops.h:395
-21# __gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > > std::__find_if<__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, __gnu_cxx::__ops::_Iter_negate<ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}> >(__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, __gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, __gnu_cxx::__ops::_Iter_negate<ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}>, std::random_access_iterator_tag) at /usr/include/c++/13/bits/stl_algobase.h:2102
-22# __gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > > std::__find_if_not<__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, __gnu_cxx::__ops::_Iter_pred<ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}> >(__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, __gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, __gnu_cxx::__ops::_Iter_pred<ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}>) at /usr/include/c++/13/bits/stl_algo.h:115
-23# __gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > > std::find_if_not<__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}>(__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, __gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}) at /usr/include/c++/13/bits/stl_algo.h:521
-24# bool std::all_of<__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}>(__gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, __gnu_cxx::__normal_iterator<std::function<bool (ostk::physics::time::Instant const&)> const*, std::vector<std::function<bool (ostk::physics::time::Instant const&)>, std::allocator<std::function<bool (ostk::physics::time::Instant const&)> > > >, ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&)::{lambda(std::function<bool (ostk::physics::time::Instant const&)> const&)#1}) at /usr/include/c++/13/bits/stl_algo.h:459
-25# ostk::astrodynamics::solver::TemporalConditionSolver::EvaluateConditionAt(ostk::physics::time::Instant const&, ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&) at /app/src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp:152
-26# ostk::astrodynamics::solver::TemporalConditionSolver::solve(ostk::core::container::Array<std::function<bool (ostk::physics::time::Instant const&)> > const&, ostk::physics::time::Interval const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp:70
-27# ostk::astrodynamics::solver::TemporalConditionSolver::solve(std::function<bool (ostk::physics::time::Instant const&)> const&, ostk::physics::time::Interval const&) const at /app/src/OpenSpaceToolkit/Astrodynamics/Solvers/TemporalConditionSolver.cpp:46
-28# 0x00007F83699F779C in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-29# 0x00007F8369C77A63 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-30# 0x00007F8369BD0641 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-31# 0x00007F8369AD5F93 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-32# 0x00007F8369AD620A in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-33# 0x00007F83698E3028 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/ostk/astrodynamics/OpenSpaceToolkitAstrodynamicsPy.cpython-311-x86_64-linux-gnu.so
-34# cfunction_call in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-35# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-36# _PyEval_Vector in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-37# builtin_exec in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-38# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-39# gen_send_ex2 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-40# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-41# gen_send_ex2 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-42# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-43# gen_send_ex2 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-44# gen_send_ex in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-45# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-46# _PyFunction_Vectorcall in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-47# method_vectorcall in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-48# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-49# _PyFunction_Vectorcall in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-50# method_vectorcall in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-51# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-52# gen_send_ex2 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-53# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-54# gen_send_ex2 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-55# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-56# gen_send_ex2 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-57# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-58# gen_send_ex2 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-59# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-60# gen_send_ex2 in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-61# task_step_impl in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-62# task_step in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-63# _PyObject_MakeTpCall in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-64# context_run in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-65# cfunction_vectorcall_FASTCALL_KEYWORDS in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-66# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-67# _PyEval_Vector in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-68# builtin_exec in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-69# cfunction_vectorcall_FASTCALL_KEYWORDS in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-70# _PyEval_EvalFrameDefault in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-71# _PyFunction_Vectorcall in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-72# pymain_run_module in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-73# Py_RunMain in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-74# pymain_main in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-75# main in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-76# __libc_start_main in /lib/x86_64-linux-gnu/libc.so.6
-77# 0x000055DE9CB56BCD in /app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/bin/python3
-
+[31mAttributeError[39m: Undefined
 

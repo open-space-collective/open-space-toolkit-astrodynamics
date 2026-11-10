@@ -11,18 +11,16 @@ ostk.astrodynamics.trajectory.LocalOrbitalFrameTransformProvider
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~LocalOrbitalFrameTransformProvider.construct
       ~LocalOrbitalFrameTransformProvider.get_transform_at
       ~LocalOrbitalFrameTransformProvider.get_transform_generator
-      ~LocalOrbitalFrameTransformProvider.is_defined
-   
-   
-
-   
    
    

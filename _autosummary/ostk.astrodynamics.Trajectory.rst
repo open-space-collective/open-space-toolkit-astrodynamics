@@ -11,20 +11,17 @@ ostk.astrodynamics.Trajectory
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
-      ~Trajectory.access_model
+      ~Trajectory.get_model
       ~Trajectory.get_state_at
       ~Trajectory.get_states_at
-      ~Trajectory.is_defined
       ~Trajectory.position
-      ~Trajectory.undefined
-   
-   
-
-   
    
    

@@ -22,8 +22,6 @@
    
       AngularCondition
       BooleanCondition
-      BrouwerLyddaneMeanLongCondition
-      COECondition
       InstantCondition
       LogicalCondition
       OrbitalElementCondition

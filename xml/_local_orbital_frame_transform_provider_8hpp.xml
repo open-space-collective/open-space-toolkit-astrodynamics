@@ -11,15 +11,22 @@
     <includes local="no">OpenSpaceToolkit/Physics/Time/Instant.hpp</includes>
     <includes refid="_state_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp</includes>
     <includedby refid="_local_orbital_frame_factory_8hpp" local="no">include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.hpp</includedby>
+    <includedby refid="_close_approach_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp</includedby>
     <includedby refid="_local_orbital_frame_transform_provider_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp</includedby>
     <incdepgraph>
-      <node id="19">
+      <node id="20">
         <label>functional</label>
       </node>
-      <node id="14">
+      <node id="21">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp</label>
+        <link refid="_cartesian_position_8hpp"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
       </node>
-      <node id="12">
+      <node id="13">
         <label>OpenSpaceToolkit/Mathematics/Geometry/3D/Transformation/Rotation/Quaternion.hpp</label>
       </node>
       <node id="9">
@@ -27,9 +34,9 @@
         <link refid="_state_8hpp"/>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="2" relation="include">
-        </childnode>
         <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
@@ -37,15 +44,21 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -68,7 +81,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="16">
+      <node id="17">
         <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>
       </node>
       <node id="5">
@@ -77,32 +90,41 @@
       <node id="8">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
       </node>
+      <node id="23">
+        <label>ostream</label>
+      </node>
       <node id="2">
         <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
       </node>
-      <node id="11">
+      <node id="12">
         <label>OpenSpaceToolkit/Core/Type/Size.hpp</label>
       </node>
-      <node id="18">
+      <node id="19">
         <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp</label>
         <link refid="_coordinate_subset_8hpp"/>
-        <childnode refid="19" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
         <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
       <node id="4">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame/Provider.hpp</label>
+      </node>
+      <node id="24">
+        <label>OpenSpaceToolkit/Mathematics/Object/Matrix.hpp</label>
       </node>
       <node id="3">
         <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
@@ -110,31 +132,55 @@
       <node id="7">
         <label>OpenSpaceToolkit/Physics/Coordinate/Velocity.hpp</label>
       </node>
-      <node id="17">
+      <node id="18">
         <label>OpenSpaceToolkit/Core/Type/Index.hpp</label>
       </node>
-      <node id="13">
+      <node id="14">
         <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
       </node>
-      <node id="10">
+      <node id="11">
         <label>OpenSpaceToolkit/Core/Container/Array.hpp</label>
       </node>
-      <node id="15">
-        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp</label>
-        <link refid="_coordinate_broker_8hpp"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="2" relation="include">
+      <node id="22">
+        <label>OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp</label>
+        <link refid="_covariance_8hpp"/>
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateBroker.hpp</label>
+        <link refid="_coordinate_broker_8hpp"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="6">
@@ -142,41 +188,47 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="25">
+      <node id="35">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp</label>
         <link refid="_local_orbital_frame_direction_8hpp"/>
-        <childnode refid="9" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="36" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="23">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</label>
         <link refid="_propagator_8hpp"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="20">
+      <node id="30">
         <label>src/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.cpp</label>
         <link refid="_maneuver_8cpp"/>
       </node>
-      <node id="26">
+      <node id="10">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp</label>
+        <link refid="_foster1992_8hpp"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp</label>
         <link refid="_local_orbital_frame_direction_8cpp"/>
       </node>
-      <node id="11">
+      <node id="21">
         <label>src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp</label>
         <link refid="_constant_thrust_8cpp"/>
       </node>
-      <node id="28">
+      <node id="38">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameFactory.cpp</label>
         <link refid="_local_orbital_frame_factory_8cpp"/>
       </node>
@@ -189,33 +241,41 @@
         <link refid="_local_orbital_frame_transform_provider_8hpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
         </childnode>
       </node>
-      <node id="23">
+      <node id="33">
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp</label>
         <link refid="_t_l_e_solver_8cpp"/>
       </node>
-      <node id="8">
+      <node id="15">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.hpp</label>
+        <link refid="_custom_8hpp"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
         <label>src/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.cpp</label>
         <link refid="_orbit_determination_solver_8cpp"/>
       </node>
-      <node id="24">
+      <node id="34">
         <label>src/OpenSpaceToolkit/Astrodynamics/Solvers/LeastSquaresSolver.cpp</label>
         <link refid="_least_squares_solver_8cpp"/>
       </node>
-      <node id="9">
+      <node id="19">
         <label>include/OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp</label>
         <link refid="_maneuver_8hpp"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
         <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -223,34 +283,44 @@
         <link refid="_local_orbital_frame_factory_8hpp"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
         </childnode>
       </node>
-      <node id="18">
+      <node id="28">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.cpp</label>
         <link refid="_propagator_8cpp"/>
       </node>
-      <node id="6">
+      <node id="14">
         <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.cpp</label>
         <link refid="_close_approach_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp</label>
+        <link refid="_alfano2005_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.cpp</label>
+        <link refid="_frisbee2015_8cpp"/>
       </node>
       <node id="3">
         <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp</label>
@@ -259,37 +329,65 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
       </node>
-      <node id="15">
+      <node id="12">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp</label>
+        <link refid="_probability_of_collision_algorithm_8hpp"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</label>
         <link refid="_sequence_8hpp"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="24">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp</label>
         <link refid="_propagated_8hpp"/>
-        <childnode refid="15" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="11">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.cpp</label>
+        <link refid="_foster1992_8cpp"/>
+      </node>
+      <node id="20">
         <label>include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp</label>
         <link refid="_constant_thrust_8hpp"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="22">
+      <node id="13">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.cpp</label>
+        <link refid="_probability_of_collision_algorithm_8cpp"/>
+      </node>
+      <node id="32">
         <label>include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp</label>
         <link refid="_t_l_e_solver_8hpp"/>
-        <childnode refid="23" relation="include">
+        <childnode refid="33" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -298,48 +396,66 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="31">
         <label>include/OpenSpaceToolkit/Astrodynamics/Solver/LeastSquaresSolver.hpp</label>
         <link refid="_least_squares_solver_8hpp"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</label>
+        <link refid="_segment_8hpp"/>
+        <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
+      </node>
+      <node id="6">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp</label>
+        <link refid="_alfano2005_8hpp"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="19">
-        <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</label>
-        <link refid="_segment_8hpp"/>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="16">
+      <node id="26">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</label>
         <link refid="_sequence_8cpp"/>
       </node>
-      <node id="29">
+      <node id="7">
+        <label>include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Frisbee2015.hpp</label>
+        <link refid="_frisbee2015_8hpp"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.cpp</label>
         <link refid="_local_orbital_frame_transform_provider_8cpp"/>
       </node>
-      <node id="27">
+      <node id="37">
         <label>src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp</label>
         <link refid="_off_nadir_8cpp"/>
       </node>
-      <node id="12">
+      <node id="16">
+        <label>src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/Custom.cpp</label>
+        <link refid="_custom_8cpp"/>
+      </node>
+      <node id="22">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
         <link refid="_segment_8cpp"/>
       </node>
-      <node id="17">
+      <node id="27">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp</label>
         <link refid="_propagated_8cpp"/>
       </node>
-      <node id="7">
+      <node id="17">
         <label>include/OpenSpaceToolkit/Astrodynamics/Estimator/OrbitDeterminationSolver.hpp</label>
         <link refid="_orbit_determination_solver_8hpp"/>
-        <childnode refid="8" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
     </invincdepgraph>
@@ -392,48 +508,45 @@
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="43" refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kindref="member">Type</ref></highlight></codeline>
 <codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78aec0fc0100c4fc1ce4eea230c3dc10360" kindref="member">Undefined</ref>,<sp/><sp/></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78acd3459b28418fa8fa75ffaba4f3e7c74" kindref="member">NED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78acdfe4a5ed313c123b78c17d455cfa94f" kindref="member">LVLH</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78ae01a717c5a8a11cf57f7fdcb96aedc9c" kindref="member">VVLH</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78a9f24a174bf2de776f4f87caef847746f" kindref="member">LVLHGD</ref>,<sp/><sp/></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78a4f190ed692b3a94eb49da59c497c7f55" kindref="member">QSW</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78a6d951949ba8af28fa54a8629ec0f8f17" kindref="member">TNW</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78ac6a33911cc53df9bdb84aac8d86a0565" kindref="member">VNC</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78a90589c47f06eb971d548591f23c285af" kindref="member">Custom</ref><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1af3882a7fa62fdb112180c6eaf72175c7" kindref="member">LocalOrbitalFrameTransformProvider</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Transform&amp;<sp/>aTransform);</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1aa80acc5aaa7656a62662ea8312df5755" kindref="member">~LocalOrbitalFrameTransformProvider</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider" kindref="compound">LocalOrbitalFrameTransformProvider</ref>*<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ae7fa1cad697a253c127de94d6fa33125" kindref="member">clone</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a040756aae3e5aaaa464974d9a9ad5e6d" kindref="member">isDefined</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Transform<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a68ef7b053487554b2ec9ff5f3976763f" kindref="member">getTransformAt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>LocalOrbitalFrameTransformProvider&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1acaef96c21e8d20cc5196df00a365b3bd" kindref="member">Construct</ref>(</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kindref="member">LocalOrbitalFrameTransformProvider::Type</ref>&amp;<sp/>aType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&amp;<sp/>aState</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::function&lt;Transform(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&amp;)&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a0fa19b7305a194299476a60b01444aa4" kindref="member">GetTransformGenerator</ref>(</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kindref="member">LocalOrbitalFrameTransformProvider::Type</ref>&amp;<sp/>aType</highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1aa5ebee338d01e1dbf336be0d518ccc1b" kindref="member">StringFromType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kindref="member">LocalOrbitalFrameTransformProvider::Type</ref>&amp;<sp/>aType);</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>Transform<sp/>transform_;</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Transform<sp/>GenerateTransform(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kindref="member">LocalOrbitalFrameTransformProvider::Type</ref>&amp;<sp/>aType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&amp;<sp/>aState);</highlight></codeline>
-<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"></highlight></codeline>
-<codeline lineno="138"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="139"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="140"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="141"><highlight class="normal"></highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78acd3459b28418fa8fa75ffaba4f3e7c74" kindref="member">NED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78acdfe4a5ed313c123b78c17d455cfa94f" kindref="member">LVLH</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78ae01a717c5a8a11cf57f7fdcb96aedc9c" kindref="member">VVLH</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78a9f24a174bf2de776f4f87caef847746f" kindref="member">LVLHGD</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78a4f190ed692b3a94eb49da59c497c7f55" kindref="member">QSW</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78a6d951949ba8af28fa54a8629ec0f8f17" kindref="member">TNW</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78ac6a33911cc53df9bdb84aac8d86a0565" kindref="member">VNC</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78a90589c47f06eb971d548591f23c285af" kindref="member">Custom</ref><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1af3882a7fa62fdb112180c6eaf72175c7" kindref="member">LocalOrbitalFrameTransformProvider</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Transform&amp;<sp/>aTransform);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1aa80acc5aaa7656a62662ea8312df5755" kindref="member">~LocalOrbitalFrameTransformProvider</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider" kindref="compound">LocalOrbitalFrameTransformProvider</ref>*<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ae7fa1cad697a253c127de94d6fa33125" kindref="member">clone</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Transform<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a68ef7b053487554b2ec9ff5f3976763f" kindref="member">getTransformAt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>LocalOrbitalFrameTransformProvider&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1acaef96c21e8d20cc5196df00a365b3bd" kindref="member">Construct</ref>(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kindref="member">LocalOrbitalFrameTransformProvider::Type</ref>&amp;<sp/>aType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&amp;<sp/>aState</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::function&lt;Transform(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&amp;)&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1a0fa19b7305a194299476a60b01444aa4" kindref="member">GetTransformGenerator</ref>(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kindref="member">LocalOrbitalFrameTransformProvider::Type</ref>&amp;<sp/>aType</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>String<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1aa5ebee338d01e1dbf336be0d518ccc1b" kindref="member">StringFromType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kindref="member">LocalOrbitalFrameTransformProvider::Type</ref>&amp;<sp/>aType);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>Transform<sp/>transform_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Transform<sp/>GenerateTransform(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_transform_provider_1ad45f604ef245fbd846cf4c7bf9bead78" kindref="member">LocalOrbitalFrameTransformProvider::Type</ref>&amp;<sp/>aType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&amp;<sp/>aState);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>trajectory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>astrodynamics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ostk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameTransformProvider.hpp"/>
   </compounddef>

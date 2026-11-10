@@ -18,30 +18,16 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-line_scan_trajectory = Trajectory(
-    TargetScan(
-        start_lla=start_lla,
-        end_lla=end_lla,
-        start_instant=access.get_start(),
-        end_instant=access.get_end(),
-        step_size=time_step,
-        celestial=earth,
-    )
-)
+environment = Environment.default(True)
+earth = environment.access_celestial_object_with_name("Earth")
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
 [31mAttributeError[39m                            Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[10][39m[32m, line 5[39m
-[32m      1[39m line_scan_trajectory = Trajectory(
-[32m      2[39m     TargetScan(
-[32m      3[39m         start_lla=start_lla,
-[32m      4[39m         end_lla=end_lla,
-[32m----> [39m[32m5[39m         start_instant=access.get_start(),
-[32m      6[39m         end_instant=access.get_end(),
-[32m      7[39m         step_size=time_step,
-[32m      8[39m         celestial=earth,
+[36mCell[39m[36m [39m[32mIn[3][39m[32m, line 2[39m
+[32m      1[39m environment = Environment.default([38;5;28;01mTrue[39;00m)
+[32m----> [39m[32m2[39m earth = environment.access_celestial_object_with_name([33m"Earth"[39m)
 
-[31mAttributeError[39m: 'ostk.astrodynamics.Access' object has no attribute 'get_start'
+[31mAttributeError[39m: 'Environment' object has no attribute 'access_celestial_object_with_name'
 

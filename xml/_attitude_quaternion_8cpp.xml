@@ -134,9 +134,9 @@
 <codeline lineno="24"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="25"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1a19b33f67f53ea4980c04713a37340caf" kindref="member">AttitudeQuaternion::~AttitudeQuaternion</ref>()<sp/>{}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">AttitudeQuaternion::~AttitudeQuaternion()<sp/>{}</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal">VectorXd<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1ad3d046dcd4c8c0d7dbe3e86a4a35acc5" kindref="member">AttitudeQuaternion::inFrame</ref>(</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">VectorXd<sp/>AttitudeQuaternion::inFrame(</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Instant&amp;<sp/>anInstant,</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>VectorXd&amp;<sp/>aFullCoordinatesVector,</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>Frame&gt;&amp;<sp/>fromFrame,</highlight></codeline>
@@ -155,7 +155,7 @@
 <codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>quaternionInFrame.toVector(Quaternion::Format::XYZS);</highlight></codeline>
 <codeline lineno="46"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal">Shared&lt;const<sp/>AttitudeQuaternion&gt;<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_attitude_quaternion_1aa3eaddf8948cece47c743e568af26749" kindref="member">AttitudeQuaternion::Default</ref>()</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">Shared&lt;const<sp/>AttitudeQuaternion&gt;<sp/>AttitudeQuaternion::Default()</highlight></codeline>
 <codeline lineno="49"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Shared&lt;const<sp/>AttitudeQuaternion&gt;<sp/>attitudeQuaternion<sp/>=</highlight></codeline>
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;AttitudeQuaternion&gt;(</highlight><highlight class="stringliteral">&quot;ATTITUDE_QUATERNION&quot;</highlight><highlight class="normal">);</highlight></codeline>

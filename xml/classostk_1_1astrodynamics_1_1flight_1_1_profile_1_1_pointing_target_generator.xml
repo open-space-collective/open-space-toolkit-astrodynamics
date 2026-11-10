@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target" prot="public" virt="non-virtual">ostk::astrodynamics::flight::Profile::PointingTarget</basecompoundref>
+    <includes refid="_profile_8hpp" local="no">Profile.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator_1a6c0f800d27764988debe1e9b65c804bd" prot="public" static="no" mutable="no">
+        <type>std::function&lt; Vector3d(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;Vector3d(const State&amp;)&gt; ostk::astrodynamics::flight::Profile::PointingTargetGenerator::pointingProfileGeneratorInECI</definition>
+        <argsstring></argsstring>
+        <name>pointingProfileGeneratorInECI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="213" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator_1a4444598bb44189a9227442037a8d8af7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::Profile::PointingTargetGenerator::PointingTargetGenerator</definition>
+        <argsstring>(std::function&lt; Vector3d(const State &amp;)&gt; aPointingProfileGeneratorInECI, const Vector3d &amp;aDirectionInBodyFrame)</argsstring>
+        <name>PointingTargetGenerator</name>
+        <param>
+          <type>std::function&lt; Vector3d(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
+          <declname>aPointingProfileGeneratorInECI</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aDirectionInBodyFrame</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator" kindref="compound">PointingTargetGenerator</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPointingProfileGeneratorInECI</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The function that generates the pointing vector in the ECI frame from the state at a given instant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aDirectionInBodyFrame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (unit) vector in the spacecraft&apos;s body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="209" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="129" bodyend="135"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents a pointing constraint of one axis of the spacecraft towards a user defined pointing vector generator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Unlike the pre-defined target types above, the target is fully user defined: the pointing vector is generated at each timestep by a function that returns a vector in the ECI frame (does not need to be known beforehand). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::Profile::PointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Vector3d</label>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::Profile::PointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>directionInBodyFrame</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="200" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="199" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a957984aa516d08276e85acee3a6ad2d7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</scope><name>directionInBodyFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator_1a6c0f800d27764988debe1e9b65c804bd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</scope><name>pointingProfileGeneratorInECI</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a1868ca8337d008045bc0fa5485eb0493" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</scope><name>PointingTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_generator_1a4444598bb44189a9227442037a8d8af7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</scope><name>PointingTargetGenerator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</scope><name>Type</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a7abac6d6ca35d950fc1e02bf24424838" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::PointingTargetGenerator</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="namespaceostk_1_1astrodynamics_1_1utility" kind="namespace" language="C++">
+    <compoundname>ostk::astrodynamics::utility</compoundname>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1utility_1a33af4d226d92f19edffb9d8dd54498d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::utility::DoubleToString</definition>
+        <argsstring>(double aValue)</argsstring>
+        <name>DoubleToString</name>
+        <param>
+          <type>double</type>
+          <declname>aValue</declname>
+        </param>
+        <briefdescription>
+<para>Convert a double to a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Internal helper. The output matches the former ostk::core::type::Real::toString() output, except that NaN prints as &quot;NaN&quot; (there is no undefined double): infinities print as &quot;+Inf&quot; / &quot;-Inf&quot;, integral values keep a trailing &quot;.0&quot;, and other values use the round-trip representation without trailing zeros.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="namespaceostk_1_1astrodynamics_1_1utility_1a33af4d226d92f19edffb9d8dd54498d9" kindref="member">DoubleToString</ref>(1.0)<sp/>;<sp/></highlight><highlight class="comment">//<sp/>&quot;1.0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespaceostk_1_1astrodynamics_1_1utility_1a33af4d226d92f19edffb9d8dd54498d9" kindref="member">DoubleToString</ref>(1.23)<sp/>;<sp/></highlight><highlight class="comment">//<sp/>&quot;1.23&quot;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String representation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Utility/String.hpp" line="35" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Utility/String.hpp" bodystart="35" bodyend="64"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/OpenSpaceToolkit/Astrodynamics/Utility/String.hpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

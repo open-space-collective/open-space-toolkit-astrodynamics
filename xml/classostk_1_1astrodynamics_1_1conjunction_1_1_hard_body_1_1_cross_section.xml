@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::HardBody::CrossSection</compoundname>
+    <includes refid="_hard_body_8hpp" local="no">HardBody.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1a4dab1b2a133bc6527eefa4849af0d292" prot="private" static="no" mutable="no">
+        <type>Array&lt; Point &gt;</type>
+        <definition>Array&lt;Point&gt; ostk::astrodynamics::conjunction::HardBody::CrossSection::convexHull_</definition>
+        <argsstring></argsstring>
+        <name>convexHull_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" line="101" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1a918a0e30337b370dea46da2e82ac9c0e" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::HardBody::CrossSection::radius_</definition>
+        <argsstring></argsstring>
+        <name>radius_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" line="102" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1a6a6a1c02ef74b5719a753df7566b1be8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::conjunction::HardBody::CrossSection::CrossSection</definition>
+        <argsstring>(const Array&lt; Point &gt; &amp;aConvexHull, double aRadius)</argsstring>
+        <name>CrossSection</name>
+        <param>
+          <type>const Array&lt; Point &gt; &amp;</type>
+          <declname>aConvexHull</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aRadius</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aConvexHull</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The convex hull vertices [m], relative to the object position (see class documentation) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aRadius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The radius [m] by which the convex hull is dilated </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" line="70" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.cpp" bodystart="20" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1a9d5c9d61ee4f8d7b8e85377af7ffc1d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::HardBody::CrossSection::getEnclosingRadius</definition>
+        <argsstring>() const</argsstring>
+        <name>getEnclosingRadius</name>
+        <briefdescription>
+<para>Get the enclosing radius of the cross section. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Radius of the smallest circle centered on the object position enclosing the cross section: the distance to the farthest convex hull vertex, plus the radius. Raises an Undefined error if the convex hull is empty.</para>
+<para><simplesect kind="return"><para>The enclosing radius [m] </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" line="79" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.cpp" bodystart="26" bodyend="44"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1ab15096a9733d18f80b132efb09de6389" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section" kindref="compound">CrossSection</ref></type>
+        <definition>HardBody::CrossSection ostk::astrodynamics::conjunction::HardBody::CrossSection::combine</definition>
+        <argsstring>(const CrossSection &amp;aCrossSection, const CrossSection &amp;anotherCrossSection)</argsstring>
+        <name>combine</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section" kindref="compound">CrossSection</ref> &amp;</type>
+          <declname>aCrossSection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section" kindref="compound">CrossSection</ref> &amp;</type>
+          <declname>anotherCrossSection</declname>
+        </param>
+        <briefdescription>
+<para>Combine two cross sections into their Minkowski sum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The convex hulls are Minkowski summed and the radii added, e.g. to obtain the combined cross section of the two objects of a close approach. Raises an Undefined error if either convex hull is empty.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Square<sp/>of<sp/>side<sp/>1.0<sp/>m<sp/>with<sp/>corners<sp/>rounded<sp/>by<sp/>1.0<sp/>m</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">HardBody::CrossSection<sp/>combinedCrossSection<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1ab15096a9733d18f80b132efb09de6389" kindref="member">HardBody::CrossSection::combine</ref>(circle,<sp/>square)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><ulink url="https://en.wikipedia.org/wiki/Minkowski_addition">https://en.wikipedia.org/wiki/Minkowski_addition</ulink> <ulink url="https://en.wikipedia.org/wiki/Minkowski_addition#Two_convex_polygons_in_the_plane">https://en.wikipedia.org/wiki/Minkowski_addition#Two_convex_polygons_in_the_plane</ulink></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCrossSection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A cross section </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anotherCrossSection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Another cross section </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The combined cross section </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" line="98" column="29" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.cpp" bodystart="46" bodyend="81"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Cross section of a hard body, i.e. its projection onto a plane. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A convex hull (convex polygon) dilated by a radius, i.e. all the points lying within the radius of the polygon. Coordinates are in meters, relative to the object position: they need no translation.</para>
+<para>The convex hull vertices must be:<itemizedlist>
+<listitem><para>Sorted clockwise, consistently with ostk::mathematics::geometry::d2::object::Polygon (any vertex first)</para>
+</listitem><listitem><para>Not closed: the first vertex is not repeated at the end</para>
+</listitem><listitem><para>Vertices of the polygon only: no duplicate, collinear or interior points</para>
+</listitem></itemizedlist>
+</para>
+<para>One or two vertices are also allowed (point or segment).</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Circle<sp/>of<sp/>radius<sp/>1.0<sp/>m</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">HardBody::CrossSection<sp/>circle<sp/>=<sp/>{<sp/>Array&lt;Point&gt;({<sp/>{<sp/>0.0,<sp/>0.0<sp/>}<sp/>}),<sp/>1.0<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Square<sp/>of<sp/>side<sp/>1.0<sp/>m</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">HardBody::CrossSection<sp/>square<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Array&lt;Point&gt;({<sp/>{<sp/>0.5,<sp/>0.5<sp/>},<sp/>{<sp/>0.5,<sp/>-0.5<sp/>},<sp/>{<sp/>-0.5,<sp/>-0.5<sp/>},<sp/>{<sp/>-0.5,<sp/>0.5<sp/>}<sp/>}),<sp/>0.0</highlight></codeline>
+<codeline><highlight class="normal">}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stadium:<sp/>segment<sp/>of<sp/>length<sp/>2.0<sp/>m<sp/>dilated<sp/>by<sp/>a<sp/>radius<sp/>of<sp/>0.5<sp/>m<sp/>(total<sp/>size<sp/>3.0<sp/>m<sp/>x<sp/>1.0<sp/>m)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">HardBody::CrossSection<sp/>stadium<sp/>=<sp/>{<sp/>Array&lt;Point&gt;({<sp/>{<sp/>-1.0,<sp/>0.0<sp/>},<sp/>{<sp/>1.0,<sp/>0.0<sp/>}<sp/>}),<sp/>0.5<sp/>}<sp/>;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" line="63" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" bodystart="62" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1ab15096a9733d18f80b132efb09de6389" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::HardBody::CrossSection</scope><name>combine</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1a4dab1b2a133bc6527eefa4849af0d292" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::HardBody::CrossSection</scope><name>convexHull_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1a6a6a1c02ef74b5719a753df7566b1be8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::HardBody::CrossSection</scope><name>CrossSection</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1a9d5c9d61ee4f8d7b8e85377af7ffc1d9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::HardBody::CrossSection</scope><name>getEnclosingRadius</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section_1a918a0e30337b370dea46da2e82ac9c0e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::HardBody::CrossSection</scope><name>radius_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

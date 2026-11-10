@@ -11,18 +11,15 @@ ostk.astrodynamics.trajectory.LocalOrbitalFrameDirection
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~LocalOrbitalFrameDirection.get_local_orbital_frame_factory
       ~LocalOrbitalFrameDirection.get_value
-      ~LocalOrbitalFrameDirection.is_defined
-      ~LocalOrbitalFrameDirection.undefined
-   
-   
-
-   
    
    

@@ -16,26 +16,33 @@ ostk.astrodynamics.trajectory.State
    .. autosummary::
       :nosignatures:
    
+      ~State.from_dict
+      ~State.template
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~State.compute_mahalanobis_distance_analysis
       ~State.extract_coordinate
       ~State.extract_coordinates
-      ~State.from_dict
       ~State.get_angular_velocity
       ~State.get_attitude
       ~State.get_coordinate_subsets
       ~State.get_coordinates
+      ~State.get_covariance
       ~State.get_frame
       ~State.get_instant
       ~State.get_position
       ~State.get_size
       ~State.get_velocity
+      ~State.has_covariance
       ~State.has_subset
       ~State.in_frame
-      ~State.is_defined
-      ~State.template
-      ~State.undefined
-   
-   
-
-   
+      ~State.with_covariance
    
    

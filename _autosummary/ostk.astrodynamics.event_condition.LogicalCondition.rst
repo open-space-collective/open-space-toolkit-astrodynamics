@@ -11,10 +11,13 @@ ostk.astrodynamics.event\_condition.LogicalCondition
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~LogicalCondition.get_evaluator
       ~LogicalCondition.get_event_conditions
@@ -23,9 +26,5 @@ ostk.astrodynamics.event\_condition.LogicalCondition
       ~LogicalCondition.get_type
       ~LogicalCondition.is_satisfied
       ~LogicalCondition.update_target
-   
-   
-
-   
    
    

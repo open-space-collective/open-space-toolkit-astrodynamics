@@ -15,42 +15,42 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="122" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" bodystart="122" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="95" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" bodystart="95" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a94d74d6c2d310a85e10ebb3a9c091b46" prot="private" static="no" mutable="no">
-        <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt;</type>
-        <definition>Shared&lt;const LocalOrbitalFrameFactory&gt; ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::localOrbitalFrameFactorySPtr_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a3418c91fb7e2e9f245a83f92f001cb9e" prot="private" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref></type>
+        <definition>LocalOrbitalFrameFactory ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::localOrbitalFrameFactory_</definition>
         <argsstring></argsstring>
-        <name>localOrbitalFrameFactorySPtr_</name>
+        <name>localOrbitalFrameFactory_</name>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="123" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" bodystart="123" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="96" column="30" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" bodystart="96" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a76816df7e3e751e5923c5c7e0fac58e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a8ac03f4942bd4ba1d109b71aa3b08485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::LocalOrbitalFrameDirection</definition>
-        <argsstring>(const Vector3d &amp;aValue, const Shared&lt; const LocalOrbitalFrameFactory &gt; &amp;aLocalOrbitalFrameFactorySPtr)</argsstring>
+        <argsstring>(const Vector3d &amp;aValue, const LocalOrbitalFrameFactory &amp;aLocalOrbitalFrameFactory)</argsstring>
         <name>LocalOrbitalFrameDirection</name>
         <param>
           <type>const Vector3d &amp;</type>
           <declname>aValue</declname>
         </param>
         <param>
-          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt; &amp;</type>
-          <declname>aLocalOrbitalFrameFactorySPtr</declname>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &amp;</type>
+          <declname>aLocalOrbitalFrameFactory</declname>
         </param>
         <briefdescription>
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;const<sp/>LocalOrbitalFrameFactory&gt;<sp/>factorySPtr<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a489494b20dbd4a5c8d056e61c0d19b95" kindref="member">LocalOrbitalFrameFactory::TNW</ref>(Frame::GCRF())<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a76816df7e3e751e5923c5c7e0fac58e2" kindref="member">LocalOrbitalFrameDirection</ref><sp/>direction<sp/>=<sp/>{<sp/>Vector3d::UnitX(),<sp/>factorySPtr<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">LocalOrbitalFrameFactory<sp/>factory<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1ae3c1df34fcca40fe2d512cfb97d363fe" kindref="member">LocalOrbitalFrameFactory::TNW</ref>(Frame::GCRF())<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a8ac03f4942bd4ba1d109b71aa3b08485" kindref="member">LocalOrbitalFrameDirection</ref><sp/>direction<sp/>=<sp/>{<sp/>Vector3d::UnitX(),<sp/>factory<sp/>}<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -62,10 +62,10 @@
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>aLocalOrbitalFrameFactorySPtr</parametername>
+<parametername>aLocalOrbitalFrameFactory</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A local orbital frame factory shared pointer. </para>
+<para>A local orbital frame factory. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="44" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="18" bodyend="28"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="43" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="17" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a83699070ee3d030df389d9a943ffdb00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="53" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="30" bodyend="39"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="50" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="29" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1ae0e85a68868ec55223be4bc18895bdf4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -135,27 +135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="60" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="41" bodyend="44"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a5182251bf70ba613e116006d55f949a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::isDefined</definition>
-        <argsstring>() const</argsstring>
-        <name>isDefined</name>
-        <briefdescription>
-<para>Check if local orbital frame direction is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a76816df7e3e751e5923c5c7e0fac58e2" kindref="member">LocalOrbitalFrameDirection</ref><sp/>direction<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>defined<sp/>=<sp/>direction.isDefined()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>True if local orbital frame direction is defined. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="79" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="53" bodyend="57"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="57" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="35" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a7334192b3dd415458bcf05258d78d8d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -196,35 +176,18 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="85" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="59" bodyend="73"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="72" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="47" bodyend="57"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a0932a9216e2ba39865d906c72e6100a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt; &amp;</type>
-        <definition>const Shared&lt; const LocalOrbitalFrameFactory &gt; &amp; ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::accessLocalOrbitalFrameFactory</definition>
-        <argsstring>() const</argsstring>
-        <name>accessLocalOrbitalFrameFactory</name>
-        <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> local orbital frame factory. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>The local orbital frame factory </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="90" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="75" bodyend="83"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a3f81553b3d3bf23b009f3b15617e7990" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Vector3d</type>
-        <definition>Vector3d ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::getValue</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1ac32bf12cddfe0bceeac1ea837ed5795e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Vector3d &amp;</type>
+        <definition>const Vector3d &amp; ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::getValue</definition>
         <argsstring>() const</argsstring>
         <name>getValue</name>
         <briefdescription>
 <para>Get the unit direction vector value. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a76816df7e3e751e5923c5c7e0fac58e2" kindref="member">LocalOrbitalFrameDirection</ref><sp/>direction<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a8ac03f4942bd4ba1d109b71aa3b08485" kindref="member">LocalOrbitalFrameDirection</ref><sp/>direction<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Vector3d<sp/>value<sp/>=<sp/>direction.getValue()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>The vector value. </para>
@@ -233,19 +196,19 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="100" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="85" bodyend="93"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="82" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="59" bodyend="62"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1aa3bed347d0db109ccb6edecd299ab8e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt;</type>
-        <definition>Shared&lt; const LocalOrbitalFrameFactory &gt; ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a4f7af2421ef9accc5946f8377b32d1aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &amp;</type>
+        <definition>const LocalOrbitalFrameFactory &amp; ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::getLocalOrbitalFrameFactory</definition>
         <argsstring>() const</argsstring>
         <name>getLocalOrbitalFrameFactory</name>
         <briefdescription>
 <para>Get local orbital frame factory. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a76816df7e3e751e5923c5c7e0fac58e2" kindref="member">LocalOrbitalFrameDirection</ref><sp/>direction<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Shared&lt;const<sp/>LocalOrbitalFrameFactory&gt;<sp/>factorySPtr<sp/>=<sp/>direction.getLocalOrbitalFrameFactory()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a8ac03f4942bd4ba1d109b71aa3b08485" kindref="member">LocalOrbitalFrameDirection</ref><sp/>direction<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">LocalOrbitalFrameFactory<sp/>factory<sp/>=<sp/>direction.getLocalOrbitalFrameFactory()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>The local orbital frame factory. </para>
 </simplesect>
@@ -253,7 +216,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="110" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="95" bodyend="98"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="92" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="64" bodyend="67"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -297,28 +260,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="67" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="46" bodyend="51"/>
-      </memberdef>
-      </sectiondef>
-      <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a8c8bf080e8ac6622cc1ae57b33b8afea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction" kindref="compound">LocalOrbitalFrameDirection</ref></type>
-        <definition>LocalOrbitalFrameDirection ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection::Undefined</definition>
-        <argsstring>()</argsstring>
-        <name>Undefined</name>
-        <briefdescription>
-<para>Construct an undefined local orbital frame direction. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a76816df7e3e751e5923c5c7e0fac58e2" kindref="member">LocalOrbitalFrameDirection</ref><sp/>direction<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a8c8bf080e8ac6622cc1ae57b33b8afea" kindref="member">LocalOrbitalFrameDirection::Undefined</ref>()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>An undefined local orbital frame direction. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="119" column="39" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="100" bodyend="103"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="64" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.cpp" bodystart="40" bodyend="45"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -327,19 +269,16 @@
     <detaileddescription>
 <para>A unit vector expressed in a local orbital frame, defined by a 3D direction vector and a <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> that determines how the frame is constructed from a given state. </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" bodystart="31" bodyend="124"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" line="31" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/LocalOrbitalFrameDirection.hpp" bodystart="30" bodyend="97"/>
     <listofallmembers>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a0932a9216e2ba39865d906c72e6100a6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>accessLocalOrbitalFrameFactory</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1aa3bed347d0db109ccb6edecd299ab8e9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>getLocalOrbitalFrameFactory</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a3f81553b3d3bf23b009f3b15617e7990" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>getValue</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a5182251bf70ba613e116006d55f949a3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>isDefined</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a76816df7e3e751e5923c5c7e0fac58e2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>LocalOrbitalFrameDirection</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a94d74d6c2d310a85e10ebb3a9c091b46" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>localOrbitalFrameFactorySPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a4f7af2421ef9accc5946f8377b32d1aa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>getLocalOrbitalFrameFactory</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1ac32bf12cddfe0bceeac1ea837ed5795e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>getValue</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a8ac03f4942bd4ba1d109b71aa3b08485" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>LocalOrbitalFrameDirection</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a3418c91fb7e2e9f245a83f92f001cb9e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>localOrbitalFrameFactory_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1ae0e85a68868ec55223be4bc18895bdf4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1ad41f2f4095231786f669e6746793c1cf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a83699070ee3d030df389d9a943ffdb00" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>operator==</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a7334192b3dd415458bcf05258d78d8d4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>print</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a8c8bf080e8ac6622cc1ae57b33b8afea" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>Undefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_direction_1a7ea93fe28c9fd9536fb0c289381ceee6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::LocalOrbitalFrameDirection</scope><name>value_</name></member>
     </listofallmembers>
   </compounddef>

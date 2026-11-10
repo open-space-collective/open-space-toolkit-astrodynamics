@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="302" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="302" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="330" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="330" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a41bb8e1a297a75754252c2ca2e0d626e" prot="private" static="no" mutable="no">
         <type>VectorXd</type>
@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="303" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="303" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="331" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="331" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a43ad5de3a0f35b59ad15958f2abb4eb7" prot="private" static="no" mutable="no">
         <type>Shared&lt; const Frame &gt;</type>
@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="304" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="304" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="332" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="332" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a9cc5ce3bb10644c6622190783b7c07e0" prot="private" static="no" mutable="no">
         <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &gt;</type>
@@ -54,7 +54,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="305" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="305" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="333" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1ad25040fc61c3252919a4f7325305875b" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> &gt;</type>
+        <definition>std::optional&lt;Covariance&gt; ostk::astrodynamics::trajectory::State::covariance_</definition>
+        <argsstring></argsstring>
+        <name>covariance_</name>
+        <initializer>= std::nullopt</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="334" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="334" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -127,7 +141,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="68" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="32" bodyend="47"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="74" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="32" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a609568f74dced778b52852274b43ad9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -198,7 +212,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="93" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="49" bodyend="60"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="99" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="59" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1aee30b7199910c0d171c8a9c88af4cf88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -286,7 +300,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="110" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="99" bodyend="156"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="116" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="98" bodyend="130"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a2d0ea1f2207371a245335454054cc351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -344,7 +358,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="132" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="62" bodyend="97"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="138" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="76" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a1778eee87ae0c2a9af5c0c10c1481c4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -372,7 +386,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="137" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="158" bodyend="164"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="143" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="132" bodyend="139"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1abda2bed81448e9882682a2671b2ba744" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
@@ -402,7 +416,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="143" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="166" bodyend="176"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="149" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="141" bodyend="152"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a512c16b9e305f0c7adf6efb86a831ae9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -432,7 +446,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="149" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="178" bodyend="214"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="155" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="154" bodyend="185"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a9be7bb80baba6940991f647eeec758ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -462,7 +476,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="155" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="216" bodyend="219"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="161" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="187" bodyend="190"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a5894ce1b146dbf082bbcae125e6de78b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -492,7 +506,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="161" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="221" bodyend="264"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="167" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="192" bodyend="226"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a7715e80a44b3d2c572581f6fe42ac086" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -522,92 +536,92 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="167" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="266" bodyend="309"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="173" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="228" bodyend="262"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a23e6775a13f98932d00532f1a68b54f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::trajectory::State::isDefined</definition>
-        <argsstring>() const</argsstring>
-        <name>isDefined</name>
-        <briefdescription>
-<para>Check if the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> is defined, false otherwise </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="179" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="318" bodyend="322"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a4ca2c1ab82d9ccfa8ab10323622df410" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a9d91bedda2dacabc6bcc063d28b9d6df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Instant &amp;</type>
-        <definition>const Instant &amp; ostk::astrodynamics::trajectory::State::accessInstant</definition>
+        <definition>const Instant &amp; ostk::astrodynamics::trajectory::State::getInstant</definition>
         <argsstring>() const</argsstring>
-        <name>accessInstant</name>
+        <name>getInstant</name>
         <briefdescription>
-<para>Accessor for the instant. </para>
+<para>Get the instant associated with the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>The instant </para>
+<para><simplesect kind="return"><para>Const reference to the instant </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="184" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="324" bodyend="332"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="185" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="271" bodyend="274"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a34b40f1ec8262e3f8170b1b3e35e6e8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Shared&lt; const Frame &gt;</type>
-        <definition>const Shared&lt; const Frame &gt; ostk::astrodynamics::trajectory::State::accessFrame</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a5d1c5177243c76b59fb5727f078a0910" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Shared&lt; const Frame &gt; &amp;</type>
+        <definition>const Shared&lt; const Frame &gt; &amp; ostk::astrodynamics::trajectory::State::getFrame</definition>
         <argsstring>() const</argsstring>
-        <name>accessFrame</name>
+        <name>getFrame</name>
         <briefdescription>
-<para>Accessor for the reference frame. </para>
+<para>Get the reference frame associated with the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>The reference frame </para>
+<para><simplesect kind="return"><para>Const reference to the reference frame </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="189" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="334" bodyend="342"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="190" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="276" bodyend="279"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1aa788598e2a3c7104cc59bd8c9fde7bf3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1ae47519cda80fed56d9aacf79178ae119" prot="public" static="no" const="yes" explicit="no" inline="no" refqual="lvalue" virt="non-virtual">
         <type>const VectorXd &amp;</type>
-        <definition>const VectorXd &amp; ostk::astrodynamics::trajectory::State::accessCoordinates</definition>
-        <argsstring>() const</argsstring>
-        <name>accessCoordinates</name>
+        <definition>VectorXd ostk::astrodynamics::trajectory::State::getCoordinates</definition>
+        <argsstring>() const &amp;</argsstring>
+        <name>getCoordinates</name>
         <briefdescription>
-<para>Accessor for the coordinates. </para>
+<para>Get the coordinates of the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>The coordinates </para>
+<para><simplesect kind="return"><para>Const reference to the coordinates </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="194" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="344" bodyend="352"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="195" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="281" bodyend="284"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a38013685a44ee44365c450f19d939948" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &gt; &amp;</type>
-        <definition>const Shared&lt; const CoordinateBroker &gt; &amp; ostk::astrodynamics::trajectory::State::accessCoordinateBroker</definition>
-        <argsstring>() const</argsstring>
-        <name>accessCoordinateBroker</name>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1afaf30cdbd548f88abdd914a150ae19e3" prot="public" static="no" const="no" explicit="no" inline="no" refqual="rvalue" virt="non-virtual">
+        <type>VectorXd</type>
+        <definition>VectorXd ostk::astrodynamics::trajectory::State::getCoordinates</definition>
+        <argsstring>() &amp;&amp;</argsstring>
+        <name>getCoordinates</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> the coordinate broker associated with the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
+<para>Get the coordinates of a temporary <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>The coordinate broker associated to the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> </para>
+<para><simplesect kind="return"><para>The coordinates (copy, so that it does not dangle) </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="199" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="354" bodyend="362"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="200" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a9f5e51e742379e640d339389bf359802" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &gt; &amp;</type>
+        <definition>const Shared&lt; const CoordinateBroker &gt; &amp; ostk::astrodynamics::trajectory::State::getCoordinateBroker</definition>
+        <argsstring>() const</argsstring>
+        <name>getCoordinateBroker</name>
+        <briefdescription>
+<para>Get the coordinate broker associated with the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Const reference to the coordinate broker associated to the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="205" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="291" bodyend="294"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1abc16c7395c9ce95588eee41ec67441b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Size</type>
@@ -624,41 +638,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="204" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="364" bodyend="372"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="210" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="296" bodyend="299"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a442c82d7ffbbdd4115f23ad196bd0733" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Instant</type>
-        <definition>Instant ostk::astrodynamics::trajectory::State::getInstant</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a8b75068650be35eba0cc29444896313e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> &gt; &amp;</type>
+        <definition>const std::optional&lt; Covariance &gt; &amp; ostk::astrodynamics::trajectory::State::getCovariance</definition>
         <argsstring>() const</argsstring>
-        <name>getInstant</name>
+        <name>getCovariance</name>
         <briefdescription>
-<para>Get the instant associated with the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
+<para>Get the Covariance associated with the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>The instant </para>
+<para><simplesect kind="return"><para>The Covariance, or std::nullopt if no Covariance is attached to the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="209" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="374" bodyend="377"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1ae6fa2710f8810949613648679918520f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Shared&lt; const Frame &gt;</type>
-        <definition>Shared&lt; const Frame &gt; ostk::astrodynamics::trajectory::State::getFrame</definition>
-        <argsstring>() const</argsstring>
-        <name>getFrame</name>
-        <briefdescription>
-<para>Get the reference frame associated with the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>The reference frame </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="214" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="379" bodyend="382"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="215" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="301" bodyend="304"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a80cda7e7f115a650fcd9c8bbb199e327" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Position</type>
@@ -675,7 +672,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="219" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="384" bodyend="392"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="220" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="306" bodyend="309"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1afb8a984db3d74a4b134681ca299a8f45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Velocity</type>
@@ -692,7 +689,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="224" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="394" bodyend="402"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="225" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="311" bodyend="314"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a81ae7875b0ba97b4f4a7a946abe7a022" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Quaternion</type>
@@ -709,7 +706,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="229" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="404" bodyend="419"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="230" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="316" bodyend="326"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a7d1623cdfe904d686997eb959eca50ee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Vector3d</type>
@@ -726,41 +723,41 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="234" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="421" bodyend="429"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="235" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="328" bodyend="331"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a0f5c1c187ca8a6c4a44f95ae7898bdee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>VectorXd</type>
-        <definition>VectorXd ostk::astrodynamics::trajectory::State::getCoordinates</definition>
-        <argsstring>() const</argsstring>
-        <name>getCoordinates</name>
-        <briefdescription>
-<para>Get the coordinates of the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>The coordinates </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="239" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="431" bodyend="434"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a052e4b468e98993b1b1ff63be081d806" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
-        <definition>const Array&lt; Shared&lt; const CoordinateSubset &gt; &gt; ostk::astrodynamics::trajectory::State::getCoordinateSubsets</definition>
-        <argsstring>() const</argsstring>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1abadb89bc6fe32b45ef7c8aab357109a4" prot="public" static="no" const="yes" explicit="no" inline="no" refqual="lvalue" virt="non-virtual">
+        <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt; &amp;</type>
+        <definition>Array&lt; Shared&lt; const CoordinateSubset &gt; &gt; ostk::astrodynamics::trajectory::State::getCoordinateSubsets</definition>
+        <argsstring>() const &amp;</argsstring>
         <name>getCoordinateSubsets</name>
         <briefdescription>
 <para>Get the coordinate subsets of the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>The coordinate subsets </para>
+<para><simplesect kind="return"><para>Const reference to the coordinate subsets </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="244" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="436" bodyend="444"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="240" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="333" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1aec905dbab47e03feb5338fcbf2b951e2" prot="public" static="no" const="no" explicit="no" inline="no" refqual="rvalue" virt="non-virtual">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt;Shared&lt;const CoordinateSubset&gt; &gt; ostk::astrodynamics::trajectory::State::getCoordinateSubsets</definition>
+        <argsstring>() &amp;&amp;</argsstring>
+        <name>getCoordinateSubsets</name>
+        <briefdescription>
+<para>Get the coordinate subsets of a temporary <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The coordinate subsets (copy, so that they do not dangle) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="245" column="11"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a845931b2e89048d0e6a36e96a33cb087" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -793,7 +790,24 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="256" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="446" bodyend="454"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="257" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="343" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a50674049af94ad142edb5cab8a9a7ab7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::trajectory::State::hasCovariance</definition>
+        <argsstring>() const</argsstring>
+        <name>hasCovariance</name>
+        <briefdescription>
+<para>Check if the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> has a Covariance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if a Covariance is attached to the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="262" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="348" bodyend="351"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a234199cd6a37a3f123ac7aff6b76e0c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>VectorXd</type>
@@ -826,7 +840,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="267" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="456" bodyend="459"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="273" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="353" bodyend="356"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1abf4d23822eb00ff90a98010a12401ffe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>VectorXd</type>
@@ -856,7 +870,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="273" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="461" bodyend="464"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="279" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="358" bodyend="361"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1ac58155d05c06217d934447383e4235e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -889,7 +903,95 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="284" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="466" bodyend="501"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="290" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="363" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a4fe03db7dcdc1c19a49faa35aa3ccd0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
+        <definition>State ostk::astrodynamics::trajectory::State::withCovariance</definition>
+        <argsstring>(const std::optional&lt; Covariance &gt; &amp;aCovariance) const</argsstring>
+        <name>withCovariance</name>
+        <param>
+          <type>const std::optional&lt; <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> &gt; &amp;</type>
+          <declname>aCovariance</declname>
+        </param>
+        <briefdescription>
+<para>Return a copy of the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> with a Covariance attached. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Passing std::nullopt returns a copy of the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> without a Covariance. Raises a Wrong error when the Covariance instant differs from the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&apos;s instant.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCovariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Covariance to attach, or std::nullopt to remove it </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A copy of the <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> with the Covariance attached </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="299" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="395" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a3c2de375214e50980ad436411ac7ec30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis" kindref="compound">Covariance::MahalanobisDistanceAnalysis</ref></type>
+        <definition>Covariance::MahalanobisDistanceAnalysis ostk::astrodynamics::trajectory::State::computeMahalanobisDistanceAnalysis</definition>
+        <argsstring>(const State &amp;anotherState, const Array&lt; Shared&lt; const CoordinateSubset &gt;&gt; &amp;aCoordinateSubsetsArray={CartesianPosition::Default()}) const</argsstring>
+        <name>computeMahalanobisDistanceAnalysis</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>anotherState</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt; &amp;</type>
+          <declname>aCoordinateSubsetsArray</declname>
+          <defval>{<ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" kindref="member">CartesianPosition::Default</ref>()}</defval>
+        </param>
+        <briefdescription>
+<para>Compute the Mahalanobis distance analysis of another <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> with respect to this <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>&apos;s Covariance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Both States are expressed in the Covariance frame and reduced to the given coordinate subsets, which must be present in both States (other subsets may differ). The residuals (other - this) are then analyzed against the Covariance reduced to the same coordinate subsets.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a3a827a0ee41ac08a84f89e21c6e4ec2b" kindref="member">State</ref><sp/>state<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">Covariance::MahalanobisDistanceAnalysis<sp/>analysis<sp/>=<sp/>state.computeMahalanobisDistanceAnalysis(anotherState)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><ulink url="https://en.wikipedia.org/wiki/Mahalanobis_distance">https://en.wikipedia.org/wiki/Mahalanobis_distance</ulink></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anotherState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> to analyze </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetsArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The coordinate subsets to compute the analysis for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The Mahalanobis distance analysis </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::runtime::Wrong</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If this <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> has no Covariance or the coordinate subsets are empty </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="318" column="45" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="408" bodyend="443"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1ab2398bc2e608b4c48cbe354a35589c78" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -930,7 +1032,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="290" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="503" bodyend="529"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="327" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="445" bodyend="462"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -974,28 +1076,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="174" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="311" bodyend="316"/>
-      </memberdef>
-      </sectiondef>
-      <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a24ed7a7e725ad450707d572dff86b1ee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
-        <definition>State ostk::astrodynamics::trajectory::State::Undefined</definition>
-        <argsstring>()</argsstring>
-        <name>Undefined</name>
-        <briefdescription>
-<para>Get an undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a3a827a0ee41ac08a84f89e21c6e4ec2b" kindref="member">State</ref><sp/>state<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a24ed7a7e725ad450707d572dff86b1ee" kindref="member">State::Undefined</ref>()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>An undefined <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="299" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="531" bodyend="534"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="180" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State.cpp" bodystart="264" bodyend="269"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1004,30 +1085,32 @@
     <detaileddescription>
 <para>Represents the complete state of an object at a specific instant, consisting of coordinates (such as position, velocity, attitude, angular velocity, etc.) expressed in a given reference frame. The coordinates are defined by a set of coordinate subsets managed through a CoordinateBroker. </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="50" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="49" bodyend="306"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" line="56" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp" bodystart="55" bodyend="335"/>
     <listofallmembers>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a38013685a44ee44365c450f19d939948" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>accessCoordinateBroker</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1aa788598e2a3c7104cc59bd8c9fde7bf3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>accessCoordinates</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a34b40f1ec8262e3f8170b1b3e35e6e8a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>accessFrame</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a4ca2c1ab82d9ccfa8ab10323622df410" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>accessInstant</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a3c2de375214e50980ad436411ac7ec30" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>computeMahalanobisDistanceAnalysis</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a41bb8e1a297a75754252c2ca2e0d626e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>coordinates_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a9cc5ce3bb10644c6622190783b7c07e0" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>coordinatesBrokerSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1ad25040fc61c3252919a4f7325305875b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>covariance_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a234199cd6a37a3f123ac7aff6b76e0c8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>extractCoordinate</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1abf4d23822eb00ff90a98010a12401ffe" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>extractCoordinates</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a43ad5de3a0f35b59ad15958f2abb4eb7" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>frameSPtr_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a7d1623cdfe904d686997eb959eca50ee" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getAngularVelocity</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a81ae7875b0ba97b4f4a7a946abe7a022" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getAttitude</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a0f5c1c187ca8a6c4a44f95ae7898bdee" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getCoordinates</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a052e4b468e98993b1b1ff63be081d806" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getCoordinateSubsets</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1ae6fa2710f8810949613648679918520f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getFrame</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a442c82d7ffbbdd4115f23ad196bd0733" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getInstant</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a9f5e51e742379e640d339389bf359802" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getCoordinateBroker</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1ae47519cda80fed56d9aacf79178ae119" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getCoordinates</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1afaf30cdbd548f88abdd914a150ae19e3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getCoordinates</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1abadb89bc6fe32b45ef7c8aab357109a4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getCoordinateSubsets</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1aec905dbab47e03feb5338fcbf2b951e2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getCoordinateSubsets</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a8b75068650be35eba0cc29444896313e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getCovariance</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a5d1c5177243c76b59fb5727f078a0910" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a9d91bedda2dacabc6bcc063d28b9d6df" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getInstant</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a80cda7e7f115a650fcd9c8bbb199e327" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getPosition</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1abc16c7395c9ce95588eee41ec67441b1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getSize</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1afb8a984db3d74a4b134681ca299a8f45" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>getVelocity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a50674049af94ad142edb5cab8a9a7ab7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>hasCovariance</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a845931b2e89048d0e6a36e96a33cb087" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>hasSubset</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1ac58155d05c06217d934447383e4235e8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>inFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1add2d2e5d18fbdadb99f7a220f840eab6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>instant_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a23e6775a13f98932d00532f1a68b54f0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a9be7bb80baba6940991f647eeec758ad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a5894ce1b146dbf082bbcae125e6de78b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>operator+</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a7715e80a44b3d2c572581f6fe42ac086" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>operator-</name></member>
@@ -1040,7 +1123,7 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1aee30b7199910c0d171c8a9c88af4cf88" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>State</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a2d0ea1f2207371a245335454054cc351" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>State</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a1778eee87ae0c2a9af5c0c10c1481c4c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>State</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a24ed7a7e725ad450707d572dff86b1ee" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>Undefined</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_1a4fe03db7dcdc1c19a49faa35aa3ccd0b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::State</scope><name>withCovariance</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -3,19 +3,19 @@
   <compounddef id="namespaceostk_1_1astrodynamics_1_1data_1_1provider" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::data::provider</compoundname>
       <sectiondef kind="var">
-      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1data_1_1provider_1ab4a404ad796944818f31e911f8ea46dd" prot="public" static="yes" mutable="no">
-        <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref> &gt;</type>
-        <definition>const Shared&lt;const LocalOrbitalFrameFactory&gt; ostk::astrodynamics::data::provider::VVLHFrameFactory</definition>
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1data_1_1provider_1a5845a44aa58d2eaf8ee01bc335dae6c0" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory" kindref="compound">LocalOrbitalFrameFactory</ref></type>
+        <definition>const LocalOrbitalFrameFactory ostk::astrodynamics::data::provider::VVLHFrameFactory</definition>
         <argsstring></argsstring>
         <name>VVLHFrameFactory</name>
-        <initializer>= <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a2b4b29b76403cfa4aa33c406c05af131" kindref="member">LocalOrbitalFrameFactory::VVLH</ref>(Frame::GCRF())</initializer>
+        <initializer>= <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_local_orbital_frame_factory_1a4bb1ef34a75404ac1d2ffae25ba85549" kindref="member">LocalOrbitalFrameFactory::VVLH</ref>(Frame::GCRF())</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" line="35" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" bodystart="35" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" line="35" column="39" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" bodystart="35" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" line="37" column="7" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" bodystart="37" bodyend="72" declfile="include/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp" declline="46" declcolumn="7"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" line="37" column="7" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.cpp" bodystart="37" bodyend="62" declfile="include/OpenSpaceToolkit/Astrodynamics/Data/Provider/OffNadir.hpp" declline="46" declcolumn="7"/>
       </memberdef>
       </sectiondef>
     <briefdescription>

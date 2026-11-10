@@ -16,8 +16,16 @@ ostk.astrodynamics.trajectory.Segment
    .. autosummary::
       :nosignatures:
    
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
       ~Segment.coast
-      ~Segment.constant_local_orbital_frame_direction_maneuver
       ~Segment.get_dynamics
       ~Segment.get_event_condition
       ~Segment.get_free_dynamics
@@ -29,9 +37,5 @@ ostk.astrodynamics.trajectory.Segment
       ~Segment.maneuver
       ~Segment.solve
       ~Segment.string_from_maximum_maneuver_duration_violation_strategy
-   
-   
-
-   
    
    

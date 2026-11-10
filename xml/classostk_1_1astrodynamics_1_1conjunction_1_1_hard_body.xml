@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>ostk::astrodynamics::conjunction::HardBody</compoundname>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::hardbody::Custom</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::hardbody::Spherical</derivedcompoundref>
+    <includes refid="_hard_body_8hpp" local="no">HardBody.hpp</includes>
+    <innerclass refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section" prot="public">ostk::astrodynamics::conjunction::HardBody::CrossSection</innerclass>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1a1795055dab121a5de4add6a96f0c28d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual ostk::astrodynamics::conjunction::HardBody::~HardBody</definition>
+        <argsstring>()=default</argsstring>
+        <name>~HardBody</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" line="106" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1a4e5fab8b553feb35a079b83ed464c5f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1_1_cross_section" kindref="compound">CrossSection</ref></type>
+        <definition>virtual CrossSection ostk::astrodynamics::conjunction::HardBody::calculateCrossSectionAt</definition>
+        <argsstring>(const State &amp;aState, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const =0</argsstring>
+        <name>calculateCrossSectionAt</name>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical_1a4cac7ad46616cba35e7e4daea8c86703">calculateCrossSectionAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom_1a946f689b82d434604d290e73334eb0bb">calculateCrossSectionAt</reimplementedby>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Calculate the cross section of the hard body at a given state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The hard body is projected along the Z axis of the given frame onto its X-Y plane. Only the frame orientation is used: the cross section is always relative to the object position. Use the encounter frame (see <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1a9fc81b80bd44e79e1f4b8334b3bb39fa" kindref="member">CloseApproach::computeEncounterFrame</ref>, whose Z axis is the relative velocity) to project onto the encounter plane.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Shared&lt;const<sp/>Frame&gt;<sp/>encounterFrame<sp/>=<sp/>closeApproach.computeEncounterFrame()<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">HardBody::CrossSection<sp/>crossSection<sp/>=<sp/>hardBody.calculateCrossSectionAt(state,<sp/>encounterFrame)<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A state of the object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A frame whose axes define the projection </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The cross section </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" line="123" column="26"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Hard body (abstract). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Physical extent of an object in conjunction analysis, from which a cross section can be calculated (see calculateCrossSectionAt). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::hardbody::Custom</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_custom"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ostk::astrodynamics::conjunction::hardbody::Spherical</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1hardbody_1_1_spherical"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::HardBody</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" line="36" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody.hpp" bodystart="35" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1a4e5fab8b553feb35a079b83ed464c5f0" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::conjunction::HardBody</scope><name>calculateCrossSectionAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body_1a1795055dab121a5de4add6a96f0c28d7" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::HardBody</scope><name>~HardBody</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

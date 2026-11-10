@@ -4,9 +4,6 @@
     <compoundname>VisibilityCriterion.cpp</compoundname>
     <includes refid="_visibility_criterion_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp</includes>
     <incdepgraph>
-      <node id="6">
-        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
-      </node>
       <node id="2">
         <label>OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp</label>
         <link refid="_visibility_criterion_8hpp"/>
@@ -30,8 +27,6 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
       </node>
       <node id="1">
         <label>src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp</label>
@@ -42,31 +37,31 @@
       <node id="4">
         <label>variant</label>
       </node>
-      <node id="13">
+      <node id="12">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
       </node>
       <node id="5">
         <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>
       </node>
-      <node id="9">
+      <node id="8">
         <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
       </node>
-      <node id="12">
+      <node id="11">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
       </node>
-      <node id="7">
+      <node id="6">
         <label>OpenSpaceToolkit/Mathematics/Object/Interval.hpp</label>
       </node>
-      <node id="10">
+      <node id="9">
         <label>OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp</label>
       </node>
       <node id="3">
         <label>optional</label>
       </node>
-      <node id="8">
+      <node id="7">
         <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
       </node>
-      <node id="11">
+      <node id="10">
         <label>OpenSpaceToolkit/Physics/Environment.hpp</label>
       </node>
     </incdepgraph>
@@ -98,15 +93,15 @@
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>aVisibilityCriterion);</highlight></codeline>
 <codeline lineno="20"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal">VisibilityCriterion<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a209ee59233071cbe3972155c40bb5a87" kindref="member">VisibilityCriterion::FromAERInterval</ref>(</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>azimuth,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>elevation,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>range</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">VisibilityCriterion<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a03e3b0f9efab332fa529f22b62eb71e7" kindref="member">VisibilityCriterion::FromAERInterval</ref>(</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>azimuth,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>elevation,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>range</highlight></codeline>
 <codeline lineno="24"><highlight class="normal">)</highlight></codeline>
 <codeline lineno="25"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>VisibilityCriterion(AERInterval<sp/>{azimuth,<sp/>elevation,<sp/>range});</highlight></codeline>
 <codeline lineno="27"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="29"><highlight class="normal">VisibilityCriterion<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a806d379d654207cd18ea643f41c18f9c" kindref="member">VisibilityCriterion::FromAERMask</ref>(</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Map&lt;Real,<sp/>Real&gt;&amp;<sp/>azimuthElevationMask,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>range</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">VisibilityCriterion<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a99afc838a3f235007f43c0424c448eb6" kindref="member">VisibilityCriterion::FromAERMask</ref>(</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Map&lt;double,<sp/>double&gt;&amp;<sp/>azimuthElevationMask,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>range</highlight></codeline>
 <codeline lineno="31"><highlight class="normal">)</highlight></codeline>
 <codeline lineno="32"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>VisibilityCriterion(AERMask<sp/>{azimuthElevationMask,<sp/>range});</highlight></codeline>
@@ -117,7 +112,7 @@
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>VisibilityCriterion(LineOfSight<sp/>{environment});</highlight></codeline>
 <codeline lineno="39"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal">VisibilityCriterion<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1aee323ee940e4e3b07041ffa40d7643e9" kindref="member">VisibilityCriterion::FromElevationInterval</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>anElevationInterval)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">VisibilityCriterion<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1ac1e57a7b3e0e6e362f1c345e102a04c8" kindref="member">VisibilityCriterion::FromElevationInterval</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>anElevationInterval)</highlight></codeline>
 <codeline lineno="42"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>VisibilityCriterion(ElevationInterval<sp/>{anElevationInterval});</highlight></codeline>
 <codeline lineno="44"><highlight class="normal">}</highlight></codeline>

@@ -11,10 +11,13 @@ ostk.astrodynamics.flight.system.SatelliteSystemBuilder
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~SatelliteSystemBuilder.build
       ~SatelliteSystemBuilder.default
@@ -24,9 +27,5 @@ ostk.astrodynamics.flight.system.SatelliteSystemBuilder
       ~SatelliteSystemBuilder.with_geometry
       ~SatelliteSystemBuilder.with_inertia_tensor
       ~SatelliteSystemBuilder.with_propulsion_system
-   
-   
-
-   
    
    

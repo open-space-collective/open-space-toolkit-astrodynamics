@@ -11,10 +11,13 @@ ostk.astrodynamics.flight.system.SatelliteSystem
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~SatelliteSystem.default
       ~SatelliteSystem.get_cross_sectional_surface_area
@@ -23,11 +26,5 @@ ostk.astrodynamics.flight.system.SatelliteSystem
       ~SatelliteSystem.get_inertia_tensor
       ~SatelliteSystem.get_mass
       ~SatelliteSystem.get_propulsion_system
-      ~SatelliteSystem.is_defined
-      ~SatelliteSystem.undefined
-   
-   
-
-   
    
    

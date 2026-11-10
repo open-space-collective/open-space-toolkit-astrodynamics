@@ -11,20 +11,18 @@ ostk.astrodynamics.dynamics.PositionDerivative
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~PositionDerivative.compute_contribution
       ~PositionDerivative.from_environment
       ~PositionDerivative.get_name
       ~PositionDerivative.get_read_coordinate_subsets
       ~PositionDerivative.get_write_coordinate_subsets
-      ~PositionDerivative.is_defined
-   
-   
-
-   
    
    

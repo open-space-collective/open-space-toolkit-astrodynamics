@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="103" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="103" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="101" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a18a29ad03f8fdc9c7e99f028cccf7fe1" prot="public" static="no" mutable="no">
         <type>Instant</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="105" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="105" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="103" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="103" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1af3e470967e9f9740a8520ea76ac609af" prot="public" static="no" mutable="no">
         <type>Length</type>
@@ -42,63 +42,63 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="106" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="106" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="104" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="104" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ad0e97215980fce96a6d7095f9420f850" prot="public" static="no" mutable="no">
-        <type>Position</type>
-        <definition>Position ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::relativePosition</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a6d3f4de0f146a91143972c17b71ddf4e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; Position &gt;</type>
+        <definition>std::optional&lt;Position&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::relativePosition</definition>
         <argsstring></argsstring>
         <name>relativePosition</name>
-        <initializer>= Position::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="107" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="107" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="105" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="105" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ad85081a3341cdf2825d5402cc760b9aa" prot="public" static="no" mutable="no">
-        <type>Velocity</type>
-        <definition>Velocity ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::relativeVelocity</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a7a7cdac50d324daa2eca703c988d467d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; Velocity &gt;</type>
+        <definition>std::optional&lt;Velocity&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::relativeVelocity</definition>
         <argsstring></argsstring>
         <name>relativeVelocity</name>
-        <initializer>= Velocity::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="108" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="108" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="106" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="106" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4eb5233f213a38d9158ca2fc12d70280" prot="public" static="no" mutable="no">
-        <type>Instant</type>
-        <definition>Instant ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::startScreenPeriod</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4c800754805506daf6fb5c3360b4fa33" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; Instant &gt;</type>
+        <definition>std::optional&lt;Instant&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::startScreenPeriod</definition>
         <argsstring></argsstring>
         <name>startScreenPeriod</name>
-        <initializer>= Instant::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="110" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="110" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="108" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="108" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a2b30472bf1bee7a1eb51df7740828f3a" prot="public" static="no" mutable="no">
-        <type>Instant</type>
-        <definition>Instant ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::endScreenPeriod</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a1ca882a43795b059de894c7d6623e06a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; Instant &gt;</type>
+        <definition>std::optional&lt;Instant&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::endScreenPeriod</definition>
         <argsstring></argsstring>
         <name>endScreenPeriod</name>
-        <initializer>= Instant::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="111" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="111" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="109" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="109" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1adeee9fe442edf09af05e52da42be6dcf" prot="public" static="no" mutable="no">
         <type>String</type>
@@ -112,7 +112,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="112" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="112" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="110" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="110" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a6031976b2c4b2b0279e451608b3d92a3" prot="public" static="no" mutable="no">
         <type>String</type>
@@ -126,91 +126,91 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="113" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="113" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="111" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="111" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1acc939738187ea1037bded87dbda152f7" prot="public" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenVolumeX</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a9e5566e2f17660d88aee8a36483089af" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenVolumeX</definition>
         <argsstring></argsstring>
         <name>screenVolumeX</name>
-        <initializer>= Real::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="114" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="114" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="112" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="112" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a8fa8d07b4bc563239dcac5507cf17d10" prot="public" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenVolumeY</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a6286d6b7c703b22fd033cc04020a25ba" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenVolumeY</definition>
         <argsstring></argsstring>
         <name>screenVolumeY</name>
-        <initializer>= Real::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="115" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="115" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="113" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="113" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a535634ee6a3ee7381c7450ec454468e3" prot="public" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenVolumeZ</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a64f8c8b1d90946b723cfff687edc6d9b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenVolumeZ</definition>
         <argsstring></argsstring>
         <name>screenVolumeZ</name>
-        <initializer>= Real::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="116" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="116" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="114" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="114" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a3de424512fe5af48f68ddabd161d5e39" prot="public" static="no" mutable="no">
-        <type>Instant</type>
-        <definition>Instant ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenEntryTime</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1afdd997d1fc704390be31fa1c2d55c94a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; Instant &gt;</type>
+        <definition>std::optional&lt;Instant&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenEntryTime</definition>
         <argsstring></argsstring>
         <name>screenEntryTime</name>
-        <initializer>= Instant::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="117" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="117" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="115" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="115" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1acb8f5ace53c99d068c29c9a1229f569f" prot="public" static="no" mutable="no">
-        <type>Instant</type>
-        <definition>Instant ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenExitTime</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a845a5b0674c76ac50d9b2f929e65a27c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; Instant &gt;</type>
+        <definition>std::optional&lt;Instant&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::screenExitTime</definition>
         <argsstring></argsstring>
         <name>screenExitTime</name>
-        <initializer>= Instant::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="118" column="17" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="118" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="116" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="116" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a8589c232da138efdd059d4e0ed5b37a0" prot="public" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::collisionProbability</definition>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4698948dc38122deed93627822c96a9a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata::collisionProbability</definition>
         <argsstring></argsstring>
         <name>collisionProbability</name>
-        <initializer>= Real::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="120" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="120" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="118" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="118" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a1f2da0a1da1a6bb58efaabf9a896709e" prot="public" static="no" mutable="no">
         <type>String</type>
@@ -224,7 +224,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="121" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="121" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="119" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="119" bodyend="-1"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -233,74 +233,49 @@
     <detaileddescription>
     </detaileddescription>
     <collaborationgraph>
-      <node id="7">
-        <label>Position</label>
-      </node>
-      <node id="4">
-        <label>String</label>
-      </node>
       <node id="3">
-        <label>Real</label>
-      </node>
-      <node id="6">
-        <label>Velocity</label>
+        <label>String</label>
       </node>
       <node id="2">
         <label>Instant</label>
       </node>
-      <node id="5">
+      <node id="4">
         <label>Length</label>
       </node>
       <node id="1">
         <label>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</label>
         <link refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata"/>
         <childnode refid="2" relation="usage">
-          <edgelabel>endScreenPeriod</edgelabel>
-          <edgelabel>screenExitTime</edgelabel>
-          <edgelabel>screenEntryTime</edgelabel>
           <edgelabel>TCA</edgelabel>
-          <edgelabel>startScreenPeriod</edgelabel>
         </childnode>
         <childnode refid="3" relation="usage">
-          <edgelabel>collisionProbability</edgelabel>
-          <edgelabel>screenVolumeX</edgelabel>
-          <edgelabel>screenVolumeY</edgelabel>
-          <edgelabel>screenVolumeZ</edgelabel>
-        </childnode>
-        <childnode refid="4" relation="usage">
           <edgelabel>comment</edgelabel>
           <edgelabel>screenVolumeShape</edgelabel>
           <edgelabel>screenVolumeFrame</edgelabel>
           <edgelabel>collisionProbabilityMethod</edgelabel>
         </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="4" relation="usage">
           <edgelabel>missDistance</edgelabel>
-        </childnode>
-        <childnode refid="6" relation="usage">
-          <edgelabel>relativeVelocity</edgelabel>
-        </childnode>
-        <childnode refid="7" relation="usage">
-          <edgelabel>relativePosition</edgelabel>
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="102" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="101" bodyend="122"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" line="100" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/Message/CCSDS/CDM.hpp" bodystart="99" bodyend="120"/>
     <listofallmembers>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a8589c232da138efdd059d4e0ed5b37a0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>collisionProbability</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4698948dc38122deed93627822c96a9a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>collisionProbability</name></member>
       <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a1f2da0a1da1a6bb58efaabf9a896709e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>collisionProbabilityMethod</name></member>
       <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a6173d271bff985e8047b22719b6d6619" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>comment</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a2b30472bf1bee7a1eb51df7740828f3a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>endScreenPeriod</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a1ca882a43795b059de894c7d6623e06a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>endScreenPeriod</name></member>
       <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1af3e470967e9f9740a8520ea76ac609af" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>missDistance</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ad0e97215980fce96a6d7095f9420f850" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>relativePosition</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1ad85081a3341cdf2825d5402cc760b9aa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>relativeVelocity</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a3de424512fe5af48f68ddabd161d5e39" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenEntryTime</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1acb8f5ace53c99d068c29c9a1229f569f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenExitTime</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a6d3f4de0f146a91143972c17b71ddf4e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>relativePosition</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a7a7cdac50d324daa2eca703c988d467d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>relativeVelocity</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1afdd997d1fc704390be31fa1c2d55c94a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenEntryTime</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a845a5b0674c76ac50d9b2f929e65a27c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenExitTime</name></member>
       <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1adeee9fe442edf09af05e52da42be6dcf" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenVolumeFrame</name></member>
       <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a6031976b2c4b2b0279e451608b3d92a3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenVolumeShape</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1acc939738187ea1037bded87dbda152f7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenVolumeX</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a8fa8d07b4bc563239dcac5507cf17d10" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenVolumeY</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a535634ee6a3ee7381c7450ec454468e3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenVolumeZ</name></member>
-      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4eb5233f213a38d9158ca2fc12d70280" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>startScreenPeriod</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a9e5566e2f17660d88aee8a36483089af" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenVolumeX</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a6286d6b7c703b22fd033cc04020a25ba" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenVolumeY</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a64f8c8b1d90946b723cfff687edc6d9b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>screenVolumeZ</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a4c800754805506daf6fb5c3360b4fa33" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>startScreenPeriod</name></member>
       <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1message_1_1ccsds_1_1_c_d_m_1_1_relative_metadata_1a18a29ad03f8fdc9c7e99f028cccf7fe1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::message::ccsds::CDM::RelativeMetadata</scope><name>TCA</name></member>
     </listofallmembers>
   </compounddef>

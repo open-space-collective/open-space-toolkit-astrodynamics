@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="108" column="27" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" bodystart="108" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="105" column="27" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" bodystart="105" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a3abfb20191839820f66b98e2f6d8bcf7" prot="private" static="no" mutable="no">
         <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;</type>
@@ -29,20 +29,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="109" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" bodystart="109" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="106" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" bodystart="106" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a6a69a7a4ab5af38ff7424e4e7d83b53e" prot="private" static="no" mutable="no">
-        <type>const Real</type>
-        <definition>const Real ostk::astrodynamics::dynamics::Thruster::massFlowRateCache_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4e4fc061b1a441d4beccfea4192b4e3d" prot="private" static="no" mutable="no">
+        <type>const double</type>
+        <definition>const double ostk::astrodynamics::dynamics::Thruster::massFlowRateCache_</definition>
         <argsstring></argsstring>
         <name>massFlowRateCache_</name>
         <briefdescription>
+<para>Mass flow rate [kg/s]. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="110" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" bodystart="110" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="107" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" bodystart="107" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -95,11 +96,20 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::runtime::Undefined</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the satellite system has no propulsion system </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="44" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="31" bodyend="41"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="46" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="33" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a5212079d362f8e7dc457606597358765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -113,11 +123,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="51" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="43" bodyend="43"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="53" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="43" bodyend="43"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a9ddf35de7643036015d0c8855247d1ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref></type>
-        <definition>SatelliteSystem ostk::astrodynamics::dynamics::Thruster::getSatelliteSystem</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1adddad99e574b682bf7b61d9b89ec9f63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1system_1_1_satellite_system" kindref="compound">SatelliteSystem</ref> &amp;</type>
+        <definition>const SatelliteSystem &amp; ostk::astrodynamics::dynamics::Thruster::getSatelliteSystem</definition>
         <argsstring>() const</argsstring>
         <name>getSatelliteSystem</name>
         <briefdescription>
@@ -133,11 +143,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="61" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="45" bodyend="53"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="63" column="27" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="45" bodyend="48"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4d735cb6366e8e6c0833a0f05a97e51e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt;</type>
-        <definition>Shared&lt; const GuidanceLaw &gt; ostk::astrodynamics::dynamics::Thruster::getGuidanceLaw</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a64d8b14be1b492e834fdead50665924e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1_guidance_law" kindref="compound">GuidanceLaw</ref> &gt; &amp;</type>
+        <definition>const Shared&lt; const GuidanceLaw &gt; &amp; ostk::astrodynamics::dynamics::Thruster::getGuidanceLaw</definition>
         <argsstring>() const</argsstring>
         <name>getGuidanceLaw</name>
         <briefdescription>
@@ -153,7 +163,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="71" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="55" bodyend="58"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="73" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="50" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4e1688f9d421bd14c68cb3ea2aeb5f66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -171,7 +181,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="76" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="60" bodyend="67"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="78" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="55" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1af31bbf71a94c01701b2227e89dfa2a32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
@@ -189,25 +199,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="81" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="69" bodyend="75"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a23ad1dc48b6d7caefc2923a523b7011e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::dynamics::Thruster::isDefined</definition>
-        <argsstring>() const override</argsstring>
-        <name>isDefined</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1_dynamics_1a934808fb5b77afd3b25a918b0fe32892">isDefined</reimplements>
-        <briefdescription>
-<para>Check if constant thrust thruster dynamics is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if constant thrust thruster dynamics is defined </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="86" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="77" bodyend="80"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="83" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="64" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a1ede105bab66c794f308d0a1f503a14f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>VectorXd</type>
@@ -262,7 +254,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="97" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="82" bodyend="109"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="94" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="72" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a221ec89e0000c0027019ef94d6002b73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -304,7 +296,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="105" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="111" bodyend="120"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="102" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.cpp" bodystart="101" bodyend="110"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -336,20 +328,19 @@
         <link refid="classostk_1_1astrodynamics_1_1_dynamics"/>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="33" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" bodystart="32" bodyend="111"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" line="34" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics/Thruster.hpp" bodystart="33" bodyend="108"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a1ede105bab66c794f308d0a1f503a14f" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>computeContribution</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a999586ae8bcb846dce521bde617939ad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>Dynamics</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a32cd83261284ade7ce4aa80681587175" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>FromEnvironment</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4d735cb6366e8e6c0833a0f05a97e51e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>getGuidanceLaw</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a6055a6b91a571604860e46a2563c0b9e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a64d8b14be1b492e834fdead50665924e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>getGuidanceLaw</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a91b58c009931e99c22ec18efd213455f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>getName</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4e1688f9d421bd14c68cb3ea2aeb5f66" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>getReadCoordinateSubsets</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a9ddf35de7643036015d0c8855247d1ae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>getSatelliteSystem</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1adddad99e574b682bf7b61d9b89ec9f63" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>getSatelliteSystem</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1abb6276a394f319cc716a564c19353cc1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>GetSystemOfEquations</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1af31bbf71a94c01701b2227e89dfa2a32" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>getWriteCoordinateSubsets</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a3abfb20191839820f66b98e2f6d8bcf7" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>guidanceLaw_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a23ad1dc48b6d7caefc2923a523b7011e" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>isDefined</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a6a69a7a4ab5af38ff7424e4e7d83b53e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>massFlowRateCache_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a4e4fc061b1a441d4beccfea4192b4e3d" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>massFlowRateCache_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a221ec89e0000c0027019ef94d6002b73" prot="public" virt="virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>print</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a37db9647362748f815b326e18c21d401" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>satelliteSystem_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1adcd6e4daf805d763dd849044e3c0651b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::dynamics::Thruster</scope><name>Thruster</name></member>

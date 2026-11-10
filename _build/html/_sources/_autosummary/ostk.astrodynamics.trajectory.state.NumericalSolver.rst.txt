@@ -11,14 +11,15 @@ ostk.astrodynamics.trajectory.state.NumericalSolver
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
-      ~NumericalSolver.conditional
       ~NumericalSolver.default
-      ~NumericalSolver.default_conditional
       ~NumericalSolver.fixed_step_size
       ~NumericalSolver.get_absolute_tolerance
       ~NumericalSolver.get_log_type
@@ -31,14 +32,8 @@ ostk.astrodynamics.trajectory.state.NumericalSolver
       ~NumericalSolver.get_time_step
       ~NumericalSolver.integrate_duration
       ~NumericalSolver.integrate_time
-      ~NumericalSolver.is_defined
       ~NumericalSolver.set_maximum_step_size
       ~NumericalSolver.string_from_log_type
       ~NumericalSolver.string_from_stepper_type
-      ~NumericalSolver.undefined
-   
-   
-
-   
    
    

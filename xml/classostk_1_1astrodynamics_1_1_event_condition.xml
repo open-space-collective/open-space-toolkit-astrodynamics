@@ -19,11 +19,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="170" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="170" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="175" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="175" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_event_condition_1a22fb110e41e196c20dee2d3100ea9e2d" prot="protected" static="no" mutable="no">
-        <type>std::function&lt; Real(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
-        <definition>std::function&lt;Real(const State&amp;)&gt; ostk::astrodynamics::EventCondition::evaluator_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_event_condition_1a547095039ec14ecd68ac9d4583c4cf36" prot="protected" static="no" mutable="no">
+        <type>std::function&lt; double(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;double(const State&amp;)&gt; ostk::astrodynamics::EventCondition::evaluator_</definition>
         <argsstring></argsstring>
         <name>evaluator_</name>
         <briefdescription>
@@ -32,11 +32,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="171" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="171" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="176" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="176" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_event_condition_1a4a084bbc8324927fc3ebd14984c4c4a0" prot="protected" static="no" mutable="no">
-        <type><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">Target</ref></type>
-        <definition>Target ostk::astrodynamics::EventCondition::target_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_event_condition_1ab19fe5622064b9277efd254664bb4172" prot="protected" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">Target</ref> &gt;</type>
+        <definition>std::optional&lt;Target&gt; ostk::astrodynamics::EventCondition::target_</definition>
         <argsstring></argsstring>
         <name>target_</name>
         <briefdescription>
@@ -45,21 +45,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="172" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="172" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="177" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="177" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1aa9db3935e2fee560f9852e6189d6edc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1adecaa447d3be119248808e1977cd7ee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::EventCondition::EventCondition</definition>
-        <argsstring>(const String &amp;aName, const std::function&lt; Real(const State &amp;)&gt; &amp;anEvaluator, const EventCondition::Target &amp;aTarget)</argsstring>
+        <argsstring>(const String &amp;aName, const std::function&lt; double(const State &amp;)&gt; &amp;anEvaluator, const EventCondition::Target &amp;aTarget)</argsstring>
         <name>EventCondition</name>
         <param>
           <type>const String &amp;</type>
           <declname>aName</declname>
         </param>
         <param>
-          <type>const std::function&lt; Real(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <type>const std::function&lt; double(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
           <declname>anEvaluator</declname>
         </param>
         <param>
@@ -70,14 +70,14 @@
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_event_condition_1aa9db3935e2fee560f9852e6189d6edc3" kindref="member">EventCondition</ref><sp/>eventCondition<sp/>=<sp/>{aName,<sp/>anEvaluator,<sp/>aTarget};</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_event_condition_1adecaa447d3be119248808e1977cd7ee2" kindref="member">EventCondition</ref><sp/>eventCondition<sp/>=<sp/>{aName,<sp/>anEvaluator,<sp/>aTarget};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aName</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A string representing the name of the Real Event Condition </para>
+<para>A string representing the name of the double Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -93,7 +93,7 @@
 <parametername>aTarget</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A target associated with the Real Event Condition </para>
+<para>A target associated with the double Event Condition </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -101,37 +101,37 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="99" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="64" bodyend="71"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="94" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="56" bodyend="63"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1a055740b32c8dded3fed30df4007b5464" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1aa4d87f71fe8070bd9697aa484bb00170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::EventCondition::EventCondition</definition>
-        <argsstring>(const String &amp;aName, const std::function&lt; Real(const State &amp;)&gt; &amp;anEvaluator, const Real &amp;aTargetValue)</argsstring>
+        <argsstring>(const String &amp;aName, const std::function&lt; double(const State &amp;)&gt; &amp;anEvaluator, double aTargetValue)</argsstring>
         <name>EventCondition</name>
         <param>
           <type>const String &amp;</type>
           <declname>aName</declname>
         </param>
         <param>
-          <type>const std::function&lt; Real(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <type>const std::function&lt; double(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
           <declname>anEvaluator</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aTargetValue</declname>
         </param>
         <briefdescription>
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_event_condition_1aa9db3935e2fee560f9852e6189d6edc3" kindref="member">EventCondition</ref><sp/>eventCondition<sp/>=<sp/>{aName,<sp/>anEvaluator,<sp/>aTargetValue};</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_event_condition_1adecaa447d3be119248808e1977cd7ee2" kindref="member">EventCondition</ref><sp/>eventCondition<sp/>=<sp/>{aName,<sp/>anEvaluator,<sp/>aTargetValue};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aName</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A string representing the name of the Real Event Condition </para>
+<para>A string representing the name of the double Event Condition </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -147,7 +147,7 @@
 <parametername>aTargetValue</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A target value associated with the Real Event Condition </para>
+<para>A target value associated with the double Event Condition </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -155,7 +155,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="112" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="73" bodyend="80"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="109" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="65" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1aa60a1788d6c2a3acfd9dcd9fdd949076" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -169,11 +169,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="115" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="82" bodyend="82"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="112" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="74" bodyend="74"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1a87dde43e3ace08e700b68a7c7b1cab81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>String</type>
-        <definition>String ostk::astrodynamics::EventCondition::getName</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1a2379a211c9dcbd038618cbe8dcab6cc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const String &amp;</type>
+        <definition>const String &amp; ostk::astrodynamics::EventCondition::getName</definition>
         <argsstring>() const</argsstring>
         <name>getName</name>
         <briefdescription>
@@ -186,11 +186,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="131" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="91" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="128" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="83" bodyend="86"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1a1b745a1fb8324f122f298dfd92568f6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>std::function&lt; Real(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
-        <definition>std::function&lt; Real(const State &amp;)&gt; ostk::astrodynamics::EventCondition::getEvaluator</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1aa803a7a973ae64f279685f0246ee92c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::function&lt; double(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+        <definition>const std::function&lt; double(const State &amp;)&gt; &amp; ostk::astrodynamics::EventCondition::getEvaluator</definition>
         <argsstring>() const</argsstring>
         <name>getEvaluator</name>
         <briefdescription>
@@ -203,24 +203,33 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="136" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="96" bodyend="99"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="133" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="88" bodyend="91"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1ab99ea53a7ef849753078be800d798874" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">Target</ref></type>
-        <definition>EventCondition::Target ostk::astrodynamics::EventCondition::getTarget</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1acdd8abf3dd2a0bf71b2e6e8b9f0cb79b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">Target</ref> &amp;</type>
+        <definition>const EventCondition::Target &amp; ostk::astrodynamics::EventCondition::getTarget</definition>
         <argsstring>() const</argsstring>
         <name>getTarget</name>
         <briefdescription>
 <para>Get the target. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">Target</ref> </para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::runtime::Undefined</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the Event Condition has no target</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target" kindref="compound">Target</ref> </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="141" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="101" bodyend="104"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="140" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="93" bodyend="101"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1aa35b925dc33acbf74a614203c87d8264" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -249,7 +258,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="146" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="106" bodyend="117"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="145" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="103" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1a865da9c94335da6dca0e8e8b53107ee1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -294,7 +303,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="153" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="119" bodyend="129"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="152" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="116" bodyend="133"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1ae15cc3454220baff46ac13a7a40aa9e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">EventCondition</ref> *</type>
@@ -314,7 +323,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="158" column="28"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="157" column="28"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1a93f8f89b3eee66fb1493a742254e3a15" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -359,7 +368,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="167" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="166" column="18"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -380,7 +389,7 @@
 <para>Output stream operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1_event_condition_1aa9db3935e2fee560f9852e6189d6edc3" kindref="member">EventCondition</ref>(...);</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/><ref refid="classostk_1_1astrodynamics_1_1_event_condition_1adecaa447d3be119248808e1977cd7ee2" kindref="member">EventCondition</ref>(...);</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -405,7 +414,49 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="126" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="84" bodyend="89"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="123" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="76" bodyend="81"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_event_condition_1a359b7bf62bfd17f1b5624c8f0a71e60b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::EventCondition::EventCondition</definition>
+        <argsstring>(const String &amp;aName, const std::function&lt; double(const State &amp;)&gt; &amp;anEvaluator)</argsstring>
+        <name>EventCondition</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; double(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <declname>anEvaluator</declname>
+        </param>
+        <briefdescription>
+<para>Constructor for an Event Condition that has no target (e.g. a range condition) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A string representing the name of the Event Condition </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anEvaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function evaluating a state </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="173" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="135" bodyend="140"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -450,19 +501,8 @@
       </node>
     </inheritancegraph>
     <collaborationgraph>
-      <node id="3">
-        <label>ostk::astrodynamics::EventCondition::Target</label>
-        <link refid="structostk_1_1astrodynamics_1_1_event_condition_1_1_target"/>
-        <childnode refid="4" relation="usage">
-          <edgelabel>valueOffset</edgelabel>
-          <edgelabel>value</edgelabel>
-        </childnode>
-      </node>
       <node id="2">
         <label>String</label>
-      </node>
-      <node id="4">
-        <label>Real</label>
       </node>
       <node id="1">
         <label>ostk::astrodynamics::EventCondition</label>
@@ -470,25 +510,23 @@
         <childnode refid="2" relation="usage">
           <edgelabel>name_</edgelabel>
         </childnode>
-        <childnode refid="3" relation="usage">
-          <edgelabel>target_</edgelabel>
-        </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="31" bodyend="173"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" line="32" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/EventCondition.hpp" bodystart="31" bodyend="178"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ae15cc3454220baff46ac13a7a40aa9e2" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>clone</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a22fb110e41e196c20dee2d3100ea9e2d" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>evaluator_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa9db3935e2fee560f9852e6189d6edc3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>EventCondition</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a055740b32c8dded3fed30df4007b5464" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>EventCondition</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a1b745a1fb8324f122f298dfd92568f6b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>getEvaluator</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a87dde43e3ace08e700b68a7c7b1cab81" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>getName</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ab99ea53a7ef849753078be800d798874" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>getTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a547095039ec14ecd68ac9d4583c4cf36" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>evaluator_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1adecaa447d3be119248808e1977cd7ee2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa4d87f71fe8070bd9697aa484bb00170" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a359b7bf62bfd17f1b5624c8f0a71e60b" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>EventCondition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa803a7a973ae64f279685f0246ee92c0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>getEvaluator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a2379a211c9dcbd038618cbe8dcab6cc5" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1acdd8abf3dd2a0bf71b2e6e8b9f0cb79b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>getTarget</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a93f8f89b3eee66fb1493a742254e3a15" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>isSatisfied</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1af55b4fe880915e5fa993476d205ad3ad" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>name_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a79479aa52401e558f7a2a8137b9b0359" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a865da9c94335da6dca0e8e8b53107ee1" prot="public" virt="virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>print</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1a4a084bbc8324927fc3ebd14984c4c4a0" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>target_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_event_condition_1ab19fe5622064b9277efd254664bb4172" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>target_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa35b925dc33acbf74a614203c87d8264" prot="public" virt="virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>updateTarget</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_event_condition_1aa60a1788d6c2a3acfd9dcd9fdd949076" prot="public" virt="virtual"><scope>ostk::astrodynamics::EventCondition</scope><name>~EventCondition</name></member>
     </listofallmembers>

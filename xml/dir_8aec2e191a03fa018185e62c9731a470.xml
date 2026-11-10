@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="dir_8aec2e191a03fa018185e62c9731a470" kind="dir">
+    <compoundname>include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody</compoundname>
+    <innerfile refid="_custom_8hpp">Custom.hpp</innerfile>
+    <innerfile refid="_spherical_8hpp">Spherical.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/HardBody/"/>
+  </compounddef>
+</doxygen>

@@ -11,10 +11,13 @@ ostk.astrodynamics.access.Generator
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Generator.compute_accesses
       ~Generator.get_access_filter
@@ -22,15 +25,9 @@ ostk.astrodynamics.access.Generator
       ~Generator.get_state_filter
       ~Generator.get_step
       ~Generator.get_tolerance
-      ~Generator.is_defined
       ~Generator.set_access_filter
       ~Generator.set_state_filter
       ~Generator.set_step
       ~Generator.set_tolerance
-      ~Generator.undefined
-   
-   
-
-   
    
    

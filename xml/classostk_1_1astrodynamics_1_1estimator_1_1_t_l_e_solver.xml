@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="69" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="69" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="67" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a595843b215a4465d471c554d12ecd03b" prot="public" static="yes" mutable="no">
         <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="70" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="70" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="68" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a05ea5f746d0d78f77959c2a3126a63dd" prot="public" static="yes" mutable="no">
         <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="71" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="71" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="69" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1acb11721b3f68f44499796c533c35584f" prot="public" static="yes" mutable="no">
         <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
@@ -61,7 +61,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="72" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="72" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="70" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="70" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aa6f4eb35f6b9c4eb1503998891d1da2d" prot="public" static="yes" mutable="no">
         <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="73" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="73" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="71" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a201be13c294cf32dd555bc179c17b5d5" prot="public" static="yes" mutable="no">
         <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="74" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="74" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="72" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a7cd7ce6314c7273dbb14bf723c836779" prot="public" static="yes" mutable="no">
         <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="75" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="75" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="73" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="73" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -120,11 +120,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="211" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="211" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="201" column="24" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="201" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a645ed44e4b5acb58b30b9cd934b51036" prot="private" static="no" mutable="no">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::estimator::TLESolver::satelliteNumber_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae7d484c33304cb9ef6299db7fd9f3eda" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::estimator::TLESolver::satelliteNumber_</definition>
         <argsstring></argsstring>
         <name>satelliteNumber_</name>
         <briefdescription>
@@ -133,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="212" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="212" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="202" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="202" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1af892fe2764ee39a6af688aa9b1d4f0a6" prot="private" static="no" mutable="no">
         <type>String</type>
@@ -146,11 +146,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="213" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="213" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="203" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="203" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a4c5c1ff7d61d011e2a71878c07c89a84" prot="private" static="no" mutable="no">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::estimator::TLESolver::revolutionNumber_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1adb3b1d589ee549d210bf4601fd869eb2" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::estimator::TLESolver::revolutionNumber_</definition>
         <argsstring></argsstring>
         <name>revolutionNumber_</name>
         <briefdescription>
@@ -159,7 +159,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="214" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="214" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="204" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="204" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a35387170dd83d7d5f690055f9205affd" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -172,25 +172,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="215" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="215" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="205" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="205" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aceb3f1cb9aa6287f6bc2a606743282b1" prot="private" static="no" mutable="no">
-        <type>const Shared&lt; const Frame &gt;</type>
-        <definition>const Shared&lt;const Frame&gt; ostk::astrodynamics::estimator::TLESolver::estimationFrameSPtr_</definition>
-        <argsstring></argsstring>
-        <name>estimationFrameSPtr_</name>
-        <initializer>= Frame::TEME()</initializer>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="216" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="216" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a4c6790a76786fa4afbac2be52a1aadaf" prot="private" static="no" mutable="yes">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::estimator::TLESolver::defaultBStar_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1af667a28485134b303f98ec98a2354e3e" prot="private" static="no" mutable="yes">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::estimator::TLESolver::defaultBStar_</definition>
         <argsstring></argsstring>
         <name>defaultBStar_</name>
         <briefdescription>
@@ -199,11 +185,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="218" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="218" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="207" column="20" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="207" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a7542ce29670908c383e9a697a4abcf4b" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::estimator::TLESolver::firstDerivativeMeanMotionDividedBy2_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1abab15c5e96a9e74309910a7ed4bb4bdd" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::estimator::TLESolver::firstDerivativeMeanMotionDividedBy2_</definition>
         <argsstring></argsstring>
         <name>firstDerivativeMeanMotionDividedBy2_</name>
         <briefdescription>
@@ -212,11 +198,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="219" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="219" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="208" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="208" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a5dbe200aeaea9699eef5ec881d5549d5" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::estimator::TLESolver::secondDerivativeMeanMotionDividedBy6_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a5a3700e49d91da0cb0d71bec24b790aa" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::estimator::TLESolver::secondDerivativeMeanMotionDividedBy6_</definition>
         <argsstring></argsstring>
         <name>secondDerivativeMeanMotionDividedBy6_</name>
         <briefdescription>
@@ -225,11 +211,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="220" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="220" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="209" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="209" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aee92f0a710662fe312e3b5f44c48433f" prot="private" static="no" mutable="no">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::estimator::TLESolver::ephemerisType_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a705c256c542b94574de7da39f496029f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::estimator::TLESolver::ephemerisType_</definition>
         <argsstring></argsstring>
         <name>ephemerisType_</name>
         <briefdescription>
@@ -238,11 +224,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="221" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="221" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="210" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="210" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ad8f3badce1ad3332aeae3ae8500d3b76" prot="private" static="no" mutable="no">
-        <type>Integer</type>
-        <definition>Integer ostk::astrodynamics::estimator::TLESolver::elementSetNumber_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a67d2412eae2e14d6825b8b7de232cba4" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::estimator::TLESolver::elementSetNumber_</definition>
         <argsstring></argsstring>
         <name>elementSetNumber_</name>
         <briefdescription>
@@ -251,7 +237,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="222" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="222" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="211" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="211" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aa895d5544930659e7b2e672c23fd646e" prot="private" static="no" mutable="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref></type>
@@ -264,14 +250,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="223" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="223" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="212" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="212" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aca1fd07893590bbe198093a2fb746686" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a6f278e746d410f46942b1ad593343295" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::estimator::TLESolver::TLESolver</definition>
-        <argsstring>(const LeastSquaresSolver &amp;aSolver=LeastSquaresSolver::Default(), const Integer &amp;aSatelliteNumber=0, const String &amp;anInternationalDesignator=&quot;00001A&quot;, const Integer &amp;aRevolutionNumber=0, const bool anEstimateBStar=true, const Shared&lt; const Frame &gt; &amp;anEstimationFrameSPtr=Frame::TEME())</argsstring>
+        <argsstring>(const LeastSquaresSolver &amp;aSolver=LeastSquaresSolver::Default(), int aSatelliteNumber=0, const String &amp;anInternationalDesignator=&quot;00001A&quot;, int aRevolutionNumber=0, const bool anEstimateBStar=true)</argsstring>
         <name>TLESolver</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver" kindref="compound">LeastSquaresSolver</ref> &amp;</type>
@@ -279,7 +265,7 @@
           <defval><ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver_1a39ae09dff7fa79379df51f291a5994bf" kindref="member">LeastSquaresSolver::Default</ref>()</defval>
         </param>
         <param>
-          <type>const Integer &amp;</type>
+          <type>int</type>
           <declname>aSatelliteNumber</declname>
           <defval>0</defval>
         </param>
@@ -289,7 +275,7 @@
           <defval>&quot;00001A&quot;</defval>
         </param>
         <param>
-          <type>const Integer &amp;</type>
+          <type>int</type>
           <declname>aRevolutionNumber</declname>
           <defval>0</defval>
         </param>
@@ -298,16 +284,11 @@
           <declname>anEstimateBStar</declname>
           <defval>true</defval>
         </param>
-        <param>
-          <type>const Shared&lt; const Frame &gt; &amp;</type>
-          <declname>anEstimationFrameSPtr</declname>
-          <defval>Frame::TEME()</defval>
-        </param>
         <briefdescription>
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aca1fd07893590bbe198093a2fb746686" kindref="member">TLESolver</ref><sp/>solver<sp/>=<sp/>{}<sp/>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Uses<sp/>all<sp/>defaults</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a6f278e746d410f46942b1ad593343295" kindref="member">TLESolver</ref><sp/>solver<sp/>=<sp/>{}<sp/>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Uses<sp/>all<sp/>defaults</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -349,28 +330,20 @@
 <para>Whether to also estimate the B* parameter, defaults to true </para>
 </parameterdescription>
 </parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>anEstimationFrameSPtr</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>(Deprecated) Solving is done natively in TEME. This field will be removed in a future version. </para>
-</parameterdescription>
-</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="110" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="78" bodyend="120"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="106" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="102" bodyend="121"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a770e6122d99128a5f64fa7712b1e3c12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ac70b8e6799d0a0b188ca312bf8cea3d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1solver_1_1_least_squares_solver" kindref="compound">LeastSquaresSolver</ref> &amp;</type>
-        <definition>const LeastSquaresSolver &amp; ostk::astrodynamics::estimator::TLESolver::accessSolver</definition>
+        <definition>const LeastSquaresSolver &amp; ostk::astrodynamics::estimator::TLESolver::getSolver</definition>
         <argsstring>() const</argsstring>
-        <name>accessSolver</name>
+        <name>getSolver</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> solver. </para>
+<para>Get solver. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>Least squares solver </para>
@@ -379,15 +352,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="122" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="122" bodyend="125"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="117" column="30" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="123" bodyend="126"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a556e07633348c5c42a7fb43963be0804" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Integer &amp;</type>
-        <definition>const Integer &amp; ostk::astrodynamics::estimator::TLESolver::accessSatelliteNumber</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1affb187e532de3d343939620d11c504d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::estimator::TLESolver::getSatelliteNumber</definition>
         <argsstring>() const</argsstring>
-        <name>accessSatelliteNumber</name>
+        <name>getSatelliteNumber</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> satellite number. </para>
+<para>Get satellite number. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>Satellite number </para>
@@ -396,15 +369,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="127" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="127" bodyend="130"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="122" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="128" bodyend="131"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aedb368fc29f275d37a1f1e27be3dda73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a67b707e3f913cf2d75780085dec1a896" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const String &amp;</type>
-        <definition>const String &amp; ostk::astrodynamics::estimator::TLESolver::accessInternationalDesignator</definition>
+        <definition>const String &amp; ostk::astrodynamics::estimator::TLESolver::getInternationalDesignator</definition>
         <argsstring>() const</argsstring>
-        <name>accessInternationalDesignator</name>
+        <name>getInternationalDesignator</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> international designator. </para>
+<para>Get international designator. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>International designator </para>
@@ -413,15 +386,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="132" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="132" bodyend="135"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="127" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="133" bodyend="136"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a61de7c3b3c121b0a222dc3a6bacd1310" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Integer &amp;</type>
-        <definition>const Integer &amp; ostk::astrodynamics::estimator::TLESolver::accessRevolutionNumber</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ad551861cf8eaeb1b62abb563202a334a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::estimator::TLESolver::getRevolutionNumber</definition>
         <argsstring>() const</argsstring>
-        <name>accessRevolutionNumber</name>
+        <name>getRevolutionNumber</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> revolution number. </para>
+<para>Get revolution number. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>Revolution number </para>
@@ -430,15 +403,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="137" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="137" bodyend="140"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="132" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="138" bodyend="141"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a9d48b638594f1a21a8d9ea8c4e3629b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const bool &amp;</type>
-        <definition>const bool &amp; ostk::astrodynamics::estimator::TLESolver::accessEstimateBStar</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a91ed0af300d32dbafb68d38bdc476db3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::estimator::TLESolver::getEstimateBStar</definition>
         <argsstring>() const</argsstring>
-        <name>accessEstimateBStar</name>
+        <name>getEstimateBStar</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> whether to also estimate B*. </para>
+<para>Get whether to also estimate B*. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>Whether to also estiamte B* </para>
@@ -447,32 +420,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="142" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="142" bodyend="145"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="137" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="143" bodyend="146"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a0e0af310353dd969d4ab84ff36dd6159" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Shared&lt; const Frame &gt; &amp;</type>
-        <definition>const Shared&lt; const Frame &gt; &amp; ostk::astrodynamics::estimator::TLESolver::accessEstimationFrame</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1af649e475eaf1d708f1ef2d096307ef1a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::estimator::TLESolver::getDefaultBStar</definition>
         <argsstring>() const</argsstring>
-        <name>accessEstimationFrame</name>
+        <name>getDefaultBStar</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> estimation frame. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>Estimation frame </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="147" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="147" bodyend="152"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a33e3c4e7f23e9078b6dd1de3def8a376" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Real &amp;</type>
-        <definition>const Real &amp; ostk::astrodynamics::estimator::TLESolver::accessDefaultBStar</definition>
-        <argsstring>() const</argsstring>
-        <name>accessDefaultBStar</name>
-        <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> default B* value. </para>
+<para>Get default B* value. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>Default B* value </para>
@@ -481,15 +437,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="152" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="154" bodyend="157"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="142" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="148" bodyend="151"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a88c8a2607a5170590a85b563a0588c45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Real &amp;</type>
-        <definition>const Real &amp; ostk::astrodynamics::estimator::TLESolver::accessFirstDerivativeMeanMotionDividedBy2</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1acea9cea6e1a18fa3f3458fef8ee0140a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::estimator::TLESolver::getFirstDerivativeMeanMotionDividedBy2</definition>
         <argsstring>() const</argsstring>
-        <name>accessFirstDerivativeMeanMotionDividedBy2</name>
+        <name>getFirstDerivativeMeanMotionDividedBy2</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> first derivative of mean motion divided by 2. </para>
+<para>Get first derivative of mean motion divided by 2. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>First derivative of mean motion divided by 2 </para>
@@ -498,15 +454,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="157" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="159" bodyend="162"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="147" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="153" bodyend="156"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a012b79ca9dab72268919cad45c5951b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Real &amp;</type>
-        <definition>const Real &amp; ostk::astrodynamics::estimator::TLESolver::accessSecondDerivativeMeanMotionDividedBy6</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aa4dc90fedba07b0cb5d4ce2d7c5deb1d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::estimator::TLESolver::getSecondDerivativeMeanMotionDividedBy6</definition>
         <argsstring>() const</argsstring>
-        <name>accessSecondDerivativeMeanMotionDividedBy6</name>
+        <name>getSecondDerivativeMeanMotionDividedBy6</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> second derivative of mean motion divided by 6. </para>
+<para>Get second derivative of mean motion divided by 6. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>Second derivative of mean motion divided by 6 </para>
@@ -515,15 +471,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="162" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="164" bodyend="167"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="152" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="158" bodyend="161"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a8a48bd5e1a138ed41c76f9202a73121b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Integer &amp;</type>
-        <definition>const Integer &amp; ostk::astrodynamics::estimator::TLESolver::accessEphemerisType</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a7e60e415f982feb19e794aec2fbcbb23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::estimator::TLESolver::getEphemerisType</definition>
         <argsstring>() const</argsstring>
-        <name>accessEphemerisType</name>
+        <name>getEphemerisType</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> ephemeris type. </para>
+<para>Get ephemeris type. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>Ephemeris type </para>
@@ -532,15 +488,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="167" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="169" bodyend="172"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="157" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="163" bodyend="166"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a909c44da7428410457086375eb98c46a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Integer &amp;</type>
-        <definition>const Integer &amp; ostk::astrodynamics::estimator::TLESolver::accessElementSetNumber</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae36878927948394b73774a2df792e089" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int ostk::astrodynamics::estimator::TLESolver::getElementSetNumber</definition>
         <argsstring>() const</argsstring>
-        <name>accessElementSetNumber</name>
+        <name>getElementSetNumber</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> element set number. </para>
+<para>Get element set number. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>Element set number </para>
@@ -549,15 +505,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="172" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="174" bodyend="177"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="162" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="168" bodyend="171"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ab21bbd444222c885e809d274801b077e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a2eeb4fbe7ccc9c61d71e7ce01de0b31b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state_builder" kindref="compound">StateBuilder</ref> &amp;</type>
-        <definition>const StateBuilder &amp; ostk::astrodynamics::estimator::TLESolver::accessTLEStateBuilder</definition>
+        <definition>const StateBuilder &amp; ostk::astrodynamics::estimator::TLESolver::getTLEStateBuilder</definition>
         <argsstring>() const</argsstring>
-        <name>accessTLEStateBuilder</name>
+        <name>getTLEStateBuilder</name>
         <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> TLE state builder. </para>
+<para>Get TLE state builder. </para>
         </briefdescription>
         <detaileddescription>
 <para><simplesect kind="return"><para>TLE state builder </para>
@@ -566,15 +522,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="177" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="179" bodyend="182"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="167" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="173" bodyend="176"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ab151a0465dd9524dc04f9e09672569e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a408b2a4d20855d870cdc0cb494c11cd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1_1_analysis" kindref="compound">Analysis</ref></type>
         <definition>TLESolver::Analysis ostk::astrodynamics::estimator::TLESolver::estimate</definition>
-        <argsstring>(const std::variant&lt; TLE, Pair&lt; State, Real &gt;, State &gt; &amp;anInitialGuess, const Array&lt; State &gt; &amp;anObservationStateArray, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anInitialGuessSigmas=DEFAULT_INITIAL_GUESS_SIGMAS, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anObservationSigmas=DEFAULT_OBSERVATION_SIGMAS) const</argsstring>
+        <argsstring>(const std::variant&lt; TLE, Pair&lt; State, double &gt;, State &gt; &amp;anInitialGuess, const Array&lt; State &gt; &amp;anObservationStateArray, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anInitialGuessSigmas=DEFAULT_INITIAL_GUESS_SIGMAS, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anObservationSigmas=DEFAULT_OBSERVATION_SIGMAS) const</argsstring>
         <name>estimate</name>
         <param>
-          <type>const std::variant&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>, Pair&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>, Real &gt;, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <type>const std::variant&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>, Pair&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>, double &gt;, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
           <declname>anInitialGuess</declname>
         </param>
         <param>
@@ -595,7 +551,7 @@
 <para>Estimate TLE from observations. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aca1fd07893590bbe198093a2fb746686" kindref="member">TLESolver</ref><sp/>solver<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a6f278e746d410f46942b1ad593343295" kindref="member">TLESolver</ref><sp/>solver<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">TLESolver::Analysis<sp/>analysis<sp/>=<sp/>solver.estimate(aTLE,<sp/>anObservationStateArray)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -635,15 +591,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="190" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="184" bodyend="246"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="180" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="178" bodyend="240"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1abc9881ac10e5c03b868dfe723382bfbe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ab5135f8fc0f303a412a45b7bd0c79491" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_orbit" kindref="compound">Orbit</ref></type>
         <definition>Orbit ostk::astrodynamics::estimator::TLESolver::estimateOrbit</definition>
-        <argsstring>(const std::variant&lt; TLE, Pair&lt; State, Real &gt;, State &gt; &amp;anInitialGuess, const Array&lt; State &gt; &amp;anObservationStateArray, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anInitialGuessSigmas=DEFAULT_INITIAL_GUESS_SIGMAS, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anObservationSigmas=DEFAULT_OBSERVATION_SIGMAS) const</argsstring>
+        <argsstring>(const std::variant&lt; TLE, Pair&lt; State, double &gt;, State &gt; &amp;anInitialGuess, const Array&lt; State &gt; &amp;anObservationStateArray, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anInitialGuessSigmas=DEFAULT_INITIAL_GUESS_SIGMAS, const std::unordered_map&lt; CoordinateSubset, VectorXd &gt; &amp;anObservationSigmas=DEFAULT_OBSERVATION_SIGMAS) const</argsstring>
         <name>estimateOrbit</name>
         <param>
-          <type>const std::variant&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>, Pair&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>, Real &gt;, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+          <type>const std::variant&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref>, Pair&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref>, double &gt;, <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
           <declname>anInitialGuess</declname>
         </param>
         <param>
@@ -701,7 +657,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="203" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="248" bodyend="259"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="193" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="242" bodyend="253"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -733,7 +689,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="230" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="261" bodyend="285"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="219" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="255" bodyend="279"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1afe0f108c0e5c26f76145ac98e113ebb8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_t_l_e" kindref="compound">TLE</ref></type>
@@ -764,7 +720,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="240" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="287" bodyend="318"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="229" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="281" bodyend="312"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a8e806873ed9d129a27f7a37a634feab6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision" kindref="compound">SGP4FullPrecision</ref></type>
@@ -795,21 +751,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="250" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="320" bodyend="345"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="239" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="314" bodyend="339"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae713082b605ebcb46517068c766abfac" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aa3dacde7d0d8ee93c106d797553dc5da" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
         <definition>State ostk::astrodynamics::estimator::TLESolver::CartesianStateAndBStarToTLEState</definition>
-        <argsstring>(const State &amp;aCartesianState, const Real &amp;aBStar=Real::Undefined()) const</argsstring>
+        <argsstring>(const State &amp;aCartesianState, const std::optional&lt; double &gt; &amp;aBStar=std::nullopt) const</argsstring>
         <name>CartesianStateAndBStarToTLEState</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
           <declname>aCartesianState</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>const std::optional&lt; double &gt; &amp;</type>
           <declname>aBStar</declname>
-          <defval>Real::Undefined()</defval>
+          <defval>std::nullopt</defval>
         </param>
         <briefdescription>
 <para>Convert Cartesian state and B* to TLE state. </para>
@@ -828,7 +784,7 @@
 <parametername>aBStar</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>B* value. Default is undefined</para>
+<para>B* value. Required when estimating B*, ignored otherwise. Default is none</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -838,7 +794,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="258" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="347" bodyend="373"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="247" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.cpp" bodystart="341" bodyend="373"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -865,41 +821,39 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="67" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="66" bodyend="259"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" line="65" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Estimator/TLESolver.hpp" bodystart="64" bodyend="250"/>
     <listofallmembers>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a33e3c4e7f23e9078b6dd1de3def8a376" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessDefaultBStar</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a909c44da7428410457086375eb98c46a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessElementSetNumber</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a8a48bd5e1a138ed41c76f9202a73121b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessEphemerisType</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a9d48b638594f1a21a8d9ea8c4e3629b6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessEstimateBStar</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a0e0af310353dd969d4ab84ff36dd6159" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessEstimationFrame</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a88c8a2607a5170590a85b563a0588c45" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessFirstDerivativeMeanMotionDividedBy2</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aedb368fc29f275d37a1f1e27be3dda73" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessInternationalDesignator</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a61de7c3b3c121b0a222dc3a6bacd1310" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessRevolutionNumber</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a556e07633348c5c42a7fb43963be0804" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessSatelliteNumber</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a012b79ca9dab72268919cad45c5951b0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessSecondDerivativeMeanMotionDividedBy6</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a770e6122d99128a5f64fa7712b1e3c12" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessSolver</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ab21bbd444222c885e809d274801b077e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>accessTLEStateBuilder</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a7cd7ce6314c7273dbb14bf723c836779" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>BStarSubset</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae713082b605ebcb46517068c766abfac" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>CartesianStateAndBStarToTLEState</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a4c6790a76786fa4afbac2be52a1aadaf" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>defaultBStar_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aa3dacde7d0d8ee93c106d797553dc5da" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>CartesianStateAndBStarToTLEState</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1af667a28485134b303f98ec98a2354e3e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>defaultBStar_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1acb11721b3f68f44499796c533c35584f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>EccentricityXSubset</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aa6f4eb35f6b9c4eb1503998891d1da2d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>EccentricityYSubset</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ad8f3badce1ad3332aeae3ae8500d3b76" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>elementSetNumber_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aee92f0a710662fe312e3b5f44c48433f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>ephemerisType_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ab151a0465dd9524dc04f9e09672569e7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>estimate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a67d2412eae2e14d6825b8b7de232cba4" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>elementSetNumber_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a705c256c542b94574de7da39f496029f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>ephemerisType_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a408b2a4d20855d870cdc0cb494c11cd4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>estimate</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a35387170dd83d7d5f690055f9205affd" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>estimateBStar_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1abc9881ac10e5c03b868dfe723382bfbe" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>estimateOrbit</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aceb3f1cb9aa6287f6bc2a606743282b1" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>estimationFrameSPtr_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a7542ce29670908c383e9a697a4abcf4b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>firstDerivativeMeanMotionDividedBy2_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ab5135f8fc0f303a412a45b7bd0c79491" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>estimateOrbit</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1abab15c5e96a9e74309910a7ed4bb4bdd" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>firstDerivativeMeanMotionDividedBy2_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1af649e475eaf1d708f1ef2d096307ef1a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getDefaultBStar</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae36878927948394b73774a2df792e089" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getElementSetNumber</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a7e60e415f982feb19e794aec2fbcbb23" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getEphemerisType</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a91ed0af300d32dbafb68d38bdc476db3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getEstimateBStar</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1acea9cea6e1a18fa3f3458fef8ee0140a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getFirstDerivativeMeanMotionDividedBy2</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a67b707e3f913cf2d75780085dec1a896" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getInternationalDesignator</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ad551861cf8eaeb1b62abb563202a334a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getRevolutionNumber</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1affb187e532de3d343939620d11c504d9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getSatelliteNumber</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aa4dc90fedba07b0cb5d4ce2d7c5deb1d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getSecondDerivativeMeanMotionDividedBy6</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ac70b8e6799d0a0b188ca312bf8cea3d0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getSolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a2eeb4fbe7ccc9c61d71e7ce01de0b31b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>getTLEStateBuilder</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1af892fe2764ee39a6af688aa9b1d4f0a6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>internationalDesignator_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a595843b215a4465d471c554d12ecd03b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>NodeXSubset</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a05ea5f746d0d78f77959c2a3126a63dd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>NodeYSubset</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a4c5c1ff7d61d011e2a71878c07c89a84" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>revolutionNumber_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a645ed44e4b5acb58b30b9cd934b51036" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>satelliteNumber_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a5dbe200aeaea9699eef5ec881d5549d5" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>secondDerivativeMeanMotionDividedBy6_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1adb3b1d589ee549d210bf4601fd869eb2" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>revolutionNumber_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae7d484c33304cb9ef6299db7fd9f3eda" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>satelliteNumber_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a5a3700e49d91da0cb0d71bec24b790aa" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>secondDerivativeMeanMotionDividedBy6_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1ae3b1813ec84dbbc2a73972178d571e20" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>SemiLatusRectumSubset</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a1cbbe7cb9488fb530bf3f17461ea29bb" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>solver_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aca1fd07893590bbe198093a2fb746686" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>TLESolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a6f278e746d410f46942b1ad593343295" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>TLESolver</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1aa895d5544930659e7b2e672c23fd646e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>tleStateBuilder_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1a8e806873ed9d129a27f7a37a634feab6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>TLEStateToSGP4FullPrecision</name></member>
       <member refid="classostk_1_1astrodynamics_1_1estimator_1_1_t_l_e_solver_1afe0f108c0e5c26f76145ac98e113ebb8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::estimator::TLESolver</scope><name>TLEStateToTLE</name></member>

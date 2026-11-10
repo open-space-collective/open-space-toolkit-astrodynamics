@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters</compoundname>
+    <includes refid="_close_approach_8hpp" local="no">CloseApproach.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1ad01706f28c053eab963340f35ef40c34" prot="public" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters::rotatedEncounterFrameSPtr</definition>
+        <argsstring></argsstring>
+        <name>rotatedEncounterFrameSPtr</name>
+        <briefdescription>
+<para>Rotated encounter frame (child of the encounter frame) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="56" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1a3abbcc3cd0470e9539dd62af0e081ba8" prot="public" static="no" mutable="no">
+        <type>Length</type>
+        <definition>Length ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters::xM</definition>
+        <argsstring></argsstring>
+        <name>xM</name>
+        <briefdescription>
+<para>Miss distance component along the x-axis (absolute value) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="57" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1acbbed00d4f4720e2a1048fc05a2a3b04" prot="public" static="no" mutable="no">
+        <type>Length</type>
+        <definition>Length ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters::yM</definition>
+        <argsstring></argsstring>
+        <name>yM</name>
+        <briefdescription>
+<para>Miss distance component along the y-axis (absolute value) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="58" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1a915a8041d9321ef23775abc388baf82f" prot="public" static="no" mutable="no">
+        <type>Length</type>
+        <definition>Length ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters::sigmaX</definition>
+        <argsstring></argsstring>
+        <name>sigmaX</name>
+        <briefdescription>
+<para>Combined position standard deviation along the x-axis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="59" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1a3017e3c0a527089ca7c4a6c51767d218" prot="public" static="no" mutable="no">
+        <type>Length</type>
+        <definition>Length ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters::sigmaY</definition>
+        <argsstring></argsstring>
+        <name>sigmaY</name>
+        <briefdescription>
+<para>Combined position standard deviation along the y-axis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="60" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Miss distance and combined position uncertainty in the rotated encounter frame. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The rotated encounter frame is the encounter frame rotated about its z-axis, so that its x-axis and y-axis are along the principal axes of the combined position covariance projected onto the encounter plane (see computeRotatedEncounterFrameParameters). </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters</label>
+        <link refid="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>sigmaX</edgelabel>
+          <edgelabel>sigmaY</edgelabel>
+          <edgelabel>yM</edgelabel>
+          <edgelabel>xM</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>rotatedEncounterFrameSPtr</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>Length</label>
+      </node>
+      <node id="3">
+        <label>Shared&lt; const Frame &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" line="55" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/CloseApproach.hpp" bodystart="54" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1ad01706f28c053eab963340f35ef40c34" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters</scope><name>rotatedEncounterFrameSPtr</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1a915a8041d9321ef23775abc388baf82f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters</scope><name>sigmaX</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1a3017e3c0a527089ca7c4a6c51767d218" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters</scope><name>sigmaY</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1a3abbcc3cd0470e9539dd62af0e081ba8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters</scope><name>xM</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1conjunction_1_1_close_approach_1_1_rotated_encounter_frame_parameters_1acbbed00d4f4720e2a1048fc05a2a3b04" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::CloseApproach::RotatedEncounterFrameParameters</scope><name>yM</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,515 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</compoundname>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</derivedcompoundref>
+    <derivedcompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</derivedcompoundref>
+    <includes refid="_probability_of_collision_algorithm_8hpp" local="no">ProbabilityOfCollisionAlgorithm.hpp</includes>
+    <innerclass refid="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis" prot="public">ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::Analysis</innerclass>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProbabilityRegion</name>
+        <enumvalue id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34acd8257a80d3498e67b8972607c8377c0" prot="public">
+          <name>Robust</name>
+          <briefdescription>
+<para>The probability of collision is in the robust region. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34ad93c90e25e2dd62f57b5983a12e1b0e2" prot="public">
+          <name>Diluted</name>
+          <briefdescription>
+<para>The probability of collision is in the diluted region. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34a88183b946cc5f0e8c96b2e66e1c74a7e" prot="public">
+          <name>Unknown</name>
+          <briefdescription>
+<para>The maximum probability of collision could not be computed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Probability region of a close approach. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="87" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="86" bodyend="91"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1af1f8ea91a8b4167aeca182e4faf63905" prot="protected" static="no" mutable="no">
+        <type>String</type>
+        <definition>String ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="232" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a739f9f93d0fcd8eaa7d1940a1a8d9d84" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::isMaximum_</definition>
+        <argsstring></argsstring>
+        <name>isMaximum_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="233" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1abfbbf23c2039fde2c57c951188a9842b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::~ProbabilityOfCollisionAlgorithm</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ProbabilityOfCollisionAlgorithm</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="111" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a0b3dd32db62c04daf547c2e67373e1a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const String &amp;</type>
+        <definition>const String &amp; ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <briefdescription>
+<para>Get the name of the probability of collision algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The name of the algorithm </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="116" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a11cb3a2a30f70e8dd5ccecbadde74348" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::isMaximum</definition>
+        <argsstring>() const</argsstring>
+        <name>isMaximum</name>
+        <briefdescription>
+<para>Check if the probability of collision algorithm computes a maximum probability of collision (i.e. an upper bound) </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if the algorithm computes a maximum probability of collision </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="122" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a7ee1d7cc74f527aacf171d1ba3ccf823" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>Array&lt; String &gt;</type>
+        <definition>virtual Array&lt;String&gt; ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::identifyUnsatisfiedAssumptions</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach) const =0</argsstring>
+        <name>identifyUnsatisfiedAssumptions</name>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a19ae4932b10ebb62503aef8e12892ed4">identifyUnsatisfiedAssumptions</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a776d96b5e6f1e0e70558c3cd44615f9b">identifyUnsatisfiedAssumptions</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a3c298397ac8f928c70f88b10fc727cce">identifyUnsatisfiedAssumptions</reimplementedby>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <briefdescription>
+<para>Identify unsatisfied assumptions for a close approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this before computing the probability of collision if you want to know why the algorithm might not be applicable to a close approach.</para>
+<para>The returned array might be non-exhaustive, as the algorithm implementation might exit early upon encountering an unsatisfied assumption.</para>
+<para>An empty array means that the algorithm is applicable to the close approach.</para>
+<para>Use <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1aeaf739a3fc5bbc94f00bfacdfa34fa69" kindref="member">isApplicable()</ref> instead if you only want to know if the algorithm is applicable, but do not necessarily care about the reasons why.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;String&gt;<sp/>unsatisfiedAssumptions<sp/>=<sp/>algorithm.identifyUnsatisfiedAssumptions(closeApproach);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(unsatisfiedAssumptions.isEmpty())</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>algorithm.computeProbabilityOfCollision(closeApproach,<sp/>hardBody1SPtr,<sp/>hardBody2SPtr);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A non-exhaustive array of unsatisfied assumption descriptions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="147" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a3996b1b6fceb676d2873e924e06cd2d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::computeProbabilityOfCollision</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach, const Shared&lt; const HardBody &gt; &amp;aHardBody1SPtr, const Shared&lt; const HardBody &gt; &amp;aHardBody2SPtr) const =0</argsstring>
+        <name>computeProbabilityOfCollision</name>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a9a552648208621ee90cff59ebbec019c">computeProbabilityOfCollision</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1aa783ebfda800963d7543e90c62768ff0">computeProbabilityOfCollision</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015_1a10d4f1222ea1b75f8d8478025084affb">computeProbabilityOfCollision</reimplementedby>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody1SPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody2SPtr</declname>
+        </param>
+        <briefdescription>
+<para>Compute the probability of collision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody1SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 1 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody2SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 2</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The probability of collision </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="156" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1aeaf739a3fc5bbc94f00bfacdfa34fa69" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::isApplicable</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach) const</argsstring>
+        <name>isApplicable</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <briefdescription>
+<para>Check if the algorithm is applicable to a close approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use this before computing the probability of collision if you want to know whether the algorithm is applicable, but do not necessarily care about the reasons why.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(algorithm.isApplicable(closeApproach))</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>algorithm.computeProbabilityOfCollision(closeApproach,<sp/>hardBody1SPtr,<sp/>hardBody2SPtr);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the algorithm is applicable to the close approach </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="176" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a173d741cf3aec10505010a3f08edcc2c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1_1_analysis" kindref="compound">Analysis</ref></type>
+        <definition>ProbabilityOfCollisionAlgorithm::Analysis ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis</definition>
+        <argsstring>(const Shared&lt; const ProbabilityOfCollisionAlgorithm &gt; &amp;aProbabilityOfCollisionAlgorithmSPtr, const CloseApproach &amp;aCloseApproach, const Shared&lt; const HardBody &gt; &amp;aHardBody1SPtr, const Shared&lt; const HardBody &gt; &amp;aHardBody2SPtr, const bool &amp;scaleObject1Covariance=true, const bool &amp;scaleObject2Covariance=true)</argsstring>
+        <name>ComputeProbabilityAnalysis</name>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm" kindref="compound">ProbabilityOfCollisionAlgorithm</ref> &gt; &amp;</type>
+          <declname>aProbabilityOfCollisionAlgorithmSPtr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody1SPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody2SPtr</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>scaleObject1Covariance</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>scaleObject2Covariance</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Compute the probability of collision analysis of a close approach using a probability of collision algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The analysis is not applicable to algorithms computing a maximum probability of collision (see <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a11cb3a2a30f70e8dd5ccecbadde74348" kindref="member">isMaximum()</ref>), as their probability of collision is already an upper bound.</para>
+<para>This function computes the probability of collision and locates the maximum probability of collision as it scales the covariance(s): starting from the unscaled covariance(s), a root solver (bracket and solve) locates where the slope of the probability of collision with respect to the (logarithmic) scaling factor changes sign. The probability of collision is assumed to have a single maximum.</para>
+<para><itemizedlist>
+<listitem><para>If the maximum probability of collision is found to the &quot;right&quot; of the probability of collision (i.e. a scaling factor greater than or equal to 1), then the close approach is in the robust region (<ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34acd8257a80d3498e67b8972607c8377c0" kindref="member">ProbabilityRegion::Robust</ref>).</para>
+</listitem><listitem><para>If the maximum probability of collision is found to the &quot;left&quot; of the probability of collision (i.e. a scaling factor less than 1), then the close approach is in the diluted region (<ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34ad93c90e25e2dd62f57b5983a12e1b0e2" kindref="member">ProbabilityRegion::Diluted</ref>).</para>
+</listitem><listitem><para>If the root solver does not converge (e.g. the probability of collision does not change with the covariance scaling, or has no maximum), then the region is unknown (<ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">ProbabilityRegion::Unknown</ref>).</para>
+</listitem></itemizedlist>
+</para>
+<para>The scaling factors yielding the maximum probability of collision are also returned, both as a covariance scaling factor and as a sigma scaling factor. In the unknown region (<ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">ProbabilityRegion::Unknown</ref>), the maximum probability of collision and its scaling factors are empty.</para>
+<para>Raises an Undefined error if the probability of collision algorithm is null, and a RuntimeError if it computes a maximum probability of collision or if neither covariance is to be scaled.</para>
+<para>Alfano, Salvatore. (2020). Relating Position Uncertainty to Maximum Conjunction Probability. The Journal of the Astronautical Sciences. 53. 193-205. 10.1007/BF03546350.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aProbabilityOfCollisionAlgorithmSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A probability of collision algorithm (not computing a maximum probability of collision) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody1SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 1 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody2SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 2 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scaleObject1Covariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to scale Object 1 covariance. Defaults to true </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scaleObject2Covariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to scale Object 2 covariance. Defaults to true</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The probability of collision analysis of the close approach </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="216" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.cpp" bodystart="40" bodyend="134"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a109d81fb5d5fec61390c82ae20860031" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm::ProbabilityOfCollisionAlgorithm</definition>
+        <argsstring>(const String &amp;aName, const bool &amp;isMaximum)</argsstring>
+        <name>ProbabilityOfCollisionAlgorithm</name>
+        <param>
+          <type>const String &amp;</type>
+          <declname>aName</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>isMaximum</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the probability of collision algorithm </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isMaximum</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the algorithm computes a maximum probability of collision (i.e. an upper bound) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="230" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.cpp" bodystart="19" bodyend="23"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Probability of collision algorithm (abstract). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Base class for algorithms that compute the probability of collision for a close approach.</para>
+<para>The recommended way to use the algorithms is as follows:<orderedlist>
+<listitem><para>List the algorithms to use, in order of preference.</para>
+</listitem><listitem><para>Loop over the list and pick the first algorithm applicable to the close approach (see <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1aeaf739a3fc5bbc94f00bfacdfa34fa69" kindref="member">isApplicable()</ref>), then check whether it computes a maximum probability of collision (see <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a11cb3a2a30f70e8dd5ccecbadde74348" kindref="member">isMaximum()</ref>).</para>
+</listitem><listitem><para>If the algorithm does not compute a maximum probability of collision, compute the probability of collision analysis (see ComputeProbabilityAnalysis) and check its region:<itemizedlist>
+<listitem><para><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34acd8257a80d3498e67b8972607c8377c0" kindref="member">ProbabilityRegion::Robust</ref>: use the probability of collision.</para>
+</listitem><listitem><para><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34ad93c90e25e2dd62f57b5983a12e1b0e2" kindref="member">ProbabilityRegion::Diluted</ref>: use the maximum probability of collision as an upper bound.</para>
+</listitem><listitem><para><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">ProbabilityRegion::Unknown</ref>: try the next applicable algorithm in the list.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem><para>If the algorithm computes a maximum probability of collision, compute the probability of collision (see <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a3996b1b6fceb676d2873e924e06cd2d6" kindref="member">computeProbabilityOfCollision()</ref>) and use it as an upper bound.</para>
+</listitem></orderedlist>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Array&lt;Shared&lt;const<sp/>ProbabilityOfCollisionAlgorithm&gt;&gt;<sp/>algorithms<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::make_shared&lt;Alfano2005&gt;(),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::make_shared&lt;Frisbee2015&gt;(),</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>algorithmSPtr<sp/>:<sp/>algorithms)</highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!algorithmSPtr-&gt;isApplicable(closeApproach))</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(algorithmSPtr-&gt;isMaximum())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Upper<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>algorithmSPtr-&gt;computeProbabilityOfCollision(closeApproach,<sp/>hardBody1SPtr,<sp/>hardBody2SPtr);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProbabilityOfCollisionAlgorithm::Analysis<sp/>analysis<sp/>=</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a173d741cf3aec10505010a3f08edcc2c" kindref="member">ProbabilityOfCollisionAlgorithm::ComputeProbabilityAnalysis</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>algorithmSPtr,<sp/>closeApproach,<sp/>hardBody1SPtr,<sp/>hardBody2SPtr</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(analysis.region<sp/>==<sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34acd8257a80d3498e67b8972607c8377c0" kindref="member">ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Robust</ref>)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>analysis.probabilityOfCollision;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(analysis.region<sp/>==<sp/><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34ad93c90e25e2dd62f57b5983a12e1b0e2" kindref="member">ProbabilityOfCollisionAlgorithm::ProbabilityRegion::Diluted</ref>)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Upper<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>analysis.maximumProbabilityOfCollision.value();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ProbabilityRegion::Unknown:<sp/>try<sp/>the<sp/>next<sp/>algorithm</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Frisbee2015</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_frisbee2015"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>String</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>name_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" line="83" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm.hpp" bodystart="82" bodyend="234"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a173d741cf3aec10505010a3f08edcc2c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>ComputeProbabilityAnalysis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a3996b1b6fceb676d2873e924e06cd2d6" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>computeProbabilityOfCollision</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a0b3dd32db62c04daf547c2e67373e1a6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a7ee1d7cc74f527aacf171d1ba3ccf823" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>identifyUnsatisfiedAssumptions</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1aeaf739a3fc5bbc94f00bfacdfa34fa69" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>isApplicable</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a11cb3a2a30f70e8dd5ccecbadde74348" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>isMaximum</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a739f9f93d0fcd8eaa7d1940a1a8d9d84" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>isMaximum_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1af1f8ea91a8b4167aeca182e4faf63905" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>name_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a109d81fb5d5fec61390c82ae20860031" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>ProbabilityOfCollisionAlgorithm</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>ProbabilityRegion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1abfbbf23c2039fde2c57c951188a9842b" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</scope><name>~ProbabilityOfCollisionAlgorithm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

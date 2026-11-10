@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.orbit.model.BrouwerLyddaneMean
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~BrouwerLyddaneMean.cartesian
       ~BrouwerLyddaneMean.circular
@@ -59,17 +62,11 @@ ostk.astrodynamics.trajectory.orbit.model.BrouwerLyddaneMean
       ~BrouwerLyddaneMean.get_semi_latus_rectum
       ~BrouwerLyddaneMean.get_semi_major_axis
       ~BrouwerLyddaneMean.get_true_anomaly
-      ~BrouwerLyddaneMean.is_defined
       ~BrouwerLyddaneMean.mean_anomaly_from_eccentric_anomaly
       ~BrouwerLyddaneMean.string_from_element
       ~BrouwerLyddaneMean.sun_synchronous
       ~BrouwerLyddaneMean.to_coe
       ~BrouwerLyddaneMean.true_anomaly_from_eccentric_anomaly
       ~BrouwerLyddaneMean.true_anomaly_from_mean_anomaly
-      ~BrouwerLyddaneMean.undefined
-   
-   
-
-   
    
    

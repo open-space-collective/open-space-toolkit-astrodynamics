@@ -19,6 +19,8 @@
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1guidancelaw">ostk::astrodynamics::guidancelaw</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1solver">ostk::astrodynamics::solver</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1trajectory">ostk::astrodynamics::trajectory</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1uncertainty">ostk::astrodynamics::uncertainty</innernamespace>
+    <innernamespace refid="namespaceostk_1_1astrodynamics_1_1utility">ostk::astrodynamics::utility</innernamespace>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1a90fb31185a26557266b5d010daba8394" prot="public" static="no">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan" kindref="compound">ostk::astrodynamics::trajectory::model::TargetScan</ref></type>
@@ -77,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" line="78" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="78" bodyend="108"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" line="68" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="68" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1ac97d62035f1139f2c8c0fc8c6b6417c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -163,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" line="84" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="84" bodyend="89"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" line="76" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/EventCondition.cpp" bodystart="76" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1a3e51d0438466f9ece8124fd0c740d2f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -247,7 +249,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" line="23" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="23" bodyend="28"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" line="25" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/RootSolver.cpp" bodystart="25" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1a89ac4ad3dd01879832f0802b903addce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -290,13 +292,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" line="80" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="80" bodyend="85"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" line="75" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory.cpp" bodystart="75" bodyend="80"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="30" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/Generator.hpp" line="29" column="1"/>
   </compounddef>
 </doxygen>

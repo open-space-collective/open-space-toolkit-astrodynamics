@@ -11,10 +11,13 @@ ostk.astrodynamics.solver.FiniteDifferenceSolver
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~FiniteDifferenceSolver.compute_gradient
       ~FiniteDifferenceSolver.compute_jacobian
@@ -24,9 +27,5 @@ ostk.astrodynamics.solver.FiniteDifferenceSolver
       ~FiniteDifferenceSolver.get_step_percentage
       ~FiniteDifferenceSolver.get_type
       ~FiniteDifferenceSolver.string_from_type
-   
-   
-
-   
    
    

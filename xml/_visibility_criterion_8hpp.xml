@@ -5,7 +5,6 @@
     <includes local="no">optional</includes>
     <includes local="no">variant</includes>
     <includes local="no">OpenSpaceToolkit/Core/Container/Map.hpp</includes>
-    <includes local="no">OpenSpaceToolkit/Core/Type/Real.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Mathematics/Object/Interval.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Mathematics/Object/Vector.hpp</includes>
     <includes local="no">OpenSpaceToolkit/Physics/Coordinate/Position.hpp</includes>
@@ -20,9 +19,6 @@
     <includedby refid="_line_of_sight_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion/LineOfSight.cpp</includedby>
     <includedby refid="_visibility_criterion_8cpp" local="no">src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp</includedby>
     <incdepgraph>
-      <node id="5">
-        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
-      </node>
       <node id="1">
         <label>include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp</label>
         <link refid="_visibility_criterion_8hpp"/>
@@ -46,37 +42,35 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
       </node>
       <node id="3">
         <label>variant</label>
       </node>
-      <node id="12">
+      <node id="11">
         <label>OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp</label>
       </node>
       <node id="4">
         <label>OpenSpaceToolkit/Core/Container/Map.hpp</label>
       </node>
-      <node id="8">
+      <node id="7">
         <label>OpenSpaceToolkit/Physics/Coordinate/Position.hpp</label>
       </node>
-      <node id="11">
+      <node id="10">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
       </node>
-      <node id="6">
+      <node id="5">
         <label>OpenSpaceToolkit/Mathematics/Object/Interval.hpp</label>
       </node>
-      <node id="9">
+      <node id="8">
         <label>OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp</label>
       </node>
       <node id="2">
         <label>optional</label>
       </node>
-      <node id="7">
+      <node id="6">
         <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
       </node>
-      <node id="10">
+      <node id="9">
         <label>OpenSpaceToolkit/Physics/Environment.hpp</label>
       </node>
     </incdepgraph>
@@ -149,49 +143,49 @@
 <codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Container/Map.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Core/Type/Real.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Object/Interval.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Object/Vector.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Position.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Environment.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
-<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
-<codeline lineno="24"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">access</highlight></codeline>
-<codeline lineno="26"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::container::Map;</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::type::Real;</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::mathematics::object::Interval;</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::mathematics::object::Vector3d;</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coordinate::spherical::AER;</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::Environment;</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Instant;</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::unit::Angle;</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="40" refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></highlight></codeline>
-<codeline lineno="41"><highlight class="normal">{</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="44" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kindref="compound">AERInterval</ref></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="46" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adb064c965b1a8ade4e79f57e08ab6da2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adb064c965b1a8ade4e79f57e08ab6da2" kindref="member">azimuth</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="47" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adc509120b6f3661655b217872b67ac5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1adc509120b6f3661655b217872b67ac5b" kindref="member">elevation</ref>;<sp/><sp/></highlight></codeline>
-<codeline lineno="48" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a4c957cbda06263cd804685fcb0339dd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a4c957cbda06263cd804685fcb0339dd2" kindref="member">range</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a9b50b51de0041eb94223553e221b201a" kindref="member">AERInterval</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>anAzimuth,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>anElevation,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>aRange);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Object/Interval.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Mathematics/Object/Vector.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Position.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Coordinate/Spherical/AER.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Environment.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Time/Instant.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;OpenSpaceToolkit/Physics/Unit/Derived/Angle.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceostk" kindref="compound">ostk</ref></highlight></codeline>
+<codeline lineno="21"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">astrodynamics</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">access</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::core::container::Map;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::mathematics::object::Interval;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::mathematics::object::Vector3d;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::coordinate::spherical::AER;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::Environment;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::time::Instant;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>ostk::physics::unit::Angle;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kindref="compound">AERInterval</ref></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a72fafaca449821788a0b364859e8e28f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;double&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a72fafaca449821788a0b364859e8e28f" kindref="member">azimuth</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a7b018b795f356a15cda74d9b857c14aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;double&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a7b018b795f356a15cda74d9b857c14aa" kindref="member">elevation</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a06dd6634a0cc4898dc7034bd11212500" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;double&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a06dd6634a0cc4898dc7034bd11212500" kindref="member">range</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a385938c0b3bc5404ba6904e8437f9dfe" kindref="member">AERInterval</ref>(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>anAzimuth,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>anElevation,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>aRange</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"></highlight></codeline>
 <codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a7e2c5ba9d4ceec7e5e51fc22ed051111" kindref="member">isSatisfied</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AER&amp;<sp/>anAer)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a7e2c5ba9d4ceec7e5e51fc22ed051111" kindref="member">isSatisfied</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>anAzimuthRadians,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>anElevationRadians,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aRangeMeters)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1a7e2c5ba9d4ceec7e5e51fc22ed051111" kindref="member">isSatisfied</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>anAzimuthRadians,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>anElevationRadians,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>aRangeMeters)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"></highlight></codeline>
 <codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval_1aa9c1c89ffbccf67f97e597ecd33654f0" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_interval" kindref="compound">AERInterval</ref>&amp;<sp/>anAerInterval)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="76"><highlight class="normal"></highlight></codeline>
@@ -200,14 +194,14 @@
 <codeline lineno="83"><highlight class="normal"></highlight></codeline>
 <codeline lineno="85" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kindref="compound">AERMask</ref></highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="87" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8a71ef6bd05102f2dd1c3ac09704cb9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Map&lt;Real,<sp/>Real&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8a71ef6bd05102f2dd1c3ac09704cb9b" kindref="member">azimuthElevationMask</ref>;<sp/><sp/></highlight></codeline>
-<codeline lineno="88" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1ac1711ce1afd3a7f12b7a67ca53046598" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1ac1711ce1afd3a7f12b7a67ca53046598" kindref="member">range</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a1455dd219b37fac00278c422ab0c3e82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Map&lt;double,<sp/>double&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a1455dd219b37fac00278c422ab0c3e82" kindref="member">azimuthElevationMask</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1af8a6cdfec560c3b26fd863f56e682040" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;double&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1af8a6cdfec560c3b26fd863f56e682040" kindref="member">range</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a53a37b94d8e864f78004f1b19f0dd71c" kindref="member">AERMask</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Map&lt;Real,<sp/>Real&gt;&amp;<sp/>anAzimuthElevationMask,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>aRange);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1acc08dedb1c387a376163dab587ae48b2" kindref="member">AERMask</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Map&lt;double,<sp/>double&gt;&amp;<sp/>anAzimuthElevationMask,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>aRange);</highlight></codeline>
 <codeline lineno="95"><highlight class="normal"></highlight></codeline>
 <codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a19c910ca18fdbdc3e5ba45042c920bac" kindref="member">isSatisfied</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AER&amp;<sp/>anAer)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"></highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a19c910ca18fdbdc3e5ba45042c920bac" kindref="member">isSatisfied</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>anAzimuthRadians,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>anElevationRadians,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>aRangeMeters)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a19c910ca18fdbdc3e5ba45042c920bac" kindref="member">isSatisfied</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>anAzimuthRadians,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>anElevationRadians,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>aRangeMeters)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="109"><highlight class="normal"></highlight></codeline>
 <codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask_1a8ab8b08a45597347b567fc1789577255" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_a_e_r_mask" kindref="compound">AERMask</ref>&amp;<sp/>anAerMask)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"></highlight></codeline>
@@ -231,13 +225,13 @@
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
 <codeline lineno="157" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kindref="compound">ElevationInterval</ref></highlight></codeline>
 <codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
-<codeline lineno="159" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1ac8e77966d5c22091eba1f27fbf4400e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1ac8e77966d5c22091eba1f27fbf4400e5" kindref="member">elevation</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="159" refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a7164602f81a3fffb083bde8574ddca65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Interval&lt;double&gt;<sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a7164602f81a3fffb083bde8574ddca65" kindref="member">elevation</ref>;<sp/><sp/></highlight></codeline>
 <codeline lineno="160"><highlight class="normal"></highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a2b41e7937d469c97e331d90ab962e08e" kindref="member">ElevationInterval</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>anElevationInterval);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1ad65ba0a92ce33850611996ea80c642e2" kindref="member">ElevationInterval</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>anElevationInterval);</highlight></codeline>
 <codeline lineno="165"><highlight class="normal"></highlight></codeline>
 <codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1ad3eb3bdf7cae4e43b8e3fb0c3e3bdc94" kindref="member">isSatisfied</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Angle&amp;<sp/>anElevationAngle)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="171"><highlight class="normal"></highlight></codeline>
-<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1ad3eb3bdf7cae4e43b8e3fb0c3e3bdc94" kindref="member">isSatisfied</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Real&amp;<sp/>anElevation)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1ad3eb3bdf7cae4e43b8e3fb0c3e3bdc94" kindref="member">isSatisfied</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>anElevation)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="177"><highlight class="normal"></highlight></codeline>
 <codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval_1a63d0d8e26a1a94a6dcc85be35fecff61" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1_1_elevation_interval" kindref="compound">ElevationInterval</ref>&amp;<sp/>anElevationInterval)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="183"><highlight class="normal"></highlight></codeline>
@@ -248,19 +242,19 @@
 <codeline lineno="196"><highlight class="normal"></highlight></codeline>
 <codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1add41f3b5b83c97dc417414b4e03c22d7" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref>&amp;<sp/>aVisibilityCriterion)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="202"><highlight class="normal"></highlight></codeline>
-<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a209ee59233071cbe3972155c40bb5a87" kindref="member">FromAERInterval</ref>(</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>anAzimuthInterval,</highlight></codeline>
-<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>anElevationInterval,</highlight></codeline>
-<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>aRangeInterval</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a03e3b0f9efab332fa529f22b62eb71e7" kindref="member">FromAERInterval</ref>(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>anAzimuthInterval,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>anElevationInterval,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>aRangeInterval</highlight></codeline>
 <codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="222"><highlight class="normal"></highlight></codeline>
-<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a806d379d654207cd18ea643f41c18f9c" kindref="member">FromAERMask</ref>(</highlight></codeline>
-<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Map&lt;Real,<sp/>Real&gt;&amp;<sp/>anAzimuthElevationMask,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>aRangeInterval</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a99afc838a3f235007f43c0424c448eb6" kindref="member">FromAERMask</ref>(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Map&lt;double,<sp/>double&gt;&amp;<sp/>anAzimuthElevationMask,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>aRangeInterval</highlight></codeline>
 <codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
 <codeline lineno="238"><highlight class="normal"></highlight></codeline>
 <codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a98fee7db2cca4c9a0510552b8ee6444e" kindref="member">FromLineOfSight</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Environment&amp;<sp/>anEnvironment);</highlight></codeline>
 <codeline lineno="248"><highlight class="normal"></highlight></codeline>
-<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1aee323ee940e4e3b07041ffa40d7643e9" kindref="member">FromElevationInterval</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;Real&gt;&amp;<sp/>anElevationInterval);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1ac1e57a7b3e0e6e362f1c345e102a04c8" kindref="member">FromElevationInterval</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Interval&lt;double&gt;&amp;<sp/>anElevationInterval);</highlight></codeline>
 <codeline lineno="260"><highlight class="normal"></highlight></codeline>
 <codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
 <codeline lineno="266" refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a5a7bfa525cbc48b1d4c212dff94cad4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a5a7bfa525cbc48b1d4c212dff94cad4d" kindref="member">is</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>

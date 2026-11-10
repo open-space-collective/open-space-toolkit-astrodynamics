@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.CartesianVelocity
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~CartesianVelocity.add
       ~CartesianVelocity.ballistic_coefficient
@@ -28,9 +31,5 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.CartesianVelocity
       ~CartesianVelocity.mass_flow_rate
       ~CartesianVelocity.subtract
       ~CartesianVelocity.surface_area
-   
-   
-
-   
    
    

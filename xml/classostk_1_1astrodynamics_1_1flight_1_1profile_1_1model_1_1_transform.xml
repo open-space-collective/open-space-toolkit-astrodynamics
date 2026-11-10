@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="157" column="21" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="157" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="140" column="21" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="140" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ad5cae48e9dcc47d98093c91be1bab7e4" prot="private" static="no" mutable="no">
         <type>Shared&lt; const Frame &gt;</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="158" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="158" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="141" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="141" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -69,11 +69,20 @@
 </parameterdescription>
 </parameteritem>
 </parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::runtime::Undefined</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the frame pointer is null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="57" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="19" bodyend="23"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="58" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="19" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a95e5dd1e797403c6b99f89e2368d2541" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref> *</type>
@@ -93,27 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="66" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="25" bodyend="28"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a762bd3b89aea03a62e03c87124dcf6e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::flight::profile::model::Transform::isDefined</definition>
-        <argsstring>() const override</argsstring>
-        <name>isDefined</name>
-        <reimplements refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1af2ded8af1167e11f4a85825ee234eb92">isDefined</reimplements>
-        <briefdescription>
-<para>Check if the transform model is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>defined<sp/>=<sp/>transform.isDefined()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>True if the transform model is defined. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="86" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="37" bodyend="40"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="67" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="29" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a7037a5e5c4eaf2ba9074262d561fa146" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -146,7 +135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="96" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="42" bodyend="76"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="88" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="41" bodyend="65"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a187d2ce899b57759c3a5ad5861c9ff6f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Axes</type>
@@ -179,7 +168,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="106" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="78" bodyend="101"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="98" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="67" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1ac227c8797030a8a3a38361feedea87bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Shared&lt; const Frame &gt;</type>
@@ -212,7 +201,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="116" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="103" bodyend="122"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="108" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="82" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a9b54d6c537b2342b0cf48fc07c7cfccb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -256,7 +245,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="126" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="124" bodyend="129"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="118" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="98" bodyend="103"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -302,29 +291,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="77" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="30" bodyend="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="78" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="34" bodyend="39"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a86c7367c903b90d1c43b37f24671bd2b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref></type>
-        <definition>Transform ostk::astrodynamics::flight::profile::model::Transform::Undefined</definition>
-        <argsstring>()</argsstring>
-        <name>Undefined</name>
-        <briefdescription>
-<para>Construct an undefined transform model. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1159cc64dc40321cecdf4ff02bed9e4d" kindref="member">Transform</ref><sp/>transform<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a86c7367c903b90d1c43b37f24671bd2b" kindref="member">Transform::Undefined</ref>()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>An undefined transform model. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="135" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="131" bodyend="134"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1796fb277bb5f9d67e2bf5dc86f96a12" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref></type>
         <definition>Transform ostk::astrodynamics::flight::profile::model::Transform::InertialPointing</definition>
@@ -365,7 +335,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="142" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="136" bodyend="165"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="125" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="105" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a3c68d6a1a134f2d6c500dda0c9884497" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform" kindref="compound">Transform</ref></type>
@@ -407,7 +377,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="149" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="167" bodyend="195"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="132" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="126" bodyend="144"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -440,7 +410,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="154" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="197" bodyend="209"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="137" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.cpp" bodystart="146" bodyend="153"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -472,7 +442,7 @@
         <link refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model"/>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="47" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="46" bodyend="159"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" line="47" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model/Transform.hpp" bodystart="46" bodyend="142"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a45b6fc9e71f87aa07390b51bf2d0c3a8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>as</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a7037a5e5c4eaf2ba9074262d561fa146" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>calculateStateAt</name></member>
@@ -483,7 +453,6 @@
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a187d2ce899b57759c3a5ad5861c9ff6f" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>getAxesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1796fb277bb5f9d67e2bf5dc86f96a12" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>InertialPointing</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ab6cd8554311b555d0bbd9a9cf2b936ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>is</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a762bd3b89aea03a62e03c87124dcf6e5" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a3c68d6a1a134f2d6c500dda0c9884497" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>LocalOrbitalFramePointing</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a9f897d6f5779826088fc7aa750c1540e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>Model</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a84c0583f35c7d396cc3bcd7f193e8b8b" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>operator!=</name></member>
@@ -492,7 +461,6 @@
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a9b54d6c537b2342b0cf48fc07c7cfccb" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>print</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a1159cc64dc40321cecdf4ff02bed9e4d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>Transform</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a615e43fe5fdef896b6c7c423662de794" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>transformProvider_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a86c7367c903b90d1c43b37f24671bd2b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>Undefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1abbc19a00caf6c2c526921bcf0f20599a" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::model::Transform</scope><name>~Model</name></member>
     </listofallmembers>
   </compounddef>

@@ -1,0 +1,461 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</basecompoundref>
+    <includes refid="_foster1992_8hpp" local="no">Foster1992.hpp</includes>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a48d382c988f4d800029bf59a7522b324" prot="private" static="yes" mutable="no">
+        <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
+        <definition>const Shared&lt; const CoordinateSubset &gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::CartesianPositionSubsetSPtr</definition>
+        <argsstring></argsstring>
+        <name>CartesianPositionSubsetSPtr</name>
+        <initializer>= <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" kindref="member">CartesianPosition::Default</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="139" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1ab02feac33dd0b9f6d03fd5fad258dae6" prot="private" static="no" mutable="no">
+        <type>Derived</type>
+        <definition>Derived ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::relativeSpeedThreshold_</definition>
+        <argsstring></argsstring>
+        <name>relativeSpeedThreshold_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="141" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a517d2b11623ba6db17df21e39dc6603f" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::frameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>frameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="142" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a8a70ad9749345832c5988001bace28ef" prot="private" static="no" mutable="no">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::numberOfRadialSteps_</definition>
+        <argsstring></argsstring>
+        <name>numberOfRadialSteps_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="143" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1ad45c3563fd40bc35b958692be4432ca4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::increaseNumberOfRadialStepsIfNeeded_</definition>
+        <argsstring></argsstring>
+        <name>increaseNumberOfRadialStepsIfNeeded_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="144" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1ae93cc8c83eeaa3f3ec7022ca640f8b9f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::angularStepSize_</definition>
+        <argsstring></argsstring>
+        <name>angularStepSize_</name>
+        <briefdescription>
+<para>Angular step size (dTheta), dividing a full turn evenly [rad]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="145" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a33e3382dc62ee5de92947c2ae1060bd4" prot="private" static="no" mutable="no">
+        <type>Array&lt; double &gt;</type>
+        <definition>Array&lt;double&gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::angularSliceSines_</definition>
+        <argsstring></argsstring>
+        <name>angularSliceSines_</name>
+        <briefdescription>
+<para>Sines of the angles at the center of the angular slices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="146" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a7f7f2d3a533bd856da103e68deb25eb8" prot="private" static="no" mutable="no">
+        <type>Array&lt; double &gt;</type>
+        <definition>Array&lt;double&gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::angularSliceCosines_</definition>
+        <argsstring></argsstring>
+        <name>angularSliceCosines_</name>
+        <briefdescription>
+<para>Cosines of the angles at the center of the angular slices. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="147" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1aa29fdcfe7ae96210997e905c86e6fe44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::Foster1992</definition>
+        <argsstring>(const Derived &amp;aRelativeSpeedThreshold=Derived(100.0, Derived::Unit::MeterPerSecond()), const Shared&lt; const Frame &gt; &amp;aFrameSPtr=Frame::GCRF(), const Angle &amp;anAngularStepSize=Angle::Degrees(0.5), const Size &amp;aNumberOfRadialSteps=12, const bool &amp;increaseNumberOfRadialStepsIfNeeded=true)</argsstring>
+        <name>Foster1992</name>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aRelativeSpeedThreshold</declname>
+          <defval>Derived(100.0, Derived::Unit::MeterPerSecond())</defval>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+          <defval>Frame::GCRF()</defval>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>anAngularStepSize</declname>
+          <defval>Angle::Degrees(0.5)</defval>
+        </param>
+        <param>
+          <type>const Size &amp;</type>
+          <declname>aNumberOfRadialSteps</declname>
+          <defval>12</defval>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>increaseNumberOfRadialStepsIfNeeded</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1aa29fdcfe7ae96210997e905c86e6fe44" kindref="member">Foster1992</ref><sp/>algorithm<sp/>=<sp/>{}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1aa29fdcfe7ae96210997e905c86e6fe44" kindref="member">Foster1992</ref><sp/>algorithm<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Derived(100.0,<sp/>Derived::Unit::MeterPerSecond()),<sp/>Frame::GCRF(),<sp/>Angle::Degrees(0.5),<sp/>12,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>The default step sizes are those of Foster&apos;s numerical implementation, as reported by Alfano (2007): &quot;the
+angle theta step size is 0.5 deg, and the radius r step size is OBJ/12&quot; (OBJ being the combined hard-body radius). Alfano (2007) also notes that the accuracy degrades when the combined hard-body radius is smaller than the miss distance but larger than the smaller standard deviation, which smaller step sizes can remedy.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aRelativeSpeedThreshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A relative speed threshold below which the close approach is considered low relative speed and the algorithm is not applicable. Defaults to 100 m/s </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An inertial (or quasi-inertial) frame to use. Defaults to Frame::GCRF() </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anAngularStepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An angular step size of the polar integration, within (0, 360] deg. If it does not divide a full turn evenly, the number of angular slices is rounded up (and the step size reduced accordingly). Defaults to 0.5 deg </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aNumberOfRadialSteps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A number of radial steps of the polar integration (i.e. the radial step size is the combined hard-body radius divided by this number), strictly positive. Defaults to 12 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>increaseNumberOfRadialStepsIfNeeded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to increase the number of radial steps (i.e. reduce the radial step size) if needed so that the smaller standard deviation also spans at least the given number of radial steps, so that the probability density function is resolved when the combined hard-body radius is large compared to the smaller standard deviation. This avoids the above-mentioned accuracy degradation at the expense of a slower computation. However, this type of scenarios are rare in practice. Defaults to true </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="90" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.cpp" bodystart="31" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1afe5cf62f6c3dad61ed0ab2a85f5d68c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::~Foster1992</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~Foster1992</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="99" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a776d96b5e6f1e0e70558c3cd44615f9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; String &gt;</type>
+        <definition>Array&lt; String &gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::identifyUnsatisfiedAssumptions</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach) const override</argsstring>
+        <name>identifyUnsatisfiedAssumptions</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a7ee1d7cc74f527aacf171d1ba3ccf823">identifyUnsatisfiedAssumptions</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <briefdescription>
+<para>Identify unsatisfied assumptions for a close approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A non-exhaustive array of unsatisfied assumption descriptions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="105" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.cpp" bodystart="91" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1aa783ebfda800963d7543e90c62768ff0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::computeProbabilityOfCollision</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach, const Shared&lt; const HardBody &gt; &amp;aHardBody1SPtr, const Shared&lt; const HardBody &gt; &amp;aHardBody2SPtr) const override</argsstring>
+        <name>computeProbabilityOfCollision</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a3996b1b6fceb676d2873e924e06cd2d6">computeProbabilityOfCollision</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody1SPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody2SPtr</declname>
+        </param>
+        <briefdescription>
+<para>Compute the probability of collision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The hard bodies are approximated by a combined hard-body radius, taken as the enclosing radius of their combined cross section in the encounter frame.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody1SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 1 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody2SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 2</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The probability of collision </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="117" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.cpp" bodystart="125" bodyend="170"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a06657310bbf37da15e741ec0cd196f69" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992::computeProbabilityOfCollision_</definition>
+        <argsstring>(double aR0, const Angle &amp;aPhi, double aSigmaU, double aSigmaW, double anObj) const</argsstring>
+        <name>computeProbabilityOfCollision_</name>
+        <param>
+          <type>double</type>
+          <declname>aR0</declname>
+        </param>
+        <param>
+          <type>const Angle &amp;</type>
+          <declname>aPhi</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aSigmaU</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aSigmaW</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>anObj</declname>
+        </param>
+        <briefdescription>
+<para>Compute the probability of collision in the encounter plane (Alfano 2007, Equation 2) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The encounter (U-W) plane coordinates are aligned with the principal axes of the combined covariance, centered on the combined covariance. The hard-body circle is centered at (R0 * sin(phi), R0 * cos(phi)).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aR0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The distance from the origin to the center of the hard-body circle (i.e. the miss distance) [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPhi</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The angular position of the center of the hard-body circle, measured from the W axis </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSigmaU</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The combined standard deviation along the U principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSigmaW</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The combined standard deviation along the W principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The combined hard-body radius (OBJ) [m]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The probability of collision </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="136" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.cpp" bodystart="172" bodyend="230"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Foster 1992 probability of collision algorithm as described in: </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Foster, J.L., Estes, H.S. (1992). A Parametric Analysis of Orbital Debris Collision Probability and Maneuver Rate for Space Vehicles. NASA/JSC-25898.</para>
+<para>The two-dimensional probability density function of the relative position is integrated over the combined hard-body circle in the encounter plane, in polar coordinates centered on the hard-body circle, as described in Equation 2 of:</para>
+<para>Alfano, Salvatore. (2007). Review of Conjunction Probability Methods for Short-term Encounters. AAS 07-148.</para>
+<para>The hard-body circle is sectioned into radial steps (annular sectors) and angular slices, and the probability density function is evaluated at the center of each resulting cell (midpoint rule).</para>
+<para>The algorithm relies on the following assumptions:<itemizedlist>
+<listitem><para>High relative speed encounter </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>String</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>name_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" line="60" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Foster1992.hpp" bodystart="59" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a7f7f2d3a533bd856da103e68deb25eb8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>angularSliceCosines_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a33e3382dc62ee5de92947c2ae1060bd4" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>angularSliceSines_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1ae93cc8c83eeaa3f3ec7022ca640f8b9f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>angularStepSize_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a48d382c988f4d800029bf59a7522b324" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>CartesianPositionSubsetSPtr</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a173d741cf3aec10505010a3f08edcc2c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>ComputeProbabilityAnalysis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1aa783ebfda800963d7543e90c62768ff0" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>computeProbabilityOfCollision</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a06657310bbf37da15e741ec0cd196f69" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>computeProbabilityOfCollision_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1aa29fdcfe7ae96210997e905c86e6fe44" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>Foster1992</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a517d2b11623ba6db17df21e39dc6603f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>frameSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a0b3dd32db62c04daf547c2e67373e1a6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a776d96b5e6f1e0e70558c3cd44615f9b" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>identifyUnsatisfiedAssumptions</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1ad45c3563fd40bc35b958692be4432ca4" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>increaseNumberOfRadialStepsIfNeeded_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1aeaf739a3fc5bbc94f00bfacdfa34fa69" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>isApplicable</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a11cb3a2a30f70e8dd5ccecbadde74348" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>isMaximum</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a739f9f93d0fcd8eaa7d1940a1a8d9d84" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>isMaximum_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1af1f8ea91a8b4167aeca182e4faf63905" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>name_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1a8a70ad9749345832c5988001bace28ef" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>numberOfRadialSteps_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a109d81fb5d5fec61390c82ae20860031" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>ProbabilityOfCollisionAlgorithm</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>ProbabilityRegion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1ab02feac33dd0b9f6d03fd5fad258dae6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>relativeSpeedThreshold_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_foster1992_1afe5cf62f6c3dad61ed0ab2a85f5d68c2" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>~Foster1992</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1abfbbf23c2039fde2c57c951188a9842b" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Foster1992</scope><name>~ProbabilityOfCollisionAlgorithm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

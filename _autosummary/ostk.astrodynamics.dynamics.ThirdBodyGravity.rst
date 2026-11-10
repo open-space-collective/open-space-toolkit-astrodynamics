@@ -11,10 +11,13 @@ ostk.astrodynamics.dynamics.ThirdBodyGravity
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~ThirdBodyGravity.compute_contribution
       ~ThirdBodyGravity.from_environment
@@ -22,10 +25,5 @@ ostk.astrodynamics.dynamics.ThirdBodyGravity
       ~ThirdBodyGravity.get_name
       ~ThirdBodyGravity.get_read_coordinate_subsets
       ~ThirdBodyGravity.get_write_coordinate_subsets
-      ~ThirdBodyGravity.is_defined
-   
-   
-
-   
    
    

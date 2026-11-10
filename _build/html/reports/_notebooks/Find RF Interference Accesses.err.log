@@ -1,0 +1,42 @@
+Traceback (most recent call last):
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/nbclient/client.py", line 1323, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/uv-python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/app/build/bindings/python/OpenSpaceToolkitAstrodynamicsPy-python-package-3.11/.venv/lib/python3.11/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+environment: Environment = Environment.default()
+earth: Celestial = environment.access_celestial_object_with_name("Earth")
+
+stop_instant: Instant = start_instant + duration
+search_interval: RealInterval = Interval.closed(start_instant, stop_instant)
+
+orbit_1: Orbit = Orbit(SGP4(tle_1), earth)
+orbit_2: Orbit = Orbit(SGP4(tle_2), earth)
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mAttributeError[39m                            Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[5][39m[32m, line 2[39m
+[32m      1[39m environment: Environment = Environment.default()
+[32m----> [39m[32m2[39m earth: Celestial = environment.access_celestial_object_with_name([33m"Earth"[39m)
+[32m      3[39m 
+[32m      4[39m stop_instant: Instant = start_instant + duration
+[32m      5[39m search_interval: RealInterval = Interval.closed(start_instant, stop_instant)
+
+[31mAttributeError[39m: 'Environment' object has no attribute 'access_celestial_object_with_name'
+

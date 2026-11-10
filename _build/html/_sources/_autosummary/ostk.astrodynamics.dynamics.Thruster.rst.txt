@@ -11,10 +11,13 @@ ostk.astrodynamics.dynamics.Thruster
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~Thruster.compute_contribution
       ~Thruster.from_environment
@@ -23,10 +26,5 @@ ostk.astrodynamics.dynamics.Thruster
       ~Thruster.get_read_coordinate_subsets
       ~Thruster.get_satellite_system
       ~Thruster.get_write_coordinate_subsets
-      ~Thruster.is_defined
-   
-   
-
-   
    
    

@@ -11,10 +11,13 @@ ostk.astrodynamics.RootSolver
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~RootSolver.bisection
       ~RootSolver.bracket_and_solve
@@ -22,9 +25,5 @@ ostk.astrodynamics.RootSolver
       ~RootSolver.get_maximum_iteration_count
       ~RootSolver.get_tolerance
       ~RootSolver.solve
-   
-   
-
-   
    
    

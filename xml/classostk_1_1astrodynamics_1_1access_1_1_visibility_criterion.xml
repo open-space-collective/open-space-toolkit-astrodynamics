@@ -147,31 +147,31 @@
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a209ee59233071cbe3972155c40bb5a87" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a03e3b0f9efab332fa529f22b62eb71e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></type>
         <definition>VisibilityCriterion ostk::astrodynamics::access::VisibilityCriterion::FromAERInterval</definition>
-        <argsstring>(const Interval&lt; Real &gt; &amp;anAzimuthInterval, const Interval&lt; Real &gt; &amp;anElevationInterval, const Interval&lt; Real &gt; &amp;aRangeInterval)</argsstring>
+        <argsstring>(const Interval&lt; double &gt; &amp;anAzimuthInterval, const Interval&lt; double &gt; &amp;anElevationInterval, const Interval&lt; double &gt; &amp;aRangeInterval)</argsstring>
         <name>FromAERInterval</name>
         <param>
-          <type>const Interval&lt; Real &gt; &amp;</type>
+          <type>const Interval&lt; double &gt; &amp;</type>
           <declname>anAzimuthInterval</declname>
         </param>
         <param>
-          <type>const Interval&lt; Real &gt; &amp;</type>
+          <type>const Interval&lt; double &gt; &amp;</type>
           <declname>anElevationInterval</declname>
         </param>
         <param>
-          <type>const Interval&lt; Real &gt; &amp;</type>
+          <type>const Interval&lt; double &gt; &amp;</type>
           <declname>aRangeInterval</declname>
         </param>
         <briefdescription>
 <para>Creates a visibility criterion from azimuth, elevation, and range intervals. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">VisibilityCriterion<sp/>criterion<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a209ee59233071cbe3972155c40bb5a87" kindref="member">VisibilityCriterion::FromAERInterval</ref>(</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;::Closed(0.0,<sp/>360.0),</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;::Closed(0.0,<sp/>90.0),</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;::Closed(0.0,<sp/>1.0e7)</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">VisibilityCriterion<sp/>criterion<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a03e3b0f9efab332fa529f22b62eb71e7" kindref="member">VisibilityCriterion::FromAERInterval</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;double&gt;::Closed(0.0,<sp/>360.0),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;double&gt;::Closed(0.0,<sp/>90.0),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;double&gt;::Closed(0.0,<sp/>1.0e7)</highlight></codeline>
 <codeline><highlight class="normal">)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -207,26 +207,26 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="217" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp" bodystart="22" bodyend="27"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a806d379d654207cd18ea643f41c18f9c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a99afc838a3f235007f43c0424c448eb6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></type>
         <definition>VisibilityCriterion ostk::astrodynamics::access::VisibilityCriterion::FromAERMask</definition>
-        <argsstring>(const Map&lt; Real, Real &gt; &amp;anAzimuthElevationMask, const Interval&lt; Real &gt; &amp;aRangeInterval)</argsstring>
+        <argsstring>(const Map&lt; double, double &gt; &amp;anAzimuthElevationMask, const Interval&lt; double &gt; &amp;aRangeInterval)</argsstring>
         <name>FromAERMask</name>
         <param>
-          <type>const Map&lt; Real, Real &gt; &amp;</type>
+          <type>const Map&lt; double, double &gt; &amp;</type>
           <declname>anAzimuthElevationMask</declname>
         </param>
         <param>
-          <type>const Interval&lt; Real &gt; &amp;</type>
+          <type>const Interval&lt; double &gt; &amp;</type>
           <declname>aRangeInterval</declname>
         </param>
         <briefdescription>
 <para>Creates a visibility criterion from an azimuth-elevation mask and range interval. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">VisibilityCriterion<sp/>criterion<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a806d379d654207cd18ea643f41c18f9c" kindref="member">VisibilityCriterion::FromAERMask</ref>(</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">VisibilityCriterion<sp/>criterion<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a99afc838a3f235007f43c0424c448eb6" kindref="member">VisibilityCriterion::FromAERMask</ref>(</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{{0.0,<sp/>5.0},<sp/>{90.0,<sp/>10.0},<sp/>{180.0,<sp/>5.0},<sp/>{270.0,<sp/>10.0}},</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;::Closed(0.0,<sp/>1.0e7)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;double&gt;::Closed(0.0,<sp/>1.0e7)</highlight></codeline>
 <codeline><highlight class="normal">)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -286,21 +286,21 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="247" column="32" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.cpp" bodystart="36" bodyend="39"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1aee323ee940e4e3b07041ffa40d7643e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1ac1e57a7b3e0e6e362f1c345e102a04c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion" kindref="compound">VisibilityCriterion</ref></type>
         <definition>VisibilityCriterion ostk::astrodynamics::access::VisibilityCriterion::FromElevationInterval</definition>
-        <argsstring>(const Interval&lt; Real &gt; &amp;anElevationInterval)</argsstring>
+        <argsstring>(const Interval&lt; double &gt; &amp;anElevationInterval)</argsstring>
         <name>FromElevationInterval</name>
         <param>
-          <type>const Interval&lt; Real &gt; &amp;</type>
+          <type>const Interval&lt; double &gt; &amp;</type>
           <declname>anElevationInterval</declname>
         </param>
         <briefdescription>
 <para>Creates a visibility criterion from an elevation interval. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">VisibilityCriterion<sp/>criterion<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1aee323ee940e4e3b07041ffa40d7643e9" kindref="member">VisibilityCriterion::FromElevationInterval</ref>(</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;Real&gt;::Closed(10.0,<sp/>90.0)</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">VisibilityCriterion<sp/>criterion<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1ac1e57a7b3e0e6e362f1c345e102a04c8" kindref="member">VisibilityCriterion::FromElevationInterval</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Interval&lt;double&gt;::Closed(10.0,<sp/>90.0)</highlight></codeline>
 <codeline><highlight class="normal">)<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -370,12 +370,12 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="41" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="40" bodyend="298"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" line="39" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access/VisibilityCriterion.hpp" bodystart="38" bodyend="298"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a19371203e90e5f687e27016d927f991c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>as</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a209ee59233071cbe3972155c40bb5a87" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromAERInterval</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a806d379d654207cd18ea643f41c18f9c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromAERMask</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1aee323ee940e4e3b07041ffa40d7643e9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromElevationInterval</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a03e3b0f9efab332fa529f22b62eb71e7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromAERInterval</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a99afc838a3f235007f43c0424c448eb6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromAERMask</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1ac1e57a7b3e0e6e362f1c345e102a04c8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromElevationInterval</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a98fee7db2cca4c9a0510552b8ee6444e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>FromLineOfSight</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1a5a7bfa525cbc48b1d4c212dff94cad4d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>is</name></member>
       <member refid="classostk_1_1astrodynamics_1_1access_1_1_visibility_criterion_1add41f3b5b83c97dc417414b4e03c22d7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::access::VisibilityCriterion</scope><name>operator!=</name></member>

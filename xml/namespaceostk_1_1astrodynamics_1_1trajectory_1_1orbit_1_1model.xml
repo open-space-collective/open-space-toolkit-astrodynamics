@@ -10,9 +10,9 @@
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1kepler">ostk::astrodynamics::trajectory::orbit::model::kepler</innernamespace>
     <innernamespace refid="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4">ostk::astrodynamics::trajectory::orbit::model::sgp4</innernamespace>
       <sectiondef kind="var">
-      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1ab0a23d81eb4d122583225eb22cdb262d" prot="public" static="yes" mutable="no">
-        <type>const Real</type>
-        <definition>const Real ostk::astrodynamics::trajectory::orbit::model::Tolerance</definition>
+      <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1a01df22112233cea0bec9dee5f25602e4" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double ostk::astrodynamics::trajectory::orbit::model::Tolerance</definition>
         <argsstring></argsstring>
         <name>Tolerance</name>
         <initializer>= 1e-8</initializer>
@@ -22,7 +22,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" line="25" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="25" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" line="26" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="26" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1a44efbdd08da3a17afa299e2cd2b0b038" prot="public" static="yes" mutable="no">
         <type>const Derived::Unit</type>
@@ -37,7 +37,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" line="26" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="26" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" line="27" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="27" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1a44efbdd08da3a17afa299e2cd2b0b038" prot="public" static="yes" mutable="no">
         <type>const Derived::Unit</type>
@@ -52,7 +52,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" line="47" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="47" bodyend="-1"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" line="49" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="49" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -95,7 +95,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" line="92" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="92" bodyend="97"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" line="96" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler.cpp" bodystart="96" bodyend="101"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1a6d499daad4905d312e1cbd3bb20eb251" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -177,13 +177,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="216" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="216" bodyend="221"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" line="201" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/SGP4.cpp" bodystart="201" bodyend="206"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="32" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/BrouwerLyddaneMean/BrouwerLyddaneMean.hpp" line="31" column="1"/>
   </compounddef>
 </doxygen>

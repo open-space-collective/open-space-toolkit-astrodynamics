@@ -116,25 +116,6 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="59" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="21" bodyend="24"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1af2ded8af1167e11f4a85825ee234eb92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
-        <type>bool</type>
-        <definition>virtual bool ostk::astrodynamics::flight::profile::Model::isDefined</definition>
-        <argsstring>() const =0</argsstring>
-        <name>isDefined</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_transform_1a762bd3b89aea03a62e03c87124dcf6e5">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1model_1_1_tabulated_1a7903e9a4e4059b4aa53f4abd498c7de8">isDefined</reimplementedby>
-        <briefdescription>
-<para>Check if model is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if model is defined. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="71" column="18"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ab6cd8554311b555d0bbd9a9cf2b936ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
           <param>
@@ -155,7 +136,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="77" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="77" bodyend="80"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="72" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="72" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a45b6fc9e71f87aa07390b51bf2d0c3a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <templateparamlist>
@@ -177,7 +158,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="86" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="86" bodyend="96"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="81" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="81" bodyend="91"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1adda39b4823bc386e2cf443430b01fcab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -209,7 +190,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="102" column="19"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="97" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a49434a67dfcbbe324264b25b19da3d5c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -239,7 +220,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="108" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="33" bodyend="50"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="103" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.cpp" bodystart="33" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a435f33740c9c6171593772a1a1feb8a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Axes</type>
@@ -271,7 +252,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="114" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="109" column="18"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a30c339ed1ddc3d24707863e9729d7132" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Shared&lt; const Frame &gt;</type>
@@ -303,7 +284,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="120" column="20"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="115" column="20"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a3495da149b51ac52a9244145d263e7e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -346,7 +327,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="126" column="18"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="121" column="18"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -417,7 +398,7 @@
         <link refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model"/>
       </node>
     </inheritancegraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="36" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="35" bodyend="127"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" line="36" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile/Model.hpp" bodystart="35" bodyend="122"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a45b6fc9e71f87aa07390b51bf2d0c3a8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>as</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1adda39b4823bc386e2cf443430b01fcab" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>calculateStateAt</name></member>
@@ -426,7 +407,6 @@
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a30c339ed1ddc3d24707863e9729d7132" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>constructBodyFrame</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a435f33740c9c6171593772a1a1feb8a0" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>getAxesAt</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1ab6cd8554311b555d0bbd9a9cf2b936ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>is</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1af2ded8af1167e11f4a85825ee234eb92" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a9f897d6f5779826088fc7aa750c1540e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>Model</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a84c0583f35c7d396cc3bcd7f193e8b8b" prot="public" virt="virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1flight_1_1profile_1_1_model_1a68240493d08f91f6613186eb52823e85" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::profile::Model</scope><name>operator&lt;&lt;</name></member>

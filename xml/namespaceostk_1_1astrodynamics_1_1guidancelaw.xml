@@ -2,8 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
   <compounddef id="namespaceostk_1_1astrodynamics_1_1guidancelaw" kind="namespace" language="C++">
     <compoundname>ostk::astrodynamics::guidancelaw</compoundname>
+    <innerclass refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_composite_guidance_law" prot="public">ostk::astrodynamics::guidancelaw::CompositeGuidanceLaw</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_constant_thrust" prot="public">ostk::astrodynamics::guidancelaw::ConstantThrust</innerclass>
-    <innerclass refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_heterogeneous_guidance_law" prot="public">ostk::astrodynamics::guidancelaw::HeterogeneousGuidanceLaw</innerclass>
     <innerclass refid="classostk_1_1astrodynamics_1_1guidancelaw_1_1_q_law" prot="public">ostk::astrodynamics::guidancelaw::QLaw</innerclass>
       <sectiondef kind="typedef">
       <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1guidancelaw_1acf71814113a6a92457de7f64b97318a5" prot="public" static="no">
@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="35" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="37" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1guidancelaw_1a260e02497bcab124506928e2d362ce40" prot="public" static="no">
         <type>Eigen::Matrix&lt; double, 5, 5 &gt;</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="36" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="36" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="38" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="38" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespaceostk_1_1astrodynamics_1_1guidancelaw_1a76857f6998f8d1cef8ef74db56087cb4" prot="public" static="no">
         <type>Eigen::Matrix&lt; double, 5, 3 &gt;</type>
@@ -43,7 +43,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="37" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" line="39" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.hpp" bodystart="39" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="func">
@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" line="39" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="39" bodyend="44"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" line="38" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.cpp" bodystart="38" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1guidancelaw_1ae9af1f9a09af20284e4f895169fcf19a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -129,13 +129,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" line="151" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="151" bodyend="155"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" line="161" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/QLaw.cpp" bodystart="161" bodyend="165"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/ConstantThrust.hpp" line="23" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/GuidanceLaw/CompositeGuidanceLaw.hpp" line="22" column="1"/>
   </compounddef>
 </doxygen>

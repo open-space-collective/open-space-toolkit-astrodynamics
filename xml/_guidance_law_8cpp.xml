@@ -6,10 +6,7 @@
     <includes local="no">OpenSpaceToolkit/Core/Utility.hpp</includes>
     <includes refid="_guidance_law_8hpp" local="no">OpenSpaceToolkit/Astrodynamics/GuidanceLaw.hpp</includes>
     <incdepgraph>
-      <node id="6">
-        <label>OpenSpaceToolkit/Core/Type/Real.hpp</label>
-      </node>
-      <node id="10">
+      <node id="9">
         <label>OpenSpaceToolkit/Physics/Coordinate/Frame.hpp</label>
       </node>
       <node id="1">
@@ -37,13 +34,11 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
       </node>
-      <node id="11">
+      <node id="10">
         <label>OpenSpaceToolkit/Physics/Time/Instant.hpp</label>
       </node>
-      <node id="7">
+      <node id="6">
         <label>OpenSpaceToolkit/Core/Type/Shared.hpp</label>
       </node>
       <node id="3">
@@ -52,10 +47,10 @@
       <node id="2">
         <label>OpenSpaceToolkit/Core/Error.hpp</label>
       </node>
-      <node id="8">
+      <node id="7">
         <label>OpenSpaceToolkit/Core/Type/String.hpp</label>
       </node>
-      <node id="9">
+      <node id="8">
         <label>OpenSpaceToolkit/Mathematics/Object/Vector.hpp</label>
       </node>
       <node id="5">
@@ -86,13 +81,13 @@
 <codeline lineno="15"><highlight class="normal"></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_guidance_law_1a6efc5c9384e96c01924c73e72ff7a33b" kindref="member">GuidanceLaw::~GuidanceLaw</ref>()<sp/>{}</highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal">std::ostream&amp;<sp/><ref refid="namespaceostk_1_1astrodynamics_1_1trajectory_1a3265d232a97f78e7e542411c19d93837" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GuidanceLaw&amp;<sp/>aGuidanceLaw)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">std::ostream&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a12b70f091f5c153237323e10c10e4241" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>anOutputStream,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GuidanceLaw&amp;<sp/>aGuidanceLaw)</highlight></codeline>
 <codeline lineno="19"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>aGuidanceLaw.print(anOutputStream);</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>anOutputStream;</highlight></codeline>
 <codeline lineno="22"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal">String<sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law_1a9070d37e137647cc0927c49d0991978c" kindref="member">GuidanceLaw::getName</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>String&amp;<sp/><ref refid="classostk_1_1astrodynamics_1_1_guidance_law_1ad8cb91ddd34b06b2eb82112473ea78d4" kindref="member">GuidanceLaw::getName</ref>()</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
 <codeline lineno="25"><highlight class="keyword"></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>name_;</highlight></codeline>
 <codeline lineno="27"><highlight class="normal">}</highlight></codeline>

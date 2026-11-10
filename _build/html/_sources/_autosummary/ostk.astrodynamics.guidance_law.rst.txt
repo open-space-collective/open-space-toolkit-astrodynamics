@@ -20,8 +20,8 @@
       :template: custom-class-template.rst
       :nosignatures:
    
+      CompositeGuidanceLaw
       ConstantThrust
-      HeterogeneousGuidanceLaw
       QLaw
    
    

@@ -18,56 +18,30 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# Increasing the COE target SMA as it's osculating
-target_coe = COE(
-    coe.get_semi_major_axis() + Length.kilometers(5.0),
-    coe.get_eccentricity(),
-    coe.get_inclination(),
-    coe.get_raan(),
-    coe.get_aop(),
-    coe.get_true_anomaly(),
+earth = Earth.from_models(
+    EarthGravitationalModel(EarthGravitationalModel.Type.Spherical),
+    EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+    EarthAtmosphericModel(EarthAtmosphericModel.Type.Undefined),
 )
 
-guidance_law = QLaw(
-    target_coe,
-    EarthGravitationalModel.EGM2008.gravitational_parameter,
-    QLaw.Parameters(
-        element_weights={COE.Element.SemiMajorAxis: (1.0, 50.0)},
-        m=3,
-        n=4,
-        r=2,
-        b=0.01,
-        k=100,
-        periapsis_weight=0.0,
-        minimum_periapsis_radius=Length.kilometers(6578.0),
-    ),
-    QLaw.GradientStrategy.Analytical,
-)
+environment = Environment(Instant.J2000(), [earth])
 ------------------
 
 
 [31m---------------------------------------------------------------------------[39m
-[31mTypeError[39m                                 Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[9][39m[32m, line 11[39m
-[32m      7[39m     coe.get_aop(),
-[32m      8[39m     coe.get_true_anomaly(),
-[32m      9[39m )
-[32m     10[39m 
-[32m---> [39m[32m11[39m guidance_law = QLaw(
-[32m     12[39m     target_coe,
-[32m     13[39m     EarthGravitationalModel.EGM2008.gravitational_parameter,
-[32m     14[39m     QLaw.Parameters(
+[31mAttributeError[39m                            Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 3[39m
+[32m      1[39m earth = Earth.from_models(
+[32m      2[39m     EarthGravitationalModel(EarthGravitationalModel.Type.Spherical),
+[32m----> [39m[32m3[39m     EarthMagneticModel(EarthMagneticModel.Type.Undefined),
+[32m      4[39m     EarthAtmosphericModel(EarthAtmosphericModel.Type.Undefined),
+[32m      5[39m )
+[32m      6[39m 
 
-[31mTypeError[39m: __init__(): incompatible constructor arguments. The following argument types are supported:
-    1. ostk.astrodynamics.guidance_law.QLaw(target_coe: ostk.astrodynamics.trajectory.orbit.model.kepler.COE, gravitational_parameter: ostk.physics.unit.Derived, parameters: ostk.astrodynamics.guidance_law.QLaw.Parameters, coe_domain: ostk.astrodynamics.guidance_law.QLaw.COEDomain, gradient_strategy: ostk.astrodynamics.guidance_law.QLaw.GradientStrategy = <GradientStrategy.FiniteDifference: 1>)
+[36mFile [39m[32m/opt/uv-python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/enum.py:786[39m, in [36mEnumType.__getattr__[39m[34m(cls, name)[39m
+[32m    784[39m     [38;5;28;01mreturn[39;00m [38;5;28mcls[39m._member_map_[name]
+[32m    785[39m [38;5;28;01mexcept[39;00m [38;5;167;01mKeyError[39;00m:
+[32m--> [39m[32m786[39m     [38;5;28;01mraise[39;00m [38;5;167;01mAttributeError[39;00m(name) [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;28;01mNone[39;00m
 
-Invoked with: -- Classical Orbital Elements ----------------------------------------------------------------------
-    Semi-major axis:                         6968137.0 [m]                            
-    Eccentricity:                            2.2627612980364442e-18                   
-    Inclination:                             97.73352589929226 [deg]                  
-    Right ascension of the ascending node:   354.93066948516838 [deg]                 
-    Argument of periapsis:                   0.0 [deg]                                
-    True anomaly:                            1.2074182697257333e-06 [deg]             
-----------------------------------------------------------------------------------------------------
-, 398600441500000.0 [m^3.s^-2], <ostk.astrodynamics.guidance_law.QLaw.Parameters object at 0x7f5579872ff0>, <GradientStrategy.Analytical: 0>
+[31mAttributeError[39m: Undefined
 

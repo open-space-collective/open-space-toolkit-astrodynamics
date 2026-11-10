@@ -1,0 +1,772 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::uncertainty::Covariance</compoundname>
+    <includes refid="_covariance_8hpp" local="no">Covariance.hpp</includes>
+    <innerclass refid="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis" prot="public">ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ad5c37b68fb07692e26f5b9bdd9f717d3" prot="private" static="no" mutable="no">
+        <type>Instant</type>
+        <definition>Instant ostk::astrodynamics::uncertainty::Covariance::instant_</definition>
+        <argsstring></argsstring>
+        <name>instant_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="233" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a6a0aa98d531c563e1609ee245a36eed6" prot="private" static="no" mutable="no">
+        <type>MatrixXd</type>
+        <definition>MatrixXd ostk::astrodynamics::uncertainty::Covariance::coordinates_</definition>
+        <argsstring></argsstring>
+        <name>coordinates_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="234" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a3ad5990bd685fb72a8d5fd94b5b32e88" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::uncertainty::Covariance::frameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>frameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="235" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a363edcdcfbeda0261bb202c014915094" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_broker" kindref="compound">CoordinateBroker</ref> &gt;</type>
+        <definition>Shared&lt;const CoordinateBroker&gt; ostk::astrodynamics::uncertainty::Covariance::coordinatesBrokerSPtr_</definition>
+        <argsstring></argsstring>
+        <name>coordinatesBrokerSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="236" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1aeaba6a9c09ab7497bfe132494672f642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::uncertainty::Covariance::Covariance</definition>
+        <argsstring>(const Instant &amp;anInstant, const MatrixXd &amp;aCoordinates, const Shared&lt; const Frame &gt; &amp;aFrameSPtr, const Array&lt; Shared&lt; const CoordinateSubset &gt;&gt; &amp;aCoordinateSubsetsArray)</argsstring>
+        <name>Covariance</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const MatrixXd &amp;</type>
+          <declname>aCoordinates</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <param>
+          <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt; &amp;</type>
+          <declname>aCoordinateSubsetsArray</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. This constructor makes a new Coordinates Broker under the hood for every <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1aeaba6a9c09ab7497bfe132494672f642" kindref="member">Covariance</ref><sp/>covariance<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Instant::DateTime(DateTime(2020,<sp/>1,<sp/>1,<sp/>0,<sp/>0,<sp/>0),<sp/>Scale::UTC),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>aCoordinates,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Frame::GCRF(),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" kindref="member">CartesianPosition::Default</ref>(),<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_velocity_1a51eb57a5ff715bf8f82ad638530e7891" kindref="member">CartesianVelocity::Default</ref>()<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCoordinates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The coordinates at the instant in International System of Units </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reference frame in which the coordinates are referenced to and resolved in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetsArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The coordinate subsets associated with the coordinates </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::runtime::Wrong</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the coordinates are not square, do not match the coordinate subsets, are not exactly symmetric or are not positive semi-definite (within a tolerance relative to the largest coefficient) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="81" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="44" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ac09e9dbb193d058d795ba8a76681c908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> &amp;</type>
+        <definition>Covariance &amp; ostk::astrodynamics::uncertainty::Covariance::operator=</definition>
+        <argsstring>(const Covariance &amp;aCovariance)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> &amp;</type>
+          <declname>aCovariance</declname>
+        </param>
+        <briefdescription>
+<para>Copy-assignment operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCovariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> to copy </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The modified <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="92" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="87" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a7d101fddaf73172adce1006dbb0c24b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref></type>
+        <definition>Covariance ostk::astrodynamics::uncertainty::Covariance::operator+</definition>
+        <argsstring>(const Covariance &amp;aCovariance) const</argsstring>
+        <name>operator+</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> &amp;</type>
+          <declname>aCovariance</declname>
+        </param>
+        <briefdescription>
+<para>Addition operator (element-wise). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCovariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The other <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> equal to the element-wise sum of the two Covariances </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="98" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="99" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a93c717186c1f692a081c174b4573d9e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref></type>
+        <definition>Covariance ostk::astrodynamics::uncertainty::Covariance::operator-</definition>
+        <argsstring>(const Covariance &amp;aCovariance) const</argsstring>
+        <name>operator-</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> &amp;</type>
+          <declname>aCovariance</declname>
+        </param>
+        <briefdescription>
+<para>Subtraction operator (element-wise). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCovariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The other <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> equal to the element-wise difference between the two Covariances </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="104" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="124" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a47fdc9846359574ebaf1623361a2204a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::uncertainty::Covariance::getSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getSize</name>
+        <briefdescription>
+<para>Get the size (i.e. number of rows/columns)of the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The size of the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="116" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a2f1ea87ae3b00ad08824d135d24861f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Instant &amp;</type>
+        <definition>const Instant &amp; ostk::astrodynamics::uncertainty::Covariance::getInstant</definition>
+        <argsstring>() const</argsstring>
+        <name>getInstant</name>
+        <briefdescription>
+<para>Get the instant associated with the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The instant </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="121" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ab575f6eb17154c7c01e9c892d4c7a3d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Shared&lt; const Frame &gt; &amp;</type>
+        <definition>const Shared&lt; const Frame &gt; &amp; ostk::astrodynamics::uncertainty::Covariance::getFrame</definition>
+        <argsstring>() const</argsstring>
+        <name>getFrame</name>
+        <briefdescription>
+<para>Get the reference frame associated with the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The reference frame </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="126" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a7ad4e4f8d47ec594d60ef1bf0fd3fc5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const MatrixXd &amp;</type>
+        <definition>const MatrixXd &amp; ostk::astrodynamics::uncertainty::Covariance::getCoordinates</definition>
+        <argsstring>() const</argsstring>
+        <name>getCoordinates</name>
+        <briefdescription>
+<para>Get the coordinates of the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The coordinates </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="131" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="171" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a92a5726263004fa59102264c1613b461" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt; &amp;</type>
+        <definition>const Array&lt; Shared&lt; const CoordinateSubset &gt; &gt; &amp; ostk::astrodynamics::uncertainty::Covariance::getCoordinateSubsets</definition>
+        <argsstring>() const</argsstring>
+        <name>getCoordinateSubsets</name>
+        <briefdescription>
+<para>Get the coordinate subsets of the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The coordinate subsets </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="136" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="176" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ad4b77a730366461c945d386ca6eead6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>MatrixXd</type>
+        <definition>MatrixXd ostk::astrodynamics::uncertainty::Covariance::extractCoordinate</definition>
+        <argsstring>(const Shared&lt; const CoordinateSubset &gt; &amp;aSubsetSPtr) const</argsstring>
+        <name>extractCoordinate</name>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &amp;</type>
+          <declname>aSubsetSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Extract the coordinates for a single subset. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aSubsetSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The subset to extract the coordinates for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The coordinates for the subset </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="142" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="181" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1aace7943ce3426e92b35ca459a1b7c95a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>MatrixXd</type>
+        <definition>MatrixXd ostk::astrodynamics::uncertainty::Covariance::extractCoordinates</definition>
+        <argsstring>(const Array&lt; Shared&lt; const CoordinateSubset &gt;&gt; &amp;aCoordinateSubsetsArray) const</argsstring>
+        <name>extractCoordinates</name>
+        <param>
+          <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt; &amp;</type>
+          <declname>aCoordinateSubsetsArray</declname>
+        </param>
+        <briefdescription>
+<para>Extract the coordinates for multiple subsets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetsArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The array of subsets to extract the coordinates for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The coordinates for the subsets </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="148" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="189" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a428df4445ae277714ab76b4a8a05be86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref></type>
+        <definition>Covariance ostk::astrodynamics::uncertainty::Covariance::rotate</definition>
+        <argsstring>(const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const</argsstring>
+        <name>rotate</name>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Return a new <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> rotated into a different reference frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is a pure rotation, only the following coordinate subsets are rotated: CartesianPosition, CartesianVelocity, CartesianAcceleration and AngularVelocity. The rest are left unchanged.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reference frame to rotate into </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> rotated into the given reference frame </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="158" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="223" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a3aa469bfc6d80bd9920e8a00c337e6da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref></type>
+        <definition>Covariance ostk::astrodynamics::uncertainty::Covariance::diagonalize</definition>
+        <argsstring>() const</argsstring>
+        <name>diagonalize</name>
+        <briefdescription>
+<para>Return a new diagonalized <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a new <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> with the same instant, frame, and coordinate subsets, whose coordinates retain only the diagonal (variance) terms.</para>
+<para><simplesect kind="return"><para>A diagonalized <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="166" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="274" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ab0cf1ac40c0367f9ffa0a59251eda573" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref></type>
+        <definition>Covariance ostk::astrodynamics::uncertainty::Covariance::reduce</definition>
+        <argsstring>(const Array&lt; Shared&lt; const CoordinateSubset &gt;&gt; &amp;aCoordinateSubsetsArray) const</argsstring>
+        <name>reduce</name>
+        <param>
+          <type>const Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;&gt; &amp;</type>
+          <declname>aCoordinateSubsetsArray</declname>
+        </param>
+        <briefdescription>
+<para>Return a new <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> reduced to the given coordinate subsets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function can also be used to reorder the coordinate subsets.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCoordinateSubsetsArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The coordinate subsets to retain </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> containing only the specified coordinate subsets </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="174" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="288" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1af33bf491cb9c1995625e4b97070d7f31" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref></type>
+        <definition>Covariance ostk::astrodynamics::uncertainty::Covariance::scale</definition>
+        <argsstring>(double aScalar) const</argsstring>
+        <name>scale</name>
+        <param>
+          <type>double</type>
+          <declname>aScalar</declname>
+        </param>
+        <briefdescription>
+<para>Return a new <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> whose coordinates are multiplied by a scalar. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aScalar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The strictly positive scalar to multiply the covariance coordinates by </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A new <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> with scaled coordinates </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="180" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="298" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ab5e553c4a12ef375c8cc353c0b8fa660" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis" kindref="compound">MahalanobisDistanceAnalysis</ref></type>
+        <definition>Covariance::MahalanobisDistanceAnalysis ostk::astrodynamics::uncertainty::Covariance::computeMahalanobisDistanceAnalysis</definition>
+        <argsstring>(const VectorXd &amp;aResiduals) const</argsstring>
+        <name>computeMahalanobisDistanceAnalysis</name>
+        <param>
+          <type>const VectorXd &amp;</type>
+          <declname>aResiduals</declname>
+        </param>
+        <briefdescription>
+<para>Compute the Mahalanobis distance analysis of residuals with respect to the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The squared Mahalanobis distance is d² = rᵀ P⁻¹ r, where r are the residuals and P the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> coordinates. The p-value is the survival function of the chi-squared distribution with as many degrees of freedom as the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> size, evaluated at d².</para>
+<para><ulink url="https://en.wikipedia.org/wiki/Mahalanobis_distance">https://en.wikipedia.org/wiki/Mahalanobis_distance</ulink></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aResiduals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The residuals, expressed in the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> frame and ordered as its coordinate subsets </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The Mahalanobis distance analysis </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::runtime::Wrong</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the residuals size does not match the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> size, or if the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> is empty or not positive definite </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="194" column="33" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="314" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a786a99822bab02ebecf8e9f6a6bf991c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::uncertainty::Covariance::print</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, bool displayDecorator=true) const</argsstring>
+        <name>print</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>displayDecorator</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Print the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> to an output stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream to print to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>displayDecorator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether or not to display the decorator </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="200" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="349" bodyend="365"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a12b70f091f5c153237323e10c10e4241" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend std::ostream &amp;</type>
+        <definition>std::ostream&amp; operator&lt;&lt;</definition>
+        <argsstring>(std::ostream &amp;anOutputStream, const Covariance &amp;aCovariance)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>anOutputStream</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> &amp;</type>
+          <declname>aCovariance</declname>
+        </param>
+        <briefdescription>
+<para>Stream insertion operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anOutputStream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The output stream to insert into </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCovariance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> to insert </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The output stream with the <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> inserted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="111" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="149" bodyend="154"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a627809682d5491a8113de16f60f0da06" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref></type>
+        <definition>Covariance ostk::astrodynamics::uncertainty::Covariance::FromPositionSigmas</definition>
+        <argsstring>(const Instant &amp;anInstant, const Vector3d &amp;aPositionSigmas, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</argsstring>
+        <name>FromPositionSigmas</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aPositionSigmas</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Build a 3x3 <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> from cartesian position sigmas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The resulting matrix is diagonal, with each diagonal component equal to the square of the corresponding position sigma.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPositionSigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The cartesian position sigmas </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reference frame in which the covariance is referenced to and resolved in </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="211" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="367" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a94141a2f2a65504f2c4d547d2cc57957" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref></type>
+        <definition>Covariance ostk::astrodynamics::uncertainty::Covariance::FromPositionVelocitySigmas</definition>
+        <argsstring>(const Instant &amp;anInstant, const Vector3d &amp;aPositionSigmas, const Vector3d &amp;aVelocitySigmas, const Shared&lt; const Frame &gt; &amp;aFrameSPtr)</argsstring>
+        <name>FromPositionVelocitySigmas</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aPositionSigmas</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aVelocitySigmas</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+        </param>
+        <briefdescription>
+<para>Build a 6x6 <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> from cartesian position and velocity sigmas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The resulting matrix is diagonal, with each diagonal component equal to the square of the corresponding position or velocity sigma.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An instant </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aPositionSigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The cartesian position sigmas </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aVelocitySigmas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The cartesian velocity sigmas </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reference frame in which the covariance is referenced to and resolved in </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="225" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.cpp" bodystart="377" bodyend="397"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para><ref refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance" kindref="compound">Covariance</ref> matrix at a given instant in time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents the covariance of an object&apos;s state at a specific instant, expressed in a given reference frame. The contents of the matrix are identified an ordered set of coordinate subsets. </para>
+    </detaileddescription>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="48" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="47" bodyend="237"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ab5e553c4a12ef375c8cc353c0b8fa660" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>computeMahalanobisDistanceAnalysis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a6a0aa98d531c563e1609ee245a36eed6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>coordinates_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a363edcdcfbeda0261bb202c014915094" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>coordinatesBrokerSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1aeaba6a9c09ab7497bfe132494672f642" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>Covariance</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a3aa469bfc6d80bd9920e8a00c337e6da" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>diagonalize</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ad4b77a730366461c945d386ca6eead6b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>extractCoordinate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1aace7943ce3426e92b35ca459a1b7c95a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>extractCoordinates</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a3ad5990bd685fb72a8d5fd94b5b32e88" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>frameSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a627809682d5491a8113de16f60f0da06" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>FromPositionSigmas</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a94141a2f2a65504f2c4d547d2cc57957" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>FromPositionVelocitySigmas</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a7ad4e4f8d47ec594d60ef1bf0fd3fc5d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>getCoordinates</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a92a5726263004fa59102264c1613b461" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>getCoordinateSubsets</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ab575f6eb17154c7c01e9c892d4c7a3d1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>getFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a2f1ea87ae3b00ad08824d135d24861f8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>getInstant</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a47fdc9846359574ebaf1623361a2204a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>getSize</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ad5c37b68fb07692e26f5b9bdd9f717d3" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>instant_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a7d101fddaf73172adce1006dbb0c24b8" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>operator+</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a93c717186c1f692a081c174b4573d9e7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>operator-</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a12b70f091f5c153237323e10c10e4241" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>operator&lt;&lt;</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ac09e9dbb193d058d795ba8a76681c908" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>operator=</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a786a99822bab02ebecf8e9f6a6bf991c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>print</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1ab0cf1ac40c0367f9ffa0a59251eda573" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>reduce</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1a428df4445ae277714ab76b4a8a05be86" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>rotate</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1af33bf491cb9c1995625e4b97070d7f31" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance</scope><name>scale</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

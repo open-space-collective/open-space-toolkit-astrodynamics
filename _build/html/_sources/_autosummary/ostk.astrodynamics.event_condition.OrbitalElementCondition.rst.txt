@@ -16,6 +16,15 @@ ostk.astrodynamics.event\_condition.OrbitalElementCondition
    .. autosummary::
       :nosignatures:
    
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
       ~OrbitalElementCondition.aop
       ~OrbitalElementCondition.argument_of_latitude
       ~OrbitalElementCondition.eccentric_anomaly
@@ -25,9 +34,5 @@ ostk.astrodynamics.event\_condition.OrbitalElementCondition
       ~OrbitalElementCondition.raan
       ~OrbitalElementCondition.semi_major_axis
       ~OrbitalElementCondition.true_anomaly
-   
-   
-
-   
    
    

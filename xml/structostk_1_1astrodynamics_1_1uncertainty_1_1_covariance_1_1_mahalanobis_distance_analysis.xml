@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis" kind="struct" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis</compoundname>
+    <includes refid="_covariance_8hpp" local="no">Covariance.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis_1a510db493c5ea73f0df6d5c72a063fe97" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis::mahalanobisDistanceSquared</definition>
+        <argsstring></argsstring>
+        <name>mahalanobisDistanceSquared</name>
+        <briefdescription>
+<para>The squared Mahalanobis distance of the residuals. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="55" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis_1a55ee1f75317765d643c8ca80763bfd2e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis::pValue</definition>
+        <argsstring></argsstring>
+        <name>pValue</name>
+        <briefdescription>
+<para>The probability of a point in the distribution lying at least that far out. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="56" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis_1a3e4b88714e0eefeabd0d0cf9ee0b189a" prot="public" static="no" mutable="no">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis::numberOfDimensions</definition>
+        <argsstring></argsstring>
+        <name>numberOfDimensions</name>
+        <briefdescription>
+<para>The number of dimensions of the residual vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="57" column="14" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis_1ae8cc13a8b06f942edba56e6406b899f0" prot="public" static="no" mutable="no">
+        <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
+        <definition>Array&lt;Shared&lt;const CoordinateSubset&gt; &gt; ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis::coordinateSubsets</definition>
+        <argsstring></argsstring>
+        <name>coordinateSubsets</name>
+        <briefdescription>
+<para>The coordinate subsets of the analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="58" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Result of a Mahalanobis distance analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ulink url="https://en.wikipedia.org/wiki/Mahalanobis_distance">https://en.wikipedia.org/wiki/Mahalanobis_distance</ulink> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis</label>
+        <link refid="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>coordinateSubsets</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>numberOfDimensions</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Size</label>
+      </node>
+      <node id="2">
+        <label>Array&lt; Shared&lt; const ostk::astrodynamics::trajectory::state::CoordinateSubset &gt; &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" line="54" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Uncertainty/Covariance.hpp" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis_1ae8cc13a8b06f942edba56e6406b899f0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis</scope><name>coordinateSubsets</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis_1a510db493c5ea73f0df6d5c72a063fe97" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis</scope><name>mahalanobisDistanceSquared</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis_1a3e4b88714e0eefeabd0d0cf9ee0b189a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis</scope><name>numberOfDimensions</name></member>
+      <member refid="structostk_1_1astrodynamics_1_1uncertainty_1_1_covariance_1_1_mahalanobis_distance_analysis_1a55ee1f75317765d643c8ca80763bfd2e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::uncertainty::Covariance::MahalanobisDistanceAnalysis</scope><name>pValue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

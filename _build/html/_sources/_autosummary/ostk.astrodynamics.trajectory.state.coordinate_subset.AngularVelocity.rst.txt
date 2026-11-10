@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.AngularVelocity
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~AngularVelocity.add
       ~AngularVelocity.ballistic_coefficient
@@ -28,9 +31,5 @@ ostk.astrodynamics.trajectory.state.coordinate\_subset.AngularVelocity
       ~AngularVelocity.mass_flow_rate
       ~AngularVelocity.subtract
       ~AngularVelocity.surface_area
-   
-   
-
-   
    
    

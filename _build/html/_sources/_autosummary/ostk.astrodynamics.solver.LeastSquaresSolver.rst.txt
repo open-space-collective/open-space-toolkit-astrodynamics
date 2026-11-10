@@ -11,10 +11,13 @@ ostk.astrodynamics.solver.LeastSquaresSolver
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~LeastSquaresSolver.calculate_empirical_covariance
       ~LeastSquaresSolver.default
@@ -25,9 +28,5 @@ ostk.astrodynamics.solver.LeastSquaresSolver
       ~LeastSquaresSolver.maximum_absolute_coordinate_scaling
       ~LeastSquaresSolver.no_scaling
       ~LeastSquaresSolver.solve
-   
-   
-
-   
    
    

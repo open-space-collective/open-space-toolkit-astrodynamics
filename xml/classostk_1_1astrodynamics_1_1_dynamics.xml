@@ -22,7 +22,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="148" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="148" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="143" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="143" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
@@ -69,9 +69,9 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="77" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="50" bodyend="50"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1a6055a6b91a571604860e46a2563c0b9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>String</type>
-        <definition>String ostk::astrodynamics::Dynamics::getName</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1a91b58c009931e99c22ec18efd213455f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const String &amp;</type>
+        <definition>const String &amp; ostk::astrodynamics::Dynamics::getName</definition>
         <argsstring>() const</argsstring>
         <name>getName</name>
         <briefdescription>
@@ -84,7 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="93" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="59" bodyend="62"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="93" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="59" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1a0cd547f2ada6a7285940c24b900292de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -133,29 +133,6 @@
         </inbodydescription>
         <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="99" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="64" bodyend="71"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1a934808fb5b77afd3b25a918b0fe32892" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
-        <type>bool</type>
-        <definition>virtual bool ostk::astrodynamics::Dynamics::isDefined</definition>
-        <argsstring>() const =0</argsstring>
-        <name>isDefined</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a27a5586ee6428885f411fae61701dc77">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1adb406a568a7b88700100ad7d0af8e57a">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1a8b47408a6ea60c726395e0846cf1de80">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_atmospheric_drag_1a173fb24915165833a59667644e32ff14">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a23ad1dc48b6d7caefc2923a523b7011e">isDefined</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_tabulated_1a2754aff6f3ae5a0daf2b961edcefb670">isDefined</reimplementedby>
-        <briefdescription>
-<para>Check if dynamics is defined (pure virtual) </para>
-        </briefdescription>
-        <detaileddescription>
-<para><simplesect kind="return"><para>True if dynamics is defined </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="104" column="18"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1add0e583f438d0ffb62f402932e3b8865" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
         <definition>virtual Array&lt;Shared&lt;const CoordinateSubset&gt; &gt; ostk::astrodynamics::Dynamics::getReadCoordinateSubsets</definition>
@@ -177,15 +154,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="109" column="19"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="104" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1ac7009e87414ea145452914104d9453e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>Array&lt; Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt; &gt;</type>
         <definition>virtual Array&lt;Shared&lt;const CoordinateSubset&gt; &gt; ostk::astrodynamics::Dynamics::getWriteCoordinateSubsets</definition>
         <argsstring>() const =0</argsstring>
         <name>getWriteCoordinateSubsets</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1af31bbf71a94c01701b2227e89dfa2a32">getWriteCoordinateSubsets</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1aeeeef977a90f37040e27c8f75dd78d2a">getWriteCoordinateSubsets</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1af31bbf71a94c01701b2227e89dfa2a32">getWriteCoordinateSubsets</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a2322b621299a95a268602540cc27507f">getWriteCoordinateSubsets</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1ac212356b9ee72e46d366c5f7b3ea35c2">getWriteCoordinateSubsets</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_atmospheric_drag_1aaa71532739aaeff48c0e98f429df379b">getWriteCoordinateSubsets</reimplementedby>
@@ -200,15 +177,15 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="114" column="19"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="109" column="19"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1a562cffe3752091fe9edc6416e7b9f0f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>VectorXd</type>
         <definition>virtual VectorXd ostk::astrodynamics::Dynamics::computeContribution</definition>
         <argsstring>(const Instant &amp;anInstant, const VectorXd &amp;x, const Shared&lt; const Frame &gt; &amp;aFrameSPtr) const =0</argsstring>
         <name>computeContribution</name>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a1ede105bab66c794f308d0a1f503a14f">computeContribution</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_position_derivative_1a329d8ed0ec6c893c5cdd83439070b333">computeContribution</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_thruster_1a1ede105bab66c794f308d0a1f503a14f">computeContribution</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_central_body_gravity_1a49ca9e85f9a55122684e9c1f07e72e62">computeContribution</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_third_body_gravity_1a54abb6a56e9b1e450d79ea24d46886d3">computeContribution</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1dynamics_1_1_atmospheric_drag_1aaa41a77105e9c3b47577a70643cae147">computeContribution</reimplementedby>
@@ -260,7 +237,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="125" column="22"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="120" column="22"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -362,7 +339,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="136" column="54" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="73" bodyend="86"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="131" column="54" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="73" bodyend="86"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1a32cd83261284ade7ce4aa80681587175" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; Shared&lt; <ref refid="classostk_1_1astrodynamics_1_1_dynamics" kindref="compound">Dynamics</ref> &gt; &gt;</type>
@@ -392,7 +369,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="145" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="147" bodyend="185"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="140" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="147" bodyend="185"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-static-func">
@@ -431,7 +408,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="150" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="88" bodyend="111"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="145" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="88" bodyend="111"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1a3c075367def5d6263bd93a5b8dd0a8f4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>VectorXd</type>
@@ -456,7 +433,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="159" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="113" bodyend="130"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="154" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="113" bodyend="130"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_dynamics_1ac43fe1e6d932d32c08bcf74e305ec7f7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -481,7 +458,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="163" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="132" bodyend="145"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="158" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Dynamics.cpp" bodystart="132" bodyend="145"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -531,7 +508,7 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="49" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="48" bodyend="166"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" line="49" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Dynamics.hpp" bodystart="48" bodyend="161"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1ac43fe1e6d932d32c08bcf74e305ec7f7" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>applyContribution</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a562cffe3752091fe9edc6416e7b9f0f0" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>computeContribution</name></member>
@@ -539,11 +516,10 @@
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a999586ae8bcb846dce521bde617939ad" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>Dynamics</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a3c075367def5d6263bd93a5b8dd0a8f4" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>extractReadState</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a32cd83261284ade7ce4aa80681587175" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>FromEnvironment</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a6055a6b91a571604860e46a2563c0b9e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a91b58c009931e99c22ec18efd213455f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>getName</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1add0e583f438d0ffb62f402932e3b8865" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>getReadCoordinateSubsets</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1abb6276a394f319cc716a564c19353cc1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>GetSystemOfEquations</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1ac7009e87414ea145452914104d9453e0" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>getWriteCoordinateSubsets</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a934808fb5b77afd3b25a918b0fe32892" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a7cf7a3e31fa033cc9abf8fb50247a3f8" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>name_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1aad1f02b40439704299193e464ba6e579" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_dynamics_1a0cd547f2ada6a7285940c24b900292de" prot="public" virt="virtual"><scope>ostk::astrodynamics::Dynamics</scope><name>print</name></member>

@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target" prot="public" virt="non-virtual">ostk::astrodynamics::flight::Profile::PointingTarget</basecompoundref>
+    <includes refid="_profile_8hpp" local="no">Profile.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1a01a8e93232f0e1bfe2d04ca8a549ed1a" prot="public" static="no" mutable="no">
+        <type><ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref></type>
+        <definition>ostk::astrodynamics::Trajectory ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget::trajectory</definition>
+        <argsstring></argsstring>
+        <name>trajectory</name>
+        <briefdescription>
+<para>The trajectory to point towards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="154" column="41" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1aef6ded3cf5f3817c9999ede444c54221" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target" kindref="compound">TrajectoryPointingTarget</ref></type>
+        <definition>Profile::TrajectoryPointingTarget ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget::TargetPosition</definition>
+        <argsstring>(const ostk::astrodynamics::Trajectory &amp;aTrajectory, const Vector3d &amp;aDirectionInBodyFrame)</argsstring>
+        <name>TargetPosition</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aDirectionInBodyFrame</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target" kindref="compound">TrajectoryPointingTarget</ref> object, pointing towards the provided trajectory&apos;s position. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory to point towards. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aDirectionInBodyFrame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (unit) vector in the spacecraft&apos;s body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="124" column="41" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1a292fe1124f30f90a3bf9151b5a58d676" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target" kindref="compound">TrajectoryPointingTarget</ref></type>
+        <definition>Profile::TrajectoryPointingTarget ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget::TargetVelocity</definition>
+        <argsstring>(const ostk::astrodynamics::Trajectory &amp;aTrajectory, const Vector3d &amp;aDirectionInBodyFrame)</argsstring>
+        <name>TargetVelocity</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aDirectionInBodyFrame</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target" kindref="compound">TrajectoryPointingTarget</ref> object, pointing towards the provided trajectory&apos;s velocity vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>When choosing this as a clocking target, the resulting profile will not compensate for the rotation of the referenced celestial body (yaw compensation).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory to point towards. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aDirectionInBodyFrame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (unit) vector in the spacecraft&apos;s body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="137" column="41" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="55" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1ab45c3f984b588c75688a14aacca62ae2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target" kindref="compound">TrajectoryPointingTarget</ref></type>
+        <definition>Profile::TrajectoryPointingTarget ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget::TargetSlidingGroundVelocity</definition>
+        <argsstring>(const ostk::astrodynamics::Trajectory &amp;aTrajectory, const Vector3d &amp;aDirectionInBodyFrame)</argsstring>
+        <name>TargetSlidingGroundVelocity</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aDirectionInBodyFrame</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target" kindref="compound">TrajectoryPointingTarget</ref> object, pointing towards the provided trajectory&apos;s ground velocity vector (aka the scan direction of the point sliding across the ground). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>When choosing this as a clocking target, the resulting profile will compensate for the rotation of the referenced celestial body (yaw compensation).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aTrajectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The trajectory to point towards. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aDirectionInBodyFrame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (unit) vector in the spacecraft&apos;s body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="150" column="41" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="62" bodyend="69"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1a3bebd30ab1a65bfe7fed2f0b113c1fe6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget::TrajectoryPointingTarget</definition>
+        <argsstring>(const Type &amp;aType, const ostk::astrodynamics::Trajectory &amp;aTrajectory, const Vector3d &amp;aDirectionInBodyFrame)</argsstring>
+        <name>TrajectoryPointingTarget</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10c" kindref="member">Type</ref> &amp;</type>
+          <declname>aType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1_trajectory" kindref="compound">ostk::astrodynamics::Trajectory</ref> &amp;</type>
+          <declname>aTrajectory</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aDirectionInBodyFrame</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="157" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="71" bodyend="82"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents a pointing constraint of one axis of the spacecraft towards a target moving along a trajectory. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::Profile::PointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target"/>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>Vector3d</label>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::Profile::PointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>directionInBodyFrame</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>trajectory</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ostk::astrodynamics::Trajectory</label>
+        <link refid="classostk_1_1astrodynamics_1_1_trajectory"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="115" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="114" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a957984aa516d08276e85acee3a6ad2d7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</scope><name>directionInBodyFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a1868ca8337d008045bc0fa5485eb0493" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</scope><name>PointingTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1aef6ded3cf5f3817c9999ede444c54221" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</scope><name>TargetPosition</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1ab45c3f984b588c75688a14aacca62ae2" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</scope><name>TargetSlidingGroundVelocity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1a292fe1124f30f90a3bf9151b5a58d676" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</scope><name>TargetVelocity</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1a01a8e93232f0e1bfe2d04ca8a549ed1a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</scope><name>trajectory</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_trajectory_pointing_target_1a3bebd30ab1a65bfe7fed2f0b113c1fe6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</scope><name>TrajectoryPointingTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</scope><name>Type</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a7abac6d6ca35d950fc1e02bf24424838" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TrajectoryPointingTarget</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

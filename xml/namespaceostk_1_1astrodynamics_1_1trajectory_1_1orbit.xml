@@ -46,13 +46,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" line="133" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="133" bodyend="138"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" line="89" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Pass.cpp" bodystart="89" bodyend="94"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="29" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Message/SpaceX/OPM.hpp" line="27" column="1"/>
   </compounddef>
 </doxygen>

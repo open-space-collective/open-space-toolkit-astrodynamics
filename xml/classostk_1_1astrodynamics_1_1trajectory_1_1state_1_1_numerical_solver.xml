@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="245" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="245" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="213" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="213" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a9903c62805af0e50f65fcb1b9e677482" prot="private" static="no" mutable="no">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="246" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="246" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="214" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="214" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a7a3878913447b5d2d670e9974463b8da" prot="private" static="no" mutable="no">
         <type>std::function&lt; void(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt;</type>
@@ -43,28 +43,28 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="247" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="247" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="215" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="215" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a86d296c36572e56a3b96e4220af17a97" prot="private" static="no" mutable="no">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::state::NumericalSolver::maxStepSize_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a4cdcd2664db4703390ba33ea8d6da113" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; ostk::astrodynamics::trajectory::state::NumericalSolver::maxStepSize_</definition>
         <argsstring></argsstring>
         <name>maxStepSize_</name>
-        <initializer>= Real::Undefined()</initializer>
+        <initializer>= std::nullopt</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="248" column="10" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="248" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="216" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="216" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a7b0373e16d30f9beff57b6fe46b955ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::state::NumericalSolver::NumericalSolver</definition>
-        <argsstring>(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const RootSolver &amp;aRootSolver=RootSolver::Default())</argsstring>
+        <argsstring>(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, double aTimeStep, double aRelativeTolerance, double anAbsoluteTolerance, const RootSolver &amp;aRootSolver=RootSolver::Default(), const std::function&lt; void(const State &amp;)&gt; &amp;aStateLogger=nullptr)</argsstring>
         <name>NumericalSolver</name>
         <param>
           <type>const NumericalSolver::LogType &amp;</type>
@@ -75,15 +75,15 @@
           <declname>aStepperType</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aTimeStep</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aRelativeTolerance</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>anAbsoluteTolerance</declname>
         </param>
         <param>
@@ -91,11 +91,16 @@
           <declname>aRootSolver</declname>
           <defval><ref refid="classostk_1_1astrodynamics_1_1_root_solver_1abcced27b473beff4b38c72cff67476b0" kindref="member">RootSolver::Default</ref>()</defval>
         </param>
+        <param>
+          <type>const std::function&lt; void(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
+          <declname>aStateLogger</declname>
+          <defval>nullptr</defval>
+        </param>
         <briefdescription>
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" kindref="member">NumericalSolver</ref><sp/>numericalSolver<sp/>=<sp/>{<sp/>aLogType,<sp/>aStepperType,<sp/>aTimeStep,</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a7b0373e16d30f9beff57b6fe46b955ca" kindref="member">NumericalSolver</ref><sp/>numericalSolver<sp/>=<sp/>{<sp/>aLogType,<sp/>aStepperType,<sp/>aTimeStep,</highlight></codeline>
 <codeline><highlight class="normal">aRelativeTolerance,<sp/>anAbsoluteTolerance<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -146,35 +151,24 @@
 <para>A root solver to be used to solve the event condition </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aStateLogger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function called with each observed state, when logging is enabled. Defaults to none. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="64" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="105" bodyend="118"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="66" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="107" bodyend="121"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a1318a082c119018153870a84a4e3a720" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
-        <definition>const Array&lt; State &gt; &amp; ostk::astrodynamics::trajectory::state::NumericalSolver::accessObservedStates</definition>
-        <argsstring>() const</argsstring>
-        <name>accessObservedStates</name>
-        <briefdescription>
-<para><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref> observed states. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal">numericalSolver.accessObservedStates();</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>Observed states </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="80" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="120" bodyend="128"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ac6957c079bd5fd6ba445cdecc812039b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1_root_solver" kindref="compound">RootSolver</ref></type>
-        <definition>RootSolver ostk::astrodynamics::trajectory::state::NumericalSolver::getRootSolver</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2316cc084157068c180abf0f0356b004" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classostk_1_1astrodynamics_1_1_root_solver" kindref="compound">RootSolver</ref> &amp;</type>
+        <definition>const RootSolver &amp; ostk::astrodynamics::trajectory::state::NumericalSolver::getRootSolver</definition>
         <argsstring>() const</argsstring>
         <name>getRootSolver</name>
         <briefdescription>
@@ -189,11 +183,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="89" column="16" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="130" bodyend="138"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="83" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="123" bodyend="126"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a845f6d33df22c62fec366b652ed5c679" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
-        <definition>Array&lt; State &gt; ostk::astrodynamics::trajectory::state::NumericalSolver::getObservedStates</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a14068ebb394634eb660beb372a2a6968" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
+        <definition>const Array&lt; State &gt; &amp; ostk::astrodynamics::trajectory::state::NumericalSolver::getObservedStates</definition>
         <argsstring>() const</argsstring>
         <name>getObservedStates</name>
         <briefdescription>
@@ -208,32 +202,32 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="98" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="140" bodyend="143"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="92" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="128" bodyend="131"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ab032a2e219cd1ac99398a8f9fd3c33c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Real</type>
-        <definition>Real ostk::astrodynamics::trajectory::state::NumericalSolver::getMaxStepSize</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a24b5704b554c642b168c370f8e87aeaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt; double &gt; ostk::astrodynamics::trajectory::state::NumericalSolver::getMaxStepSize</definition>
         <argsstring>() const</argsstring>
         <name>getMaxStepSize</name>
         <briefdescription>
 <para>Get the maximum step size. </para>
         </briefdescription>
         <detaileddescription>
-<para><simplesect kind="return"><para>Maximum step size in seconds, or Real::Undefined() if not set </para>
+<para><simplesect kind="return"><para>Maximum step size in seconds, or std::nullopt if not set </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="103" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="145" bodyend="153"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="97" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="133" bodyend="136"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a1e9cff5e0fb5fd9f366b7a28fe2c8b4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a81a4185b660562e8454f5323c40bbed7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void ostk::astrodynamics::trajectory::state::NumericalSolver::setMaxStepSize</definition>
-        <argsstring>(const Real &amp;aMaxStepSize)</argsstring>
+        <argsstring>(const std::optional&lt; double &gt; &amp;aMaxStepSize)</argsstring>
         <name>setMaxStepSize</name>
         <param>
-          <type>const Real &amp;</type>
+          <type>const std::optional&lt; double &gt; &amp;</type>
           <declname>aMaxStepSize</declname>
         </param>
         <briefdescription>
@@ -245,7 +239,7 @@
 <parametername>aMaxStepSize</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Maximum step size in seconds. Use Real::Undefined() to remove the limit. </para>
+<para>Maximum step size in seconds. Use std::nullopt to remove the limit. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -253,7 +247,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="111" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="155" bodyend="158"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="105" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="138" bodyend="141"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ad0cfa1d5986ccde577800efd0e597e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -307,12 +301,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="119" column="11"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="113" column="11"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a782eeb566ce15388c25b0d32abd9be91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a613f7e4beed540c2bb85fc4823b67bf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
         <definition>State ostk::astrodynamics::trajectory::state::NumericalSolver::integrateTime</definition>
-        <argsstring>(const State &amp;aState, const Instant &amp;anInstant, const SystemOfEquationsWrapper &amp;aSystemOfEquations)</argsstring>
+        <argsstring>(const State &amp;aState, const Instant &amp;anInstant, const SystemOfEquationsWrapper &amp;aSystemOfEquations, const bool &amp;appendObservedStates=false)</argsstring>
         <name>integrateTime</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
@@ -326,10 +320,16 @@
           <type>const SystemOfEquationsWrapper &amp;</type>
           <declname>aSystemOfEquations</declname>
         </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>appendObservedStates</declname>
+          <defval>false</defval>
+        </param>
         <briefdescription>
 <para>Perform numerical integration from a start time to an end time. </para>
         </briefdescription>
         <detaileddescription>
+<para>The observed states are cleared before the integration, unless they are to be appended: the integration is then a continuation of the previous one. The observed states beyond the initial state (in the direction of the integration) are discarded, the initial state is observed unless it already is the last observed state, and the states observed by this integration are appended.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aState</parametername>
@@ -354,6 +354,14 @@
 <para>System of equations to integrate. </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>appendObservedStates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(optional) If true, append to the observed states, otherwise clear them. Defaults to false. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>Final state after integration. </para>
 </simplesect>
@@ -361,12 +369,12 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="129" column="11"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="130" column="11"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aed4b12588cc85065e82cb364ee9cd11a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a22151add6f3816910a7b137af59b027e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution" kindref="compound">ConditionSolution</ref></type>
         <definition>ConditionSolution ostk::astrodynamics::trajectory::state::NumericalSolver::integrateTime</definition>
-        <argsstring>(const State &amp;aState, const Instant &amp;anInstant, const SystemOfEquationsWrapper &amp;aSystemOfEquations, const EventCondition &amp;anEventCondition)</argsstring>
+        <argsstring>(const State &amp;aState, const Instant &amp;anInstant, const SystemOfEquationsWrapper &amp;aSystemOfEquations, const EventCondition &amp;anEventCondition, const bool &amp;appendObservedStates=false)</argsstring>
         <name>integrateTime</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
@@ -384,10 +392,16 @@
           <type>const <ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">EventCondition</ref> &amp;</type>
           <declname>anEventCondition</declname>
         </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>appendObservedStates</declname>
+          <defval>false</defval>
+        </param>
         <briefdescription>
 <para>Perform numerical integration from a start time until either a condition or an end time is reached. </para>
         </briefdescription>
         <detaileddescription>
+<para>The observed states are cleared before the integration, unless they are to be appended: the integration is then a continuation of the previous one. The observed states beyond the initial state (in the direction of the integration) are discarded, the initial state is observed unless it already is the last observed state, and the states observed by this integration are appended.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>aState</parametername>
@@ -420,6 +434,14 @@
 <para>Condition to be checked. </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>appendObservedStates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(optional) If true, append to the observed states, otherwise clear them. Defaults to false. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>Structure containing the final state and condition-related information. </para>
 </simplesect>
@@ -427,23 +449,23 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="141" column="23"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="152" column="23"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a0034110268cb6341c02decd3091171bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1afd110adf36ff6b429ef8b3f69b12243f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; MathNumericalSolver::Solution &gt;</type>
         <definition>Array&lt;MathNumericalSolver::Solution&gt; ostk::astrodynamics::trajectory::state::NumericalSolver::integrateTime</definition>
-        <argsstring>(const MathNumericalSolver::StateVector &amp;anInitialStateVector, const Real &amp;aStartTime, const Array&lt; Real &gt; &amp;aTimeArray, const SystemOfEquationsWrapper &amp;aSystemOfEquations)=delete</argsstring>
+        <argsstring>(const MathNumericalSolver::StateVector &amp;anInitialStateVector, double aStartTime, const Array&lt; double &gt; &amp;aTimeArray, const SystemOfEquationsWrapper &amp;aSystemOfEquations)=delete</argsstring>
         <name>integrateTime</name>
         <param>
           <type>const MathNumericalSolver::StateVector &amp;</type>
           <declname>anInitialStateVector</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aStartTime</declname>
         </param>
         <param>
-          <type>const Array&lt; Real &gt; &amp;</type>
+          <type>const Array&lt; double &gt; &amp;</type>
           <declname>aTimeArray</declname>
         </param>
         <param>
@@ -457,23 +479,23 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="214" column="11"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="184" column="11"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a42657194abeb324acfc81f7b130206c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a4075e501d2ece1785bea6ecc72e9bc16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>MathNumericalSolver::Solution</type>
         <definition>MathNumericalSolver::Solution ostk::astrodynamics::trajectory::state::NumericalSolver::integrateTime</definition>
-        <argsstring>(const MathNumericalSolver::StateVector &amp;anInitialStateVector, const Real &amp;aStartTime, const Real &amp;anEndTime, const SystemOfEquationsWrapper &amp;aSystemOfEquations)=delete</argsstring>
+        <argsstring>(const MathNumericalSolver::StateVector &amp;anInitialStateVector, double aStartTime, double anEndTime, const SystemOfEquationsWrapper &amp;aSystemOfEquations)=delete</argsstring>
         <name>integrateTime</name>
         <param>
           <type>const MathNumericalSolver::StateVector &amp;</type>
           <declname>anInitialStateVector</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aStartTime</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>anEndTime</declname>
         </param>
         <param>
@@ -486,19 +508,19 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="221" column="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="191" column="35"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1acd763e1acdd07001e65fd4a0eeac3e6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a12f536f5e4a5cfea84e63581c40cbfc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>MathNumericalSolver::Solution</type>
         <definition>MathNumericalSolver::Solution ostk::astrodynamics::trajectory::state::NumericalSolver::integrateDuration</definition>
-        <argsstring>(const MathNumericalSolver::StateVector &amp;anInitialStateVector, const Real &amp;aDurationInSeconds, const SystemOfEquationsWrapper &amp;aSystemOfEquations)=delete</argsstring>
+        <argsstring>(const MathNumericalSolver::StateVector &amp;anInitialStateVector, double aDurationInSeconds, const SystemOfEquationsWrapper &amp;aSystemOfEquations)=delete</argsstring>
         <name>integrateDuration</name>
         <param>
           <type>const MathNumericalSolver::StateVector &amp;</type>
           <declname>anInitialStateVector</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aDurationInSeconds</declname>
         </param>
         <param>
@@ -511,19 +533,19 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="228" column="35"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="198" column="35"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a186af3589b04e195006b9d82d6a66123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ab459ef98a4f7c7fa4edcb6520e439d3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Array&lt; MathNumericalSolver::Solution &gt;</type>
         <definition>Array&lt;MathNumericalSolver::Solution&gt; ostk::astrodynamics::trajectory::state::NumericalSolver::integrateDuration</definition>
-        <argsstring>(const MathNumericalSolver::StateVector &amp;anInitialStateVector, const Array&lt; Real &gt; &amp;aDurationArray, const SystemOfEquationsWrapper &amp;aSystemOfEquations)=delete</argsstring>
+        <argsstring>(const MathNumericalSolver::StateVector &amp;anInitialStateVector, const Array&lt; double &gt; &amp;aDurationArray, const SystemOfEquationsWrapper &amp;aSystemOfEquations)=delete</argsstring>
         <name>integrateDuration</name>
         <param>
           <type>const MathNumericalSolver::StateVector &amp;</type>
           <declname>anInitialStateVector</declname>
         </param>
         <param>
-          <type>const Array&lt; Real &gt; &amp;</type>
+          <type>const Array&lt; double &gt; &amp;</type>
           <declname>aDurationArray</declname>
         </param>
         <param>
@@ -536,11 +558,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="234" column="11"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="204" column="11"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a83b9982057e28655d018c931adb102e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Array&lt; MathNumericalSolver::Solution &gt;</type>
-        <definition>Array&lt;MathNumericalSolver::Solution&gt; ostk::astrodynamics::trajectory::state::NumericalSolver::getObservedStateVectors</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aedfe6df88e0d1bc6b13cc8a5fcae9820" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Array&lt; MathNumericalSolver::Solution &gt; &amp;</type>
+        <definition>const Array&lt;MathNumericalSolver::Solution&gt;&amp; ostk::astrodynamics::trajectory::state::NumericalSolver::getObservedStateVectors</definition>
         <argsstring>() const =delete</argsstring>
         <name>getObservedStateVectors</name>
         <briefdescription>
@@ -549,22 +571,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="240" column="11"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="210" column="17"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ab887da47540920fbab12cadc69729598" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const Array&lt; MathNumericalSolver::Solution &gt; &amp;</type>
-        <definition>const Array&lt;MathNumericalSolver::Solution&gt;&amp; ostk::astrodynamics::trajectory::state::NumericalSolver::accessObservedStateVectors</definition>
-        <argsstring>() const =delete</argsstring>
-        <name>accessObservedStateVectors</name>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="242" column="17"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a478bd7d17c64f6ee2d41d8db00713cca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a1e5cd4acfaa32aaa2fa65f9cc0d6485c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename Stepper</type>
@@ -572,7 +581,7 @@
         </templateparamlist>
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution" kindref="compound">NumericalSolver::ConditionSolution</ref></type>
         <definition>NumericalSolver::ConditionSolution ostk::astrodynamics::trajectory::state::NumericalSolver::integrateTimeWithStepperImpl_</definition>
-        <argsstring>(Stepper &amp;aStepper, const State &amp;aState, const Instant &amp;anInstant, const NumericalSolver::SystemOfEquationsWrapper &amp;aSystemOfEquations, const EventCondition &amp;anEventCondition, double aSignedTimeStep)</argsstring>
+        <argsstring>(Stepper &amp;aStepper, const State &amp;aState, const Instant &amp;anInstant, const NumericalSolver::SystemOfEquationsWrapper &amp;aSystemOfEquations, const EventCondition &amp;anEventCondition, double aSignedTimeStep, const bool &amp;appendObservedStates)</argsstring>
         <name>integrateTimeWithStepperImpl_</name>
         <param>
           <type>Stepper &amp;</type>
@@ -598,35 +607,20 @@
           <type>double</type>
           <declname>aSignedTimeStep</declname>
         </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>appendObservedStates</declname>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="420" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="420" bodyend="636"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" line="400" column="36" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="400" bodyend="636"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a81609c2c1e74b6fce23f7231cdd87436" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
-        <definition>NumericalSolver ostk::astrodynamics::trajectory::state::NumericalSolver::Undefined</definition>
-        <argsstring>()</argsstring>
-        <name>Undefined</name>
-        <briefdescription>
-<para>Construct an undefined numerical solver. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a81609c2c1e74b6fce23f7231cdd87436" kindref="member">NumericalSolver::Undefined</ref>();</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>An undefined numerical solver. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="155" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="264" bodyend="275"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ea322979a54122dbfd396dc2e013b2e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
         <definition>NumericalSolver ostk::astrodynamics::trajectory::state::NumericalSolver::Default</definition>
@@ -636,7 +630,7 @@
 <para>Construct a default numerical solver. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ea322979a54122dbfd396dc2e013b2e" kindref="member">NumericalSolver::Default</ref>();</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a7b0373e16d30f9beff57b6fe46b955ca" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ea322979a54122dbfd396dc2e013b2e" kindref="member">NumericalSolver::Default</ref>();</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>A default numerical solver. </para>
 </simplesect>
@@ -644,26 +638,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="164" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="277" bodyend="288"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="167" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="277" bodyend="288"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a3a73f98d2818ef7d1370bc28d05db7e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a6f37b374c880f51179ffab95ac787238" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
         <definition>NumericalSolver ostk::astrodynamics::trajectory::state::NumericalSolver::FixedStepSize</definition>
-        <argsstring>(const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep)</argsstring>
+        <argsstring>(const NumericalSolver::StepperType &amp;aStepperType, double aTimeStep)</argsstring>
         <name>FixedStepSize</name>
         <param>
           <type>const NumericalSolver::StepperType &amp;</type>
           <declname>aStepperType</declname>
         </param>
         <param>
-          <type>const Real &amp;</type>
+          <type>double</type>
           <declname>aTimeStep</declname>
         </param>
         <briefdescription>
 <para>Create a fixed step size numerical solver. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a3a73f98d2818ef7d1370bc28d05db7e4" kindref="member">NumericalSolver::FixedStepSize</ref>(</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a7b0373e16d30f9beff57b6fe46b955ca" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a6f37b374c880f51179ffab95ac787238" kindref="member">NumericalSolver::FixedStepSize</ref>(</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>NumericalSolver::StepperType::RungeKutta4,<sp/>30.0</highlight></codeline>
 <codeline><highlight class="normal">);</highlight></codeline>
 </programlisting></para>
@@ -690,210 +684,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="178" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="290" bodyend="306"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aee13b0918876bba854b375da1b66e710" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
-        <definition>NumericalSolver ostk::astrodynamics::trajectory::state::NumericalSolver::DefaultConditional</definition>
-        <argsstring>(const std::function&lt; void(const State &amp;)&gt; &amp;stateLogger=nullptr)</argsstring>
-        <name>DefaultConditional</name>
-        <param>
-          <type>const std::function&lt; void(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
-          <declname>stateLogger</declname>
-          <defval>nullptr</defval>
-        </param>
-        <briefdescription>
-<para>Default conditional. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" kindref="member">NumericalSolver</ref><sp/>solver<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aee13b0918876bba854b375da1b66e710" kindref="member">NumericalSolver::DefaultConditional</ref>();</highlight></codeline>
-</programlisting></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>stateLogger</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A function that takes a <computeroutput><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></computeroutput> object and logs. Defaults to <computeroutput>nullptr</computeroutput>. </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>A default conditional numerical solver. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="192" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="308" bodyend="319"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a4cdcb38c0f75c136f6ac8416874fc346" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver" kindref="compound">NumericalSolver</ref></type>
-        <definition>NumericalSolver ostk::astrodynamics::trajectory::state::NumericalSolver::Conditional</definition>
-        <argsstring>(const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const std::function&lt; void(const State &amp;)&gt; &amp;stateLogger=nullptr)</argsstring>
-        <name>Conditional</name>
-        <param>
-          <type>const Real &amp;</type>
-          <declname>aTimeStep</declname>
-        </param>
-        <param>
-          <type>const Real &amp;</type>
-          <declname>aRelativeTolerance</declname>
-        </param>
-        <param>
-          <type>const Real &amp;</type>
-          <declname>anAbsoluteTolerance</declname>
-        </param>
-        <param>
-          <type>const std::function&lt; void(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
-          <declname>stateLogger</declname>
-          <defval>nullptr</defval>
-        </param>
-        <briefdescription>
-<para>Create a conditional numerical solver. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>aTimeStep</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The initial time step (in seconds) to use. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aRelativeTolerance</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The relative tolerance to use. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>anAbsoluteTolerance</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>The absolute tolerance to use. </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>stateLogger</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A function that takes a <computeroutput><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></computeroutput> object and logs. Defaults to <computeroutput>nullptr</computeroutput>.</para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>A conditional numerical solver. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="206" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="321" bodyend="340"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="181" column="28" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="290" bodyend="306"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a9e02a944ea8c0c85059a0e46b56456d7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type></type>
-        <definition>ostk::astrodynamics::trajectory::state::NumericalSolver::NumericalSolver</definition>
-        <argsstring>(const NumericalSolver::LogType &amp;aLogType, const NumericalSolver::StepperType &amp;aStepperType, const Real &amp;aTimeStep, const Real &amp;aRelativeTolerance, const Real &amp;anAbsoluteTolerance, const RootSolver &amp;aRootSolver, const std::function&lt; void(const State &amp;)&gt; &amp;stateLogger)</argsstring>
-        <name>NumericalSolver</name>
-        <param>
-          <type>const NumericalSolver::LogType &amp;</type>
-          <declname>aLogType</declname>
-        </param>
-        <param>
-          <type>const NumericalSolver::StepperType &amp;</type>
-          <declname>aStepperType</declname>
-        </param>
-        <param>
-          <type>const Real &amp;</type>
-          <declname>aTimeStep</declname>
-        </param>
-        <param>
-          <type>const Real &amp;</type>
-          <declname>aRelativeTolerance</declname>
-        </param>
-        <param>
-          <type>const Real &amp;</type>
-          <declname>anAbsoluteTolerance</declname>
-        </param>
-        <param>
-          <type>const <ref refid="classostk_1_1astrodynamics_1_1_root_solver" kindref="compound">RootSolver</ref> &amp;</type>
-          <declname>aRootSolver</declname>
-        </param>
-        <param>
-          <type>const std::function&lt; void(const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;)&gt; &amp;</type>
-          <declname>stateLogger</declname>
-        </param>
-        <briefdescription>
-<para>Constructor. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>aLogType</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>An enum indicating the amount of verbosity wanted to be logged during numerical integration </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aStepperType</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>An enum indicating the type of numerical stepper used to perform integration </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aTimeStep</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A number indicating the initial guess time step (in seconds) the numerical solver will take </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aRelativeTolerance</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A number indicating the relative integration tolerance </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>anAbsoluteTolerance</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A number indicating the absolute integration tolerance </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>aRootSolver</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A root solver to be used to solve the event condition </para>
-</parameterdescription>
-</parameteritem>
-<parameteritem>
-<parameternamelist>
-<parametername>stateLogger</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>A function that takes a <computeroutput><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></computeroutput> object and logs </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="262" column="5"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ad5d455c9c9a06ca12b7046120c0568d6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void ostk::astrodynamics::trajectory::state::NumericalSolver::observeState</definition>
@@ -920,12 +714,53 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="275" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="358" bodyend="366"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="221" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="308" bodyend="316"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a3f31ca331dc7b908ebe9769497c1fb8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a9fffdf907729b2bfd03ed450c8ef291a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::trajectory::state::NumericalSolver::resumeObservedStates</definition>
+        <argsstring>(const State &amp;aState, const Instant &amp;anInstant)</argsstring>
+        <name>resumeObservedStates</name>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
+          <declname>aState</declname>
+        </param>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Resume the observed states from a state, to continue a previous integration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Discards the observed states beyond the state (in the direction of the integration), and observes the state unless it already is the last observed state.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aState</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The initial state of the integration </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant the integration goes to </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="230" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="318" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1acf33c243f1e0ad1952c61365cb1a456e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution" kindref="compound">ConditionSolution</ref></type>
         <definition>NumericalSolver::ConditionSolution ostk::astrodynamics::trajectory::state::NumericalSolver::integrateTimeWithControlledStepper</definition>
-        <argsstring>(const State &amp;aState, const Instant &amp;anInstant, const SystemOfEquationsWrapper &amp;aSystemOfEquations, const EventCondition &amp;anEventCondition)</argsstring>
+        <argsstring>(const State &amp;aState, const Instant &amp;anInstant, const SystemOfEquationsWrapper &amp;aSystemOfEquations, const EventCondition &amp;anEventCondition, const bool &amp;appendObservedStates)</argsstring>
         <name>integrateTimeWithControlledStepper</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &amp;</type>
@@ -942,6 +777,10 @@
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1_event_condition" kindref="compound">EventCondition</ref> &amp;</type>
           <declname>anEventCondition</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>appendObservedStates</declname>
         </param>
         <briefdescription>
 <para>Integrate with controlled stepper using the unified dense-output refinement. </para>
@@ -979,6 +818,14 @@
 <para>The event condition to check </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>appendObservedStates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True to append to the observed states, false to clear them </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 <simplesect kind="return"><para>The condition solution </para>
 </simplesect>
@@ -986,9 +833,9 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="284" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="638" bodyend="681"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="240" column="23" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.cpp" bodystart="638" bodyend="682"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a172bdb3267e97ea5232fee884db48a0a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1abe4531ef18f04d1c204d3070f4f5cd9f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
             <type>typename Stepper</type>
@@ -996,7 +843,7 @@
         </templateparamlist>
         <type><ref refid="structostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1_1_condition_solution" kindref="compound">ConditionSolution</ref></type>
         <definition>ConditionSolution ostk::astrodynamics::trajectory::state::NumericalSolver::integrateTimeWithStepperImpl_</definition>
-        <argsstring>(Stepper &amp;aStepper, const State &amp;aState, const Instant &amp;anInstant, const SystemOfEquationsWrapper &amp;aSystemOfEquations, const EventCondition &amp;anEventCondition, double aSignedTimeStep)</argsstring>
+        <argsstring>(Stepper &amp;aStepper, const State &amp;aState, const Instant &amp;anInstant, const SystemOfEquationsWrapper &amp;aSystemOfEquations, const EventCondition &amp;anEventCondition, double aSignedTimeStep, const bool &amp;appendObservedStates)</argsstring>
         <name>integrateTimeWithStepperImpl_</name>
         <param>
           <type>Stepper &amp;</type>
@@ -1021,6 +868,10 @@
         <param>
           <type>double</type>
           <declname>aSignedTimeStep</declname>
+        </param>
+        <param>
+          <type>const bool &amp;</type>
+          <declname>appendObservedStates</declname>
         </param>
         <briefdescription>
 <para>Templated implementation of conditional integration. Defined out-of-line in the .cpp so the boost odeint stepper types do not leak into this header. </para>
@@ -1074,12 +925,20 @@
 <para>Signed initial step size (negative for backward integration). </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>appendObservedStates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True to append to the observed states, false to clear them. </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="301" column="23"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="259" column="23"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
@@ -1109,37 +968,32 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="37" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="36" bodyend="309"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" line="38" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp" bodystart="37" bodyend="268"/>
     <listofallmembers>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a1318a082c119018153870a84a4e3a720" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>accessObservedStates</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ab887da47540920fbab12cadc69729598" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>accessObservedStateVectors</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a4cdcb38c0f75c136f6ac8416874fc346" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>Conditional</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ea322979a54122dbfd396dc2e013b2e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>Default</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aee13b0918876bba854b375da1b66e710" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>DefaultConditional</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a3a73f98d2818ef7d1370bc28d05db7e4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>FixedStepSize</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ab032a2e219cd1ac99398a8f9fd3c33c6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>getMaxStepSize</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a845f6d33df22c62fec366b652ed5c679" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>getObservedStates</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a83b9982057e28655d018c931adb102e4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>getObservedStateVectors</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ac6957c079bd5fd6ba445cdecc812039b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>getRootSolver</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1acd763e1acdd07001e65fd4a0eeac3e6f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateDuration</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a186af3589b04e195006b9d82d6a66123" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateDuration</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a6f37b374c880f51179ffab95ac787238" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>FixedStepSize</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a24b5704b554c642b168c370f8e87aeaa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>getMaxStepSize</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a14068ebb394634eb660beb372a2a6968" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>getObservedStates</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aedfe6df88e0d1bc6b13cc8a5fcae9820" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>getObservedStateVectors</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2316cc084157068c180abf0f0356b004" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>getRootSolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a12f536f5e4a5cfea84e63581c40cbfc3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateDuration</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ab459ef98a4f7c7fa4edcb6520e439d3b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateDuration</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a2ad0cfa1d5986ccde577800efd0e597e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTime</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a782eeb566ce15388c25b0d32abd9be91" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTime</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1aed4b12588cc85065e82cb364ee9cd11a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTime</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a0034110268cb6341c02decd3091171bd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTime</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a42657194abeb324acfc81f7b130206c1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTime</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a3f31ca331dc7b908ebe9769497c1fb8d" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTimeWithControlledStepper</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a172bdb3267e97ea5232fee884db48a0a" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTimeWithStepperImpl_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a478bd7d17c64f6ee2d41d8db00713cca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTimeWithStepperImpl_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a86d296c36572e56a3b96e4220af17a97" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>maxStepSize_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ae0532890048e7cbb4d7d07b73c4222c6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>NumericalSolver</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a9e02a944ea8c0c85059a0e46b56456d7" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>NumericalSolver</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a613f7e4beed540c2bb85fc4823b67bf0" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTime</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a22151add6f3816910a7b137af59b027e" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTime</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1afd110adf36ff6b429ef8b3f69b12243f" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTime</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a4075e501d2ece1785bea6ecc72e9bc16" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTime</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1acf33c243f1e0ad1952c61365cb1a456e" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTimeWithControlledStepper</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1abe4531ef18f04d1c204d3070f4f5cd9f" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTimeWithStepperImpl_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a1e5cd4acfaa32aaa2fa65f9cc0d6485c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>integrateTimeWithStepperImpl_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a4cdcd2664db4703390ba33ea8d6da113" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>maxStepSize_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a7b0373e16d30f9beff57b6fe46b955ca" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>NumericalSolver</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a9903c62805af0e50f65fcb1b9e677482" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>observedStates_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1ad5d455c9c9a06ca12b7046120c0568d6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>observeState</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a9fffdf907729b2bfd03ed450c8ef291a" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>resumeObservedStates</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1afa44f410fe532afd652f08031a05a778" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>rootSolver_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a1e9cff5e0fb5fd9f366b7a28fe2c8b4d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>setMaxStepSize</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a81a4185b660562e8454f5323c40bbed7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>setMaxStepSize</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a7a3878913447b5d2d670e9974463b8da" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>stateLogger_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_numerical_solver_1a81609c2c1e74b6fce23f7231cdd87436" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::state::NumericalSolver</scope><name>Undefined</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

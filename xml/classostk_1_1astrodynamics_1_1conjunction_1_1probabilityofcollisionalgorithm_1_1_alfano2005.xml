@@ -1,0 +1,545 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm" prot="public" virt="non-virtual">ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</basecompoundref>
+    <includes refid="_alfano2005_8hpp" local="no">Alfano2005.hpp</includes>
+      <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1abb9c7e6003ab6584db350d629deeeed1" prot="private" static="yes" mutable="no">
+        <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1_coordinate_subset" kindref="compound">CoordinateSubset</ref> &gt;</type>
+        <definition>const Shared&lt; const CoordinateSubset &gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::CartesianPositionSubsetSPtr</definition>
+        <argsstring></argsstring>
+        <name>CartesianPositionSubsetSPtr</name>
+        <initializer>= <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1state_1_1coordinatesubset_1_1_cartesian_position_1af1e638e140e8995b2ca304b68e3a5a87" kindref="member">CartesianPosition::Default</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="154" column="25" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a70fd086bba55018b29c5203836e41d25" prot="private" static="yes" mutable="no">
+        <type>const Size</type>
+        <definition>const Size ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::LowerIntervalPairCount</definition>
+        <argsstring></argsstring>
+        <name>LowerIntervalPairCount</name>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="156" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a3ab1ea953467eb860aa4de3b4e63061a" prot="private" static="yes" mutable="no">
+        <type>const Size</type>
+        <definition>const Size ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::UpperIntervalPairCount</definition>
+        <argsstring></argsstring>
+        <name>UpperIntervalPairCount</name>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="157" column="23" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1ad9f6fb91421433bd7a7ec0937010b4e1" prot="private" static="no" mutable="no">
+        <type>Derived</type>
+        <definition>Derived ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::relativeSpeedThreshold_</definition>
+        <argsstring></argsstring>
+        <name>relativeSpeedThreshold_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="159" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a9b734abdc151cf7a97d2b59ecb021539" prot="private" static="no" mutable="no">
+        <type>Shared&lt; const Frame &gt;</type>
+        <definition>Shared&lt;const Frame&gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::frameSPtr_</definition>
+        <argsstring></argsstring>
+        <name>frameSPtr_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="160" column="12" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a5084dac6a035ecb84cee5ecf72f1a993" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::Alfano2005</definition>
+        <argsstring>(const Derived &amp;aRelativeSpeedThreshold=Derived(100.0, Derived::Unit::MeterPerSecond()), const Shared&lt; const Frame &gt; &amp;aFrameSPtr=Frame::GCRF())</argsstring>
+        <name>Alfano2005</name>
+        <param>
+          <type>const Derived &amp;</type>
+          <declname>aRelativeSpeedThreshold</declname>
+          <defval>Derived(100.0, Derived::Unit::MeterPerSecond())</defval>
+        </param>
+        <param>
+          <type>const Shared&lt; const Frame &gt; &amp;</type>
+          <declname>aFrameSPtr</declname>
+          <defval>Frame::GCRF()</defval>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a5084dac6a035ecb84cee5ecf72f1a993" kindref="member">Alfano2005</ref><sp/>algorithm<sp/>=<sp/>{}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a5084dac6a035ecb84cee5ecf72f1a993" kindref="member">Alfano2005</ref><sp/>algorithm<sp/>=<sp/>{<sp/>Derived(100.0,<sp/>Derived::Unit::MeterPerSecond()),<sp/>Frame::GCRF()<sp/>}<sp/>;</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aRelativeSpeedThreshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A relative speed threshold below which the close approach is considered low relative speed and the algorithm is not applicable. Defaults to 100 m/s </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aFrameSPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An inertial (or quasi-inertial) frame to use. Defaults to Frame::GCRF() </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="69" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp" bodystart="40" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a670dfdbfb76a00f87b41fc82f14fb0d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::~Alfano2005</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~Alfano2005</name>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="75" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a19ae4932b10ebb62503aef8e12892ed4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>Array&lt; String &gt;</type>
+        <definition>Array&lt; String &gt; ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::identifyUnsatisfiedAssumptions</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach) const override</argsstring>
+        <name>identifyUnsatisfiedAssumptions</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a7ee1d7cc74f527aacf171d1ba3ccf823">identifyUnsatisfiedAssumptions</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <briefdescription>
+<para>Identify unsatisfied assumptions for a close approach. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A non-exhaustive array of unsatisfied assumption descriptions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="81" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp" bodystart="56" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a9a552648208621ee90cff59ebbec019c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::computeProbabilityOfCollision</definition>
+        <argsstring>(const CloseApproach &amp;aCloseApproach, const Shared&lt; const HardBody &gt; &amp;aHardBody1SPtr, const Shared&lt; const HardBody &gt; &amp;aHardBody2SPtr) const override</argsstring>
+        <name>computeProbabilityOfCollision</name>
+        <reimplements refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a3996b1b6fceb676d2873e924e06cd2d6">computeProbabilityOfCollision</reimplements>
+        <param>
+          <type>const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_close_approach" kindref="compound">CloseApproach</ref> &amp;</type>
+          <declname>aCloseApproach</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody1SPtr</declname>
+        </param>
+        <param>
+          <type>const Shared&lt; const <ref refid="classostk_1_1astrodynamics_1_1conjunction_1_1_hard_body" kindref="compound">HardBody</ref> &gt; &amp;</type>
+          <declname>aHardBody2SPtr</declname>
+        </param>
+        <briefdescription>
+<para>Compute the probability of collision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The hard bodies are approximated by a combined hard-body radius, taken as the enclosing radius of their combined cross section in the encounter frame.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aCloseApproach</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A close approach </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody1SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 1 </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aHardBody2SPtr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hard body of Object 2</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The probability of collision </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="93" column="20" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp" bodystart="90" bodyend="133"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a3176649fcb9c1849cd8c9c0bfd617b58" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::ComputeProbabilityOfCollision</definition>
+        <argsstring>(double aMissDistanceX, double aMissDistanceY, double aSigmaX, double aSigmaY, double aCombinedHardBodyRadius)</argsstring>
+        <name>ComputeProbabilityOfCollision</name>
+        <param>
+          <type>double</type>
+          <declname>aMissDistanceX</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aMissDistanceY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aSigmaX</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aSigmaY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aCombinedHardBodyRadius</declname>
+        </param>
+        <briefdescription>
+<para>Compute the probability of collision in the encounter plane. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The encounter plane coordinates are aligned with the principal axes of the combined covariance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aMissDistanceX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The miss distance along the x principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMissDistanceY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The miss distance along the y principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSigmaX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The combined standard deviation along the x principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSigmaY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The combined standard deviation along the y principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCombinedHardBodyRadius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A combined hard-body radius [m]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The probability of collision </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="111" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp" bodystart="135" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1af56e5eb69ced35f3534dbb8a033889f6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Size</type>
+        <definition>Size ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::ComputeIntervalPairCount</definition>
+        <argsstring>(double aMissDistanceX, double aMissDistanceY, double aSigmaX, double aSigmaY, double aCombinedHardBodyRadius)</argsstring>
+        <name>ComputeIntervalPairCount</name>
+        <param>
+          <type>double</type>
+          <declname>aMissDistanceX</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aMissDistanceY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aSigmaX</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aSigmaY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aCombinedHardBodyRadius</declname>
+        </param>
+        <briefdescription>
+<para>Compute the number of Simpson&apos;s rule interval pairs (M) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>M = 5 * R / min(sigmaX, sigmaY, miss distance), bounded within [LowerIntervalPairCount, UpperIntervalPairCount].</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aMissDistanceX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The miss distance along the x principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMissDistanceY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The miss distance along the y principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSigmaX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The combined standard deviation along the x principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSigmaY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The combined standard deviation along the y principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCombinedHardBodyRadius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A combined hard-body radius [m]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The number of interval pairs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="127" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp" bodystart="182" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1ab4f085d991f4f3e00b3173eb2c09514d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005::ComputeIntegrand</definition>
+        <argsstring>(double anAbscissa, double aMissDistanceX, double aMissDistanceY, double aSigmaX, double aSigmaY, double aCombinedHardBodyRadius)</argsstring>
+        <name>ComputeIntegrand</name>
+        <param>
+          <type>double</type>
+          <declname>anAbscissa</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aMissDistanceX</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aMissDistanceY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aSigmaX</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aSigmaY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>aCombinedHardBodyRadius</declname>
+        </param>
+        <briefdescription>
+<para>Compute the integrand of the Simpson&apos;s rule at a given abscissa. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The integrand combines the error function integral along the y principal axis over the circle chord at abscissa x, with the Gaussian density along the x principal axis evaluated at both x and -x (the chord being symmetric, the integral over [-R, R] is folded onto [-R, 0]).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anAbscissa</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The abscissa x along the x principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMissDistanceX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The miss distance along the x principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aMissDistanceY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The miss distance along the y principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSigmaX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The combined standard deviation along the x principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aSigmaY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The combined standard deviation along the y principal axis [m] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aCombinedHardBodyRadius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A combined hard-body radius [m]</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The integrand value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="145" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.cpp" bodystart="204" bodyend="227"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Alfano 2005 probability of collision algorithm as described in: </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Alfano, Salvatore. (2005). A Numerical Implementation of Spherical Object Collision Probability. The Journal of the Astronautical Sciences. 53. 103-109. 10.1007/BF03546397.</para>
+<para>The two-dimensional probability density function of the relative position is integrated over the combined hard-body circle in the encounter plane. The integral along the principal axis of the combined covariance is computed with Simpson&apos;s rule, while the integral along the other principal axis is expressed with error functions.</para>
+<para>The algorithm relies on the following assumptions:<itemizedlist>
+<listitem><para>High relative speed encounter</para>
+</listitem></itemizedlist>
+</para>
+<para><ulink url="https://doi.org/10.1007/BF03546397">https://doi.org/10.1007/BF03546397</ulink> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>String</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::conjunction::ProbabilityOfCollisionAlgorithm</label>
+        <link refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>name_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" line="56" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Conjunction/ProbabilityOfCollisionAlgorithm/Alfano2005.hpp" bodystart="55" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a5084dac6a035ecb84cee5ecf72f1a993" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>Alfano2005</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1abb9c7e6003ab6584db350d629deeeed1" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>CartesianPositionSubsetSPtr</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1ab4f085d991f4f3e00b3173eb2c09514d" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>ComputeIntegrand</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1af56e5eb69ced35f3534dbb8a033889f6" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>ComputeIntervalPairCount</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a173d741cf3aec10505010a3f08edcc2c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>ComputeProbabilityAnalysis</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a9a552648208621ee90cff59ebbec019c" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>computeProbabilityOfCollision</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a3176649fcb9c1849cd8c9c0bfd617b58" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>ComputeProbabilityOfCollision</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a9b734abdc151cf7a97d2b59ecb021539" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>frameSPtr_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a0b3dd32db62c04daf547c2e67373e1a6" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>getName</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a19ae4932b10ebb62503aef8e12892ed4" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>identifyUnsatisfiedAssumptions</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1aeaf739a3fc5bbc94f00bfacdfa34fa69" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>isApplicable</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a11cb3a2a30f70e8dd5ccecbadde74348" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>isMaximum</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a739f9f93d0fcd8eaa7d1940a1a8d9d84" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>isMaximum_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a70fd086bba55018b29c5203836e41d25" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>LowerIntervalPairCount</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1af1f8ea91a8b4167aeca182e4faf63905" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>name_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1a109d81fb5d5fec61390c82ae20860031" prot="protected" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>ProbabilityOfCollisionAlgorithm</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1ab68a8a2466868fb02312fd951dd0dd34" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>ProbabilityRegion</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1ad9f6fb91421433bd7a7ec0937010b4e1" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>relativeSpeedThreshold_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a3ab1ea953467eb860aa4de3b4e63061a" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>UpperIntervalPairCount</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1probabilityofcollisionalgorithm_1_1_alfano2005_1a670dfdbfb76a00f87b41fc82f14fb0d4" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>~Alfano2005</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1conjunction_1_1_probability_of_collision_algorithm_1abfbbf23c2039fde2c57c951188a9842b" prot="public" virt="virtual"><scope>ostk::astrodynamics::conjunction::probabilityofcollisionalgorithm::Alfano2005</scope><name>~ProbabilityOfCollisionAlgorithm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

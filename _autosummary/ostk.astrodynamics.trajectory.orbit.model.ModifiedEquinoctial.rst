@@ -11,10 +11,13 @@ ostk.astrodynamics.trajectory.orbit.model.ModifiedEquinoctial
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~ModifiedEquinoctial.cartesian
       ~ModifiedEquinoctial.coe
@@ -26,12 +29,6 @@ ostk.astrodynamics.trajectory.orbit.model.ModifiedEquinoctial
       ~ModifiedEquinoctial.get_semi_latus_rectum
       ~ModifiedEquinoctial.get_si_vector
       ~ModifiedEquinoctial.get_true_longitude
-      ~ModifiedEquinoctial.is_defined
       ~ModifiedEquinoctial.to_coe
-      ~ModifiedEquinoctial.undefined
-   
-   
-
-   
    
    

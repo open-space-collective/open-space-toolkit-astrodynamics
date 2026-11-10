@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target" kind="class" language="C++" prot="public">
+    <compoundname>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</compoundname>
+    <basecompoundref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target" prot="public" virt="non-virtual">ostk::astrodynamics::flight::Profile::PointingTarget</basecompoundref>
+    <includes refid="_profile_8hpp" local="no">Profile.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target_1a2a8e3447bfd245b899a80cd9abc0955a" prot="public" static="no" mutable="no">
+        <type>Array&lt; Pair&lt; Instant, Vector3d &gt; &gt;</type>
+        <definition>Array&lt;Pair&lt;Instant, Vector3d&gt; &gt; ostk::astrodynamics::flight::Profile::TabulatedPointingTarget::pointingProfileInECI</definition>
+        <argsstring></argsstring>
+        <name>pointingProfileInECI</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="188" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target_1a051f3e7f993a4ba869998155e664410c" prot="private" static="no" mutable="no">
+        <type>Array&lt; Shared&lt; const Interpolator &gt; &gt;</type>
+        <definition>Array&lt;Shared&lt;const Interpolator&gt; &gt; ostk::astrodynamics::flight::Profile::TabulatedPointingTarget::interpolators_</definition>
+        <argsstring></argsstring>
+        <name>interpolators_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="191" column="15" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target_1ad9b2665ca7c1aa185cf90326a1a2ca4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget::TabulatedPointingTarget</definition>
+        <argsstring>(const Array&lt; Pair&lt; Instant, Vector3d &gt;&gt; &amp;aPointingProfileInECI, const Vector3d &amp;aDirectionInBodyFrame, const Interpolator::Type &amp;anInterpolationType=DEFAULT_TABULATED_POINTING_TARGET_INTERPOLATION_TYPE)</argsstring>
+        <name>TabulatedPointingTarget</name>
+        <param>
+          <type>const Array&lt; Pair&lt; Instant, Vector3d &gt;&gt; &amp;</type>
+          <declname>aPointingProfileInECI</declname>
+        </param>
+        <param>
+          <type>const Vector3d &amp;</type>
+          <declname>aDirectionInBodyFrame</declname>
+        </param>
+        <param>
+          <type>const Interpolator::Type &amp;</type>
+          <declname>anInterpolationType</declname>
+          <defval><ref refid="_profile_8hpp_1ab0427e57f5aeeb48d76b676f772f3f91" kindref="member">DEFAULT_TABULATED_POINTING_TARGET_INTERPOLATION_TYPE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target" kindref="compound">TabulatedPointingTarget</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aPointingProfileInECI</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The profile of pointing vectors in the ECI frame. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aDirectionInBodyFrame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (unit) vector in the spacecraft&apos;s body frame to point relative to the target - can be a basis vector (i.e. [1, 0, 0] for the X axis), or a custom vector (i.e. [0.70, -0.15, 0.69] for an arbitrary axis). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>anInterpolationType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of interpolation to use. Defaults to BarycentricRational. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="176" column="9" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="84" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target_1a5163fc92acf5877fd2f0bdde8adcddaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Vector3d</type>
+        <definition>Vector3d ostk::astrodynamics::flight::Profile::TabulatedPointingTarget::interpolatePointingVectorAt</definition>
+        <argsstring>(const Instant &amp;anInstant) const</argsstring>
+        <name>interpolatePointingVectorAt</name>
+        <param>
+          <type>const Instant &amp;</type>
+          <declname>anInstant</declname>
+        </param>
+        <briefdescription>
+<para>Interpolates the pointing vector in ECI at a specified instant using the profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>anInstant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The instant at which to interpolate the pointing vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The pointing vector in ECI at the specified instant. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="186" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/Profile.cpp" bodystart="115" bodyend="127"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Represents a pointing constraint of one axis of the spacecraft along a user defined, tabulated pointing profile in the ECI frame. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Unlike the pre-defined target types above, the target is fully user defined: the profile is provided up front (must be known beforehand) and interpolated at each instant. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::Profile::PointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>Array&lt; Pair&lt; Instant, Vector3d &gt; &gt;</label>
+      </node>
+      <node id="1">
+        <label>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>pointingProfileInECI</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Vector3d</label>
+      </node>
+      <node id="2">
+        <label>ostk::astrodynamics::flight::Profile::PointingTarget</label>
+        <link refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>directionInBodyFrame</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" line="167" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Flight/Profile.hpp" bodystart="166" bodyend="192"/>
+    <listofallmembers>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a957984aa516d08276e85acee3a6ad2d7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</scope><name>directionInBodyFrame</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target_1a5163fc92acf5877fd2f0bdde8adcddaa" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</scope><name>interpolatePointingVectorAt</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target_1a051f3e7f993a4ba869998155e664410c" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</scope><name>interpolators_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target_1a2a8e3447bfd245b899a80cd9abc0955a" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</scope><name>pointingProfileInECI</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a1868ca8337d008045bc0fa5485eb0493" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</scope><name>PointingTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_tabulated_pointing_target_1ad9b2665ca7c1aa185cf90326a1a2ca4b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</scope><name>TabulatedPointingTarget</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a81f56c1eea06b2ff9171aaf4bcafc10c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</scope><name>Type</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1flight_1_1_profile_1_1_pointing_target_1a7abac6d6ca35d950fc1e02bf24424838" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::flight::Profile::TabulatedPointingTarget</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

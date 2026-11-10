@@ -7,14 +7,6 @@
       <memberdef kind="enum" id="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031" prot="public" static="no" strong="yes">
         <type></type>
         <name>Type</name>
-        <enumvalue id="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031aec0fc0100c4fc1ce4eea230c3dc10360" prot="public">
-          <name>Undefined</name>
-          <briefdescription>
-<para>Undefined type (Deprecated) Accesses can only be Complete or Partial. </para>
-          </briefdescription>
-          <detaileddescription>
-          </detaileddescription>
-        </enumvalue>
         <enumvalue id="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031aae94f80b3ce82062a5dd7815daa04f9d" prot="public">
           <name>Complete</name>
           <briefdescription>
@@ -38,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="39" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="38" bodyend="45"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="43" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="42" bodyend="46"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-attrib">
@@ -53,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="218" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="218" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="202" column="18" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="202" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_access_1a5cc8b3dc4638382a2e40e7db7b5ba428" prot="private" static="no" mutable="no">
         <type>Instant</type>
@@ -66,11 +58,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="220" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="220" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="204" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="204" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_access_1ae03fffcbd4499b3ad936a03b29665e92" prot="private" static="no" mutable="no">
-        <type>Instant</type>
-        <definition>Instant ostk::astrodynamics::Access::timeOfClosestApproach_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_access_1ade20d6d1e4cfbc422ccc95c62e9dbbad" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; Instant &gt;</type>
+        <definition>std::optional&lt;Instant&gt; ostk::astrodynamics::Access::timeOfClosestApproach_</definition>
         <argsstring></argsstring>
         <name>timeOfClosestApproach_</name>
         <briefdescription>
@@ -79,7 +71,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="221" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="221" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="205" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="205" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_access_1a42df3fd88855fb1f979329fa1084abc9" prot="private" static="no" mutable="no">
         <type>Instant</type>
@@ -92,11 +84,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="222" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="222" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="206" column="13" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="206" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_access_1ace739472da41208d08f2df514c7aa0b5" prot="private" static="no" mutable="no">
-        <type>Angle</type>
-        <definition>Angle ostk::astrodynamics::Access::maxElevation_</definition>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1_access_1a9f45e88e7e5d953bbaf3834399d7086b" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; Angle &gt;</type>
+        <definition>std::optional&lt;Angle&gt; ostk::astrodynamics::Access::maxElevation_</definition>
         <argsstring></argsstring>
         <name>maxElevation_</name>
         <briefdescription>
@@ -105,14 +97,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="223" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="223" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="207" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="207" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::Access::Access</definition>
-        <argsstring>(const Access::Type &amp;aType, const Instant &amp;anAcquisitionOfSignal, const Instant &amp;aTimeOfClosestApproach, const Instant &amp;aLossOfSignal, const Angle &amp;aMaxElevation)</argsstring>
+        <argsstring>(const Access::Type &amp;aType, const Instant &amp;anAcquisitionOfSignal, const std::optional&lt; Instant &gt; &amp;aTimeOfClosestApproach, const Instant &amp;aLossOfSignal, const std::optional&lt; Angle &gt; &amp;aMaxElevation=std::nullopt)</argsstring>
         <name>Access</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031" kindref="member">Access::Type</ref> &amp;</type>
@@ -123,7 +115,7 @@
           <declname>anAcquisitionOfSignal</declname>
         </param>
         <param>
-          <type>const Instant &amp;</type>
+          <type>const std::optional&lt; Instant &gt; &amp;</type>
           <declname>aTimeOfClosestApproach</declname>
         </param>
         <param>
@@ -131,14 +123,15 @@
           <declname>aLossOfSignal</declname>
         </param>
         <param>
-          <type>const Angle &amp;</type>
+          <type>const std::optional&lt; Angle &gt; &amp;</type>
           <declname>aMaxElevation</declname>
+          <defval>std::nullopt</defval>
         </param>
         <briefdescription>
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031aae94f80b3ce82062a5dd7815daa04f9d" kindref="member">Access::Type::Complete</ref>,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>acquisitionOfSignal,</highlight></codeline>
 <codeline><highlight class="normal"><sp/><sp/><sp/><sp/>timeOfClosestApproach,</highlight></codeline>
@@ -167,7 +160,7 @@
 <parametername>aTimeOfClosestApproach</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A time of closest approach instant. </para>
+<para>A time of closest approach instant, which may only be absent (std::nullopt) for a partial access. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -183,7 +176,7 @@
 <parametername>aMaxElevation</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A maximum elevation angle. </para>
+<para>A maximum elevation angle (optional), not defined for satellite to satellite accesses. Defaults to std::nullopt. </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -191,7 +184,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="64" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="10" bodyend="59"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="67" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="10" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a46cdec32d8ffcf11d01d4a23f837bc35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -206,8 +199,8 @@
 <para>Equality operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access1<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access2<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access1<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access2<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>equal<sp/>=<sp/>access1<sp/>==<sp/>access2<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -225,7 +218,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="82" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="61" bodyend="71"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="85" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="56" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a6781963b41affdc1f3996ea410817ebe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -240,8 +233,8 @@
 <para>Inequality operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access1<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access2<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access1<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access2<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>notEqual<sp/>=<sp/>access1<sp/>!=<sp/>access2<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -259,27 +252,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="94" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="73" bodyend="76"/>
-      </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a036fac75c0e6d3f1ba2ce2268b511f39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool ostk::astrodynamics::Access::isDefined</definition>
-        <argsstring>() const</argsstring>
-        <name>isDefined</name>
-        <briefdescription>
-<para>Check if the access is defined. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>defined<sp/>=<sp/>access.isDefined()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>True if the access is defined. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="116" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="110" bodyend="124"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="97" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="63" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a0fefb0da3547f297abb851b8f2950149" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -290,7 +263,7 @@
 <para>Check if the access is complete. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>complete<sp/>=<sp/>access.isComplete()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>True if the access type is Complete. </para>
@@ -299,7 +272,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="126" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="126" bodyend="134"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="119" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="96" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a81df00f6871aa4b0394064de86fea5dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031" kindref="member">Access::Type</ref></type>
@@ -310,7 +283,7 @@
 <para>Get the access type. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031" kindref="member">Access::Type</ref><sp/>type<sp/>=<sp/>access.getType()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>The access type. </para>
@@ -319,18 +292,18 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="136" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="136" bodyend="144"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="129" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="101" bodyend="104"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a95f4b307e8823a75a9919513b3b40d73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Instant</type>
-        <definition>Instant ostk::astrodynamics::Access::getAcquisitionOfSignal</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a31ac43659f5469aa7cba772fcf145c31" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Instant &amp;</type>
+        <definition>const Instant &amp; ostk::astrodynamics::Access::getAcquisitionOfSignal</definition>
         <argsstring>() const</argsstring>
         <name>getAcquisitionOfSignal</name>
         <briefdescription>
 <para>Get the acquisition of signal instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Instant<sp/>aos<sp/>=<sp/>access.getAcquisitionOfSignal()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>The acquisition of signal instant. </para>
@@ -339,38 +312,38 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="146" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="146" bodyend="154"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="139" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="106" bodyend="109"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1af8979d1e97b79255f6325aba11e7682b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Instant</type>
-        <definition>Instant ostk::astrodynamics::Access::getTimeOfClosestApproach</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a7e9ecc2810ff2fe29cd52ad60d5af8dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; Instant &gt; &amp;</type>
+        <definition>const std::optional&lt; Instant &gt; &amp; ostk::astrodynamics::Access::getTimeOfClosestApproach</definition>
         <argsstring>() const</argsstring>
         <name>getTimeOfClosestApproach</name>
         <briefdescription>
 <para>Get the time of closest approach instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Instant<sp/>tca<sp/>=<sp/>access.getTimeOfClosestApproach()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::optional&lt;Instant&gt;<sp/>tca<sp/>=<sp/>access.getTimeOfClosestApproach()<sp/>;</highlight></codeline>
 </programlisting></para>
-<para><simplesect kind="return"><para>The time of closest approach instant. </para>
+<para><simplesect kind="return"><para>The time of closest approach instant, or std::nullopt if not set (only possible for a partial access). </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="156" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="156" bodyend="164"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="149" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="111" bodyend="114"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1af03a8f07ef2f7093d07025b4f12d61d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Instant</type>
-        <definition>Instant ostk::astrodynamics::Access::getLossOfSignal</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a7ef328ad33c55e116492dc00e336d8b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Instant &amp;</type>
+        <definition>const Instant &amp; ostk::astrodynamics::Access::getLossOfSignal</definition>
         <argsstring>() const</argsstring>
         <name>getLossOfSignal</name>
         <briefdescription>
 <para>Get the loss of signal instant. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Instant<sp/>los<sp/>=<sp/>access.getLossOfSignal()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>The loss of signal instant. </para>
@@ -379,7 +352,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="166" column="13" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="166" bodyend="174"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="159" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="116" bodyend="119"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a719d3452ffde081bbd56db4cc7f8c2ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Interval</type>
@@ -390,7 +363,7 @@
 <para>Get the time interval of the access window. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Interval<sp/>interval<sp/>=<sp/>access.getInterval()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>The interval from acquisition of signal to loss of signal. </para>
@@ -399,7 +372,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="176" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="176" bodyend="184"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="169" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="121" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1ae59ae730d83ac1b3e8e1de5b9af0626d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>Duration</type>
@@ -410,7 +383,7 @@
 <para>Get the duration of the access window. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">Duration<sp/>duration<sp/>=<sp/>access.getDuration()<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><simplesect kind="return"><para>The duration from acquisition of signal to loss of signal. </para>
@@ -419,27 +392,27 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="186" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="186" bodyend="194"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="179" column="14" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="126" bodyend="129"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a34dd11cccfd5940367f43cd43c7f042c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>Angle</type>
-        <definition>Angle ostk::astrodynamics::Access::getMaxElevation</definition>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a8d6fcfc58e1ee48d8be9203093911f9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; Angle &gt; &amp;</type>
+        <definition>const std::optional&lt; Angle &gt; &amp; ostk::astrodynamics::Access::getMaxElevation</definition>
         <argsstring>() const</argsstring>
         <name>getMaxElevation</name>
         <briefdescription>
 <para>Get the maximum elevation angle reached during the access window. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
-<codeline><highlight class="normal">Angle<sp/>maxElevation<sp/>=<sp/>access.getMaxElevation()<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<codeline><highlight class="normal">std::optional&lt;Angle&gt;<sp/>maxElevation<sp/>=<sp/>access.getMaxElevation()<sp/>;</highlight></codeline>
 </programlisting></para>
-<para><simplesect kind="return"><para>The maximum elevation angle. </para>
+<para><simplesect kind="return"><para>The maximum elevation angle, or std::nullopt if not set (e.g., for satellite to satellite accesses). </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="196" column="11" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="196" bodyend="204"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="189" column="25" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="131" bodyend="134"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -460,7 +433,7 @@
 <para>Stream insertion operator. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" kindref="member">Access</ref><sp/>access<sp/>=<sp/>{<sp/>...<sp/>}<sp/>;</highlight></codeline>
 <codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>access<sp/>;</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
@@ -486,29 +459,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="106" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="78" bodyend="108"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="109" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="68" bodyend="94"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-static-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a4317f489c22540a9a9aa2e52ecdad275" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classostk_1_1astrodynamics_1_1_access" kindref="compound">Access</ref></type>
-        <definition>Access ostk::astrodynamics::Access::Undefined</definition>
-        <argsstring>()</argsstring>
-        <name>Undefined</name>
-        <briefdescription>
-<para>Construct an undefined access. </para>
-        </briefdescription>
-        <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" kindref="member">Access</ref><sp/>access<sp/>=<sp/><ref refid="classostk_1_1astrodynamics_1_1_access_1a4317f489c22540a9a9aa2e52ecdad275" kindref="member">Access::Undefined</ref>()<sp/>;</highlight></codeline>
-</programlisting></para>
-<para><simplesect kind="return"><para>An undefined access. </para>
-</simplesect>
-</para>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="205" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="206" bodyend="211"/>
-      </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1_access_1a85fd2b7f1ec58fc6662e0eb51b7b8604" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>String</type>
         <definition>String ostk::astrodynamics::Access::StringFromType</definition>
@@ -539,38 +493,36 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="215" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="213" bodyend="236"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="199" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Access.cpp" bodystart="136" bodyend="153"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Object-to-object visibility. </para>
     </briefdescription>
     <detaileddescription>
-<para>Represents a visibility window between two objects, defined by an Acquisition of Signal (AOS), a Time of Closest Approach (TCA), and a Loss of Signal (LOS). Also stores the maximum elevation angle reached during the access and whether the access window is complete or partial (i.e., truncated by the analysis interval boundaries). </para>
+<para>Represents a visibility window between two objects (e.g., ground station to satellite, or satellite to satellite), defined by an Acquisition of Signal (AOS), a Time of Closest Approach (TCA), and a Loss of Signal (LOS). Also stores the (optional) maximum elevation angle reached during the access and whether the access window is complete or partial (i.e., truncated by the analysis interval boundaries). The maximum elevation angle is not defined for satellite to satellite accesses. The time of closest approach is always present for a complete access, but may be absent for a partial access (e.g., if the closest approach could not be found). </para>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="35" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="34" bodyend="224"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" line="39" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Access.hpp" bodystart="38" bodyend="208"/>
     <listofallmembers>
-      <member refid="classostk_1_1astrodynamics_1_1_access_1afd47dc5f5b282f3329afcc6ff0e01c78" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>Access</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_access_1a8f727a8003e39d8e3d1c1f077ebacae1" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>Access</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a5cc8b3dc4638382a2e40e7db7b5ba428" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>acquisitionOfSignal_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_access_1a95f4b307e8823a75a9919513b3b40d73" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getAcquisitionOfSignal</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_access_1a31ac43659f5469aa7cba772fcf145c31" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getAcquisitionOfSignal</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1ae59ae730d83ac1b3e8e1de5b9af0626d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getDuration</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a719d3452ffde081bbd56db4cc7f8c2ac" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getInterval</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_access_1af03a8f07ef2f7093d07025b4f12d61d7" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getLossOfSignal</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_access_1a34dd11cccfd5940367f43cd43c7f042c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getMaxElevation</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_access_1af8979d1e97b79255f6325aba11e7682b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getTimeOfClosestApproach</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_access_1a7ef328ad33c55e116492dc00e336d8b3" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getLossOfSignal</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_access_1a8d6fcfc58e1ee48d8be9203093911f9b" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getMaxElevation</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_access_1a7e9ecc2810ff2fe29cd52ad60d5af8dc" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getTimeOfClosestApproach</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a81df00f6871aa4b0394064de86fea5dd" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>getType</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a0fefb0da3547f297abb851b8f2950149" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>isComplete</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_access_1a036fac75c0e6d3f1ba2ce2268b511f39" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>isDefined</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a42df3fd88855fb1f979329fa1084abc9" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>lossOfSignal_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_access_1ace739472da41208d08f2df514c7aa0b5" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>maxElevation_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_access_1a9f45e88e7e5d953bbaf3834399d7086b" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>maxElevation_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a6781963b41affdc1f3996ea410817ebe" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a84eabd1ef8d3eeff0b6a80851727a2b4" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>operator&lt;&lt;</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a46cdec32d8ffcf11d01d4a23f837bc35" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>operator==</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a85fd2b7f1ec58fc6662e0eb51b7b8604" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>StringFromType</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_access_1ae03fffcbd4499b3ad936a03b29665e92" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>timeOfClosestApproach_</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1_access_1ade20d6d1e4cfbc422ccc95c62e9dbbad" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>timeOfClosestApproach_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1a54318a96a119aefb953837b842fe0031" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>Type</name></member>
       <member refid="classostk_1_1astrodynamics_1_1_access_1ab4e922d2d75039cdb0c884fe4d518553" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>type_</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1_access_1a4317f489c22540a9a9aa2e52ecdad275" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::Access</scope><name>Undefined</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

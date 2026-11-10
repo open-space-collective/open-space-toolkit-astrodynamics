@@ -11,18 +11,15 @@ ostk.astrodynamics.flight.System
 
    
    
-   .. rubric:: Methods
+   
+
+   
+   
+   .. rubric:: Attributes
 
    .. autosummary::
-      :nosignatures:
    
       ~System.get_geometry
       ~System.get_mass
-      ~System.is_defined
-      ~System.undefined
-   
-   
-
-   
    
    

@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" line="48" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="48" bodyend="53"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" line="40" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.cpp" bodystart="40" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1_1system_1a5a558b3f9c4e27a2fb27db18ee455381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" line="58" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="58" bodyend="63"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" line="54" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystem.cpp" bodystart="54" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="namespaceostk_1_1astrodynamics_1_1flight_1_1system_1a8c3afe65e18d41ab146565b969d35fbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -127,13 +127,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" line="34" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="34" bodyend="39"/>
+        <location file="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" line="35" column="1" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Flight/System/SatelliteSystemBuilder.cpp" bodystart="35" bodyend="40"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="17" column="1"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Flight/System/PropulsionSystem.hpp" line="15" column="1"/>
   </compounddef>
 </doxygen>
