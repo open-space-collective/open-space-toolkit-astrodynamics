@@ -4,9 +4,16 @@ import numpy as np
 import pytest
 from ostk.astrodynamics import Dynamics
 from ostk.astrodynamics.dynamics import CentralBodyGravity, PositionDerivative
+from ostk.astrodynamics.flight import Maneuver
 from ostk.astrodynamics.trajectory import Orbit, Propagator, State
 from ostk.astrodynamics.trajectory.orbit.model import Propagated, Tabulated
-from ostk.astrodynamics.trajectory.state import NumericalSolver
+from ostk.astrodynamics.trajectory.state import CoordinateSubset, NumericalSolver
+from ostk.astrodynamics.trajectory.state.coordinate_subset import (
+    CartesianAcceleration,
+    CartesianPosition,
+    CartesianVelocity,
+)
+from ostk.mathematics.curve_fitting import Interpolator
 from ostk.physics.coordinate import Frame, Position, Velocity
 from ostk.physics.environment.object.celestial import Earth
 from ostk.physics.time import DateTime, Duration, Instant, Scale
@@ -67,6 +74,47 @@ def propagated(
     propagator: Propagator, state: State, revolution_number: int
 ) -> Propagated:
     return Propagated(propagator, state, revolution_number)
+
+
+@pytest.fixture
+def state_with_mass() -> State:
+    return State(
+        Instant.J2000() - Duration.seconds(60.0),
+        [7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 100.0],
+        Frame.GCRF(),
+        [
+            CartesianPosition.default(),
+            CartesianVelocity.default(),
+            CoordinateSubset.mass(),
+        ],
+    )
+
+
+def generate_maneuver(start_instant: Instant, duration_in_seconds: float) -> Maneuver:
+    return Maneuver(
+        [
+            State(
+                instant,
+                [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, *acceleration, mass_flow_rate],
+                Frame.GCRF(),
+                [
+                    CartesianPosition.default(),
+                    CartesianVelocity.default(),
+                    CartesianAcceleration.thrust_acceleration(),
+                    CoordinateSubset.mass_flow_rate(),
+                ],
+            )
+            for instant, acceleration, mass_flow_rate in [
+                (start_instant, [1e-3, 0.0, 0.0], -1.1e-5),
+                (
+                    start_instant + Duration.seconds(duration_in_seconds),
+                    [0.0, 1e-3, 0.0],
+                    -0.9e-5,
+                ),
+            ]
+        ],
+        Interpolator.Type.Linear,
+    )
 
 
 @pytest.fixture
@@ -237,3 +285,69 @@ class TestPropagated:
 
         assert tabulated is not None
         assert isinstance(tabulated, Tabulated)
+
+    def test_maneuvers(
+        self,
+        propagator: Propagator,
+        state: State,
+        state_with_mass: State,
+    ):
+        maneuver = generate_maneuver(Instant.J2000(), 60.0)
+
+        propagated_without_maneuvers = Propagated(propagator, state_with_mass)
+        propagated_with_maneuvers = Propagated(
+            propagator, state_with_mass, 1, maneuvers=[maneuver]
+        )
+
+        assert propagated_without_maneuvers.get_maneuvers() == []
+        assert propagated_with_maneuvers.get_maneuvers() == [maneuver]
+        assert propagated_with_maneuvers != propagated_without_maneuvers
+        assert propagated_with_maneuvers == Propagated(
+            propagator, state_with_mass, 1, [maneuver]
+        )
+
+        # Same with a state array
+        assert Propagated(
+            propagator, [state_with_mass], 1, [maneuver]
+        ).get_maneuvers() == [maneuver]
+
+        # The maneuvers are provided to the propagator when calculating states
+        instants = [
+            Instant.J2000() + Duration.seconds(offset) for offset in (30.0, 200.0)
+        ]
+
+        states_with_maneuvers = propagated_with_maneuvers.calculate_states_at(instants)
+        states_without_maneuvers = propagated_without_maneuvers.calculate_states_at(
+            instants
+        )
+        expected_states = propagator.calculate_states_at(
+            state_with_mass, instants, [maneuver]
+        )
+
+        assert states_with_maneuvers == expected_states
+        # A single instant takes a different integration path than the batch
+        single_state = propagated_with_maneuvers.calculate_state_at(instants[1])
+        np.testing.assert_allclose(
+            single_state.get_position().get_coordinates(),
+            expected_states[1].get_position().get_coordinates(),
+            atol=1e-4,
+        )
+
+        position_difference = np.linalg.norm(
+            np.array(states_with_maneuvers[1].get_position().get_coordinates())
+            - np.array(states_without_maneuvers[1].get_position().get_coordinates())
+        )
+        assert position_difference > 1.0
+
+        mass = CoordinateSubset.mass()
+        assert (
+            states_with_maneuvers[1].extract_coordinate(mass)[0]
+            < states_without_maneuvers[1].extract_coordinate(mass)[0]
+        )
+
+        # Maneuvers must not overlap, and need the mass in the states
+        with pytest.raises(RuntimeError):
+            Propagated(propagator, state_with_mass, 1, [maneuver, maneuver])
+
+        with pytest.raises(RuntimeError):
+            Propagated(propagator, state, 1, [maneuver])

@@ -9,6 +9,7 @@
 #include <OpenSpaceToolkit/Core/Type/Size.hpp>
 #include <OpenSpaceToolkit/Core/Type/String.hpp>
 
+#include <OpenSpaceToolkit/Mathematics/CurveFitting/Interpolator.hpp>
 #include <OpenSpaceToolkit/Mathematics/Object/Vector.hpp>
 
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
@@ -22,11 +23,15 @@
 
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/PositionDerivative.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianPosition.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset/CartesianVelocity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/NumericalSolver.hpp>
 
 #include <Global.test.hpp>
@@ -39,7 +44,9 @@ using ostk::core::type::Shared;
 using ostk::core::type::Size;
 using ostk::core::type::String;
 
+using ostk::mathematics::curvefitting::Interpolator;
 using ostk::mathematics::object::Vector3d;
+using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::coordinate::Frame;
 using ostk::physics::coordinate::Position;
@@ -60,12 +67,16 @@ using EarthGravitationalModel = ostk::physics::environment::gravitational::Earth
 using ostk::astrodynamics::Dynamics;
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::dynamics::PositionDerivative;
+using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::flight::system::SatelliteSystem;
 using ostk::astrodynamics::trajectory::Orbit;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
 using ostk::astrodynamics::trajectory::orbit::model::Propagated;
 using ostk::astrodynamics::trajectory::Propagator;
 using ostk::astrodynamics::trajectory::State;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianPosition;
+using ostk::astrodynamics::trajectory::state::coordinatesubset::CartesianVelocity;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated : public ::testing::Test
@@ -91,6 +102,42 @@ class OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated : public 
     };
 
     Propagator propagator_ = Propagator(defaultNumericalSolver_, defaultDynamics_);
+
+    // Maneuver setup: the maneuver spans [J2000, J2000 + 60 s], the state with mass is 60 s before it starts
+    const Instant maneuverEpoch_ = Instant::J2000();
+
+    State stateWithMassGenerator(const Instant& anInstant) const
+    {
+        VectorXd coordinates(7);
+        coordinates << 7000000.0, 0.0, 0.0, 0.0, 5335.865450622126, 5335.865450622126, 100.0;
+
+        return {
+            anInstant,
+            coordinates,
+            gcrfSPtr_,
+            {CartesianPosition::Default(), CartesianVelocity::Default(), CoordinateSubset::Mass()}
+        };
+    }
+
+    State maneuverStateGenerator(const Instant& anInstant, const Vector3d& anAcceleration, double aMassFlowRate) const
+    {
+        VectorXd coordinates(10);
+        coordinates << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, anAcceleration(0), anAcceleration(1), anAcceleration(2),
+            aMassFlowRate;
+
+        return {anInstant, coordinates, gcrfSPtr_, Maneuver::RequiredCoordinateSubsets};
+    }
+
+    Maneuver maneuverGenerator(const Instant& aStartInstant, const Duration& aDuration) const
+    {
+        return {
+            {
+                maneuverStateGenerator(aStartInstant, {1e-3, 0.0, 0.0}, -1.1e-5),
+                maneuverStateGenerator(aStartInstant + aDuration, {0.0, 1e-3, 0.0}, -0.9e-5),
+            },
+            Interpolator::Type::Linear
+        };
+    }
 };
 
 TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Constructor)
@@ -809,5 +856,196 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, ToTabul
         ASSERT_EQ(
             tabulatedModel.getInterval(), Interval::Closed(defaultInstant_, defaultInstant_ + Duration::Minutes(3.0))
         );
+    }
+}
+
+TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Propagated, Maneuvers)
+{
+    const State initialState = stateWithMassGenerator(maneuverEpoch_ - Duration::Seconds(60.0));
+    const Maneuver maneuver = maneuverGenerator(maneuverEpoch_, Duration::Seconds(60.0));
+
+    // The model stores the maneuvers, and they are part of its identity
+    {
+        const Propagated propagatedWithoutManeuvers = {propagator_, initialState};
+        const Propagated propagatedWithManeuvers = {propagator_, initialState, defaultRevolutionNumber_, {maneuver}};
+
+        EXPECT_TRUE(propagatedWithoutManeuvers.getManeuvers().isEmpty());
+        ASSERT_EQ(1, propagatedWithManeuvers.getManeuvers().getSize());
+        EXPECT_EQ(maneuver, propagatedWithManeuvers.getManeuvers()[0]);
+
+        const Propagated sameManeuversPropagated = {propagator_, initialState, 1, {maneuver}};
+        const Propagated otherManeuversPropagated = {
+            propagator_,
+            initialState,
+            1,
+            {maneuverGenerator(maneuverEpoch_ + Duration::Seconds(10.0), Duration::Seconds(60.0))}
+        };
+        EXPECT_TRUE(sameManeuversPropagated == Propagated(propagator_, initialState, 1, {maneuver}));
+        EXPECT_FALSE(sameManeuversPropagated == otherManeuversPropagated);
+        EXPECT_FALSE(sameManeuversPropagated == Propagated(propagator_, initialState));
+        EXPECT_TRUE(sameManeuversPropagated != Propagated(propagator_, initialState));
+
+        // Same through the base model interface
+        const Orbit orbit = {propagatedWithManeuvers, earthSpherical_};
+        EXPECT_EQ(1, orbit.getModel().as<Propagated>().getManeuvers().getSize());
+    }
+
+    // A single cached state: the model gives what the propagator gives with the same maneuvers
+    {
+        const Propagated propagated = {propagator_, initialState, 1, {maneuver}};
+
+        const Array<Instant> instants = {
+            maneuverEpoch_ - Duration::Seconds(90.0),
+            maneuverEpoch_ - Duration::Seconds(60.0),
+            maneuverEpoch_ - Duration::Seconds(10.0),
+            maneuverEpoch_ + Duration::Seconds(30.0),
+            maneuverEpoch_ + Duration::Seconds(60.0),
+            maneuverEpoch_ + Duration::Seconds(200.0),
+        };
+
+        const Array<State> propagatedStates = propagated.calculateStatesAt(instants);
+        const Array<State> expectedStates = propagator_.calculateStatesAt(initialState, instants, {maneuver});
+        const Array<State> coastingStates = propagator_.calculateStatesAt(initialState, instants);
+
+        ASSERT_EQ(instants.getSize(), propagatedStates.getSize());
+        for (Size i = 0; i < instants.getSize(); ++i)
+        {
+            EXPECT_EQ(expectedStates[i], propagatedStates[i]) << "Index " << i;
+
+            // A single instant takes a different integration path than the batch: equal up to integration error
+            const State singleState = propagated.calculateStateAt(instants[i]);
+            EXPECT_LT(
+                (singleState.extractCoordinate(CartesianPosition::Default()) -
+                 expectedStates[i].extractCoordinate(CartesianPosition::Default()))
+                    .norm(),
+                1e-4
+            ) << "Index "
+              << i;
+            EXPECT_NEAR(
+                singleState.extractCoordinate(CoordinateSubset::Mass())(0),
+                expectedStates[i].extractCoordinate(CoordinateSubset::Mass())(0),
+                1e-9
+            ) << "Index "
+              << i;
+        }
+
+        // The maneuver is effective: it burns propellant and changes the orbit
+        const double initialMass = initialState.extractCoordinate(CoordinateSubset::Mass())(0);
+        EXPECT_NEAR(initialMass, propagatedStates[2].extractCoordinate(CoordinateSubset::Mass())(0), 1e-12);
+        EXPECT_LT(propagatedStates.getLast().extractCoordinate(CoordinateSubset::Mass())(0), initialMass - 1e-4);
+        EXPECT_GT(
+            (propagatedStates.getLast().extractCoordinate(CartesianPosition::Default()) -
+             coastingStates.getLast().extractCoordinate(CartesianPosition::Default()))
+                .norm(),
+            1.0
+        );
+    }
+
+    // Cached states around the maneuver: states inside it are blended from forward and backward propagation, both
+    // of which go through the maneuver
+    {
+        const State endState =
+            propagator_.calculateStateAt(initialState, maneuverEpoch_ + Duration::Seconds(120.0), {maneuver});
+
+        const Propagated propagated = {propagator_, {initialState, endState}, 1, {maneuver}};
+
+        const Instant instant = maneuverEpoch_ + Duration::Seconds(30.0);
+
+        const State propagatedState = propagated.calculateStateAt(instant);
+        const State expectedState = propagator_.calculateStateAt(initialState, instant, {maneuver});
+
+        EXPECT_LT(
+            (propagatedState.extractCoordinate(CartesianPosition::Default()) -
+             expectedState.extractCoordinate(CartesianPosition::Default()))
+                .norm(),
+            1e-6
+        );
+        EXPECT_LT(
+            (propagatedState.extractCoordinate(CartesianVelocity::Default()) -
+             expectedState.extractCoordinate(CartesianVelocity::Default()))
+                .norm(),
+            1e-9
+        );
+        EXPECT_NEAR(
+            expectedState.extractCoordinate(CoordinateSubset::Mass())(0),
+            propagatedState.extractCoordinate(CoordinateSubset::Mass())(0),
+            1e-9
+        );
+
+        // The maneuver is not applied to the model without it
+        const Propagated coastingPropagated = {propagator_, {initialState, endState}};
+        EXPECT_GT(
+            (coastingPropagated.calculateStateAt(instant).extractCoordinate(CartesianPosition::Default()) -
+             expectedState.extractCoordinate(CartesianPosition::Default()))
+                .norm(),
+            1e-6
+        );
+    }
+
+    // Revolution numbers are counted along the maneuvered trajectory
+    {
+        const Propagated propagated = {propagator_, initialState, defaultRevolutionNumber_, {maneuver}};
+
+        EXPECT_NO_THROW(propagated.calculateRevolutionNumberAt(maneuverEpoch_ + Duration::Hours(4.0)));
+        EXPECT_EQ(
+            Propagated(propagator_, initialState, defaultRevolutionNumber_)
+                .calculateRevolutionNumberAt(maneuverEpoch_ + Duration::Hours(4.0)),
+            propagated.calculateRevolutionNumberAt(maneuverEpoch_ + Duration::Hours(4.0))
+        );
+        EXPECT_EQ(defaultRevolutionNumber_, propagated.calculateRevolutionNumberAt(initialState.getInstant()));
+    }
+
+    // Validation: overlapping or duplicated maneuvers, and states without mass
+    {
+        const Maneuver overlappingManeuver =
+            maneuverGenerator(maneuverEpoch_ + Duration::Seconds(30.0), Duration::Seconds(60.0));
+        const Maneuver touchingManeuver =
+            maneuverGenerator(maneuverEpoch_ + Duration::Seconds(60.0), Duration::Seconds(30.0));
+
+        for (const Array<Maneuver>& maneuvers : Array<Array<Maneuver>> {
+                 {maneuver, maneuver},
+                 {maneuver, overlappingManeuver},
+                 {overlappingManeuver, maneuver},
+                 {maneuver, touchingManeuver},
+             })
+        {
+            EXPECT_THROW(Propagated(propagator_, initialState, 1, maneuvers), ostk::core::error::RuntimeError);
+            EXPECT_THROW(
+                Propagated(propagator_, Array<State> {initialState}, 1, maneuvers), ostk::core::error::RuntimeError
+            );
+        }
+
+        // Non overlapping maneuvers are accepted, in any order
+        const Maneuver laterManeuver =
+            maneuverGenerator(maneuverEpoch_ + Duration::Seconds(61.0), Duration::Seconds(30.0));
+        EXPECT_NO_THROW(Propagated(propagator_, initialState, 1, {maneuver, laterManeuver}));
+        EXPECT_NO_THROW(Propagated(propagator_, initialState, 1, {laterManeuver, maneuver}));
+
+        // Without maneuvers, the mass is not required
+        EXPECT_NO_THROW(Propagated(propagator_, defaultState_));
+
+        // With maneuvers, it is
+        EXPECT_THROW(
+            {
+                try
+                {
+                    Propagated(propagator_, defaultState_, 1, {maneuver});
+                }
+                catch (const ostk::core::error::RuntimeError& e)
+                {
+                    EXPECT_EQ(e.getMessage(), String("Cached states must contain the mass when there are maneuvers."));
+                    throw;
+                }
+            },
+            ostk::core::error::RuntimeError
+        );
+
+        // The cached state array of a model with maneuvers cannot be replaced by states without mass
+        Propagated propagated = {propagator_, initialState, 1, {maneuver}};
+        EXPECT_THROW(propagated.setCachedStateArray({defaultState_}), ostk::core::error::RuntimeError);
+        ASSERT_EQ(1, propagated.getCachedStateArray().getSize());
+        EXPECT_EQ(initialState, propagated.getCachedStateArray()[0]);
+        EXPECT_NO_THROW(propagated.setCachedStateArray({stateWithMassGenerator(maneuverEpoch_ - Duration::Seconds(30.0))
+        }));
     }
 }
