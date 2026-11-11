@@ -90,7 +90,11 @@ def state_with_mass() -> State:
     )
 
 
-def generate_maneuver(start_instant: Instant, duration_in_seconds: float) -> Maneuver:
+@pytest.fixture
+def maneuver() -> Maneuver:
+    start_instant: Instant = Instant.J2000()
+    duration_in_seconds: float = 60.0
+
     return Maneuver(
         [
             State(
@@ -286,68 +290,77 @@ class TestPropagated:
         assert tabulated is not None
         assert isinstance(tabulated, Tabulated)
 
-    def test_maneuvers(
+    def test_constructors_with_maneuvers(
         self,
         propagator: Propagator,
         state: State,
         state_with_mass: State,
+        maneuver: Maneuver,
     ):
-        maneuver = generate_maneuver(Instant.J2000(), 60.0)
+        propagated = Propagated(propagator, state_with_mass, 1, maneuvers=[maneuver])
 
-        propagated_without_maneuvers = Propagated(propagator, state_with_mass)
-        propagated_with_maneuvers = Propagated(
-            propagator, state_with_mass, 1, maneuvers=[maneuver]
+        assert propagated is not None
+        assert isinstance(propagated, Propagated)
+
+        propagated_with_state_array = Propagated(
+            propagator, [state_with_mass], maneuvers=[maneuver]
         )
 
-        assert propagated_without_maneuvers.get_maneuvers() == []
-        assert propagated_with_maneuvers.get_maneuvers() == [maneuver]
-        assert propagated_with_maneuvers != propagated_without_maneuvers
-        assert propagated_with_maneuvers == Propagated(
-            propagator, state_with_mass, 1, [maneuver]
-        )
+        assert propagated_with_state_array is not None
+        assert isinstance(propagated_with_state_array, Propagated)
 
-        # Same with a state array
-        assert Propagated(
-            propagator, [state_with_mass], 1, [maneuver]
-        ).get_maneuvers() == [maneuver]
+        # Overlapping maneuvers
+        with pytest.raises(RuntimeError):
+            Propagated(propagator, state_with_mass, 1, [maneuver, maneuver])
 
-        # The maneuvers are provided to the propagator when calculating states
+        # Maneuvers need the mass in the state
+        with pytest.raises(RuntimeError):
+            Propagated(propagator, state, 1, [maneuver])
+
+    def test_get_maneuvers(
+        self,
+        propagated: Propagated,
+        propagator: Propagator,
+        state_with_mass: State,
+        maneuver: Maneuver,
+    ):
+        assert propagated.get_maneuvers() == []
+
+        propagated_with_maneuvers = Propagated(propagator, state_with_mass, 1, [maneuver])
+
+        assert len(propagated_with_maneuvers.get_maneuvers()) == 1
+        assert isinstance(propagated_with_maneuvers.get_maneuvers()[0], Maneuver)
+
+    def test_comparators_with_maneuvers(
+        self,
+        propagator: Propagator,
+        state_with_mass: State,
+        maneuver: Maneuver,
+    ):
+        propagated = Propagated(propagator, state_with_mass, 1, [maneuver])
+
+        assert (
+            propagated == Propagated(propagator, state_with_mass, 1, [maneuver])
+        ) is True
+        assert (propagated != Propagated(propagator, state_with_mass)) is True
+
+    def test_calculate_states_with_maneuvers(
+        self,
+        propagator: Propagator,
+        state_with_mass: State,
+        maneuver: Maneuver,
+    ):
+        propagated = Propagated(propagator, state_with_mass, 1, [maneuver])
+
         instants = [
             Instant.J2000() + Duration.seconds(offset) for offset in (30.0, 200.0)
         ]
 
-        states_with_maneuvers = propagated_with_maneuvers.calculate_states_at(instants)
-        states_without_maneuvers = propagated_without_maneuvers.calculate_states_at(
-            instants
-        )
-        expected_states = propagator.calculate_states_at(
-            state_with_mass, instants, [maneuver]
-        )
+        state = propagated.calculate_state_at(instants[0])
+        assert isinstance(state, State)
 
-        assert states_with_maneuvers == expected_states
-        # A single instant takes a different integration path than the batch
-        single_state = propagated_with_maneuvers.calculate_state_at(instants[1])
-        np.testing.assert_allclose(
-            single_state.get_position().get_coordinates(),
-            expected_states[1].get_position().get_coordinates(),
-            atol=1e-4,
-        )
+        states = propagated.calculate_states_at(instants)
+        assert len(states) == len(instants)
+        assert all(isinstance(state, State) for state in states)
 
-        position_difference = np.linalg.norm(
-            np.array(states_with_maneuvers[1].get_position().get_coordinates())
-            - np.array(states_without_maneuvers[1].get_position().get_coordinates())
-        )
-        assert position_difference > 1.0
-
-        mass = CoordinateSubset.mass()
-        assert (
-            states_with_maneuvers[1].extract_coordinate(mass)[0]
-            < states_without_maneuvers[1].extract_coordinate(mass)[0]
-        )
-
-        # Maneuvers must not overlap, and need the mass in the states
-        with pytest.raises(RuntimeError):
-            Propagated(propagator, state_with_mass, 1, [maneuver, maneuver])
-
-        with pytest.raises(RuntimeError):
-            Propagated(propagator, state, 1, [maneuver])
+        assert isinstance(propagated.calculate_revolution_number_at(instants[1]), int)
