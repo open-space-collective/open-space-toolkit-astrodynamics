@@ -27,6 +27,7 @@ ostk.astrodynamics.trajectory.orbit.model.Propagated
       ~Propagated.calculate_states_at
       ~Propagated.get_cached_state_array
       ~Propagated.get_epoch
+      ~Propagated.get_maneuvers
       ~Propagated.get_propagator
       ~Propagated.get_revolution_number_at_epoch
       ~Propagated.is_kepler

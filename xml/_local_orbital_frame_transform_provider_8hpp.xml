@@ -198,12 +198,12 @@
         <childnode refid="36" relation="include">
         </childnode>
       </node>
-      <node id="23">
+      <node id="27">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp</label>
         <link refid="_propagator_8hpp"/>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
@@ -271,9 +271,11 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
         <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
@@ -350,20 +352,20 @@
         <childnode refid="13" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="24">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.hpp</label>
         <link refid="_sequence_8hpp"/>
-        <childnode refid="26" relation="include">
+        <childnode refid="25" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="23">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp</label>
         <link refid="_propagated_8hpp"/>
-        <childnode refid="25" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
@@ -409,7 +411,7 @@
       <node id="29">
         <label>include/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.hpp</label>
         <link refid="_segment_8hpp"/>
-        <childnode refid="25" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
@@ -422,7 +424,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="26">
+      <node id="25">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Sequence.cpp</label>
         <link refid="_sequence_8cpp"/>
       </node>
@@ -448,7 +450,7 @@
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Segment.cpp</label>
         <link refid="_segment_8cpp"/>
       </node>
-      <node id="27">
+      <node id="26">
         <label>src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp</label>
         <link refid="_propagated_8cpp"/>
       </node>

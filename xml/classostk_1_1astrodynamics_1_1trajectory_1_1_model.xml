@@ -75,8 +75,8 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1a961aa0514cc3889cf37190e530d18b5b">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a89c2cb7001ab70b5f820c74c82443c76">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a9e5b9df39988d48b0f20e0623ed70e70">operator==</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1afbd317a7eafe857c771af5cf0ce8bde3">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a922311d0aedf6c53633800218386c3d2">operator==</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1afbd317a7eafe857c771af5cf0ce8bde3">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a1b7db3daa2bcd07f6b5e1324d22db02d">operator==</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a01ba92451890ab15623c36f3001c6036">operator==</reimplementedby>
         <param>
@@ -114,8 +114,8 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ac9141f1b13751f7394af8e5761ce3adf">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a6f1c5b3736b7b78b5b169d46fa9d011b">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1a17b974edccbb8a3f22e1ae48a9d328b7">operator!=</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ac7d0730c330045951d9fddc7b0f8a1ba">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a454e2aa31029204a948184b4c24b29cf">operator!=</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ac7d0730c330045951d9fddc7b0f8a1ba">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a5a786cee7a33949aac998a335c9d6fe9">operator!=</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a94378d2b8cb327856b39180a1ada8a9b">operator!=</reimplementedby>
         <param>
@@ -193,10 +193,10 @@
         <argsstring>(const Instant &amp;anInstant) const =0</argsstring>
         <name>calculateStateAt</name>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ac1357b291393c44c18be2d5db954e32b">calculateStateAt</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a51e555eb1f81be80591f44c4719aa1f6">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ac40a9c726cc4abe79918547a1f3cf89a">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1a54dc2696b84b3db796d4291de721dc35">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated_1afe6ee6f73e40b3c1723de24663158b93">calculateStateAt</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a51e555eb1f81be80591f44c4719aa1f6">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1aef489244fe28239fc380d45a150cd334">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a1b006869b9345866044450138104e900">calculateStateAt</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1aff8828a9a7c2ef2baf3c2fd0c9e3fb98">calculateStateAt</reimplementedby>
@@ -270,9 +270,9 @@
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1adb95510c1c7cde93bcfc7fd0d8c8f4f7">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_nadir_1ae18bcb196132c33366a906f4e4b2fe28">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_static_1ae30f8ba6533aca4f229525a032aefb0e">print</reimplementedby>
-        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ab633721b98b7518e0136e62cb964f604">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_target_scan_1ab7482c810778fe7d9c3ef82464dfb2ca">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_kepler_1a38e950141db96b27e959391885e32122">print</reimplementedby>
+        <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ab633721b98b7518e0136e62cb964f604">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1model_1_1_tabulated_1a0dc0ae91d8e127fb2a7c8a77ba481816">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_s_g_p4_1a50eed9bbbdeab33745acfad02b10bc5f">print</reimplementedby>
         <reimplementedby refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1sgp4_1_1_s_g_p4_full_precision_1a6208209bee0b650edf9f8d4f7b21786d">print</reimplementedby>

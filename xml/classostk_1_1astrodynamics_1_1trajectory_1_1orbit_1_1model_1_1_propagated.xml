@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="193" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" bodystart="193" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="230" column="16" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" bodystart="230" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a3fa70db79b40cd513589d964a3dc1b60" prot="private" static="no" mutable="yes">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="194" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" bodystart="194" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="231" column="19" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" bodystart="231" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ab4cc3e3ab5f94f97d09ea0ea2adda2e1" prot="private" static="no" mutable="no">
         <type>int</type>
@@ -42,14 +42,27 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="195" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" bodystart="195" bodyend="-1"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="232" column="9" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a34132cc8352ab7140dae566506643e73" prot="private" static="no" mutable="no">
+        <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &gt;</type>
+        <definition>Array&lt;Maneuver&gt; ostk::astrodynamics::trajectory::orbit::model::Propagated::maneuvers_</definition>
+        <argsstring></argsstring>
+        <name>maneuvers_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="233" column="11" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" bodystart="233" bodyend="-1"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="public-func">
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a2172a2a2f08ec5aa787c6e0e832d7207" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a12bdff763f7d9c82dcdc1a2394457a29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::orbit::model::Propagated::Propagated</definition>
-        <argsstring>(const Propagator &amp;aPropagator, const State &amp;aState, int aRevolutionNumber=1)</argsstring>
+        <argsstring>(const Propagator &amp;aPropagator, const State &amp;aState, int aRevolutionNumber=1, const Array&lt; Maneuver &gt; &amp;aManeuverArray=Array&lt; Maneuver &gt;::Empty())</argsstring>
         <name>Propagated</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> &amp;</type>
@@ -64,13 +77,20 @@
           <declname>aRevolutionNumber</declname>
           <defval>1</defval>
         </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &gt; &amp;</type>
+          <declname>aManeuverArray</declname>
+          <defval>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &gt;::Empty()</defval>
+        </param>
         <briefdescription>
 <para>Constructor. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a2172a2a2f08ec5aa787c6e0e832d7207" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState<sp/>};</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a12bdff763f7d9c82dcdc1a2394457a29" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState<sp/>};</highlight></codeline>
 <codeline><highlight class="normal">or</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a2172a2a2f08ec5aa787c6e0e832d7207" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState,<sp/>aRevolutionNumber<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a12bdff763f7d9c82dcdc1a2394457a29" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState,<sp/>aRevolutionNumber<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>or</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a12bdff763f7d9c82dcdc1a2394457a29" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aState,<sp/>aRevolutionNumber,<sp/>aManeuverArray<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -85,7 +105,7 @@
 <parametername>aState</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A state </para>
+<para>A state. If there are maneuvers, it must contain the mass. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -96,17 +116,34 @@
 <para>A revolution number </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aManeuverArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(optional) Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::RuntimeError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the maneuvers overlap in time or are duplicated, or if the state has no mass while there are maneuvers </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="54" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="52" bodyend="58"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="66" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="56" bodyend="66"/>
       </memberdef>
-      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a5fb8cf77fc4bd7da0b2f799345c32465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a6dc0aee95f8d3fcafef71f6a274b0297" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>ostk::astrodynamics::trajectory::orbit::model::Propagated::Propagated</definition>
-        <argsstring>(const Propagator &amp;aPropagator, const Array&lt; State &gt; &amp;aCachedStateArray, int aRevolutionNumber=1)</argsstring>
+        <argsstring>(const Propagator &amp;aPropagator, const Array&lt; State &gt; &amp;aCachedStateArray, int aRevolutionNumber=1, const Array&lt; Maneuver &gt; &amp;aManeuverArray=Array&lt; Maneuver &gt;::Empty())</argsstring>
         <name>Propagated</name>
         <param>
           <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> &amp;</type>
@@ -121,13 +158,20 @@
           <declname>aRevolutionNumber</declname>
           <defval>1</defval>
         </param>
+        <param>
+          <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &gt; &amp;</type>
+          <declname>aManeuverArray</declname>
+          <defval>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &gt;::Empty()</defval>
+        </param>
         <briefdescription>
 <para>Constructor with a cached state array. </para>
         </briefdescription>
         <detaileddescription>
-<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a2172a2a2f08ec5aa787c6e0e832d7207" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray<sp/>};</highlight></codeline>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a12bdff763f7d9c82dcdc1a2394457a29" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray<sp/>};</highlight></codeline>
 <codeline><highlight class="normal">or</highlight></codeline>
-<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a2172a2a2f08ec5aa787c6e0e832d7207" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray,<sp/>aRevolutionNumber<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a12bdff763f7d9c82dcdc1a2394457a29" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray,<sp/>aRevolutionNumber<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>or</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a12bdff763f7d9c82dcdc1a2394457a29" kindref="member">Propagated</ref><sp/>propagated<sp/>=<sp/>{<sp/>aPropagator,<sp/>aCachedStateArray,<sp/>aRevolutionNumber,<sp/>aManeuverArray<sp/>};</highlight></codeline>
 </programlisting></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -142,7 +186,7 @@
 <parametername>aCachedStateArray</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>A state array </para>
+<para>A state array. If there are maneuvers, the states must contain the mass. </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -153,12 +197,29 @@
 <para>A revolution number </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>aManeuverArray</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(optional) Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>ostk::core::error::RuntimeError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If the state array is empty, if the maneuvers overlap in time or are duplicated, or if a state has no mass while there are maneuvers </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="67" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="60" bodyend="72"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="90" column="5" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="68" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae6c6823d8d795c53422c643d4288713d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated" kindref="compound">Propagated</ref> *</type>
@@ -176,7 +237,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="72" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="74" bodyend="77"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="100" column="24" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="90" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a36fc120d72ad9a229c7b2a1fdf1c93e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -206,7 +267,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="78" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="79" bodyend="82"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="106" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="95" bodyend="99"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a5ca52314db7c7b9a8175c2e3269d3b43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -236,7 +297,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="84" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="84" bodyend="87"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="112" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="101" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae59405bd8e3741bedf843305a7ac8670" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Instant</type>
@@ -256,7 +317,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="100" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="96" bodyend="99"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="128" column="21" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="113" bodyend="116"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a20f6c952f7eca5e58588e70532dcb6f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>int</type>
@@ -276,7 +337,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="109" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="101" bodyend="104"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="137" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="118" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a51e555eb1f81be80591f44c4719aa1f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref></type>
@@ -308,7 +369,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="118" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="106" bodyend="118"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="146" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="123" bodyend="135"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a7bd4fe0aaff9ed20755920b99fec1b9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt;</type>
@@ -348,7 +409,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="130" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="120" bodyend="238"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="158" column="19" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="137" bodyend="256"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae9d1e08efaa3a5532bdceb18a2e8d7c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>int</type>
@@ -380,7 +441,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="139" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="240" bodyend="299"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="167" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="258" bodyend="318"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a45b165ca239264acda7cb6855d68e19c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_state" kindref="compound">State</ref> &gt; &amp;</type>
@@ -398,7 +459,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="147" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="301" bodyend="304"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="175" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="320" bodyend="323"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a862e4aca1091038e4c5cc93c4882ed3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1_propagator" kindref="compound">Propagator</ref> &amp;</type>
@@ -417,7 +478,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="156" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="306" bodyend="309"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="184" column="22" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="325" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a6fd8bfe796fe313fb27f5c3dac788b46" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const Array&lt; <ref refid="classostk_1_1astrodynamics_1_1flight_1_1_maneuver" kindref="compound">Maneuver</ref> &gt; &amp;</type>
+        <definition>const Array&lt; Maneuver &gt; &amp; ostk::astrodynamics::trajectory::orbit::model::Propagated::getManeuvers</definition>
+        <argsstring>() const</argsstring>
+        <name>getManeuvers</name>
+        <briefdescription>
+<para>Get maneuvers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">Array&lt;Maneuver&gt;<sp/>maneuvers<sp/>=<sp/>propagated.getManeuvers();</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Array&lt;Maneuver&gt; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="193" column="17" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="330" bodyend="333"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a26c31ff5c0f162b5d76eea460bd1d3ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -447,7 +527,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="165" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="311" bodyend="321"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="202" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="335" bodyend="358"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ab633721b98b7518e0136e62cb964f604" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -489,7 +569,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="171" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="323" bodyend="340"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="208" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="360" bodyend="380"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a3051720af8f06fda6b7aaf840c21b868" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_tabulated" kindref="compound">Tabulated</ref></type>
@@ -519,7 +599,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="177" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="395" bodyend="402"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="214" column="15" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="464" bodyend="471"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="friend">
@@ -563,7 +643,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="91" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="89" bodyend="94"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="119" column="12" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="106" bodyend="111"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="protected-func">
@@ -596,7 +676,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="184" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="342" bodyend="347"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="221" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="382" bodyend="387"/>
       </memberdef>
       <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ac7d0730c330045951d9fddc7b0f8a1ba" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -627,7 +707,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="190" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="349" bodyend="352"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="227" column="18" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="389" bodyend="392"/>
       </memberdef>
       </sectiondef>
       <sectiondef kind="private-func">
@@ -642,13 +722,27 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="197" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="354" bodyend="393"/>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="235" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="394" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1aea4b90ff38147244ef6ad4db122ebb50" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ostk::astrodynamics::trajectory::orbit::model::Propagated::validateManeuvers</definition>
+        <argsstring>() const</argsstring>
+        <name>validateManeuvers</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="236" column="10" bodyfile="src/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.cpp" bodystart="435" bodyend="462"/>
       </memberdef>
       </sectiondef>
     <briefdescription>
 <para>Define an orbit model that is propagated using numerical propagation. </para>
     </briefdescription>
     <detaileddescription>
+<para>The model can hold maneuvers. They are not stored in the propagator: they are provided to it on every propagation (calculateStateAt, calculateStatesAt, calculateRevolutionNumberAt). The cached states must contain the mass if there are maneuvers. </para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
@@ -686,7 +780,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="41" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" bodystart="40" bodyend="198"/>
+    <location file="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" line="47" column="1" bodyfile="include/OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp" bodystart="46" bodyend="237"/>
     <listofallmembers>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1ad24df9c22e1bd92ed7850154f4de7eae" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>as</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a3fa70db79b40cd513589d964a3dc1b60" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>cachedStateArray_</name></member>
@@ -696,10 +790,12 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae6c6823d8d795c53422c643d4288713d" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>clone</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a45b165ca239264acda7cb6855d68e19c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>getCachedStateArray</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ae59405bd8e3741bedf843305a7ac8670" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>getEpoch</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a6fd8bfe796fe313fb27f5c3dac788b46" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>getManeuvers</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a862e4aca1091038e4c5cc93c4882ed3c" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>getPropagator</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a20f6c952f7eca5e58588e70532dcb6f2" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>getRevolutionNumberAtEpoch</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ab4cc3e3ab5f94f97d09ea0ea2adda2e1" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>initialRevolutionNumber_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1_model_1a83dfe0a5c8dbf9b0fa078d8299406c24" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>is</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a34132cc8352ab7140dae566506643e73" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>maneuvers_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1ae31a2ca84e2ced0ed3ae5b89b240f68d" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>Model</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a5ca52314db7c7b9a8175c2e3269d3b43" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>operator!=</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ac7d0730c330045951d9fddc7b0f8a1ba" prot="protected" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>operator!=</name></member>
@@ -707,12 +803,13 @@
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a36fc120d72ad9a229c7b2a1fdf1c93e9" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>operator==</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1afbd317a7eafe857c771af5cf0ce8bde3" prot="protected" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>operator==</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1ab633721b98b7518e0136e62cb964f604" prot="public" virt="virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>print</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a2172a2a2f08ec5aa787c6e0e832d7207" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>Propagated</name></member>
-      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a5fb8cf77fc4bd7da0b2f799345c32465" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>Propagated</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a12bdff763f7d9c82dcdc1a2394457a29" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>Propagated</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a6dc0aee95f8d3fcafef71f6a274b0297" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>Propagated</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a30e4f186b5e135131384c57b227b7998" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>propagator_</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a29f77e88a1a4ff6a7ff059f38afa0580" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>sanitizeCachedArray</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a26c31ff5c0f162b5d76eea460bd1d3ce" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>setCachedStateArray</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1a3051720af8f06fda6b7aaf840c21b868" prot="public" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>toTabulated</name></member>
+      <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1model_1_1_propagated_1aea4b90ff38147244ef6ad4db122ebb50" prot="private" virt="non-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>validateManeuvers</name></member>
       <member refid="classostk_1_1astrodynamics_1_1trajectory_1_1orbit_1_1_model_1a49fe068b6734357011f16e3db5e1457d" prot="public" virt="pure-virtual"><scope>ostk::astrodynamics::trajectory::orbit::model::Propagated</scope><name>~Model</name></member>
     </listofallmembers>
   </compounddef>
