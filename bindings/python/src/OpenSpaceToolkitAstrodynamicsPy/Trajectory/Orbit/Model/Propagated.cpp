@@ -11,6 +11,7 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(na
 
     using ostk::physics::time::Instant;
 
+    using ostk::astrodynamics::flight::Maneuver;
     using ostk::astrodynamics::trajectory::orbit::model::Propagated;
     using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
     using ostk::astrodynamics::trajectory::Propagator;
@@ -31,35 +32,39 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(na
         propagated_class
 
             .def(
-                init<const Propagator&, const State&, int>(),
+                init<const Propagator&, const State&, int, const Array<Maneuver>&>(),
                 R"doc(
                     Constructor.
 
                     Args:
                         propagator (Propagator): The propagator.
-                        state (State): The initial state.
+                        state (State): The initial state. If there are maneuvers, it must contain the mass.
                         initial_revolution_number (int, optional): The initial revolution number. Defaults to 1.
+                        maneuvers (list[Maneuver], optional): Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. They are provided to the propagator on every propagation.
 
                 )doc",
                 arg("propagator"),
                 arg("state"),
-                arg("initial_revolution_number") = 1
+                arg("initial_revolution_number") = 1,
+                arg("maneuvers").sig("[]") = Array<Maneuver>::Empty()
             )
 
             .def(
-                init<const Propagator&, const Array<State>&, int>(),
+                init<const Propagator&, const Array<State>&, int, const Array<Maneuver>&>(),
                 R"doc(
                     Constructor.
 
                     Args:
                         propagator (Propagator): The propagator.
-                        state_array (list[State]): The initial state array.
+                        state_array (list[State]): The initial state array. If there are maneuvers, the states must contain the mass.
                         initial_revolution_number (int, optional): The initial revolution number. Defaults to 1.
+                        maneuvers (list[Maneuver], optional): Maneuvers to apply, exactly between their first and last instants. They must not overlap in time, nor be duplicated. They are provided to the propagator on every propagation.
 
                 )doc",
                 arg("propagator"),
                 arg("state_array"),
-                arg("initial_revolution_number") = 1
+                arg("initial_revolution_number") = 1,
+                arg("maneuvers").sig("[]") = Array<Maneuver>::Empty()
             )
 
             .def(
@@ -176,6 +181,18 @@ inline void OpenSpaceToolkitAstrodynamicsPy_Trajectory_Orbit_Model_Propagated(na
 
                     Returns:
                         Propagator: The propagator.
+
+                )doc"
+            )
+
+            .def(
+                "get_maneuvers",
+                &Propagated::getManeuvers,
+                R"doc(
+                    Get the maneuvers of the `Propagated` model.
+
+                    Returns:
+                        list[Maneuver]: The maneuvers.
 
                 )doc"
             )

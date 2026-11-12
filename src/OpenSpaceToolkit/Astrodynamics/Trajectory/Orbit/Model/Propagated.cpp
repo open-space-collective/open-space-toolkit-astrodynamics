@@ -9,6 +9,7 @@
 
 #include <OpenSpaceToolkit/Physics/Environment/Object/Celestial/Earth.hpp>
 #include <OpenSpaceToolkit/Physics/Time/Duration.hpp>
+#include <OpenSpaceToolkit/Physics/Time/Interval.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Derived.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Length.hpp>
 #include <OpenSpaceToolkit/Physics/Unit/Time.hpp>
@@ -16,6 +17,7 @@
 #include <OpenSpaceToolkit/Astrodynamics/Dynamics/CentralBodyGravity.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Kepler/COE.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Propagated.hpp>
+#include <OpenSpaceToolkit/Astrodynamics/Trajectory/State/CoordinateSubset.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/StateBuilder.hpp>
 
 namespace ostk
@@ -36,12 +38,14 @@ using ostk::mathematics::object::VectorXd;
 
 using ostk::physics::environment::gravitational::Earth;
 using ostk::physics::time::Duration;
+using ostk::physics::time::Interval;
 using ostk::physics::unit::Derived;
 using ostk::physics::unit::Length;
 using ostk::physics::unit::Time;
 
 using ostk::astrodynamics::dynamics::CentralBodyGravity;
 using ostk::astrodynamics::trajectory::orbit::model::kepler::COE;
+using ostk::astrodynamics::trajectory::state::CoordinateSubset;
 using ostk::astrodynamics::trajectory::StateBuilder;
 
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
@@ -49,19 +53,29 @@ using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 static const Derived::Unit GravitationalParameterSIUnit =
     Derived::Unit::GravitationalParameter(Length::Unit::Meter, Time::Unit::Second);
 
-Propagated::Propagated(const Propagator& aPropagator, const State& aState, int aRevolutionNumber)
+Propagated::Propagated(
+    const Propagator& aPropagator, const State& aState, int aRevolutionNumber, const Array<Maneuver>& aManeuverArray
+)
     : Model(),
       propagator_(aPropagator),
       cachedStateArray_(1, aState),
-      initialRevolutionNumber_(aRevolutionNumber)
+      initialRevolutionNumber_(aRevolutionNumber),
+      maneuvers_(aManeuverArray)
 {
+    validateManeuvers();
 }
 
-Propagated::Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray, int aRevolutionNumber)
+Propagated::Propagated(
+    const Propagator& aPropagator,
+    const Array<State>& aCachedStateArray,
+    int aRevolutionNumber,
+    const Array<Maneuver>& aManeuverArray
+)
     : Model(),
       propagator_(aPropagator),
       cachedStateArray_(aCachedStateArray),
-      initialRevolutionNumber_(aRevolutionNumber)
+      initialRevolutionNumber_(aRevolutionNumber),
+      maneuvers_(aManeuverArray)
 {
     if (cachedStateArray_.isEmpty())
     {
@@ -69,6 +83,8 @@ Propagated::Propagated(const Propagator& aPropagator, const Array<State>& aCache
     }
 
     sanitizeCachedArray();
+
+    this->validateManeuvers();
 }
 
 Propagated* Propagated::clone() const
@@ -78,7 +94,8 @@ Propagated* Propagated::clone() const
 
 bool Propagated::operator==(const Propagated& aPropagatedModel) const
 {
-    return (cachedStateArray_ == aPropagatedModel.cachedStateArray_) && (propagator_ == aPropagatedModel.propagator_);
+    return (cachedStateArray_ == aPropagatedModel.cachedStateArray_) && (propagator_ == aPropagatedModel.propagator_) &&
+           (maneuvers_ == aPropagatedModel.maneuvers_);
 }
 
 bool Propagated::operator!=(const Propagated& aPropagatedModel) const
@@ -163,7 +180,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
         instants.add(anInstantArray[j]);
     }
 
-    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.getFirst(), instants));
+    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.getFirst(), instants, maneuvers_));
 
     // Propagate all instants between states
 
@@ -195,10 +212,11 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
         }
 
         // Forward propagation
-        Array<State> forwardStates = propagator_.calculateStatesAt(this->cachedStateArray_[i], instants);
+        Array<State> forwardStates = propagator_.calculateStatesAt(this->cachedStateArray_[i], instants, maneuvers_);
 
         // Backward propagation
-        Array<State> backwardStates = propagator_.calculateStatesAt(this->cachedStateArray_[i + 1], instants);
+        Array<State> backwardStates =
+            propagator_.calculateStatesAt(this->cachedStateArray_[i + 1], instants, maneuvers_);
 
         double durationBetweenStates = (nextStateInstant - thisStateInstant).inSeconds();
 
@@ -232,7 +250,7 @@ Array<State> Propagated::calculateStatesAt(const Array<Instant>& anInstantArray)
         instants.add(anInstantArray[j]);
     }
 
-    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.getLast(), instants));
+    allStates.add(propagator_.calculateStatesAt(this->cachedStateArray_.getLast(), instants, maneuvers_));
 
     return allStates;
 }
@@ -282,7 +300,8 @@ int Propagated::calculateRevolutionNumberAt(const Instant& anInstant) const
         const Duration orbitalPeriod = coe.getOrbitalPeriod(gravitationalParameter);
 
         // Propagate for duration of this orbital period
-        currentState = propagator_.calculateStateAt(currentState, currentInstant + (durationSign * orbitalPeriod));
+        currentState =
+            propagator_.calculateStateAt(currentState, currentInstant + (durationSign * orbitalPeriod), maneuvers_);
         currentInstant = currentState.getInstant();
 
         // If we have passed the desired instant during our progration, break from the loop
@@ -308,6 +327,11 @@ const Propagator& Propagated::getPropagator() const
     return propagator_;
 }
 
+const Array<Maneuver>& Propagated::getManeuvers() const
+{
+    return maneuvers_;
+}
+
 void Propagated::setCachedStateArray(const Array<State>& aStateArray)
 {
     if (aStateArray.isEmpty())
@@ -315,9 +339,22 @@ void Propagated::setCachedStateArray(const Array<State>& aStateArray)
         throw ostk::core::error::RuntimeError("Cached state array is empty.");
     }
 
+    const Array<State> previousCachedStateArray = this->cachedStateArray_;
+
     this->cachedStateArray_ = aStateArray;
 
-    sanitizeCachedArray();
+    try
+    {
+        sanitizeCachedArray();
+
+        this->validateManeuvers();
+    }
+    catch (...)
+    {
+        this->cachedStateArray_ = previousCachedStateArray;
+
+        throw;
+    }
 }
 
 void Propagated::print(std::ostream& anOutputStream, bool displayDecorator) const
@@ -335,6 +372,9 @@ void Propagated::print(std::ostream& anOutputStream, bool displayDecorator) cons
 
     ostk::core::utils::Print::Separator(anOutputStream, "Propagator");
     propagator_.print(anOutputStream, false);
+
+    ostk::core::utils::Print::Separator(anOutputStream, "Maneuvers");
+    ostk::core::utils::Print::Line(anOutputStream) << String::Format("Count: {}", maneuvers_.getSize());
 
     displayDecorator ? ostk::core::utils::Print::Footer(anOutputStream) : void();
 }
@@ -389,6 +429,35 @@ void Propagated::sanitizeCachedArray() const
                 cachedStateArrayUnique.getSize()
             )
         );
+    }
+}
+
+void Propagated::validateManeuvers() const
+{
+    if (maneuvers_.isEmpty())
+    {
+        return;
+    }
+
+    // Overlapping, touching and duplicated maneuvers are all merged into fewer intervals for the check below
+    Array<Interval> maneuverIntervals = Array<Interval>::Empty();
+    maneuverIntervals.reserve(maneuvers_.getSize());
+    for (const Maneuver& maneuver : maneuvers_)
+    {
+        maneuverIntervals.add(maneuver.getInterval());
+    }
+
+    if (Interval::Merge(maneuverIntervals).getSize() != maneuverIntervals.getSize())
+    {
+        throw ostk::core::error::RuntimeError("Maneuvers must be non-overlapping and unique.");
+    }
+
+    for (const State& state : cachedStateArray_)
+    {
+        if (!state.hasSubset(CoordinateSubset::Mass()))
+        {
+            throw ostk::core::error::RuntimeError("Cached states must contain the mass when there are maneuvers.");
+        }
     }
 }
 

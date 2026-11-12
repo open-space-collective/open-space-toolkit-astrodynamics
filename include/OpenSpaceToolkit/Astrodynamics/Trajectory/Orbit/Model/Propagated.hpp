@@ -7,6 +7,7 @@
 
 #include <OpenSpaceToolkit/Physics/Time/Instant.hpp>
 
+#include <OpenSpaceToolkit/Astrodynamics/Flight/Maneuver.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Orbit/Model/Tabulated.hpp>
 #include <OpenSpaceToolkit/Astrodynamics/Trajectory/Propagator.hpp>
@@ -30,6 +31,7 @@ using ostk::physics::time::Instant;
 
 using ostk::mathematics::curvefitting::Interpolator;
 
+using ostk::astrodynamics::flight::Maneuver;
 using ostk::astrodynamics::trajectory::orbit::Model;
 using ostk::astrodynamics::trajectory::orbit::model::Tabulated;
 using ostk::astrodynamics::trajectory::Propagator;
@@ -37,6 +39,10 @@ using ostk::astrodynamics::trajectory::State;
 using ostk::astrodynamics::trajectory::state::NumericalSolver;
 
 /// @brief Define an orbit model that is propagated using numerical propagation
+///
+/// @details The model can hold maneuvers. They are not stored in the propagator: they are provided to it on every
+/// propagation (calculateStateAt, calculateStatesAt, calculateRevolutionNumberAt). The cached states must contain the
+/// mass if there are maneuvers.
 class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
 {
    public:
@@ -46,12 +52,23 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     ///              Propagated propagated = { aPropagator, aState };
     /// 	     or
     ///              Propagated propagated = { aPropagator, aState, aRevolutionNumber };
+    ///              or
+    ///              Propagated propagated = { aPropagator, aState, aRevolutionNumber, aManeuverArray };
     /// @endcode
     ///
     /// @param aPropagator A propagator
-    /// @param aState A state
+    /// @param aState A state. If there are maneuvers, it must contain the mass.
     /// @param aRevolutionNumber A revolution number
-    Propagated(const Propagator& aPropagator, const State& aState, int aRevolutionNumber = 1);
+    /// @param aManeuverArray (optional) Maneuvers to apply, exactly between their first and last instants. They must
+    /// not overlap in time, nor be duplicated.
+    /// @throw ostk::core::error::RuntimeError If the maneuvers overlap in time or are duplicated, or if the state has
+    /// no mass while there are maneuvers
+    Propagated(
+        const Propagator& aPropagator,
+        const State& aState,
+        int aRevolutionNumber = 1,
+        const Array<Maneuver>& aManeuverArray = Array<Maneuver>::Empty()
+    );
 
     /// @brief Constructor with a cached state array
     ///
@@ -59,12 +76,23 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     ///              Propagated propagated = { aPropagator, aCachedStateArray };
     ///		     or
     ///              Propagated propagated = { aPropagator, aCachedStateArray, aRevolutionNumber };
+    ///              or
+    ///              Propagated propagated = { aPropagator, aCachedStateArray, aRevolutionNumber, aManeuverArray };
     /// @endcode
     ///
     /// @param aPropagator A propagator
-    /// @param aCachedStateArray A state array
+    /// @param aCachedStateArray A state array. If there are maneuvers, the states must contain the mass.
     /// @param aRevolutionNumber A revolution number
-    Propagated(const Propagator& aPropagator, const Array<State>& aCachedStateArray, int aRevolutionNumber = 1);
+    /// @param aManeuverArray (optional) Maneuvers to apply, exactly between their first and last instants. They must
+    /// not overlap in time, nor be duplicated.
+    /// @throw ostk::core::error::RuntimeError If the state array is empty, if the maneuvers overlap in time or are
+    /// duplicated, or if a state has no mass while there are maneuvers
+    Propagated(
+        const Propagator& aPropagator,
+        const Array<State>& aCachedStateArray,
+        int aRevolutionNumber = 1,
+        const Array<Maneuver>& aManeuverArray = Array<Maneuver>::Empty()
+    );
 
     /// @brief Clone propagated
     ///
@@ -155,6 +183,15 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     /// @return Propagator
     const Propagator& getPropagator() const;
 
+    /// @brief Get maneuvers
+    ///
+    /// @code{.cpp}
+    ///              Array<Maneuver> maneuvers = propagated.getManeuvers();
+    /// @endcode
+    ///
+    /// @return Array<Maneuver>
+    const Array<Maneuver>& getManeuvers() const;
+
     /// @brief Set internal cached state array manually
     ///
     /// @code{.cpp}
@@ -193,8 +230,10 @@ class Propagated : public ostk::astrodynamics::trajectory::orbit::Model
     Propagator propagator_;
     mutable Array<State> cachedStateArray_;
     int initialRevolutionNumber_;
+    Array<Maneuver> maneuvers_;
 
     void sanitizeCachedArray() const;
+    void validateManeuvers() const;
 };
 
 }  // namespace model
