@@ -62,7 +62,7 @@ Propagated::Propagated(
       initialRevolutionNumber_(aRevolutionNumber),
       maneuvers_(aManeuverArray)
 {
-    this->validateManeuvers();
+    validateManeuvers();
 }
 
 Propagated::Propagated(
@@ -439,7 +439,7 @@ void Propagated::validateManeuvers() const
         return;
     }
 
-    // Overlapping, touching and duplicated maneuvers are all merged into fewer intervals
+    // Overlapping, touching and duplicated maneuvers are all merged into fewer intervals for the check below
     Array<Interval> maneuverIntervals = Array<Interval>::Empty();
     maneuverIntervals.reserve(maneuvers_.getSize());
     for (const Maneuver& maneuver : maneuvers_)
