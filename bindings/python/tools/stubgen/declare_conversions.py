@@ -82,9 +82,7 @@ class Stub:
             elif isinstance(node, (ast.ClassDef, ast.FunctionDef)):
                 self.names[node.name] = f"{module}.{node.name}"
             elif isinstance(node, (ast.Assign, ast.AnnAssign)):
-                targets = (
-                    node.targets if isinstance(node, ast.Assign) else [node.target]
-                )
+                targets = node.targets if isinstance(node, ast.Assign) else [node.target]
                 for target in targets:
                     if isinstance(target, ast.Name):
                         self.names[target.id] = f"{module}.{target.id}"
@@ -200,9 +198,7 @@ class Stub:
                     widened.add(key)
                 if node.returns is not None:
                     self.visit(node.returns, parameter=False)
-                if any(
-                    ast.unparse(d).endswith("overload") for d in node.decorator_list
-                ):
+                if any(ast.unparse(d).endswith("overload") for d in node.decorator_list):
                     overloads.setdefault(key, []).append(node)
 
         for key, group in overloads.items():
