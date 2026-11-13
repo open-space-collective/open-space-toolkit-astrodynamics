@@ -4,6 +4,7 @@
 #define __OpenSpaceToolkitAstrodynamicsPy_Utility_EigenCasting__
 
 #include <cstring>
+#include <type_traits>
 
 #include <nanobind/eigen/dense.h>
 #include <nanobind/nanobind.h>
@@ -32,6 +33,11 @@ namespace detail
 ///                             (`numpy.asarray`), instead of through `numpy.copy`. The result is still an
 ///                             independent, writeable array, and returning a Vector3d is about 4x faster.
 ///
+///                             Its name says the same in signatures and stubs: parameters take
+///                             `Sequence[float] | NDArray` (`Sequence[Sequence[float]] | NDArray` for a matrix), return
+///                             values are `NDArray`. Renaming is safe because these types are not bound classes:
+///                             nanobind reads the name of a bound class at runtime, to recognise its constructors.
+///
 ///                             C++ cannot rank a second partial specialization of `type_caster` against
 ///                             nanobind's `enable_if`-constrained one (GCC reports them as ambiguous), so the
 ///                             caster is attached to each concrete type with an explicit specialization, see
@@ -46,7 +52,18 @@ struct eigen_sequence_caster
     using NDArray = array_for_eigen_t<T>;
     using NDArrayCaster = make_caster<NDArray>;
 
-    NB_TYPE_CASTER(T, NDArrayCaster::Name)
+    static_assert(std::is_floating_point_v<Scalar>, "The parameter name below declares a sequence of float.");
+
+    // Parameter name, then return value name (see `io_name`). The ndarray name holds no type placeholder, so it
+    // can be embedded: nanobind copies this text verbatim.
+    NB_TYPE_CASTER(
+        T,
+        const_name('@') +
+            const_name<ndim_v<T> == 1>(
+                "collections.abc.Sequence[float]", "collections.abc.Sequence[collections.abc.Sequence[float]]"
+            ) +
+            const_name(" | ") + NDArrayCaster::Name + const_name('@') + NDArrayCaster::Name + const_name('@')
+    )
 
     bool from_python(handle src, uint32_t flags, cleanup_list* cleanup) noexcept
     {
