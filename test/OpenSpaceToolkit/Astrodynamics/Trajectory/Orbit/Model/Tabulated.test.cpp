@@ -332,6 +332,9 @@ TEST_F(OpenSpaceToolkit_Astrodynamics_Trajectory_Orbit_Model_Tabulated, Calculat
         {Interpolator::Type::Linear, 420.0},
         {Interpolator::Type::BarycentricRational, 5e-2},
         {Interpolator::Type::CubicSpline, 5e-3},
+        {Interpolator::Type::ZeroOrder, 1.5e5},
+        {Interpolator::Type::QuadraticSpline, 5.0},
+        {Interpolator::Type::QuinticSpline, 6e-6},
     };
 
     for (const auto& testCase : testCases)
