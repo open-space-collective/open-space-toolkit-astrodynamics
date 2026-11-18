@@ -1,4 +1,4 @@
-% Copyright Loft Orbital Solutions Inc.
+% Apache License 2.0
 % Created: 2023-12-06 13:04:17.930454
 
 
@@ -92,7 +92,9 @@ GMAT ReportFile1.UpperLeft = [ 0 0 ];
 GMAT ReportFile1.Size = [ 0 0 ];
 GMAT ReportFile1.RelativeZOrder = 0;
 GMAT ReportFile1.Maximized = false;
-GMAT ReportFile1.Filename = '/builds/loft-orbital/engineering/flight-dynamics/gmat-tooling/app/../gmat_astrodynamics/scenario001-mission-sequence.csv';
+% Bare filename: GMAT writes it to the OUTPUT_PATH directory of the startup file.
+% Set OUTPUT_PATH to the notebook's data/gmat_astrodynamics/ directory, see README.md.
+GMAT ReportFile1.Filename = 'scenario001-mission-sequence.csv';
 GMAT ReportFile1.Precision = 16;
 GMAT ReportFile1.WriteHeaders = false;
 GMAT ReportFile1.LeftJustify = On;
