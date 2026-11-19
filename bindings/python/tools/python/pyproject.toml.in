@@ -37,7 +37,8 @@ prebuild = [
 	"nanobind==3.1.0"
 ]
 test = [
-	"pytest"
+	"pytest",
+	"mypy"
 ]
 
 [tool.setuptools]

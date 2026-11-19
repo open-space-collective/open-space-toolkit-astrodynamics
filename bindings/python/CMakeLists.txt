@@ -207,6 +207,7 @@ FUNCTION (PY_ADD_PACKAGE_DIRECTORY NAME)
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv sync --python ${PYTHON_VERSION} --all-extras
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv pip install "cesiumpy @ git+https://github.com/open-space-collective/cesiumpy@0.4.1" # TBR: after https://github.com/open-space-collective/open-space-toolkit/issues/183
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv run python -m nanobind.stubgen -m "${PROJECT_GROUP}.${PROJECT_SUBGROUP}" -r -M "${PROJECT_PATH}/py.typed" -O "${PROJECT_PATH}" # generate stubs in same dir as binaries
+                            COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && uv run python "${CMAKE_CURRENT_SOURCE_DIR}/tools/stubgen/declare_conversions.py" "${PROJECT_PATH}" "${PROJECT_GROUP}.${PROJECT_SUBGROUP}" # declare the conversions that stubgen cannot see
                             COMMAND cd "${CMAKE_CURRENT_BINARY_DIR}/${NAME}" && env _PYTHON_HOST_PLATFORM="${PLATFORM}" uv build
                             COMMAND mkdir -p "${CMAKE_CURRENT_BINARY_DIR}/dist"
                             COMMAND cp "${CMAKE_CURRENT_BINARY_DIR}/${NAME}/dist/*" "${CMAKE_CURRENT_BINARY_DIR}/dist"
